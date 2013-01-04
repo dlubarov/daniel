@@ -1,0 +1,28 @@
+*{ margin: 0; padding: 0; }*
+
+body {
+  font: 1em "Trebuchet MS", Arial, Sans-Serif;
+  color: #444;
+}
+
+h1 {
+  font-size: 200%;
+  text-align: center;
+  margin-top: 3em;
+}
+
+#content {
+  width: 600px;
+  margin: 0 auto;
+  border: 1px solid #444;
+}
+
+#footer {
+  font-size: 0.9em;
+  width: 600px;
+  margin: 0 auto;
+}
+
+.fr {
+  float: right;
+}
