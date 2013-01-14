@@ -1,15 +1,17 @@
 package daniel.multiweb;
 
-import daniel.blog.MainHandler;
+import daniel.blog.BlogHandler;
+import daniel.viewheaders.ViewHeadersHandler;
 import daniel.web.http.server.Handler;
 import daniel.web.http.server.HostBasedHandler;
 
-public class MultiwebHandler {
+public final class MultiwebHandler {
   private MultiwebHandler() {}
 
   public static Handler getHandler() {
     return new HostBasedHandler.Builder()
-        .addHandlerForHost(".*", MainHandler.getHandler())
+        .addHandlerForHost(".*daniel.lubarov\\.com.*", BlogHandler.getHandler())
+        .addHandlerForHost(".*viewheaders\\.com.*", ViewHeadersHandler.getHandler())
         .build();
   }
 }

@@ -1,4 +1,4 @@
-package daniel.blog;
+package daniel.viewheaders;
 
 import daniel.web.html.Attribute;
 import daniel.web.html.Document;
@@ -31,7 +31,7 @@ public final class Layout {
             .build(),
         Stylesheets.createCssLink("reset.css"),
         Stylesheets.createCssLink("style.css"),
-        new Element(Tag.TITLE, TextNode.rawText("Daniel's Blog"))
+        new Element(Tag.TITLE, TextNode.rawText("View Headers"))
     );
   }
 
@@ -39,7 +39,7 @@ public final class Layout {
     return new Element(Tag.BODY, new Element(Tag.H1,
         new Element.Builder(Tag.A)
             .setAttribute(Attribute.HREF, Config.getBaseUrl())
-            .addChild(TextNode.escapedText("Daniel's Blog"))
+            .addChild(TextNode.escapedText("View Headers"))
             .build()),
         new Element.Builder(Tag.DIV)
             .setAttribute(Attribute.ID, "content")

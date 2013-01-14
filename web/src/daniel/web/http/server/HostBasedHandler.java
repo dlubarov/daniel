@@ -31,6 +31,6 @@ public class HostBasedHandler implements Handler {
     for (String hostRegex : handlersByHost.getKeys())
       if (host.matches(hostRegex))
         return handlersByHost.getValue(hostRegex).handle(request);
-    throw new IllegalArgumentException();
+    throw new IllegalArgumentException(String.format("No handler for %s.", host));
   }
 }

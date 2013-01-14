@@ -9,10 +9,12 @@ import daniel.web.http.HttpResponse;
 import daniel.web.http.RequestHeaderName;
 import daniel.web.http.RequestLine;
 import daniel.web.http.RequestMethod;
+import daniel.web.http.ResponseHeaderName;
 import daniel.web.http.parsing.HeaderSectionParser;
 import daniel.web.http.parsing.RequestLineParser;
 import java.io.BufferedReader;
 import java.io.EOFException;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
@@ -39,13 +41,34 @@ public class ConnectionManager implements Runnable {
   }
 
   private void runWithExceptions() throws Exception {
-    BufferedReader bufferedReader = new BufferedReader(
-        new InputStreamReader(socket.getInputStream(), StandardCharsets.US_ASCII));
+    Option<HttpRequest> optRequest = readRequest();
+    if (optRequest.isEmpty())
+      return;
+
+    HttpRequest request = optRequest.getOrThrow();
     Writer writer = new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.US_ASCII);
+
+    System.out.println("Handling request for " + request.getResource());
+    HttpResponse response = handler.handle(request);
+
+    writer.write(String.format("HTTP/%s %s\r\n", response.getHttpVersion(), response.getStatus()));
+    for (HttpHeader header : response.getHeaders())
+      writer.write(header + "\r\n");
+    writer.write("Connection: close\r\n");
+    writer.write("\r\n");
+    if (response.getBody().isDefined() && request.getMethod() != RequestMethod.HEAD)
+      socket.getOutputStream().write(response.getBody().getOrThrow());
+    socket.getOutputStream().flush();
+    socket.close();
+  }
+
+  private Option<HttpRequest> readRequest() throws IOException {
+    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
+        socket.getInputStream(), StandardCharsets.US_ASCII));
 
     String rawRequestLine = bufferedReader.readLine();
     if (rawRequestLine == null)
-      throw new EOFException("Unexpected EOF.");
+      return Option.none();
 
     RequestLine requestLine = RequestLineParser.singleton
         .tryParse(rawRequestLine.getBytes(StandardCharsets.US_ASCII), 0)
@@ -77,18 +100,7 @@ public class ConnectionManager implements Runnable {
       byte[] body = IOUtils.readFromStream(socket.getInputStream(), optContentLength.getOrThrow());
       requestBuilder.setBody(body);
     }
-    HttpRequest request = requestBuilder.build();
 
-    System.out.println("Handling request for " + request.getResource());
-    HttpResponse response = handler.handle(request);
-
-    writer.write(String.format("HTTP/%s %s\r\n", response.getHttpVersion(), response.getStatus()));
-    for (HttpHeader header : response.getHeaders())
-      writer.write(header + "\r\n");
-    writer.write("\r\n");
-    if (response.getBody().isDefined() && request.getMethod() != RequestMethod.HEAD)
-      socket.getOutputStream().write(response.getBody().getOrThrow());
-    socket.getOutputStream().flush();
-    socket.close();
+    return Option.some(requestBuilder.build());
   }
 }

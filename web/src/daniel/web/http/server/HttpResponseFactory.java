@@ -26,7 +26,6 @@ public final class HttpResponseFactory {
         .addHeader(ResponseHeaderName.PRAGMA, "no-cache")
         .addHeader(ResponseHeaderName.CACHE_CONTROL, "no-store, no-cache, must-revalidate, post-check=0, pre-check=0")
         .addHeader(ResponseHeaderName.CONTENT_LENGTH, Integer.toString(documentBytes.length))
-        .addHeader(ResponseHeaderName.CONNECTION, "close")
         .addAllCookies(cookies)
         .setBody(documentBytes)
         .build();

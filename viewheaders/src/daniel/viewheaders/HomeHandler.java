@@ -1,13 +1,11 @@
-package daniel.blog;
+package daniel.viewheaders;
 
-import daniel.blog.post.Post;
-import daniel.blog.post.PostFormatter;
-import daniel.data.function.Function;
 import daniel.data.option.Option;
-import daniel.data.sequence.Sequence;
+import daniel.web.html.Attribute;
 import daniel.web.html.Document;
-import daniel.web.html.Element;
-import daniel.web.html.Tag;
+import daniel.web.html.TableBuilder;
+import daniel.web.html.TextNode;
+import daniel.web.http.HttpHeader;
 import daniel.web.http.HttpRequest;
 import daniel.web.http.HttpResponse;
 import daniel.web.http.HttpStatus;
@@ -24,13 +22,14 @@ public class HomeHandler implements PartialHandler {
     if (!request.getResource().equals("/"))
       return Option.none();
 
-    Sequence<Element> postSummaries = Post.database.getAllValues().map(new Function<Post, Element>() {
-      @Override public Element apply(Post post) {
-        return PostFormatter.summary(post);
-      }
-    });
-
-    Document document = Layout.createDocument(new Element(Tag.DIV, postSummaries));
+    TableBuilder tableBuilder = new TableBuilder()
+        .setAttribute(Attribute.CLASS, "hairlined");
+    for (HttpHeader header : request.getHeaders()) {
+      tableBuilder.beginRow();
+      tableBuilder.addColumn(TextNode.escapedText(header.getName()));
+      tableBuilder.addColumn(TextNode.escapedText(header.getValue()));
+    }
+    Document document = Layout.createDocument(tableBuilder.build());
     return Option.some(HttpResponseFactory.htmlResponse(HttpStatus.OK, document));
   }
 }

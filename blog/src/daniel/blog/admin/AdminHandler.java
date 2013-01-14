@@ -8,6 +8,8 @@ import daniel.web.http.server.PartialHandler;
 import daniel.web.http.server.StandardNotFoundHandler;
 
 public class AdminHandler implements PartialHandler {
+  public static final AdminHandler singleton = new AdminHandler();
+
   private final DelegatingHandler delegatingHandler;
 
   private AdminHandler() {

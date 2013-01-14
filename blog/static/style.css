@@ -11,6 +11,11 @@ h1 {
   margin-top: 3em;
 }
 
+h1 a {
+  color: black;
+  text-decoration: none;
+}
+
 #content {
   width: 600px;
   margin: 0 auto;
