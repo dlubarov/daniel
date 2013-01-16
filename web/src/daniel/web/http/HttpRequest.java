@@ -1,10 +1,8 @@
 package daniel.web.http;
 
-import daniel.data.collection.Collection;
 import daniel.data.dictionary.KeyValuePair;
-import daniel.data.dictionary.functions.GetKeyFunction;
-import daniel.data.dictionary.functions.GetValueFunction;
 import daniel.data.multidictionary.sequential.ImmutableArrayMultidictionary;
+import daniel.data.multidictionary.sequential.ImmutableSequentialMultidictionary;
 import daniel.data.multidictionary.sequential.SequentialMultidictionary;
 import daniel.data.option.Option;
 import daniel.data.sequence.ImmutableSequence;
@@ -23,7 +21,7 @@ public final class HttpRequest {
     private Option<RequestMethod> method = Option.none();
     private Option<String> resource = Option.none();
     private Option<HttpVersion> httpVersion = Option.none();
-    private final MutableStack<HttpHeader> headers;
+    private final MutableStack<KeyValuePair<String, String>> headers;
     private Option<byte[]> body = Option.none();
 
     public Builder() {
@@ -45,17 +43,17 @@ public final class HttpRequest {
       return this;
     }
 
-    public Builder addHeader(HttpHeader header) {
+    public Builder addHeader(KeyValuePair<String, String> header) {
       headers.pushBack(header);
       return this;
     }
 
     public Builder addHeader(RequestHeaderName name, String value) {
-      return addHeader(new HttpHeader(name, value));
+      return addHeader(new KeyValuePair<>(name.getStandardName(), value));
     }
 
     public Builder addHeader(String name, String value) {
-      return addHeader(new HttpHeader(name, value));
+      return addHeader(new KeyValuePair<>(name, value));
     }
 
     public Builder setBody(byte[] body) {
@@ -71,15 +69,16 @@ public final class HttpRequest {
   private final RequestMethod method;
   private final String resource;
   private final HttpVersion httpVersion;
-  private final SequentialMultidictionary<String, String> headers;
+  private final ImmutableSequentialMultidictionary<String, String> headers;
   private final Option<byte[]> body;
+
+  private Option<ImmutableSequence<Part>> memParts = Option.none();
 
   private HttpRequest(Builder builder) {
     this.method = builder.method.getOrThrow("No request method was set.");
     this.resource = builder.resource.getOrThrow("No request resource was set.");
     this.httpVersion = builder.httpVersion.getOrThrow("No HTTP version was set.");
-    this.headers = ImmutableArrayMultidictionary.copyOf(
-        builder.headers.map(HttpHeader.toKeyValuePairFunction));
+    this.headers = ImmutableArrayMultidictionary.copyOf(builder.headers);
     this.body = builder.body;
   }
 
@@ -122,12 +121,10 @@ public final class HttpRequest {
     return ImmutableArrayMultidictionary.copyOf(keyValuePairs);
   }
 
-  public Collection<String> getPostValues(String name) {
-    return getPostData().groupBy(new GetKeyFunction<String, String>())
-        .getValue(name).map(new GetValueFunction<String, String>());
-  }
-
   public ImmutableSequence<Part> getParts() {
+    if (memParts.isDefined())
+      return memParts.getOrThrow();
+
     String contentType = headers.getValues(RequestHeaderName.CONTENT_TYPE.getStandardName())
         .tryGetOnlyElement().getOrThrow("Expected exactly one content type.");
     if (!contentType.startsWith("multipart/form-data"))
@@ -143,10 +140,12 @@ public final class HttpRequest {
         .tryParse(contentType.substring(pBoundary).getBytes(StandardCharsets.US_ASCII), 0)
         .getOrThrow("Expected token or quoted string after \"boundary=\".").getValue();
 
-    return new MultipartParser(boundary)
+    ImmutableSequence<Part> result = new MultipartParser(boundary)
         .tryParse(body.getOrThrow("No body was sent."), 0)
         .getOrThrow("Multipart parsing failed")
         .getValue().toImmutable();
+    memParts = Option.some(result);
+    return result;
   }
 
   public String getHost() {
@@ -165,7 +164,7 @@ public final class HttpRequest {
     StringBuilder sb = new StringBuilder();
     sb.append(String.format("%s %s HTTP/%s", method, resource, httpVersion));
     for (KeyValuePair<String, String> header : headers)
-      sb.append("\r\n").append(new HttpHeader(header));
+      sb.append(String.format("%s: %s\r\n", header.getKey(), header.getValue()));
     return sb.toString();
   }
 }

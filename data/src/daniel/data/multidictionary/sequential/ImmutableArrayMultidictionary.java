@@ -23,7 +23,7 @@ public final class ImmutableArrayMultidictionary<K, V>
 
   public static <K, V> ImmutableArrayMultidictionary<K, V> copyOf(
       Iterable<KeyValuePair<K, V>> iterable) {
-    return new ImmutableArrayMultidictionary<K, V>(ImmutableArray.copyOf(iterable));
+    return new ImmutableArrayMultidictionary<>(ImmutableArray.copyOf(iterable));
   }
 
   @Override

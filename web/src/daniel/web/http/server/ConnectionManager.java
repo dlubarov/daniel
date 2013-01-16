@@ -1,9 +1,9 @@
 package daniel.web.http.server;
 
+import daniel.data.dictionary.KeyValuePair;
 import daniel.data.option.Option;
 import daniel.data.sequence.Sequence;
 import daniel.data.util.IOUtils;
-import daniel.web.http.HttpHeader;
 import daniel.web.http.HttpRequest;
 import daniel.web.http.HttpResponse;
 import daniel.web.http.RequestHeaderName;
@@ -52,8 +52,8 @@ public class ConnectionManager implements Runnable {
     HttpResponse response = handler.handle(request);
 
     writer.write(String.format("HTTP/%s %s\r\n", response.getHttpVersion(), response.getStatus()));
-    for (HttpHeader header : response.getHeaders())
-      writer.write(header + "\r\n");
+    for (KeyValuePair<String, String> header : response.getHeaders())
+      writer.write(String.format("%s: %s\r\n", header.getKey(), header.getValue()));
     writer.write("Connection: close\r\n");
     writer.write("\r\n");
     writer.flush();
@@ -88,13 +88,13 @@ public class ConnectionManager implements Runnable {
         break;
       rawHeadersBuilder.append(line).append("\r\n");
     }
-    Sequence<HttpHeader> headers = HeaderSectionParser.singleton
+    Sequence<KeyValuePair<String, String>> headers = HeaderSectionParser.singleton
         .tryParse(rawHeadersBuilder.toString().getBytes(StandardCharsets.US_ASCII), 0)
         .getOrThrow().getValue();
     Option<Integer> optContentLength = Option.none();
-    for (HttpHeader header : headers) {
+    for (KeyValuePair<String, String> header : headers) {
       requestBuilder.addHeader(header);
-      if (header.getName().equals(RequestHeaderName.CONTENT_LENGTH.getStandardName()))
+      if (header.getKey().equals(RequestHeaderName.CONTENT_LENGTH.getStandardName()))
         optContentLength = Option.some(Integer.parseInt(header.getValue()));
     }
     if (optContentLength.isDefined()) {

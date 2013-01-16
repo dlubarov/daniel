@@ -1,19 +1,19 @@
 package daniel.web.http.parsing;
 
+import daniel.data.dictionary.KeyValuePair;
 import daniel.data.option.Option;
 import daniel.data.sequence.Sequence;
 import daniel.parsing.DelimitedRepetitionParser;
 import daniel.parsing.ParseResult;
 import daniel.parsing.Parser;
-import daniel.web.http.HttpHeader;
 
-public final class HeaderParser extends Parser<HttpHeader> {
+public final class HeaderParser extends Parser<KeyValuePair<String, String>> {
   public static final HeaderParser singleton = new HeaderParser();
 
   private HeaderParser() {}
 
   @Override
-  public Option<ParseResult<HttpHeader>> tryParse(byte[] data, int p) {
+  public Option<ParseResult<KeyValuePair<String, String>>> tryParse(byte[] data, int p) {
     Option<ParseResult<String>> optResName = TokenParser.singleton.tryParse(data, p);
     if (optResName.isEmpty())
       return Option.none();
@@ -34,7 +34,7 @@ public final class HeaderParser extends Parser<HttpHeader> {
     // before interpreting the field value ..."
     String content = resContent.getValue().join(" ");
 
-    HttpHeader header = new HttpHeader(resName.getValue(), content);
+    KeyValuePair<String, String> header = new KeyValuePair<>(resName.getValue(), content);
     return Option.some(new ParseResult<>(header, p));
   }
 }

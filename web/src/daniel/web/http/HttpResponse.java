@@ -1,16 +1,20 @@
 package daniel.web.http;
 
 import daniel.data.collection.Collection;
+import daniel.data.dictionary.KeyValuePair;
+import daniel.data.multidictionary.sequential.ImmutableArrayMultidictionary;
+import daniel.data.multidictionary.sequential.ImmutableSequentialMultidictionary;
+import daniel.data.multidictionary.sequential.SequentialMultidictionary;
 import daniel.data.option.Option;
-import daniel.data.sequence.ImmutableSequence;
 import daniel.data.stack.DynamicArray;
 import daniel.data.stack.MutableStack;
+import java.nio.charset.StandardCharsets;
 
 public class HttpResponse {
   public static class Builder {
     private Option<HttpVersion> httpVersion = Option.none();
     private Option<HttpStatus> status = Option.none();
-    private final MutableStack<HttpHeader> headers;
+    private final MutableStack<KeyValuePair<String, String>> headers;
     private Option<byte[]> body = Option.none();
 
     public Builder() {
@@ -27,17 +31,17 @@ public class HttpResponse {
       return this;
     }
 
-    public Builder addHeader(HttpHeader header) {
+    public Builder addHeader(KeyValuePair<String, String> header) {
       headers.pushBack(header);
       return this;
     }
 
     public Builder addHeader(ResponseHeaderName name, String value) {
-      return addHeader(new HttpHeader(name, value));
+      return addHeader(new KeyValuePair<>(name.getStandardName(), value));
     }
 
     public Builder addHeader(String name, String value) {
-      return addHeader(new HttpHeader(name, value));
+      return addHeader(new KeyValuePair<>(name, value));
     }
 
     public Builder addCookie(Cookie cookie) {
@@ -65,13 +69,13 @@ public class HttpResponse {
 
   private final HttpVersion httpVersion;
   private final HttpStatus status;
-  private final ImmutableSequence<HttpHeader> headers;
+  private final ImmutableSequentialMultidictionary<String, String> headers;
   private final Option<byte[]> body;
 
   private HttpResponse(Builder builder) {
     this.httpVersion = builder.httpVersion.getOrThrow("No HTTP version was set.");
     this.status = builder.status.getOrThrow("No response status was set.");
-    this.headers = builder.headers.toImmutable();
+    this.headers = ImmutableArrayMultidictionary.copyOf(builder.headers);
     this.body = builder.body;
   }
 
@@ -83,17 +87,8 @@ public class HttpResponse {
     return status;
   }
 
-  public ImmutableSequence<HttpHeader> getHeaders() {
+  public SequentialMultidictionary<String, String> getHeaders() {
     return headers;
-  }
-
-  public Collection<String> getHeaderValues(String name) {
-    Collection<HttpHeader> headers = getHeaders().groupBy(HttpHeader.getNameFunction).getValue(name);
-    return headers.map(HttpHeader.getValueFunction);
-  }
-
-  public Collection<String> getHeaderValues(ResponseHeaderName name) {
-    return getHeaderValues(name.getStandardName());
   }
 
   public Option<byte[]> getBody() {
@@ -104,11 +99,11 @@ public class HttpResponse {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append(String.format("HTTP/%s %s\r\n", httpVersion, status));
-    for (HttpHeader header : headers)
-      sb.append(header).append("\r\n");
+    for (KeyValuePair<String, String> header : headers)
+      sb.append(String.format("%s: %s\r\n", header.getKey(), header.getValue()));
     sb.append("\r\n");
     if (body.isDefined())
-      sb.append(new String(body.getOrThrow()));
+      sb.append(new String(body.getOrThrow(), StandardCharsets.US_ASCII));
     return sb.toString();
   }
 }

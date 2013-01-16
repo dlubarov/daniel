@@ -6,7 +6,6 @@ import daniel.data.multidictionary.sequential.SequentialMultidictionary;
 import daniel.data.sequence.ImmutableArray;
 import daniel.data.util.EqualsBuilder;
 import daniel.data.util.HashCodeBuilder;
-import daniel.web.http.HttpHeader;
 import java.util.Arrays;
 
 public final class Part {
@@ -18,10 +17,8 @@ public final class Part {
     this.body = body;
   }
 
-  public static Part fromHeaders(Iterable<HttpHeader> headers, byte[] body) {
-    return fromKeyValuePairs(
-        ImmutableArray.copyOf(headers).map(HttpHeader.toKeyValuePairFunction),
-        body);
+  public static Part fromHeaders(Iterable<KeyValuePair<String, String>> headers, byte[] body) {
+    return fromKeyValuePairs(ImmutableArray.copyOf(headers), body);
   }
 
   public static Part fromKeyValuePairs(Iterable<KeyValuePair<String, String>> headers, byte[] body) {

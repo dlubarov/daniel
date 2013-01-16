@@ -1,5 +1,6 @@
 package daniel.web.http.parsing;
 
+import daniel.data.dictionary.KeyValuePair;
 import daniel.data.option.Option;
 import daniel.data.sequence.Sequence;
 import daniel.data.stack.DynamicArray;
@@ -7,7 +8,6 @@ import daniel.data.stack.MutableStack;
 import daniel.data.util.ArrayUtils;
 import daniel.parsing.ParseResult;
 import daniel.parsing.Parser;
-import daniel.web.http.HttpHeader;
 import daniel.web.http.multipart.Part;
 import java.nio.charset.StandardCharsets;
 
@@ -30,7 +30,7 @@ public final class MultipartParser extends Parser<Sequence<Part>> {
 
     MutableStack<Part> parts = DynamicArray.create();
     for (;;) {
-      ParseResult<Sequence<HttpHeader>> resHeaders =
+      ParseResult<Sequence<KeyValuePair<String, String>>> resHeaders =
           HeaderSectionParser.singleton.tryParse(data, p).getOrThrow();
       p = resHeaders.getRem();
       if (ArrayUtils.firstIndexOf(CRLFCRLF, data, p).getOrDefault(-1) != p)
