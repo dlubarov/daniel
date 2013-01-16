@@ -1,5 +1,6 @@
 package daniel.web.http;
 
+import daniel.data.dictionary.KeyValuePair;
 import daniel.data.function.Function;
 import daniel.data.util.EqualsBuilder;
 import daniel.data.util.HashCodeBuilder;
@@ -19,6 +20,13 @@ public class HttpHeader {
         }
       };
 
+  public static final Function<HttpHeader, KeyValuePair<String, String>> toKeyValuePairFunction =
+      new Function<HttpHeader, KeyValuePair<String, String>>() {
+        @Override public KeyValuePair<String, String> apply(HttpHeader header) {
+          return header.toKeyValuePair();
+        }
+      };
+
   private final String name;
   private final String value;
 
@@ -35,12 +43,20 @@ public class HttpHeader {
     this(name.getStandardName(), value);
   }
 
+  public HttpHeader(KeyValuePair<String, String> keyValuePair) {
+    this(keyValuePair.getKey(), keyValuePair.getValue());
+  }
+
   public String getName() {
     return name;
   }
 
   public String getValue() {
     return value;
+  }
+
+  public KeyValuePair<String, String> toKeyValuePair() {
+    return new KeyValuePair<>(name, value);
   }
 
   @Override

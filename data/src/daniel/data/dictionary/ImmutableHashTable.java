@@ -18,15 +18,15 @@ public final class ImmutableHashTable<K, V> extends AbstractImmutableDictionary<
     return new ImmutableHashTable<>(new HashMap<K, V>());
   }
 
+  public static <K, V> ImmutableHashTable<K, V> copyOf(Map<? extends K, ? extends V> map) {
+    return new ImmutableHashTable<>(new HashMap<>(map));
+  }
+
   public static <K, V> ImmutableHashTable<K, V> copyOf(Iterable<KeyValuePair<K, V>> keyValuePairs) {
     HashMap<K, V> proxy = new HashMap<>();
     for (KeyValuePair<? extends K, ? extends V> keyValuePair : keyValuePairs)
       proxy.put(keyValuePair.getKey(), keyValuePair.getValue());
     return new ImmutableHashTable<>(proxy);
-  }
-
-  public static <K, V> ImmutableHashTable<K, V> copyOf(Map<? extends K, ? extends V> map) {
-    return new ImmutableHashTable<>(new HashMap<>(map));
   }
 
   @Override

@@ -1,11 +1,13 @@
 package daniel.viewheaders;
 
+import daniel.data.dictionary.KeyValuePair;
+import daniel.data.multidictionary.sequential.SequentialMultidictionary;
 import daniel.data.option.Option;
 import daniel.web.html.Attribute;
 import daniel.web.html.Document;
+import daniel.web.html.Element;
 import daniel.web.html.TableBuilder;
 import daniel.web.html.TextNode;
-import daniel.web.http.HttpHeader;
 import daniel.web.http.HttpRequest;
 import daniel.web.http.HttpResponse;
 import daniel.web.http.HttpStatus;
@@ -22,14 +24,26 @@ public class HomeHandler implements PartialHandler {
     if (!request.getResource().equals("/"))
       return Option.none();
 
+    Document document = Layout.createDocument(getHeaderTable(request.getHeaders()));
+    return Option.some(HttpResponseFactory.htmlResponse(HttpStatus.OK, document));
+  }
+
+  private Element getHeaderTable(SequentialMultidictionary<String, String> headers) {
     TableBuilder tableBuilder = new TableBuilder()
         .setAttribute(Attribute.CLASS, "hairlined");
-    for (HttpHeader header : request.getHeaders()) {
+
+    tableBuilder.beginRow();
+    tableBuilder.addHeaderEntry(TextNode.escapedText("Name"));
+    tableBuilder.addHeaderEntry(TextNode.escapedText("Value"));
+    tableBuilder.endRow();
+
+    for (KeyValuePair<String, String> header : headers) {
       tableBuilder.beginRow();
-      tableBuilder.addColumn(TextNode.escapedText(header.getName()));
-      tableBuilder.addColumn(TextNode.escapedText(header.getValue()));
+      tableBuilder.addEntry(TextNode.escapedText(header.getKey()));
+      tableBuilder.addEntry(TextNode.escapedText(header.getValue()));
+      tableBuilder.endRow();
     }
-    Document document = Layout.createDocument(tableBuilder.build());
-    return Option.some(HttpResponseFactory.htmlResponse(HttpStatus.OK, document));
+
+    return tableBuilder.build();
   }
 }

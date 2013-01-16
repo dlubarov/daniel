@@ -14,12 +14,10 @@ import java.nio.charset.StandardCharsets;
 public final class MultipartParser extends Parser<Sequence<Part>> {
   private static final byte[] CRLFCRLF = "\r\n\r\n".getBytes(StandardCharsets.US_ASCII);
 
-  private final String boundary;
   private final byte[] ddBoundaryCrlf;
   private final byte[] crlfDdBoundary;
 
   public MultipartParser(String boundary) {
-    this.boundary = boundary;
     this.ddBoundaryCrlf = ("--" + boundary + "\r\n").getBytes(StandardCharsets.US_ASCII);
     this.crlfDdBoundary = ("\r\n--" + boundary).getBytes(StandardCharsets.US_ASCII);
   }
@@ -43,7 +41,7 @@ public final class MultipartParser extends Parser<Sequence<Part>> {
           .getOrThrow("Expected CRLF--[boundary].");
       byte[] body = new byte[pEnd - p];
       System.arraycopy(data, p, body, 0, body.length);
-      parts.pushBack(new Part(resHeaders.getValue(), body));
+      parts.pushBack(Part.fromHeaders(resHeaders.getValue(), body));
       p = pEnd + crlfDdBoundary.length;
 
       if (data[p] == '-' && data[p + 1] == '-')

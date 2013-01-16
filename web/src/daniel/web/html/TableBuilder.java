@@ -1,45 +1,39 @@
 package daniel.web.html;
 
-import daniel.data.dictionary.KeyValuePair;
-import daniel.data.dictionary.MutableHashTable;
-import daniel.data.sequence.ImmutableArray;
-import daniel.data.sequence.ImmutableSequence;
-import daniel.data.stack.DynamicArray;
-import daniel.data.stack.MutableStack;
-
 public final class TableBuilder {
-  private final MutableHashTable<Attribute, String> attributes = MutableHashTable.create();
-  private final MutableStack<MutableStack<ImmutableSequence<Node>>> entries;
+  private final Element.Builder tableBuilder;
+  private Element.Builder rowBuilder;
 
   public TableBuilder() {
-    this.entries = DynamicArray.create();
+    this.tableBuilder = new Element.Builder(Tag.TABLE);
   }
 
   public TableBuilder setAttribute(Attribute attribute, String value) {
-    attributes.put(attribute, value);
+    tableBuilder.setAttribute(attribute, value);
     return this;
   }
 
   public TableBuilder beginRow() {
-    entries.pushBack(DynamicArray.<ImmutableSequence<Node>>create());
+    rowBuilder = new Element.Builder(Tag.TR);
     return this;
   }
 
-  public TableBuilder addColumn(Node... contents) {
-    entries.getBack().pushBack(ImmutableArray.create(contents));
+  public TableBuilder endRow() {
+    tableBuilder.addChild(rowBuilder.build());
+    return this;
+  }
+
+  public TableBuilder addEntry(Node... contents) {
+    rowBuilder.addChild(new Element(Tag.TD, contents));
+    return this;
+  }
+
+  public TableBuilder addHeaderEntry(Node... contents) {
+    rowBuilder.addChild(new Element(Tag.TH, contents));
     return this;
   }
 
   public Element build() {
-    Element.Builder tableBuilder = new Element.Builder(Tag.TABLE);
-    for (KeyValuePair<Attribute, String> attribute : attributes)
-      tableBuilder.setAttribute(attribute.getKey(), attribute.getValue());
-    for (MutableStack<ImmutableSequence<Node>> row : entries) {
-      Element.Builder rowBuilder = new Element.Builder(Tag.TR);
-      for (ImmutableSequence<Node> entry : row)
-        rowBuilder.addChild(new Element(Tag.TD, entry));
-      tableBuilder.addChild(rowBuilder.build());
-    }
     return tableBuilder.build();
   }
 }

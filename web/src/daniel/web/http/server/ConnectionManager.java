@@ -9,7 +9,6 @@ import daniel.web.http.HttpResponse;
 import daniel.web.http.RequestHeaderName;
 import daniel.web.http.RequestLine;
 import daniel.web.http.RequestMethod;
-import daniel.web.http.ResponseHeaderName;
 import daniel.web.http.parsing.HeaderSectionParser;
 import daniel.web.http.parsing.RequestLineParser;
 import java.io.BufferedReader;
@@ -48,7 +47,8 @@ public class ConnectionManager implements Runnable {
     HttpRequest request = optRequest.getOrThrow();
     Writer writer = new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.US_ASCII);
 
-    System.out.println("Handling request for " + request.getResource());
+    System.out.printf("Handling request for %s%s\n",
+        request.getHost(), request.getResource());
     HttpResponse response = handler.handle(request);
 
     writer.write(String.format("HTTP/%s %s\r\n", response.getHttpVersion(), response.getStatus()));
@@ -56,6 +56,7 @@ public class ConnectionManager implements Runnable {
       writer.write(header + "\r\n");
     writer.write("Connection: close\r\n");
     writer.write("\r\n");
+    writer.flush();
     if (response.getBody().isDefined() && request.getMethod() != RequestMethod.HEAD)
       socket.getOutputStream().write(response.getBody().getOrThrow());
     socket.getOutputStream().flush();

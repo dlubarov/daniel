@@ -1,10 +1,22 @@
 package daniel.web.http;
 
 import daniel.data.collection.Collection;
+import daniel.data.dictionary.KeyValuePair;
+import daniel.data.dictionary.functions.GetKeyFunction;
+import daniel.data.dictionary.functions.GetValueFunction;
+import daniel.data.multidictionary.sequential.ImmutableArrayMultidictionary;
+import daniel.data.multidictionary.sequential.SequentialMultidictionary;
 import daniel.data.option.Option;
 import daniel.data.sequence.ImmutableSequence;
 import daniel.data.stack.DynamicArray;
 import daniel.data.stack.MutableStack;
+import daniel.data.util.Check;
+import daniel.web.http.multipart.Part;
+import daniel.web.http.parsing.MultipartParser;
+import daniel.web.http.parsing.TokenOrQuotedStringParser;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 
 public final class HttpRequest {
   public static class Builder {
@@ -59,14 +71,15 @@ public final class HttpRequest {
   private final RequestMethod method;
   private final String resource;
   private final HttpVersion httpVersion;
-  private final ImmutableSequence<HttpHeader> headers;
+  private final SequentialMultidictionary<String, String> headers;
   private final Option<byte[]> body;
 
   private HttpRequest(Builder builder) {
     this.method = builder.method.getOrThrow("No request method was set.");
     this.resource = builder.resource.getOrThrow("No request resource was set.");
     this.httpVersion = builder.httpVersion.getOrThrow("No HTTP version was set.");
-    this.headers = builder.headers.toImmutable();
+    this.headers = ImmutableArrayMultidictionary.copyOf(
+        builder.headers.map(HttpHeader.toKeyValuePairFunction));
     this.body = builder.body;
   }
 
@@ -82,22 +95,63 @@ public final class HttpRequest {
     return httpVersion;
   }
 
-  public ImmutableSequence<HttpHeader> getHeaders() {
+  public SequentialMultidictionary<String, String> getHeaders() {
     return headers;
   }
 
-  public Collection<String> getHeaderValues(String name) {
-    Collection<HttpHeader> headers = getHeaders().groupBy(HttpHeader.getNameFunction).getValue(name);
-    return headers.map(HttpHeader.getValueFunction);
+  public SequentialMultidictionary<String, String> getPostData() {
+    String contentType = headers.getValues(RequestHeaderName.CONTENT_TYPE.getStandardName())
+        .tryGetOnlyElement().getOrThrow("Expected exactly one content type.");
+    Check.that(contentType.equals("application/x-www-form-urlencoded"),
+        "Expected content type of \"%s\", but found \"%s\".",
+        "application/x-www-form-urlencoded", contentType);
+
+    String data = new String(body.getOrThrow("No POST data was sent."), StandardCharsets.US_ASCII);
+    MutableStack<KeyValuePair<String, String>> keyValuePairs = DynamicArray.create();
+    for (String param : data.split("&")) {
+      String[] pair = param.split("=");
+      Check.that(pair.length == 2, "Expected key=val format.");
+      try {
+        String key = URLDecoder.decode(pair[0], "UTF-8");
+        String value = URLDecoder.decode(pair[1], "UTF-8");
+        keyValuePairs.pushBack(new KeyValuePair<>(key, value));
+      } catch (UnsupportedEncodingException e) {
+        throw new AssertionError("UTF-8 should be supported universally.");
+      }
+    }
+    return ImmutableArrayMultidictionary.copyOf(keyValuePairs);
   }
 
-  public Collection<String> getHeaderValues(RequestHeaderName name) {
-    return getHeaderValues(name.getStandardName());
+  public Collection<String> getPostValues(String name) {
+    return getPostData().groupBy(new GetKeyFunction<String, String>())
+        .getValue(name).map(new GetValueFunction<String, String>());
+  }
+
+  public ImmutableSequence<Part> getParts() {
+    String contentType = headers.getValues(RequestHeaderName.CONTENT_TYPE.getStandardName())
+        .tryGetOnlyElement().getOrThrow("Expected exactly one content type.");
+    if (!contentType.startsWith("multipart/form-data"))
+      throw new RuntimeException("Expected content type of multipart/form-data");
+
+    // TODO: This could possibly fail if the content type is something like
+    // Content-Type: multipart/form-data; foo="boundary="; boundary=[boundary]
+    int pBoundary = contentType.indexOf("boundary=");
+    if (pBoundary == -1)
+      throw new RuntimeException("Expected boundary in content type.");
+    pBoundary += "boundary=".length();
+    String boundary = TokenOrQuotedStringParser.singleton
+        .tryParse(contentType.substring(pBoundary).getBytes(StandardCharsets.US_ASCII), 0)
+        .getOrThrow("Expected token or quoted string after \"boundary=\".").getValue();
+
+    return new MultipartParser(boundary)
+        .tryParse(body.getOrThrow("No body was sent."), 0)
+        .getOrThrow("Multipart parsing failed")
+        .getValue().toImmutable();
   }
 
   public String getHost() {
-    return getHeaderValues(RequestHeaderName.HOST).tryGetOnlyElement()
-        .getOrThrow("Expected exactly one Host header.");
+    return headers.getValues(RequestHeaderName.HOST.getStandardName())
+        .tryGetOnlyElement().getOrThrow("Expected exactly one Host header.");
   }
 
   public Option<byte[]> getBody() {
@@ -110,8 +164,8 @@ public final class HttpRequest {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append(String.format("%s %s HTTP/%s", method, resource, httpVersion));
-    for (HttpHeader header : headers)
-      sb.append("\r\n").append(header);
+    for (KeyValuePair<String, String> header : headers)
+      sb.append("\r\n").append(new HttpHeader(header));
     return sb.toString();
   }
 }

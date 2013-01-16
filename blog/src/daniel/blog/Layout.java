@@ -58,7 +58,7 @@ public final class Layout {
             .addChild(TextNode.escapedText("Valid HTML & CSS"))
             .build())
         .addChild(new Element.Builder(Tag.P)
-            .addChild(TextNode.rawText("Copyright &copy; Daniel Lubarov"))
+            .addChild(TextNode.rawText("Copyright &#169; Daniel Lubarov"))
             .build())
         .build();
   }

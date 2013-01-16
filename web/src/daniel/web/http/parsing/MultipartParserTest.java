@@ -1,9 +1,9 @@
 package daniel.web.http.parsing;
 
+import daniel.data.dictionary.KeyValuePair;
 import daniel.data.option.Option;
 import daniel.data.sequence.Sequence;
 import daniel.parsing.ParseResult;
-import daniel.web.http.HttpHeader;
 import daniel.web.http.multipart.Part;
 import java.nio.charset.StandardCharsets;
 import org.junit.Test;
@@ -43,7 +43,7 @@ public class MultipartParserTest {
     // Check the first part.
     assertEquals(1, firstPart.getHeaders().getSize());
     assertEquals(
-        new HttpHeader("Content-Disposition", "form-data; name=\"submit-name\""),
+        new KeyValuePair<>("Content-Disposition", "form-data; name=\"submit-name\""),
         firstPart.getHeaders().get(0));
     assertArrayEquals(
         "Larry".getBytes(StandardCharsets.US_ASCII),
@@ -52,10 +52,10 @@ public class MultipartParserTest {
     // Check the second part.
     assertEquals(2, secondPart.getHeaders().getSize());
     assertEquals(
-        new HttpHeader("Content-Disposition", "form-data; name=\"files\"; filename=\"file1.txt\""),
+        new KeyValuePair<>("Content-Disposition", "form-data; name=\"files\"; filename=\"file1.txt\""),
         secondPart.getHeaders().get(0));
     assertEquals(
-        new HttpHeader("Content-Type", "text/plain"),
+        new KeyValuePair<>("Content-Type", "text/plain"),
         secondPart.getHeaders().get(1));
     assertArrayEquals(
         "... contents of file1.txt ...".getBytes(StandardCharsets.US_ASCII),
