@@ -8,9 +8,10 @@ public class MultiwebApp {
   public static void main(String[] args) throws Exception {
     HttpServer server = new HttpServer.Builder()
         .setHandler(MultiwebHandler.getHandler())
-        .setPort(12345)
+        .setPort(Config.getPort())
         .build();
     server.start();
     server.join();
+    System.out.println("Server has stopped; exiting.");
   }
 }

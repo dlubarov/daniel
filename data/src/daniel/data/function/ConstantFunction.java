@@ -1,6 +1,6 @@
 package daniel.data.function;
 
-public class ConstantFunction<A, B> implements Function<A, B> {
+public final class ConstantFunction<A, B> implements Function<A, B> {
   private final B value;
 
   public ConstantFunction(B value) {

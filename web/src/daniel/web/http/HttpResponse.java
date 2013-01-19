@@ -8,6 +8,8 @@ import daniel.data.multidictionary.sequential.SequentialMultidictionary;
 import daniel.data.option.Option;
 import daniel.data.stack.DynamicArray;
 import daniel.data.stack.MutableStack;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
 public class HttpResponse {
@@ -45,10 +47,17 @@ public class HttpResponse {
     }
 
     public Builder addCookie(Cookie cookie) {
-      return addHeader(
-          ResponseHeaderName.SET_COOKIE,
-          String.format("%s=%s; Expires=%s",
-              cookie.getName(), cookie.getValue(), cookie.getExpires()));
+      StringBuilder sb = new StringBuilder();
+      sb.append(cookie.getName()).append('=');
+      try {
+        sb.append(URLEncoder.encode(cookie.getValue(), "UTF-8"));
+      } catch (UnsupportedEncodingException e) {
+        throw new AssertionError("wtf?");
+      }
+      if (cookie.getExpires().isDefined()) {
+        sb.append("; Expires=").append(DateUtils.formatDate(cookie.getExpires().getOrThrow()));
+      }
+      return addHeader(ResponseHeaderName.SET_COOKIE, sb.toString());
     }
 
     public Builder addAllCookies(Collection<Cookie> cookies) {

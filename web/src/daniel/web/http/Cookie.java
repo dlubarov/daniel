@@ -3,6 +3,9 @@ package daniel.web.http;
 import daniel.data.option.Option;
 import java.util.Date;
 
+/**
+ * An HTTP cookie.
+ */
 public class Cookie {
   public static class Builder {
     private Option<String> name = Option.none();

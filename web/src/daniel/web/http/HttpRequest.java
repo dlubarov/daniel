@@ -9,7 +9,9 @@ import daniel.data.sequence.ImmutableSequence;
 import daniel.data.stack.DynamicArray;
 import daniel.data.stack.MutableStack;
 import daniel.data.util.Check;
+import daniel.parsing.ParseResult;
 import daniel.web.http.multipart.Part;
+import daniel.web.http.parsing.CookieHeaderParser;
 import daniel.web.http.parsing.MultipartParser;
 import daniel.web.http.parsing.TokenOrQuotedStringParser;
 import java.io.UnsupportedEncodingException;
@@ -98,7 +100,22 @@ public final class HttpRequest {
     return headers;
   }
 
-  public SequentialMultidictionary<String, String> getPostData() {
+  public SequentialMultidictionary<String, String> getCookies() {
+    MutableStack<KeyValuePair<String, String>> cookies = DynamicArray.create();
+    for (String cookieList : headers.getValues(RequestHeaderName.COOKIE.getStandardName())) {
+      byte[] cookieListBytes = cookieList.getBytes(StandardCharsets.US_ASCII);
+      ParseResult<SequentialMultidictionary<String, String>> resCookieList =
+          CookieHeaderParser.singleton.tryParse(cookieListBytes, 0)
+              .getOrThrow("Failed to parse cookie list.");
+      Check.that(resCookieList.getRem() == cookieListBytes.length,
+          "Failed to parse entire cookie list: \"%s\".", cookieList);
+      for (KeyValuePair<String, String> cookie : resCookieList.getValue())
+        cookies.pushBack(cookie);
+    }
+    return ImmutableArrayMultidictionary.copyOf(cookies);
+  }
+
+  public SequentialMultidictionary<String, String> getUrlencodedPostData() {
     String contentType = headers.getValues(RequestHeaderName.CONTENT_TYPE.getStandardName())
         .tryGetOnlyElement().getOrThrow("Expected exactly one content type.");
     Check.that(contentType.equals("application/x-www-form-urlencoded"),
