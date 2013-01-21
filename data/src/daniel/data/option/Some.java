@@ -14,7 +14,7 @@ final class Some<A> extends Option<A> {
 
   @Override
   public Source<A> getEnumerator() {
-    return new SingletonSource<A>(value);
+    return new SingletonSource<>(value);
   }
 
   @Override

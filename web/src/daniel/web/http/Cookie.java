@@ -26,13 +26,17 @@ public class Cookie {
       this.expires = Option.some(expires);
       return this;
     }
+
+    public Cookie build() {
+      return new Cookie(this);
+    }
   }
 
   private final String name;
   private final String value;
   private final Option<Date> expires;
 
-  public Cookie(Builder builder) {
+  private Cookie(Builder builder) {
     name = builder.name.getOrThrow("No name was set.");
     value = builder.value.getOrThrow("No value was set.");
     expires = builder.expires;

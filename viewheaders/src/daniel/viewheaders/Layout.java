@@ -5,7 +5,7 @@ import daniel.web.html.Document;
 import daniel.web.html.Element;
 import daniel.web.html.HtmlUtils;
 import daniel.web.html.Node;
-import daniel.web.html.Stylesheets;
+import daniel.web.html.StylesheetUtils;
 import daniel.web.html.Tag;
 import daniel.web.html.TextNode;
 
@@ -26,8 +26,8 @@ public final class Layout {
         new Element.Builder(Tag.BASE)
             .setAttribute(Attribute.HREF, Config.getBaseUrl())
             .build(),
-        Stylesheets.createCssLink("reset.css"),
-        Stylesheets.createCssLink("style.css"),
+        StylesheetUtils.createCssLink("reset.css"),
+        StylesheetUtils.createCssLink("style.css"),
         new Element(Tag.TITLE, TextNode.rawText("View Headers"))
     );
   }

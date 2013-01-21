@@ -7,6 +7,10 @@ public final class ByteSink {
   private byte[] buffer;
   private int pos = 0;
 
+  public ByteSink() {
+    buffer = new byte[8];
+  }
+
   public void give(byte b) {
     if (pos == buffer.length)
       expand();
@@ -15,7 +19,7 @@ public final class ByteSink {
 
   public void giveAll(byte... bytes) {
     int n = bytes.length;
-    while (pos + bytes.length > n)
+    while (pos + n > buffer.length)
       expand();
     System.arraycopy(bytes, 0, buffer, pos, n);
     pos += n;

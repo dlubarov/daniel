@@ -13,18 +13,18 @@ public final class DynamicArray<A> extends AbstractMutableStack<A> {
   }
 
   public static <A> DynamicArray<A> create() {
-    return new DynamicArray<A>(new ArrayList<A>());
+    return new DynamicArray<>(new ArrayList<A>());
   }
 
-  public static <A> DynamicArray<A> create(A... values) {
-    return new DynamicArray<A>(new ArrayList<A>(Arrays.asList(values)));
+  @SafeVarargs public static <A> DynamicArray<A> create(A... values) {
+    return new DynamicArray<>(new ArrayList<>(Arrays.asList(values)));
   }
 
   public static <A> DynamicArray<A> copyOf(Iterable<? extends A> iterable) {
-    ArrayList<A> proxy = new ArrayList<A>();
+    ArrayList<A> proxy = new ArrayList<>();
     for (A element : iterable)
       proxy.add(element);
-    return new DynamicArray<A>(proxy);
+    return new DynamicArray<>(proxy);
   }
 
   @Override
@@ -48,7 +48,7 @@ public final class DynamicArray<A> extends AbstractMutableStack<A> {
 
   @Override
   public Source<A> getEnumerator() {
-    return new RandomAccessEnumerator<A>(this);
+    return new RandomAccessEnumerator<>(this);
   }
 
   @Override

@@ -4,6 +4,6 @@ public final class PostUrlFactory {
   private PostUrlFactory() {}
 
   public static String getViewUrl(Post post) {
-    return String.format("/post/%s", post.getUuid());
+    return post.getUrlFriendlySubject();
   }
 }

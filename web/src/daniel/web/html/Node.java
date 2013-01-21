@@ -1,4 +1,3 @@
 package daniel.web.html;
 
-public interface Node {
-}
+public interface Node {}

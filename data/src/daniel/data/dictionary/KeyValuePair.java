@@ -25,7 +25,7 @@ public final class KeyValuePair<K, V> {
   }
 
   public Map.Entry<K, V> toMapEntry() {
-    return new java.util.AbstractMap.SimpleEntry<K, V>(key, value);
+    return new java.util.AbstractMap.SimpleEntry<>(key, value);
   }
 
   @Override

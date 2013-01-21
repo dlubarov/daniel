@@ -1,7 +1,7 @@
 package daniel.web.html;
 
-public final class Stylesheets {
-  private Stylesheets() {}
+public final class StylesheetUtils {
+  private StylesheetUtils() {}
 
   public static Element createCssLink(String href) {
     return new Element.Builder(Tag.LINK)

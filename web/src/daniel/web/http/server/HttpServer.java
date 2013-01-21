@@ -82,14 +82,14 @@ public final class HttpServer {
 
     @Override
     public void run() {
-      while (status == Status.RUNNING) {
+      do {
         try {
           Socket socket = serverSocket.accept();
           executor.execute(new ConnectionManager(socket, handler));
         } catch (IOException e) {
           e.printStackTrace();
         }
-      }
+      } while (status != Status.STOPPED);
     }
   }
 }

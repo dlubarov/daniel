@@ -12,18 +12,18 @@ public class ImmutableHashSet<A> extends AbstractImmutableSet<A> {
   }
 
   public static <A> ImmutableHashSet<A> create() {
-    return new ImmutableHashSet<A>(new java.util.HashSet<A>());
+    return new ImmutableHashSet<>(new java.util.HashSet<A>());
   }
 
-  public static <A> ImmutableHashSet<A> create(A... values) {
-    return new ImmutableHashSet<A>(new java.util.HashSet<A>(Arrays.asList(values)));
+  @SafeVarargs public static <A> ImmutableHashSet<A> create(A... values) {
+    return new ImmutableHashSet<>(new java.util.HashSet<>(Arrays.asList(values)));
   }
 
   public static <A> ImmutableHashSet<A> copyOf(Iterable<? extends A> iterable) {
-    java.util.HashSet<A> proxy = new java.util.HashSet<A>();
+    java.util.HashSet<A> proxy = new java.util.HashSet<>();
     for (A element : iterable)
       proxy.add(element);
-    return new ImmutableHashSet<A>(proxy);
+    return new ImmutableHashSet<>(proxy);
   }
 
   @Override
@@ -33,7 +33,7 @@ public class ImmutableHashSet<A> extends AbstractImmutableSet<A> {
 
   @Override
   public Source<A> getEnumerator() {
-    return new IteratorSource<A>(proxy.iterator());
+    return new IteratorSource<>(proxy.iterator());
   }
 
   @Override

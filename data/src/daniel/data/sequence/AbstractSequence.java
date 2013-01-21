@@ -39,7 +39,7 @@ public abstract class AbstractSequence<A> extends AbstractCollection<A> implemen
 
   @Override
   public java.util.List<A> toJCF() {
-    List<A> jcfList = new ArrayList<A>(getSize());
+    List<A> jcfList = new ArrayList<>(getSize());
     for (A element : this)
       jcfList.add(element);
     return jcfList;

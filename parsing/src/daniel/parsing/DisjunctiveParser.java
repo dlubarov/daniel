@@ -7,8 +7,8 @@ import daniel.data.sequence.ImmutableSequence;
 public final class DisjunctiveParser<A> extends Parser<A> {
   private final ImmutableSequence<Parser<A>> delegates;
 
-  public DisjunctiveParser(Parser<A>... delegates) {
-    this.delegates = ImmutableArray.<Parser<A>>create(delegates);
+  @SafeVarargs public DisjunctiveParser(Parser<A>... delegates) {
+    this.delegates = ImmutableArray.create(delegates);
   }
 
   public DisjunctiveParser(Iterable<Parser<A>> delegates) {

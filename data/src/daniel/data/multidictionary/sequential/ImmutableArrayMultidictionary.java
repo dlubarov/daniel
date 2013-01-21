@@ -4,6 +4,7 @@ import daniel.data.collection.Collection;
 import daniel.data.dictionary.KeyValuePair;
 import daniel.data.dictionary.functions.GetKeyFunction;
 import daniel.data.dictionary.functions.GetValueFunction;
+import daniel.data.option.Option;
 import daniel.data.sequence.ImmutableArray;
 import daniel.data.sequence.ImmutableSequence;
 import daniel.data.set.ImmutableHashSet;
@@ -33,8 +34,11 @@ public final class ImmutableArrayMultidictionary<K, V>
 
   @Override
   public Collection<V> getValues(K key) {
-    return keyValuePairs.groupBy(new GetKeyFunction<K, V>()).getValue(key)
-        .map(new GetValueFunction<K, V>());
+    Option<? extends Collection<KeyValuePair<K, V>>> optValues = keyValuePairs
+        .groupBy(new GetKeyFunction<K, V>()).tryGetValue(key);
+    if (optValues.isEmpty())
+      return ImmutableArray.create();
+    return optValues.getOrThrow().map(new GetValueFunction<K, V>());
   }
 
   @Override

@@ -43,11 +43,11 @@ public abstract class AbstractSource<A> implements Source<A> {
 
   @Override
   public <B> Source<B> map(Function<? super A, ? extends B> transformation) {
-    return new MappedSource<A, B>(this, transformation);
+    return new MappedSource<>(this, transformation);
   }
 
   @Override
   public Source<A> filter(Function<? super A, Boolean> predicate) {
-    return new FilteredSource<A>(this, predicate);
+    return new FilteredSource<>(this, predicate);
   }
 }

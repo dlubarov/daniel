@@ -7,13 +7,14 @@ import daniel.web.http.server.DelegatingHandler;
 import daniel.web.http.server.PartialHandler;
 import daniel.web.http.server.StandardNotFoundHandler;
 
-public class AdminHandler implements PartialHandler {
+public final class AdminHandler implements PartialHandler {
   public static final AdminHandler singleton = new AdminHandler();
 
   private final DelegatingHandler delegatingHandler;
 
   private AdminHandler() {
     delegatingHandler = new DelegatingHandler.Builder()
+        .addPartialHandler(AdminHomeHandler.singleton)
         .addPartialHandler(CreatePostHandler.singleton)
         .setDefaultHandler(new StandardNotFoundHandler())
         .build();
@@ -24,6 +25,17 @@ public class AdminHandler implements PartialHandler {
     if (!request.getResource().startsWith("/admin"))
       return Option.none();
 
-    return Option.some(delegatingHandler.handle(request));
+    switch (Authenticator.authenticate(request)) {
+      case AUTH_SUCCEEDED:
+        return Option.some(delegatingHandler.handle(request));
+      case AUTH_FAILED:
+        return Option.some(new AdminLoginHandler().handle(request));
+      case AUTH_NOT_ATTEMPTED:
+        return Option.some(new AdminLoginHandler().handle(request));
+      case PASSWORD_NOT_SETUP:
+        return Option.some(AdminSetupHandler.singleton.handle(request));
+      default:
+        throw new AssertionError();
+    }
   }
 }

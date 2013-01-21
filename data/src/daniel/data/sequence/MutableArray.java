@@ -14,21 +14,21 @@ public final class MutableArray<A> extends AbstractSequence<A> {
 
   @SuppressWarnings("unchecked")
   public static <A> MutableArray<A> create() {
-    return new MutableArray<A>((A[]) ArrayUtils.EMPTY_ARRAY);
+    return new MutableArray<>((A[]) ArrayUtils.EMPTY_ARRAY);
   }
 
-  public static <A> MutableArray<A> create(A... values) {
-    return new MutableArray<A>(values.clone());
+  @SafeVarargs public static <A> MutableArray<A> create(A... values) {
+    return new MutableArray<>(values.clone());
   }
 
   @SuppressWarnings("unchecked")
   public static <A> MutableArray<A> createWithNulls(int n) {
-    return new MutableArray<A>((A[]) new Object[n]);
+    return new MutableArray<>((A[]) new Object[n]);
   }
 
   @SuppressWarnings("unchecked")
   public static <A> MutableArray<A> copyOf(Iterable<? extends A> iterable) {
-    return new MutableArray<A>((A[]) DynamicArray.copyOf(iterable).toArray());
+    return new MutableArray<>((A[]) DynamicArray.copyOf(iterable).toArray());
   }
 
   @Override
@@ -42,7 +42,7 @@ public final class MutableArray<A> extends AbstractSequence<A> {
 
   @Override
   public Source<A> getEnumerator() {
-    return new RandomAccessEnumerator<A>(this);
+    return new RandomAccessEnumerator<>(this);
   }
 
   @Override

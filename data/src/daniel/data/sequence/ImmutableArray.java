@@ -14,11 +14,11 @@ public final class ImmutableArray<A> extends AbstractImmutableSequence<A> {
 
   @SuppressWarnings("unchecked")
   public static <A> ImmutableArray<A> create() {
-    return new ImmutableArray<A>((A[]) ArrayUtils.EMPTY_ARRAY);
+    return new ImmutableArray<>((A[]) ArrayUtils.EMPTY_ARRAY);
   }
 
-  public static <A> ImmutableArray<A> create(A... values) {
-    return new ImmutableArray<A>(values.clone());
+  @SafeVarargs public static <A> ImmutableArray<A> create(A... values) {
+    return new ImmutableArray<>(values.clone());
   }
 
   @SuppressWarnings("unchecked")
@@ -33,7 +33,7 @@ public final class ImmutableArray<A> extends AbstractImmutableSequence<A> {
 
   @Override
   public Source<A> getEnumerator() {
-    return new RandomAccessEnumerator<A>(this);
+    return new RandomAccessEnumerator<>(this);
   }
 
   @Override

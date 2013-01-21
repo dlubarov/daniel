@@ -19,7 +19,7 @@ public class ToStringBuilder {
   }
 
   public ToStringBuilder append(String fieldName, Object fieldValue) {
-    append(new KeyValuePair<String, Object>(fieldName, fieldValue));
+    append(new KeyValuePair<>(fieldName, fieldValue));
     return this;
   }
 

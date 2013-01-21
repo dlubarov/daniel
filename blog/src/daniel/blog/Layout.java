@@ -1,21 +1,24 @@
 package daniel.blog;
 
+import daniel.data.option.Option;
 import daniel.web.html.Attribute;
 import daniel.web.html.Document;
 import daniel.web.html.Element;
 import daniel.web.html.HtmlUtils;
+import daniel.web.html.JavaScriptUtils;
 import daniel.web.html.Node;
-import daniel.web.html.Stylesheets;
+import daniel.web.html.StylesheetUtils;
 import daniel.web.html.Tag;
 import daniel.web.html.TextNode;
 
 public final class Layout {
   private Layout() {}
 
-  public static Document createDocument(Node... content) {
+  public static Document createDocument(Option<String> title,
+      Option<String> subtitle, Node... content) {
     Element html = new Element.Builder(Tag.HTML)
         .addChild(getHead())
-        .addChild(getBody(content))
+        .addChild(getBody(title, subtitle, content))
         .build();
     return new Document("<!DOCTYPE html>", html);
   }
@@ -29,25 +32,39 @@ public final class Layout {
         new Element.Builder(Tag.BASE)
             .setAttribute(Attribute.HREF, Config.getBaseUrl())
             .build(),
-        Stylesheets.createCssLink("reset.css"),
-        Stylesheets.createCssLink("style.css"),
-        new Element(Tag.TITLE, TextNode.rawText("Daniel's Blog"))
+        new Element(Tag.TITLE, TextNode.rawText("Daniel's Blog")),
+        StylesheetUtils.createCssLink("reset.css"),
+        StylesheetUtils.createCssLink("style.css"),
+        StylesheetUtils.createCssLink("http://fonts.googleapis.com/css?family=Source+Code+Pro"),
+        StylesheetUtils.createCssLink("prettify/prettify.css"),
+        JavaScriptUtils.createJavaScriptLink("prettify/prettify.js")
     );
   }
 
-  private static Element getBody(Node[] content) {
-    return new Element(Tag.BODY, new Element(Tag.H1,
-        new Element.Builder(Tag.A)
-            .setAttribute(Attribute.HREF, Config.getBaseUrl())
-            .addChild(TextNode.escapedText("Daniel's Blog"))
-            .build()),
-        new Element.Builder(Tag.DIV)
-            .setAttribute(Attribute.ID, "content")
-            .addChildren(content)
-            .build(),
-        HtmlUtils.getClearDiv(),
-        getFooter()
-    );
+  private static Element getBody(Option<String> title, Option<String> subtitle, Node[] content) {
+    Element.Builder contentBuilder = new Element.Builder(Tag.DIV)
+        .setAttribute(Attribute.ID, "container");
+    if (title.isDefined())
+      contentBuilder.addChild(new Element(Tag.H2, TextNode.escapedText(title.getOrThrow())));
+    if (subtitle.isDefined())
+      contentBuilder.addChild(new Element(Tag.H3, TextNode.escapedText(subtitle.getOrThrow())));
+    contentBuilder.addChild(new Element.Builder(Tag.DIV)
+        .setAttribute(Attribute.ID, "content")
+        .addChildren(content)
+        .build());
+
+    return new Element.Builder(Tag.BODY)
+        .setAttribute(Attribute.ONLOAD, "prettyPrint()")
+        .addChild(new Element(Tag.H1,
+          new Element.Builder(Tag.A)
+              .setAttribute(Attribute.HREF, Config.getBaseUrl())
+              .addChild(TextNode.escapedText("Daniel's Blog"))
+              .build()
+        ))
+        .addChild(contentBuilder.build())
+        .addChild(HtmlUtils.getClearDiv())
+        .addChild(getFooter())
+        .build();
   }
 
   private static Element getFooter() {

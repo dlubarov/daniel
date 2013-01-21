@@ -15,12 +15,14 @@ public final class IOUtils {
 
   public static byte[] readFromStream(InputStream inputStream, int bytesToRead) throws IOException {
     byte[] buffer = new byte[bytesToRead];
-    int nRead, nTotalRead = 0;
-    while ((nRead = inputStream.read(buffer, nTotalRead, bytesToRead - nTotalRead)) != -1)
+    int nTotalRead = 0;
+    while (nTotalRead < bytesToRead) {
+      int nRead = inputStream.read(buffer, nTotalRead, bytesToRead - nTotalRead);
+      if (nRead == -1)
+        throw new EOFException(String.format(
+            "End of stream was reached before %d bytes could be read.", bytesToRead));
       nTotalRead += nRead;
-    if (nTotalRead < bytesToRead)
-      throw new EOFException(String.format(
-          "End of stream was reached before %d bytes could be read.", bytesToRead));
+    }
     return buffer;
   }
 

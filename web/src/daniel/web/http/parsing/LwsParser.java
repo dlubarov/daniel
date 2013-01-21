@@ -30,6 +30,6 @@ public final class LwsParser extends Parser<String> {
 
     if (actuallyLinearSpaces == 0)
       return Option.none();
-    return Option.some(new ParseResult<String>(sb.toString(), p));
+    return Option.some(new ParseResult<>(sb.toString(), p));
   }
 }

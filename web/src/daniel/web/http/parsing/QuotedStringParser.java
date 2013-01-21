@@ -16,7 +16,7 @@ public final class QuotedStringParser extends Parser<String> {
     StringBuilder sb = new StringBuilder();
     while (p < data.length) {
       if (data[p] == '"')
-        return Option.some(new ParseResult<String>(sb.toString(), p + 1));
+        return Option.some(new ParseResult<>(sb.toString(), p + 1));
       if (data[p] == '\\') {
         sb.append(data[p + 1]);
         p += 2;

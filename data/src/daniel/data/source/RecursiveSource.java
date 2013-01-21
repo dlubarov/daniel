@@ -17,7 +17,7 @@ public final class RecursiveSource<A> extends AbstractSource<A> {
     this(delegates.getEnumerator());
   }
 
-  public RecursiveSource(Source<A>... delegates) {
+  @SafeVarargs public RecursiveSource(Source<A>... delegates) {
     this(ImmutableArray.create(delegates));
   }
 

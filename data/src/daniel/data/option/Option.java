@@ -13,11 +13,11 @@ public abstract class Option<A> extends AbstractImmutableCollection<A> {
   public abstract Option<A> filter(Function<? super A, Boolean> predicate);
 
   public static <A> Option<A> some(A value) {
-    return new Some<A>(value);
+    return new Some<>(value);
   }
 
   public static <A> Option<A> none() {
-    return new None<A>();
+    return new None<>();
   }
 
   public static <A> Option<A> fromNullable(A valueOrNull) {

@@ -12,18 +12,18 @@ public final class MutableHashSet<A> extends AbstractSet<A> {
   }
 
   public static <A> MutableHashSet<A> create() {
-    return new MutableHashSet<A>(new java.util.HashSet<A>());
+    return new MutableHashSet<>(new java.util.HashSet<A>());
   }
 
-  public static <A> MutableHashSet<A> create(A... values) {
-    return new MutableHashSet<A>(new java.util.HashSet<A>(Arrays.asList(values)));
+  @SafeVarargs public static <A> MutableHashSet<A> create(A... values) {
+    return new MutableHashSet<>(new java.util.HashSet<>(Arrays.asList(values)));
   }
 
   public static <A> MutableHashSet<A> copyOf(Iterable<? extends A> iterable) {
-    java.util.HashSet<A> proxy = new java.util.HashSet<A>();
+    java.util.HashSet<A> proxy = new java.util.HashSet<>();
     for (A element : iterable)
       proxy.add(element);
-    return new MutableHashSet<A>(proxy);
+    return new MutableHashSet<>(proxy);
   }
 
   @Override
@@ -37,7 +37,7 @@ public final class MutableHashSet<A> extends AbstractSet<A> {
 
   @Override
   public Source<A> getEnumerator() {
-    return new IteratorSource<A>(proxy.iterator());
+    return new IteratorSource<>(proxy.iterator());
   }
 
   @Override

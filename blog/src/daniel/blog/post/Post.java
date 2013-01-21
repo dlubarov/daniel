@@ -7,7 +7,7 @@ import daniel.data.serialization.StringSerializer;
 import java.util.Date;
 import java.util.UUID;
 
-public class Post {
+public final class Post {
   public static final SerializingDatabase<String, Post> database = new SerializingDatabase<>(
       Config.getDatabaseHome("posts"), StringSerializer.singleton, PostSerializer.singleton);
 
@@ -72,5 +72,9 @@ public class Post {
 
   public String getContent() {
     return content;
+  }
+
+  public String getUrlFriendlySubject() {
+    return subject.replaceAll("[^a-zA-Z0-9? -]", "").trim().replace(' ', '-');
   }
 }

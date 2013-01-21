@@ -8,26 +8,26 @@ public abstract class SinglyLinkedList<A> extends AbstractImmutableSequence<A> {
   SinglyLinkedList() {}
 
   public static <A> SinglyLinkedList<A> create() {
-    return new EmptySLL<A>();
+    return new EmptySLL<>();
   }
 
-  public static <A> SinglyLinkedList<A> create(A... values) {
-    SinglyLinkedList<A> backwardsList = new EmptySLL<A>();
+  @SafeVarargs public static <A> SinglyLinkedList<A> create(A... values) {
+    SinglyLinkedList<A> backwardsList = new EmptySLL<>();
     for (A element : values)
-      backwardsList = new NonEmptySLL<A>(element, backwardsList);
+      backwardsList = new NonEmptySLL<>(element, backwardsList);
     return backwardsList.reversed();
   }
 
   public static <A> SinglyLinkedList<A> copyOf(Iterable<? extends A> iterable) {
-    SinglyLinkedList<A> backwardsList = new EmptySLL<A>();
+    SinglyLinkedList<A> backwardsList = new EmptySLL<>();
     for (A element : iterable)
-      backwardsList = new NonEmptySLL<A>(element, backwardsList);
+      backwardsList = new NonEmptySLL<>(element, backwardsList);
     return backwardsList.reversed();
   }
 
   @Override
   public Source<A> getEnumerator() {
-    return new SLLEnumerator<A>(this);
+    return new SLLEnumerator<>(this);
   }
 
   @Override
@@ -47,15 +47,15 @@ public abstract class SinglyLinkedList<A> extends AbstractImmutableSequence<A> {
 
   @Override
   public SinglyLinkedList<A> reversed() {
-    SinglyLinkedList<A> reversedList = new EmptySLL<A>();
+    SinglyLinkedList<A> reversedList = new EmptySLL<>();
     for (A element : this)
-      reversedList = new NonEmptySLL<A>(element, reversedList);
+      reversedList = new NonEmptySLL<>(element, reversedList);
     return reversedList;
   }
 
   // TODO: Reconsider naming (prepend/pushFront/etc.)
   public SinglyLinkedList<A> pushFront(A value) {
-    return new NonEmptySLL<A>(value, this);
+    return new NonEmptySLL<>(value, this);
   }
 
   private static class EmptySLL<A> extends SinglyLinkedList<A> {
@@ -84,6 +84,11 @@ public abstract class SinglyLinkedList<A> extends AbstractImmutableSequence<A> {
     @Override
     public int getSize() {
       return size;
+    }
+
+    @Override
+    public A getFront() {
+      return first;
     }
 
     @Override

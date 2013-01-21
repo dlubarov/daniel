@@ -10,7 +10,7 @@ public final class ArrayDeque<A> extends AbstractMutableDeque<A> {
   private CircularBuffer<A> buffer;
 
   private ArrayDeque(int initialCapacity) {
-    buffer = new CircularBuffer<A>(Math.max(initialCapacity, MINIMUM_CAPACITY));
+    buffer = new CircularBuffer<>(Math.max(initialCapacity, MINIMUM_CAPACITY));
   }
 
   private ArrayDeque() {
@@ -22,8 +22,8 @@ public final class ArrayDeque<A> extends AbstractMutableDeque<A> {
     return create((A[]) ArrayUtils.EMPTY_ARRAY);
   }
 
-  public static <A> ArrayDeque<A> create(A... values) {
-    ArrayDeque<A> deque = new ArrayDeque<A>(values.length);
+  @SafeVarargs public static <A> ArrayDeque<A> create(A... values) {
+    ArrayDeque<A> deque = new ArrayDeque<>(values.length);
     for (A element : values)
       deque.pushBack(element);
     return deque;
@@ -81,7 +81,7 @@ public final class ArrayDeque<A> extends AbstractMutableDeque<A> {
 
   @Override
   public Source<A> getEnumerator() {
-    return new RandomAccessEnumerator<A>(this);
+    return new RandomAccessEnumerator<>(this);
   }
 
   private void expandIfAtCapacity() {
@@ -96,7 +96,7 @@ public final class ArrayDeque<A> extends AbstractMutableDeque<A> {
 
   private void changeCapacity(int newCapacity) {
     // TODO: Optimize with arraycopy.
-    CircularBuffer<A> newBuffer = new CircularBuffer<A>(newCapacity);
+    CircularBuffer<A> newBuffer = new CircularBuffer<>(newCapacity);
     for (int i = 0; i < getSize(); ++i)
       newBuffer.pushBack(buffer.get(i));
     this.buffer = newBuffer;

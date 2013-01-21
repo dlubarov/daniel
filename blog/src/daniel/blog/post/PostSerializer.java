@@ -13,6 +13,7 @@ public class PostSerializer extends AbstractSerializer<Post> {
 
   @Override
   public void writeToSink(Post post, ByteSink sink) {
+    StringSerializer.singleton.writeToSink(post.getUuid(), sink);
     DateSerializer.singleton.writeToSink(post.getCreatedAt(), sink);
     StringSerializer.singleton.writeToSink(post.getSubject(), sink);
     StringSerializer.singleton.writeToSink(post.getContent(), sink);
@@ -21,6 +22,7 @@ public class PostSerializer extends AbstractSerializer<Post> {
   @Override
   public Post readFromSource(ByteSource source) {
     return new Post.Builder()
+        .setUuid(StringSerializer.singleton.readFromSource(source))
         .setCreatedAt(DateSerializer.singleton.readFromSource(source))
         .setSubject(StringSerializer.singleton.readFromSource(source))
         .setContent(StringSerializer.singleton.readFromSource(source))

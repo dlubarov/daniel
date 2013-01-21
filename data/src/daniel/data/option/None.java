@@ -7,7 +7,7 @@ import daniel.data.source.Source;
 final class None<A> extends Option<A> {
   @Override
   public Source<A> getEnumerator() {
-    return new EmptySource<A>();
+    return new EmptySource<>();
   }
 
   @Override

@@ -2,20 +2,24 @@ package daniel.blog;
 
 import daniel.blog.post.Post;
 import daniel.blog.post.PostFormatter;
-import daniel.data.function.Function;
 import daniel.data.option.Option;
+import daniel.data.order.AbstractOrdering;
+import daniel.data.order.Relation;
 import daniel.data.sequence.Sequence;
 import daniel.web.html.Document;
 import daniel.web.html.Element;
 import daniel.web.html.Tag;
+import daniel.web.html.TextNode;
 import daniel.web.http.HttpRequest;
 import daniel.web.http.HttpResponse;
 import daniel.web.http.HttpStatus;
 import daniel.web.http.server.HttpResponseFactory;
 import daniel.web.http.server.PartialHandler;
 
-public class HomeHandler implements PartialHandler {
+class HomeHandler implements PartialHandler {
   public static final HomeHandler singleton = new HomeHandler();
+
+  private static final String INTRO = "Welcome to my blog! Here are my most recent posts.";
 
   private HomeHandler() {}
 
@@ -24,13 +28,24 @@ public class HomeHandler implements PartialHandler {
     if (!request.getResource().equals("/"))
       return Option.none();
 
-    Sequence<Element> postSummaries = Post.database.getAllValues().map(new Function<Post, Element>() {
-      @Override public Element apply(Post post) {
-        return PostFormatter.summary(post);
+    Sequence<Post> allPosts = Post.database.getAllValues();
+    allPosts = allPosts.sorted(new AbstractOrdering<Post>() {
+      @Override public Relation compare(Post a, Post b) {
+        return a.getCreatedAt().after(b.getCreatedAt()) ? Relation.LT : Relation.GT;
       }
     });
 
-    Document document = Layout.createDocument(new Element(Tag.DIV, postSummaries));
+    Element.Builder listBuilder = new Element.Builder(Tag.UL);
+    for (Post post : allPosts) {
+      Element summaryLink = PostFormatter.summaryLink(post);
+      listBuilder.addChild(new Element(Tag.LI, summaryLink));
+    }
+
+    Element intro = new Element(Tag.P, TextNode.escapedText(INTRO));
+
+    Document document = Layout.createDocument(
+        Option.<String>none(), Option.<String>none(),
+        intro, listBuilder.build());
     return Option.some(HttpResponseFactory.htmlResponse(HttpStatus.OK, document));
   }
 }

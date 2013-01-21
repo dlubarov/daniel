@@ -12,7 +12,7 @@ import daniel.data.util.Check;
 
 public final class Element implements Node {
   public static class Builder {
-    private Tag tag;
+    private final Tag tag;
     private final MutableStack<Node> children = DynamicArray.create();
     private final MutableHashTable<Attribute, String> attributes = MutableHashTable.create();
 
@@ -34,6 +34,10 @@ public final class Element implements Node {
     public Builder setAttribute(Attribute attribute, String value) {
       attributes.put(attribute, value);
       return this;
+    }
+
+    public Builder setEscapedAttribtue(Attribute attribute, String value) {
+      return setAttribute(attribute, EscapeUtils.htmlEncode(value));
     }
 
     public Element build() {
@@ -71,12 +75,8 @@ public final class Element implements Node {
 
   @Override
   public String toString() {
-    return toString("  ", 0);
-  }
-
-  public String toString(String indentUnit, int indentLevel) {
-    if (children.isEmpty())
-      return String.format("<%s%s />", tag, getAttributes());
+    //if (children.isEmpty() && tag != Tag.TEXTAREA)
+    //  return String.format("<%s%s />", tag, getAttributes());
 
     StringBuilder sb = new StringBuilder();
     sb.append(String.format("<%s%s>", tag, getAttributes()));

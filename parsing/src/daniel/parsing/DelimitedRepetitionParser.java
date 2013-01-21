@@ -49,11 +49,11 @@ public final class DelimitedRepetitionParser<A> extends Parser<Sequence<A>> {
   @Override
   public Option<ParseResult<Sequence<A>>> tryParse(byte[] data, int p) {
     MutableStack<A> stack = DynamicArray.create();
-    while (stack.getSize() < maxTimes) {
+    while (stack.getSize() < maxTimes && p < data.length) {
       int pAfterDelimiter = p;
       if (!stack.isEmpty()) {
         ParseResult<?> optResDelim = delimiterParser.tryParse(data, p).getOrNull();
-        if (optResDelim == null)
+        if (optResDelim == null || p >= data.length)
           break;
         pAfterDelimiter = optResDelim.getRem();
       }

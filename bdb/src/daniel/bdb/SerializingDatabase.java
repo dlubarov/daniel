@@ -1,6 +1,7 @@
 package daniel.bdb;
 
 import daniel.data.function.Function;
+import daniel.data.option.Option;
 import daniel.data.sequence.Sequence;
 import daniel.data.serialization.Serializer;
 import java.io.File;
@@ -22,8 +23,12 @@ public class SerializingDatabase<K, V> {
     this.valueSerializer = valueSerializer;
   }
 
-  public V get(K key) {
-    return valueSerializer.readFromByteArray(rawDatabase.get(keySerializer.writeToByteArray(key)));
+  public Option<V> get(K key) {
+    return rawDatabase.tryGet(keySerializer.writeToByteArray(key)).map(new Function<byte[], V>() {
+      @Override public V apply(byte[] rawValue) {
+        return valueSerializer.readFromByteArray(rawValue);
+      }
+    });
   }
 
   public void put(K key, V value) {

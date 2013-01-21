@@ -20,6 +20,6 @@ public final class ParseResult<A> {
   }
 
   public <B> ParseResult<B> map(Function<? super A, ? extends B> transformation) {
-    return new ParseResult<B>(transformation.apply(value), rem);
+    return new ParseResult<>(transformation.apply(value), rem);
   }
 }

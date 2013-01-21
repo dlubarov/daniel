@@ -1,14 +1,12 @@
-*{ margin: 0; padding: 0; }*
-
 body {
   font: 1em "Trebuchet MS", Arial, Sans-Serif;
   color: #444;
 }
 
 h1 {
-  font-size: 200%;
+  font-size: 150%;
   text-align: center;
-  margin-top: 3em;
+  margin-top: 1em;
 }
 
 h1 a {
@@ -16,18 +14,63 @@ h1 a {
   text-decoration: none;
 }
 
-#content {
-  width: 600px;
+h2 {
+  font-size: 200%;
+}
+
+h3 {
+  font-size: 80%;
+}
+
+#content p {
+  margin: 0.8em 0;
+}
+
+a {
+  text-decoration: none;
+  color: #9D2900;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+li {
+  margin: 0.5em 0;
+}
+
+#container {
+  width: 800px;
   margin: 0 auto;
-  border: 1px solid #444;
+  border-top: 1px solid #444;
+  border-bottom: 1px solid #444;
+  padding: 1em 0;
+}
+
+#content {
+  margin-top: 1.5em;
 }
 
 #footer {
   font-size: 0.9em;
-  width: 600px;
+  width: 800px;
   margin: 0 auto;
+  clear: both;
+}
+
+.wide {
+  width: 100%;
 }
 
 .fr {
   float: right;
+}
+
+.tc {
+  text-align: center;
+}
+
+code {
+  font-family: "Source Code Pro", sans-serif;
+  font-size: 90%;
 }

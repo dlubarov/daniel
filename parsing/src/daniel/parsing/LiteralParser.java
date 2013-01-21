@@ -19,6 +19,6 @@ public final class LiteralParser extends Parser<byte[]> {
     for (int i = 0; i < literal.length; ++i)
       if (data[p + i] != literal[i])
         return Option.none();
-    return Option.some(new ParseResult<byte[]>(literal, p + literal.length));
+    return Option.some(new ParseResult<>(literal, p + literal.length));
   }
 }
