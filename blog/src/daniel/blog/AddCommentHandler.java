@@ -2,6 +2,7 @@ package daniel.blog;
 
 import daniel.blog.admin.Authenticator;
 import daniel.blog.comment.Comment;
+import daniel.blog.comment.CommentStorage;
 import daniel.blog.post.Post;
 import daniel.data.option.Option;
 import daniel.web.http.HttpRequest;
@@ -44,13 +45,14 @@ final class AddCommentHandler implements Handler {
 
     Comment comment = new Comment.Builder()
         .setRandomUiid()
+        .setPostUuid(post.getUuid())
         .setCreatedAt(new Date())
         .setAuthorName(authorName)
         .setAuthorEmail(optAuthorEmail)
         .setContent(content)
         .setApproved(Authenticator.isAdmin(request))
         .build();
-    Comment.database.put(comment.getUuid(), comment);
+    CommentStorage.saveNewComment(comment);
     Notifications.addMessage(request,
         "Your comment has been placed in a moderation queue and should appear shortly.");
     return getRedirectResponse();
@@ -58,6 +60,6 @@ final class AddCommentHandler implements Handler {
 
   private HttpResponse getRedirectResponse() {
     String location = String.format("%s/%s", Config.getBaseUrl(), post.getUrlFriendlySubject());
-    return HttpResponseFactory.redirect(location, true);
+    return HttpResponseFactory.redirectToGet(location);
   }
 }

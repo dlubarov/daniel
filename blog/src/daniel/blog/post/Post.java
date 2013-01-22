@@ -1,16 +1,10 @@
 package daniel.blog.post;
 
-import daniel.bdb.SerializingDatabase;
-import daniel.blog.Config;
 import daniel.data.option.Option;
-import daniel.data.serialization.StringSerializer;
 import java.util.Date;
 import java.util.UUID;
 
 public final class Post {
-  public static final SerializingDatabase<String, Post> database = new SerializingDatabase<>(
-      Config.getDatabaseHome("posts"), StringSerializer.singleton, PostSerializer.singleton);
-
   public static final class Builder {
     private Option<String> uuid = Option.none();
     private Option<Date> createdAt = Option.none();

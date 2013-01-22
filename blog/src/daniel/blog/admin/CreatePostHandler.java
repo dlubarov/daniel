@@ -3,6 +3,7 @@ package daniel.blog.admin;
 import daniel.blog.Config;
 import daniel.blog.Layout;
 import daniel.blog.post.Post;
+import daniel.blog.post.PostStorage;
 import daniel.blog.post.PostUrlFactory;
 import daniel.data.option.Option;
 import daniel.web.html.Attribute;
@@ -30,7 +31,7 @@ final class CreatePostHandler implements PartialHandler {
     switch (request.getMethod()) {
       case GET:
       case HEAD:
-        return Option.some(handleGet());
+        return Option.some(handleGet(request));
       case POST:
         return Option.some(handlePost(request));
       default:
@@ -38,7 +39,7 @@ final class CreatePostHandler implements PartialHandler {
     }
   }
 
-  private static HttpResponse handleGet() {
+  private static HttpResponse handleGet(HttpRequest request) {
     Element form = new Element.Builder(Tag.FORM)
         .setAttribute(Attribute.ACTION, "admin/create-post")
         .setAttribute(Attribute.METHOD, "post")
@@ -60,7 +61,7 @@ final class CreatePostHandler implements PartialHandler {
             .setAttribute(Attribute.STYLE, "display: block; margin: 0px auto;")
             .build())
         .build();
-    Document document = Layout.createDocument(
+    Document document = Layout.createDocument(request,
         Option.some("Create a Post"), Option.<String>none(), form);
     return HttpResponseFactory.htmlResponse(HttpStatus.OK, document);
   }
@@ -76,10 +77,10 @@ final class CreatePostHandler implements PartialHandler {
         .setSubject(subject)
         .setContent(content)
         .build();
-    Post.database.put(post.getUuid(), post);
+    PostStorage.saveNewPost(post);
 
     String location = String.format("%s/%s",
         Config.getBaseUrl(), PostUrlFactory.getViewUrl(post));
-    return HttpResponseFactory.redirect(location, true);
+    return HttpResponseFactory.redirectToGet(location);
   }
 }

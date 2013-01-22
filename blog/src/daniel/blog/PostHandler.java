@@ -1,6 +1,7 @@
 package daniel.blog;
 
 import daniel.blog.post.Post;
+import daniel.blog.post.PostStorage;
 import daniel.data.option.Option;
 import daniel.web.http.HttpRequest;
 import daniel.web.http.HttpResponse;
@@ -13,7 +14,7 @@ final class PostHandler implements PartialHandler {
 
   @Override
   public Option<HttpResponse> tryHandle(HttpRequest request) {
-    for (Post post : Post.database.getAllValues()) {
+    for (Post post : PostStorage.getAllPosts()) {
       String prefix = "/" + post.getUrlFriendlySubject();
       if (request.getResource().startsWith(prefix)) {
         String rest = request.getResource().substring(prefix.length());

@@ -20,7 +20,7 @@ final class AdminDashboardHandler implements PartialHandler {
     if (!request.getResource().equals("/admin"))
       return Option.none();
 
-    Document document = Layout.createDocument(
+    Document document = Layout.createDocument(request,
         Option.some("Admin Control Panel"), Option.<String>none(),
         TextNode.escapedText("What's up?"));
     return Option.some(HttpResponseFactory.htmlResponse(HttpStatus.OK, document));

@@ -31,6 +31,12 @@ public final class Element implements Node {
       return this;
     }
 
+    public Builder addChildren(Iterable<? extends Node> children) {
+      for (Node child : children)
+        addChild(child);
+      return this;
+    }
+
     public Builder setAttribute(Attribute attribute, String value) {
       attributes.put(attribute, value);
       return this;

@@ -2,9 +2,11 @@ package daniel.blog;
 
 import daniel.blog.post.Post;
 import daniel.blog.post.PostFormatter;
+import daniel.blog.post.PostStorage;
 import daniel.data.option.Option;
 import daniel.data.order.AbstractOrdering;
 import daniel.data.order.Relation;
+import daniel.data.sequence.ImmutableArray;
 import daniel.data.sequence.Sequence;
 import daniel.web.html.Document;
 import daniel.web.html.Element;
@@ -28,7 +30,7 @@ final class HomeHandler implements PartialHandler {
     if (!request.getResource().equals("/"))
       return Option.none();
 
-    Sequence<Post> allPosts = Post.database.getAllValues();
+    Sequence<Post> allPosts = ImmutableArray.copyOf(PostStorage.getAllPosts());
     allPosts = allPosts.sorted(new AbstractOrdering<Post>() {
       @Override public Relation compare(Post a, Post b) {
         return a.getCreatedAt().after(b.getCreatedAt()) ? Relation.LT : Relation.GT;
@@ -43,7 +45,7 @@ final class HomeHandler implements PartialHandler {
 
     Element intro = new Element(Tag.P, TextNode.escapedText(INTRO));
 
-    Document document = Layout.createDocument(
+    Document document = Layout.createDocument(request,
         Option.<String>none(), Option.<String>none(),
         intro, listBuilder.build());
     return Option.some(HttpResponseFactory.htmlResponse(HttpStatus.OK, document));

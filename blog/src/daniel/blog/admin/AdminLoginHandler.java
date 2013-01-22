@@ -28,7 +28,7 @@ final class AdminLoginHandler implements Handler {
     switch (request.getMethod()) {
       case GET:
       case HEAD:
-        return handleGet();
+        return handleGet(request);
       case POST:
         return handlePost(request);
       default:
@@ -46,20 +46,20 @@ final class AdminLoginHandler implements Handler {
           .setExpires(Instant.now().plus(Duration.fromDays(EXPIRATION_DAYS)))
           .build();
       CookieManager.setCooke(cookie);
-      Document document = Layout.createDocument(
+      Document document = Layout.createDocument(request,
           Option.some("Success"), Option.<String>none(),
           TextNode.escapedText("You have been signed in."));
       return HttpResponseFactory.htmlResponse(HttpStatus.OK, document);
     } else {
-      Document document = Layout.createDocument(
+      Document document = Layout.createDocument(request,
           Option.some("Oops"), Option.<String>none(),
           TextNode.escapedText("Wrong password."));
       return HttpResponseFactory.htmlResponse(HttpStatus.OK, document);
     }
   }
 
-  private HttpResponse handleGet() {
-    Document document = Layout.createDocument(
+  private HttpResponse handleGet(HttpRequest request) {
+    Document document = Layout.createDocument(request,
         Option.some("Admin Login"), Option.<String>none(),
         new Element.Builder(Tag.FORM)
             .setAttribute(Attribute.ACTION, "admin")

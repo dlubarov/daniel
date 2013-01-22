@@ -96,3 +96,11 @@ form.add-comment input.submit-button {
   width: auto;
   margin: 0 auto;
 }
+
+p.notice {
+  text-align: center;
+  border: 1px solid #ccc;
+  background: #ffc8af;
+  padding: 7px;
+  margin-bottom: 12px;
+}

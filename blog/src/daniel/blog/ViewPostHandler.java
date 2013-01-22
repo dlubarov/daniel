@@ -25,6 +25,7 @@ final class ViewPostHandler implements Handler {
   @Override
   public HttpResponse handle(HttpRequest request) {
     Document document = Layout.createDocument(
+        request,
         Option.some(post.getSubject()),
         Option.some(formatDate(post.getCreatedAt())),
         PostFormatter.full(post));

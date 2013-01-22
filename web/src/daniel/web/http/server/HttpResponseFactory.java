@@ -33,9 +33,19 @@ public final class HttpResponseFactory {
         .build();
   }
 
-  public static HttpResponse redirect(String location, boolean temporary) {
-    HttpStatus status = temporary ? HttpStatus.TEMPORARY_REDIRECT : HttpStatus.MOVED_PERMANENTLY;
+  public static HttpResponse permanentRedirect(String location) {
+    return redirect(location, HttpStatus.MOVED_PERMANENTLY);
+  }
 
+  public static HttpResponse redirectToGet(String location) {
+    return redirect(location, HttpStatus.SEE_OTHER);
+  }
+
+  public static HttpResponse redirectSameMethod(String location) {
+    return redirect(location, HttpStatus.TEMPORARY_REDIRECT);
+  }
+
+  private static HttpResponse redirect(String location, HttpStatus status) {
     Element head = new Element(Tag.HEAD, new Element(Tag.TITLE,
         TextNode.escapedText(status.toString())));
     Element body = new Element(Tag.BODY,
@@ -59,6 +69,7 @@ public final class HttpResponseFactory {
         .addHeader(ResponseHeaderName.LOCATION, location)
         .addHeader(ResponseHeaderName.CONTENT_LENGTH, Integer.toString(documentBytes.length))
         .addHeader(ResponseHeaderName.CONTENT_TYPE, "text/html; charset=utf-8")
+        .addAllCookies(CookieManager.getCookies())
         .setBody(documentBytes)
         .build();
   }

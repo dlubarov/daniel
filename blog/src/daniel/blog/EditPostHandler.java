@@ -1,7 +1,9 @@
 package daniel.blog;
 
 import daniel.blog.post.Post;
+import daniel.blog.post.PostStorage;
 import daniel.blog.post.PostUrlFactory;
+import daniel.data.collection.Collection;
 import daniel.data.option.Option;
 import daniel.web.html.Attribute;
 import daniel.web.html.Document;
@@ -26,7 +28,7 @@ final class EditPostHandler implements Handler {
     switch (request.getMethod()) {
       case GET:
       case HEAD:
-        return handleGet();
+        return handleGet(request);
       case POST:
         return handlePost(request);
       default:
@@ -34,7 +36,7 @@ final class EditPostHandler implements Handler {
     }
   }
 
-  private HttpResponse handleGet() {
+  private HttpResponse handleGet(HttpRequest request) {
     Element form = new Element.Builder(Tag.FORM)
         .setAttribute(Attribute.ACTION, post.getUrlFriendlySubject() + "/edit")
         .setAttribute(Attribute.METHOD, "post")
@@ -58,7 +60,7 @@ final class EditPostHandler implements Handler {
             .setAttribute(Attribute.STYLE, "display: block; margin: 0px auto;")
             .build())
         .build();
-    Document document = Layout.createDocument(
+    Document document = Layout.createDocument(request,
         Option.some("Edit Post"), Option.<String>none(), form);
     return HttpResponseFactory.htmlResponse(HttpStatus.OK, document);
   }
@@ -74,10 +76,10 @@ final class EditPostHandler implements Handler {
         .setSubject(subject)
         .setContent(content)
         .build();
-    Post.database.put(post.getUuid(), editedPost);
+    PostStorage.updatePost(post);
 
     String location = String.format("%s/%s",
         Config.getBaseUrl(), PostUrlFactory.getViewUrl(editedPost));
-    return HttpResponseFactory.redirect(location, true);
+    return HttpResponseFactory.redirectToGet(location);
   }
 }

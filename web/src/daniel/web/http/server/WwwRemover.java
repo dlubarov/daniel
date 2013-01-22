@@ -26,6 +26,6 @@ public final class WwwRemover implements PartialHandler {
         request.getHost().substring(4),
         request.getResource());
     System.out.printf("Redirecting to %s\n", location);
-    return Option.some(HttpResponseFactory.redirect(location, false));
+    return Option.some(HttpResponseFactory.permanentRedirect(location));
   }
 }

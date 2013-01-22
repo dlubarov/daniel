@@ -1,0 +1,46 @@
+package daniel.blog.comment;
+
+import daniel.bdb.SerializingDatabase;
+import daniel.blog.Config;
+import daniel.data.collection.Collection;
+import daniel.data.function.Function;
+import daniel.data.option.Option;
+import daniel.data.sequence.ImmutableArray;
+import daniel.data.sequence.SinglyLinkedList;
+import daniel.data.serialization.CollectionSerializer;
+import daniel.data.serialization.StringSerializer;
+
+public final class CommentStorage {
+  private static final SerializingDatabase<String, Comment> byUuid = new SerializingDatabase<>(
+      Config.getDatabaseHome("comments"), StringSerializer.singleton, CommentSerializer.singleton);
+
+  private static final SerializingDatabase<String, Collection<String>> indexByPostUuid =
+      new SerializingDatabase<>(Config.getDatabaseHome("comments-index-by-post"),
+          StringSerializer.singleton, CollectionSerializer.stringCollectionSerializer);
+
+  private CommentStorage() {}
+
+  public static synchronized Option<Comment> getCommentByUuid(String commentUuid) {
+    return byUuid.get(commentUuid);
+  }
+
+  public static synchronized void saveNewComment(Comment comment) {
+    byUuid.put(comment.getUuid(), comment);
+    SinglyLinkedList<String> commentUuids = SinglyLinkedList.copyOf(
+        getCommentUuidsByPost(comment.getPostUuid()));
+    commentUuids = commentUuids.pushFront(comment.getPostUuid());
+    indexByPostUuid.put(comment.getPostUuid(), commentUuids);
+  }
+
+  public static synchronized Collection<Comment> getCommentsByPost(String postUuid) {
+    return getCommentUuidsByPost(postUuid).map(new Function<String, Comment>() {
+      @Override public Comment apply(String commentUuid) {
+        return getCommentByUuid(commentUuid).getOrThrow();
+      }
+    });
+  }
+
+  private static synchronized Collection<String> getCommentUuidsByPost(String postUuid) {
+    return indexByPostUuid.get(postUuid).getOrDefault(ImmutableArray.<String>create());
+  }
+}

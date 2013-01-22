@@ -21,6 +21,7 @@ public final class CommentSerializer extends AbstractSerializer<Comment> {
   @Override
   public void writeToSink(Comment comment, ByteSink sink) {
     StringSerializer.singleton.writeToSink(comment.getUuid(), sink);
+    StringSerializer.singleton.writeToSink(comment.getPostUuid(), sink);
     DateSerializer.singleton.writeToSink(comment.getCreatedAt(), sink);
     StringSerializer.singleton.writeToSink(comment.getAuthorName(), sink);
     optStringSerializer.writeToSink(comment.getAuthorEmail(), sink);
@@ -32,6 +33,7 @@ public final class CommentSerializer extends AbstractSerializer<Comment> {
   public Comment readFromSource(ByteSource source) {
     return new Comment.Builder()
         .setUuid(StringSerializer.singleton.readFromSource(source))
+        .setPostUuid(StringSerializer.singleton.readFromSource(source))
         .setCreatedAt(DateSerializer.singleton.readFromSource(source))
         .setAuthorName(StringSerializer.singleton.readFromSource(source))
         .setAuthorEmail(optStringSerializer.readFromSource(source))

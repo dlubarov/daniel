@@ -1,5 +1,7 @@
 package daniel.blog;
 
+import daniel.data.collection.Collection;
+import daniel.data.function.Function;
 import daniel.data.option.Option;
 import daniel.web.html.Attribute;
 import daniel.web.html.Document;
@@ -10,15 +12,17 @@ import daniel.web.html.Node;
 import daniel.web.html.StylesheetUtils;
 import daniel.web.html.Tag;
 import daniel.web.html.TextNode;
+import daniel.web.http.HttpRequest;
 
 public final class Layout {
   private Layout() {}
 
-  public static Document createDocument(Option<String> title,
-      Option<String> subtitle, Node... content) {
+  public static Document createDocument(HttpRequest request,
+      Option<String> title, Option<String> subtitle, Node... content) {
+    Collection<String> notifications = Notifications.getAndClearMessages(request);
     Element html = new Element.Builder(Tag.HTML)
         .addChild(getHead())
-        .addChild(getBody(title, subtitle, content))
+        .addChild(getBody(title, subtitle, notifications, content))
         .build();
     return new Document("<!DOCTYPE html>", html);
   }
@@ -49,9 +53,20 @@ public final class Layout {
     );
   }
 
-  private static Element getBody(Option<String> title, Option<String> subtitle, Node[] content) {
+  private static Element getBody(Option<String> title, Option<String> subtitle,
+      Collection<String> notifications, Node[] content) {
+    Collection<Element> notificationElements = notifications.map(new Function<String, Element>() {
+      @Override public Element apply(String message) {
+        return new Element.Builder(Tag.P)
+            .setAttribute(Attribute.CLASS, "notice")
+            .addChild(TextNode.escapedText(message))
+            .build();
+      }
+    });
+
     Element.Builder contentBuilder = new Element.Builder(Tag.DIV)
-        .setAttribute(Attribute.ID, "container");
+        .setAttribute(Attribute.ID, "container")
+        .addChildren(notificationElements);
     if (title.isDefined())
       contentBuilder.addChild(new Element(Tag.H2, TextNode.escapedText(title.getOrThrow())));
     if (subtitle.isDefined())

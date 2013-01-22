@@ -28,7 +28,7 @@ final class AdminSetupHandler implements Handler {
     switch (request.getMethod()) {
       case GET:
       case HEAD:
-        return handleGet();
+        return handleGet(request);
       case POST:
         return handlePost(request);
       default:
@@ -40,14 +40,15 @@ final class AdminSetupHandler implements Handler {
     String adminPassword = request.getUrlencodedPostData().getValues("admin_password")
         .tryGetOnlyElement().getOrThrow("Expected exactly one password in post data.");
     MiscStorage.setAdminPassword(adminPassword);
-    Document document = Layout.createDocument(
+    Document document = Layout.createDocument(request,
         Option.some("Success"), Option.<String>none(),
         TextNode.escapedText("Password has been set."));
     return HttpResponseFactory.htmlResponse(HttpStatus.OK, document);
   }
 
-  private HttpResponse handleGet() {
+  private HttpResponse handleGet(HttpRequest request) {
     Document document = Layout.createDocument(
+        request,
         Option.some("Admin Setup"),
         Option.<String>none(),
         new Element.Builder(Tag.FORM)

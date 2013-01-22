@@ -40,7 +40,7 @@ public final class CommentFormFormatter {
     Element input = new Element.Builder(Tag.INPUT)
         .setAttribute(Attribute.NAME, "author_email")
         .setAttribute(Attribute.TYPE, "text")
-        .setAttribute(Attribute.PLACEHOLDER, "Your Email")
+        .setAttribute(Attribute.PLACEHOLDER, "Your Email (Optional)")
         .build();
     return new Element.Builder(Tag.DIV)
         .addChild(input)

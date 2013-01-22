@@ -17,6 +17,7 @@ import daniel.web.http.parsing.TokenOrQuotedStringParser;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 
 public final class HttpRequest {
   public static final class Builder {
@@ -126,10 +127,13 @@ public final class HttpRequest {
     MutableStack<KeyValuePair<String, String>> keyValuePairs = DynamicArray.create();
     for (String param : data.split("&")) {
       String[] pair = param.split("=");
-      Check.that(pair.length == 2, "Expected key=val format.");
+      Check.that(pair.length > 0);
+      Check.that(pair.length <= 2);
       try {
         String key = URLDecoder.decode(pair[0], "UTF-8");
-        String value = URLDecoder.decode(pair[1], "UTF-8");
+        String value = pair.length == 2
+            ? URLDecoder.decode(pair[1], "UTF-8")
+            : "";
         keyValuePairs.pushBack(new KeyValuePair<>(key, value));
       } catch (UnsupportedEncodingException e) {
         throw new AssertionError("UTF-8 should be supported universally.");
