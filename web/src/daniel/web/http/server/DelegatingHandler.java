@@ -7,8 +7,8 @@ import daniel.data.stack.MutableStack;
 import daniel.web.http.HttpRequest;
 import daniel.web.http.HttpResponse;
 
-public class DelegatingHandler implements Handler {
-  public static class Builder {
+public final class DelegatingHandler implements Handler {
+  public static final class Builder {
     private final MutableStack<PartialHandler> partialHandlers = DynamicArray.create();
     private Option<Handler> defaultHandler = Option.none();
 

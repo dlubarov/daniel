@@ -1,28 +1,23 @@
 package daniel.web.http.server;
 
-import daniel.data.collection.Collection;
-import daniel.data.sequence.ImmutableArray;
 import daniel.web.html.Attribute;
 import daniel.web.html.Document;
 import daniel.web.html.Element;
 import daniel.web.html.Tag;
 import daniel.web.html.TextNode;
-import daniel.web.http.Cookie;
 import daniel.web.http.DateUtils;
 import daniel.web.http.HttpResponse;
 import daniel.web.http.HttpStatus;
 import daniel.web.http.HttpVersion;
 import daniel.web.http.ResponseHeaderName;
+import daniel.web.http.cookies.CookieManager;
 import java.nio.charset.Charset;
 import java.util.Date;
 
 public final class HttpResponseFactory {
   private HttpResponseFactory() {}
 
-  public static HttpResponse htmlResponse(
-      HttpStatus status,
-      Document document,
-      Collection<Cookie> cookies) {
+  public static HttpResponse htmlResponse(HttpStatus status, Document document) {
     byte[] documentBytes = document.toString().getBytes(Charset.forName("UTF-8"));
     return new HttpResponse.Builder()
         .setStatus(status)
@@ -33,13 +28,9 @@ public final class HttpResponseFactory {
         .addHeader(ResponseHeaderName.CACHE_CONTROL, "no-store, no-cache, must-revalidate, post-check=0, pre-check=0")
         .addHeader(ResponseHeaderName.CONTENT_LENGTH, Integer.toString(documentBytes.length))
         .addHeader(ResponseHeaderName.CONTENT_TYPE, "text/html; charset=utf-8")
-        .addAllCookies(cookies)
+        .addAllCookies(CookieManager.getCookies())
         .setBody(documentBytes)
         .build();
-  }
-
-  public static HttpResponse htmlResponse(HttpStatus status, Document document) {
-    return htmlResponse(status, document, ImmutableArray.<Cookie>create());
   }
 
   public static HttpResponse redirect(String location, boolean temporary) {

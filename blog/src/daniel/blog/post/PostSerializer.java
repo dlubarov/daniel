@@ -6,7 +6,7 @@ import daniel.data.serialization.ByteSource;
 import daniel.data.serialization.DateSerializer;
 import daniel.data.serialization.StringSerializer;
 
-public class PostSerializer extends AbstractSerializer<Post> {
+public final class PostSerializer extends AbstractSerializer<Post> {
   public static final PostSerializer singleton = new PostSerializer();
 
   private PostSerializer() {}

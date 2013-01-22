@@ -7,7 +7,7 @@ import daniel.web.http.HttpRequest;
 import daniel.web.http.HttpResponse;
 import daniel.web.http.RequestMethod;
 
-public class WwwRemover implements PartialHandler {
+public final class WwwRemover implements PartialHandler {
   public static final WwwRemover singleton = new WwwRemover();
 
   private static final ImmutableSequence<RequestMethod> methodToRedirect =

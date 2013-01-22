@@ -11,7 +11,7 @@ public final class Post {
   public static final SerializingDatabase<String, Post> database = new SerializingDatabase<>(
       Config.getDatabaseHome("posts"), StringSerializer.singleton, PostSerializer.singleton);
 
-  public static class Builder {
+  public static final class Builder {
     private Option<String> uuid = Option.none();
     private Option<Date> createdAt = Option.none();
     private Option<String> subject = Option.none();

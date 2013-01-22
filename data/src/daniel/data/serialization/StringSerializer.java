@@ -2,7 +2,7 @@ package daniel.data.serialization;
 
 import java.nio.charset.StandardCharsets;
 
-public class StringSerializer extends AbstractSerializer<String> {
+public final class StringSerializer extends AbstractSerializer<String> {
   public static final StringSerializer singleton = new StringSerializer();
 
   private StringSerializer() {}

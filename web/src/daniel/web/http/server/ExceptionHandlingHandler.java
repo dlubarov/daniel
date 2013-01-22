@@ -8,7 +8,7 @@ import daniel.web.http.HttpRequest;
 import daniel.web.http.HttpResponse;
 import daniel.web.http.HttpStatus;
 
-public class ExceptionHandlingHandler implements Handler {
+public final class ExceptionHandlingHandler implements Handler {
   private final Handler delegate;
 
   public ExceptionHandlingHandler(Handler delegate) {

@@ -58,7 +58,7 @@ public abstract class SinglyLinkedList<A> extends AbstractImmutableSequence<A> {
     return new NonEmptySLL<>(value, this);
   }
 
-  private static class EmptySLL<A> extends SinglyLinkedList<A> {
+  private static final class EmptySLL<A> extends SinglyLinkedList<A> {
     @Override
     public int getSize() {
       return 0;
@@ -70,7 +70,7 @@ public abstract class SinglyLinkedList<A> extends AbstractImmutableSequence<A> {
     }
   }
 
-  private static class NonEmptySLL<A> extends SinglyLinkedList<A> {
+  private static final class NonEmptySLL<A> extends SinglyLinkedList<A> {
     private final A first;
     private final SinglyLinkedList<A> rest;
     private final int size;
@@ -97,7 +97,7 @@ public abstract class SinglyLinkedList<A> extends AbstractImmutableSequence<A> {
     }
   }
 
-  private static class SLLEnumerator<A> extends AbstractSource<A> {
+  private static final class SLLEnumerator<A> extends AbstractSource<A> {
     private SinglyLinkedList<A> sll;
 
     private SLLEnumerator(SinglyLinkedList<A> sll) {

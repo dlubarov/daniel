@@ -4,7 +4,7 @@ import daniel.data.source.IteratorSource;
 import daniel.data.source.Source;
 import java.util.Arrays;
 
-public class ImmutableHashSet<A> extends AbstractImmutableSet<A> {
+public final class ImmutableHashSet<A> extends AbstractImmutableSet<A> {
   private final java.util.HashSet<A> proxy;
 
   private ImmutableHashSet(java.util.HashSet<A> proxy) {

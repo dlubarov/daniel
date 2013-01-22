@@ -6,7 +6,7 @@ import daniel.data.sequence.Sequence;
 import daniel.data.serialization.Serializer;
 import java.io.File;
 
-public class SerializingDatabase<K, V> {
+public final class SerializingDatabase<K, V> {
   private final RawDatabase rawDatabase;
   private final Serializer<K> keySerializer;
   private final Serializer<V> valueSerializer;
@@ -33,6 +33,10 @@ public class SerializingDatabase<K, V> {
 
   public void put(K key, V value) {
     rawDatabase.put(keySerializer.writeToByteArray(key), valueSerializer.writeToByteArray(value));
+  }
+
+  public boolean delete(K key) {
+    return rawDatabase.delete(keySerializer.writeToByteArray(key));
   }
 
   public Sequence<K> getAllKeys() {

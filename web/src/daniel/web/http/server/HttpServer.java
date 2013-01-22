@@ -10,7 +10,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 
 public final class HttpServer {
-  public static class Builder {
+  public static final class Builder {
     private Option<Handler> handler = Option.none();
     private Option<Executor> executor = Option.none();
     private Option<Integer> port = Option.none();
@@ -73,7 +73,7 @@ public final class HttpServer {
     NOT_STARTED, RUNNING, STOPPED
   }
 
-  private class ConnectionListener extends Thread {
+  private final class ConnectionListener extends Thread {
     private final ServerSocket serverSocket;
 
     private ConnectionListener() throws IOException {

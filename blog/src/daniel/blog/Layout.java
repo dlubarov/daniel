@@ -29,6 +29,14 @@ public final class Layout {
             .setAttribute(Attribute.HTTP_EQUIV, "Content-type")
             .setAttribute(Attribute.CONTENT, "text/html;charset=UTF-8")
             .build(),
+        new Element.Builder(Tag.META)
+            .setAttribute(Attribute.NAME, "description")
+            .setAttribute(Attribute.CONTENT, "Thoughts on programming languages, compilers, graphics and other fun software topics.")
+            .build(),
+        new Element.Builder(Tag.META)
+            .setAttribute(Attribute.NAME, "keywords")
+            .setAttribute(Attribute.CONTENT, "daniel, lubarov, java, programming, coding, database, languages, compilers, interpreters, graphics, ray tracing, html, css")
+            .build(),
         new Element.Builder(Tag.BASE)
             .setAttribute(Attribute.HREF, Config.getBaseUrl())
             .build(),
@@ -48,8 +56,7 @@ public final class Layout {
       contentBuilder.addChild(new Element(Tag.H2, TextNode.escapedText(title.getOrThrow())));
     if (subtitle.isDefined())
       contentBuilder.addChild(new Element(Tag.H3, TextNode.escapedText(subtitle.getOrThrow())));
-    contentBuilder.addChild(new Element.Builder(Tag.DIV)
-        .setAttribute(Attribute.ID, "content")
+    contentBuilder.addChild(new Element.Builder(Tag.DIV).setAttribute(Attribute.ID, "content")
         .addChildren(content)
         .build());
 
@@ -68,15 +75,17 @@ public final class Layout {
   }
 
   private static Element getFooter() {
-    return new Element.Builder(Tag.DIV)
-        .setAttribute(Attribute.ID, "footer")
-        .addChild(new Element.Builder(Tag.P)
+    Element left = new Element.Builder(Tag.P)
+            .addChild(TextNode.rawText("Copyright &#169; Daniel Lubarov"))
+            .build();
+    Element right = new Element.Builder(Tag.P)
             .setAttribute(Attribute.CLASS, "fr")
             .addChild(TextNode.escapedText("Valid HTML & CSS"))
-            .build())
-        .addChild(new Element.Builder(Tag.P)
-            .addChild(TextNode.rawText("Copyright &#169; Daniel Lubarov"))
-            .build())
+            .build();
+    return new Element.Builder(Tag.DIV)
+        .setAttribute(Attribute.ID, "footer")
+        .addChild(right)
+        .addChild(left)
         .build();
   }
 }

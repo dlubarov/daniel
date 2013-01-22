@@ -12,7 +12,7 @@ import daniel.web.http.HttpStatus;
 /**
  * A handler which displays a generic "resource not found" error.
  */
-public class StandardNotFoundHandler implements Handler {
+public final class StandardNotFoundHandler implements Handler {
   @Override
   public HttpResponse handle(HttpRequest request) {
     Element html = new Element.Builder(Tag.HTML)

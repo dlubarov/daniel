@@ -2,7 +2,7 @@ package daniel.data.serialization;
 
 import java.util.Date;
 
-public class DateSerializer extends AbstractSerializer<Date> {
+public final class DateSerializer extends AbstractSerializer<Date> {
   public static final DateSerializer singleton = new DateSerializer();
 
   private DateSerializer() {}

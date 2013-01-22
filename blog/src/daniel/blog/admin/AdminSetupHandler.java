@@ -15,7 +15,7 @@ import daniel.web.http.HttpStatus;
 import daniel.web.http.server.Handler;
 import daniel.web.http.server.HttpResponseFactory;
 
-class AdminSetupHandler implements Handler {
+final class AdminSetupHandler implements Handler {
   public static final AdminSetupHandler singleton = new AdminSetupHandler();
 
   private AdminSetupHandler() {}

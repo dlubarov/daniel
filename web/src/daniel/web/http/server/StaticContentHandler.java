@@ -16,8 +16,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 
-public class StaticContentHandler implements PartialHandler {
-  public static class Builder {
+public final class StaticContentHandler implements PartialHandler {
+  public static final class Builder {
     private Option<File> contentRoot = Option.none();
     private final MutableHashTable<String, String> mimeTypesByExtension = MutableHashTable.create();
 

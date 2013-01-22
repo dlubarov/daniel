@@ -14,7 +14,7 @@ public final class AdminHandler implements PartialHandler {
 
   private AdminHandler() {
     delegatingHandler = new DelegatingHandler.Builder()
-        .addPartialHandler(AdminHomeHandler.singleton)
+        .addPartialHandler(AdminDashboardHandler.singleton)
         .addPartialHandler(CreatePostHandler.singleton)
         .setDefaultHandler(new StandardNotFoundHandler())
         .build();

@@ -5,8 +5,8 @@ import daniel.data.dictionary.MutableHashTable;
 import daniel.web.http.HttpRequest;
 import daniel.web.http.HttpResponse;
 
-public class HostBasedHandler implements Handler {
-  public static class Builder {
+public final class HostBasedHandler implements Handler {
+  public static final class Builder {
     private final MutableHashTable<String, Handler> handlersByHost = MutableHashTable.create();
 
     public Builder addHandlerForHost(String hostRegex, Handler handler) {

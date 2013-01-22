@@ -5,13 +5,14 @@ import daniel.data.option.Option;
 import daniel.web.http.HttpRequest;
 import daniel.web.http.HttpResponse;
 import daniel.web.http.RequestMethod;
+import daniel.web.http.cookies.CookieManager;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 
-class ConnectionManager implements Runnable {
+final class ConnectionManager implements Runnable {
   private final Socket socket;
   private final Handler handler;
 
@@ -39,6 +40,7 @@ class ConnectionManager implements Runnable {
 
     System.out.printf("Handling request for %s%s\n",
         request.getHost(), request.getResource());
+    CookieManager.resetCookies();
     HttpResponse response = handler.handle(request);
 
     writer.write(String.format("HTTP/%s %s\r\n", response.getHttpVersion(), response.getStatus()));

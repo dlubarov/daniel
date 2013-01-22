@@ -11,7 +11,7 @@ import daniel.data.stack.MutableStack;
 import daniel.data.util.Check;
 
 public final class Element implements Node {
-  public static class Builder {
+  public static final class Builder {
     private final Tag tag;
     private final MutableStack<Node> children = DynamicArray.create();
     private final MutableHashTable<Attribute, String> attributes = MutableHashTable.create();

@@ -28,6 +28,10 @@ public final class ValueSerializingDatabase<V> {
     });
   }
 
+  public boolean delete(byte[] key) {
+    return rawDatabase.delete(key);
+  }
+
   public void put(byte[] key, V value) {
     rawDatabase.put(key, valueSerializer.writeToByteArray(value));
   }

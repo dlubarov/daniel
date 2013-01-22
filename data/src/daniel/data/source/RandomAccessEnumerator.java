@@ -3,7 +3,7 @@ package daniel.data.source;
 import daniel.data.option.Option;
 import daniel.data.sequence.Sequence;
 
-public class RandomAccessEnumerator<A> extends AbstractSource<A> {
+public final class RandomAccessEnumerator<A> extends AbstractSource<A> {
   private final Sequence<A> sequence;
   private int index = 0;
 

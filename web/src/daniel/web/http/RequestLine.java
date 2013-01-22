@@ -5,7 +5,7 @@ import daniel.data.util.EqualsBuilder;
 import daniel.data.util.HashCodeBuilder;
 
 public final class RequestLine {
-  public static class Builder {
+  public static final class Builder {
     private Option<RequestMethod> method = Option.none();
     private Option<String> resource = Option.none();
     private Option<HttpVersion> httpVersion = Option.none();

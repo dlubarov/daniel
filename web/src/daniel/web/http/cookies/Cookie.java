@@ -1,16 +1,16 @@
-package daniel.web.http;
+package daniel.web.http.cookies;
 
 import daniel.data.option.Option;
-import java.util.Date;
+import daniel.data.unit.Instant;
 
 /**
  * An HTTP cookie.
  */
-public class Cookie {
-  public static class Builder {
+public final class Cookie {
+  public static final class Builder {
     private Option<String> name = Option.none();
     private Option<String> value = Option.none();
-    private Option<Date> expires = Option.none();
+    private Option<Instant> expires = Option.none();
 
     public Builder setName(String name) {
       this.name = Option.some(name);
@@ -22,7 +22,7 @@ public class Cookie {
       return this;
     }
 
-    public Builder setExpires(Date expires) {
+    public Builder setExpires(Instant expires) {
       this.expires = Option.some(expires);
       return this;
     }
@@ -34,7 +34,7 @@ public class Cookie {
 
   private final String name;
   private final String value;
-  private final Option<Date> expires;
+  private final Option<Instant> expires;
 
   private Cookie(Builder builder) {
     name = builder.name.getOrThrow("No name was set.");
@@ -50,7 +50,7 @@ public class Cookie {
     return value;
   }
 
-  public Option<Date> getExpires() {
+  public Option<Instant> getExpires() {
     return expires;
   }
 }

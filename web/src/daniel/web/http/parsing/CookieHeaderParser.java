@@ -14,7 +14,7 @@ import daniel.parsing.Parser;
 /**
  * Parses a cookie header value, for example "$Version=1; Skin=new;".
  */
-public class CookieHeaderParser extends Parser<SequentialMultidictionary<String, String>> {
+public final class CookieHeaderParser extends Parser<SequentialMultidictionary<String, String>> {
   public static final CookieHeaderParser singleton = new CookieHeaderParser();
 
   private static final Parser<Sequence<KeyValuePair<String, String>>> proxy =

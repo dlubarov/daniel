@@ -1,6 +1,6 @@
 package daniel.web.html;
 
-public class Document {
+public final class Document {
   private final String doctype;
   private final Element html;
 

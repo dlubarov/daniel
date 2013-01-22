@@ -16,7 +16,7 @@ import daniel.web.http.server.HttpResponseFactory;
 import daniel.web.http.server.PartialHandler;
 import java.util.Date;
 
-class CreatePostHandler implements PartialHandler {
+final class CreatePostHandler implements PartialHandler {
   public static final CreatePostHandler singleton = new CreatePostHandler();
 
   private CreatePostHandler() {}
@@ -42,17 +42,20 @@ class CreatePostHandler implements PartialHandler {
     Element form = new Element.Builder(Tag.FORM)
         .setAttribute(Attribute.ACTION, "admin/create-post")
         .setAttribute(Attribute.METHOD, "post")
-        .addChild(new Element.Builder(Tag.INPUT).setAttribute(Attribute.NAME, "subject")
+        .addChild(new Element.Builder(Tag.INPUT)
+            .setAttribute(Attribute.NAME, "subject")
             .setAttribute(Attribute.TYPE, "text")
             .setAttribute(Attribute.CLASS, "wide")
             .setAttribute(Attribute.STYLE, "margin-bottom: 1em")
             .build())
-        .addChild(new Element.Builder(Tag.TEXTAREA).setAttribute(Attribute.NAME, "content")
+        .addChild(new Element.Builder(Tag.TEXTAREA)
+            .setAttribute(Attribute.NAME, "content")
             .setAttribute(Attribute.CLASS, "wide")
             .setAttribute(Attribute.ROWS, "30")
             .build())
         .addChild(new Element(Tag.BR))
-        .addChild(new Element.Builder(Tag.INPUT).setAttribute(Attribute.TYPE, "submit")
+        .addChild(new Element.Builder(Tag.INPUT)
+            .setAttribute(Attribute.TYPE, "submit")
             .setAttribute(Attribute.VALUE, "Create Post")
             .setAttribute(Attribute.STYLE, "display: block; margin: 0px auto;")
             .build())

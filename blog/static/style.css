@@ -74,3 +74,25 @@ code {
   font-family: "Source Code Pro", sans-serif;
   font-size: 90%;
 }
+
+/* Add comment form */
+form.add-comment {
+  width: 400px;
+}
+
+form.add-comment h4 {
+  font-size: 130%;
+  margin-top: 2.0em;
+  margin-bottom: 0.3em;
+}
+
+form.add-comment input, form.add-comment textarea {
+  display: block;
+  width: 100%;
+  margin: 0.8em 0;
+}
+
+form.add-comment input.submit-button {
+  width: auto;
+  margin: 0 auto;
+}

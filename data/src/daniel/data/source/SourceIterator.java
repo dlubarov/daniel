@@ -4,7 +4,7 @@ import daniel.data.option.Option;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class SourceIterator<A> implements Iterator<A> {
+public final class SourceIterator<A> implements Iterator<A> {
   private final Source<A> source;
   private Option<A> next;
 

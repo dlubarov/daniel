@@ -2,7 +2,7 @@ package daniel.data.source;
 
 import daniel.data.option.Option;
 
-public class SingletonSource<A> extends AbstractSource<A> {
+public final class SingletonSource<A> extends AbstractSource<A> {
   private Option<A> value;
 
   public SingletonSource(A value) {

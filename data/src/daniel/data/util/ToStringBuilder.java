@@ -4,7 +4,7 @@ import daniel.data.dictionary.KeyValuePair;
 import daniel.data.stack.DynamicArray;
 import daniel.data.stack.MutableStack;
 
-public class ToStringBuilder {
+public final class ToStringBuilder {
   private final Object subject;
   private final MutableStack<Object> fields;
 

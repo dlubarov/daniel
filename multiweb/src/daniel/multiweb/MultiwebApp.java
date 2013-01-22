@@ -2,7 +2,7 @@ package daniel.multiweb;
 
 import daniel.web.http.server.HttpServer;
 
-public class MultiwebApp {
+public final class MultiwebApp {
   private MultiwebApp() {}
 
   public static void main(String[] args) throws Exception {

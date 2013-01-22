@@ -10,10 +10,10 @@ import daniel.web.http.HttpStatus;
 import daniel.web.http.server.HttpResponseFactory;
 import daniel.web.http.server.PartialHandler;
 
-class AdminHomeHandler implements PartialHandler {
-  public static final AdminHomeHandler singleton = new AdminHomeHandler();
+final class AdminDashboardHandler implements PartialHandler {
+  public static final AdminDashboardHandler singleton = new AdminDashboardHandler();
 
-  private AdminHomeHandler() {}
+  private AdminDashboardHandler() {}
 
   @Override
   public Option<HttpResponse> tryHandle(HttpRequest request) {

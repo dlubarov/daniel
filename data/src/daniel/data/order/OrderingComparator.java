@@ -2,7 +2,7 @@ package daniel.data.order;
 
 import java.util.Comparator;
 
-class OrderingComparator<A> implements Comparator<A> {
+final class OrderingComparator<A> implements Comparator<A> {
   private final Ordering<A> ordering;
 
   OrderingComparator(Ordering<A> ordering) {

@@ -1,5 +1,6 @@
 package daniel.web.http;
 
+import daniel.data.unit.Instant;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -13,5 +14,9 @@ public final class DateUtils {
     synchronized (dateFormat) {
       return dateFormat.format(date);
     }
+  }
+
+  public static String formatInstant(Instant instant) {
+    return formatDate(instant.toDate());
   }
 }

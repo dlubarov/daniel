@@ -3,7 +3,7 @@ package daniel.data.source;
 import daniel.data.option.Option;
 import java.util.Iterator;
 
-public class IteratorSource<A> extends AbstractSource<A> {
+public final class IteratorSource<A> extends AbstractSource<A> {
   private final Iterator<A> iterator;
 
   public IteratorSource(Iterator<A> iterator) {

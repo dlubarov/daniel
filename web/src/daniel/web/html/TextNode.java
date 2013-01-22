@@ -1,6 +1,6 @@
 package daniel.web.html;
 
-public class TextNode implements Node {
+public final class TextNode implements Node {
   private final String text;
 
   private TextNode(String text) {

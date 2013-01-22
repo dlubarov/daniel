@@ -8,12 +8,13 @@ import daniel.data.multidictionary.sequential.SequentialMultidictionary;
 import daniel.data.option.Option;
 import daniel.data.stack.DynamicArray;
 import daniel.data.stack.MutableStack;
+import daniel.web.http.cookies.Cookie;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
-public class HttpResponse {
-  public static class Builder {
+public final class HttpResponse {
+  public static final class Builder {
     private Option<HttpVersion> httpVersion = Option.none();
     private Option<HttpStatus> status = Option.none();
     private final MutableStack<KeyValuePair<String, String>> headers;
@@ -54,9 +55,8 @@ public class HttpResponse {
       } catch (UnsupportedEncodingException e) {
         throw new AssertionError("wtf?");
       }
-      if (cookie.getExpires().isDefined()) {
-        sb.append("; Expires=").append(DateUtils.formatDate(cookie.getExpires().getOrThrow()));
-      }
+      if (cookie.getExpires().isDefined())
+        sb.append("; Expires=").append(DateUtils.formatInstant(cookie.getExpires().getOrThrow()));
       return addHeader(ResponseHeaderName.SET_COOKIE, sb.toString());
     }
 

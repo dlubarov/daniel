@@ -11,7 +11,7 @@ import java.net.URLDecoder;
 /**
  * Parses a key/value pair in a cookie header, for example "$Version=1".
  */
-public class CookieKvpHeader extends Parser<KeyValuePair<String, String>> {
+public final class CookieKvpHeader extends Parser<KeyValuePair<String, String>> {
   public static final CookieKvpHeader singleton = new CookieKvpHeader();
 
   private CookieKvpHeader() {}

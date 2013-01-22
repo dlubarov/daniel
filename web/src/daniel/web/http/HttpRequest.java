@@ -19,7 +19,7 @@ import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 
 public final class HttpRequest {
-  public static class Builder {
+  public static final class Builder {
     private Option<RequestMethod> method = Option.none();
     private Option<String> resource = Option.none();
     private Option<HttpVersion> httpVersion = Option.none();

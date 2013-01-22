@@ -50,6 +50,10 @@ final class RawDatabase {
     db.getEnvironment().flushLog(false);
   }
 
+  public boolean delete(byte[] key) {
+    return db.delete(null, new DatabaseEntry(key)) == OperationStatus.SUCCESS;
+  }
+
   public Sequence<byte[]> getAllKeys() {
     CursorConfig cursorConfig = new CursorConfig();
     Cursor cursor = db.openCursor(null, cursorConfig);

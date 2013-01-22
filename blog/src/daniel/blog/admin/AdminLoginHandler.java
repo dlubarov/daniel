@@ -2,23 +2,23 @@ package daniel.blog.admin;
 
 import daniel.blog.Layout;
 import daniel.blog.MiscStorage;
-import daniel.data.collection.Collection;
 import daniel.data.option.Option;
-import daniel.data.sequence.ImmutableArray;
+import daniel.data.unit.Duration;
+import daniel.data.unit.Instant;
 import daniel.web.html.Attribute;
 import daniel.web.html.Document;
 import daniel.web.html.Element;
 import daniel.web.html.Tag;
 import daniel.web.html.TextNode;
-import daniel.web.http.Cookie;
+import daniel.web.http.cookies.Cookie;
 import daniel.web.http.HttpRequest;
 import daniel.web.http.HttpResponse;
 import daniel.web.http.HttpStatus;
+import daniel.web.http.cookies.CookieManager;
 import daniel.web.http.server.Handler;
 import daniel.web.http.server.HttpResponseFactory;
-import java.util.Date;
 
-class AdminLoginHandler implements Handler {
+final class AdminLoginHandler implements Handler {
   public AdminLoginHandler() {}
 
   private static final long EXPIRATION_DAYS = 2;
@@ -43,13 +43,13 @@ class AdminLoginHandler implements Handler {
       Cookie cookie = new Cookie.Builder()
           .setName("admin_password")
           .setValue(adminPassword)
-          .setExpires(new Date(new Date().getTime() + EXPIRATION_DAYS * 24L * 60L * 60L * 1000L))
+          .setExpires(Instant.now().plus(Duration.fromDays(EXPIRATION_DAYS)))
           .build();
-      Collection<Cookie> cookies = ImmutableArray.create(cookie);
+      CookieManager.setCooke(cookie);
       Document document = Layout.createDocument(
           Option.some("Success"), Option.<String>none(),
           TextNode.escapedText("You have been signed in."));
-      return HttpResponseFactory.htmlResponse(HttpStatus.OK, document, cookies);
+      return HttpResponseFactory.htmlResponse(HttpStatus.OK, document);
     } else {
       Document document = Layout.createDocument(
           Option.some("Oops"), Option.<String>none(),

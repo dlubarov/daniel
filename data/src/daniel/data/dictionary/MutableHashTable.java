@@ -39,6 +39,10 @@ public final class MutableHashTable<K, V> extends AbstractDictionary<K, V> {
     proxy.put(key, value);
   }
 
+  public boolean tryRemove(K key) {
+    return proxy.remove(key) != null;
+  }
+
   @Override
   public Source<KeyValuePair<K, V>> getEnumerator() {
     return new IteratorSource<>(proxy.entrySet().iterator()).map(new MapEntryConverter<K, V>());

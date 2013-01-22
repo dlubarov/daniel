@@ -16,7 +16,7 @@ import daniel.web.http.HttpStatus;
 import daniel.web.http.server.HttpResponseFactory;
 import daniel.web.http.server.PartialHandler;
 
-class HomeHandler implements PartialHandler {
+final class HomeHandler implements PartialHandler {
   public static final HomeHandler singleton = new HomeHandler();
 
   private static final String INTRO = "Welcome to my blog! Here are my most recent posts.";
