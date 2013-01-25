@@ -8,6 +8,6 @@ public final class Config {
   }
 
   private static boolean inDevMode() {
-    return System.getenv("environment").equals("development");
+    return System.getenv("ENVIRONMENT").equals("development");
   }
 }

@@ -3,7 +3,6 @@ package daniel.blog.comment;
 import daniel.blog.post.Post;
 import daniel.web.html.Attribute;
 import daniel.web.html.Element;
-import daniel.web.html.HtmlUtils;
 import daniel.web.html.Tag;
 import daniel.web.html.TextNode;
 

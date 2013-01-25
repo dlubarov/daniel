@@ -11,10 +11,10 @@ import java.net.URLDecoder;
 /**
  * Parses a key/value pair in a cookie header, for example "$Version=1".
  */
-public final class CookieKvpHeader extends Parser<KeyValuePair<String, String>> {
-  public static final CookieKvpHeader singleton = new CookieKvpHeader();
+public final class CookieKvpParser extends Parser<KeyValuePair<String, String>> {
+  public static final CookieKvpParser singleton = new CookieKvpParser();
 
-  private CookieKvpHeader() {}
+  private CookieKvpParser() {}
 
   @Override
   public Option<ParseResult<KeyValuePair<String, String>>> tryParse(byte[] data, int p) {
@@ -22,7 +22,7 @@ public final class CookieKvpHeader extends Parser<KeyValuePair<String, String>> 
     if (pEquals <= 0)
       return Option.none();
 
-    String cookieName = new String(data, p, pEquals);
+    String cookieName = new String(data, p, pEquals - p);
     p = pEquals + 1;
 
     ParseResult<String> resValue = TokenOrQuotedStringParser.singleton.tryParse(data, p)

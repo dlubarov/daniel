@@ -10,12 +10,10 @@ public final class Config {
   }
 
   public static String getStaticContentRoot() {
-    return inDevMode()
-        ? "/Users/dlubarov/Development/daniel/viewheaders/static/"
-        : "";
+    return System.getProperty("user.dir") + "/viewheaders/static/";
   }
 
   private static boolean inDevMode() {
-    return System.getenv("environment").equals("development");
+    return System.getenv("ENVIRONMENT").equals("development");
   }
 }

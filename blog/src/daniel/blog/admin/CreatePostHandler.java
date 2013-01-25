@@ -6,6 +6,7 @@ import daniel.blog.post.Post;
 import daniel.blog.post.PostStorage;
 import daniel.blog.post.PostUrlFactory;
 import daniel.data.option.Option;
+import daniel.data.unit.Instant;
 import daniel.web.html.Attribute;
 import daniel.web.html.Document;
 import daniel.web.html.Element;
@@ -15,7 +16,6 @@ import daniel.web.http.HttpResponse;
 import daniel.web.http.HttpStatus;
 import daniel.web.http.server.HttpResponseFactory;
 import daniel.web.http.server.PartialHandler;
-import java.util.Date;
 
 final class CreatePostHandler implements PartialHandler {
   public static final CreatePostHandler singleton = new CreatePostHandler();
@@ -73,7 +73,7 @@ final class CreatePostHandler implements PartialHandler {
         .tryGetOnlyElement().getOrThrow();
     Post post = new Post.Builder()
         .setRandomUiid()
-        .setCreatedAt(new Date())
+        .setCreatedAt(Instant.now())
         .setSubject(subject)
         .setContent(content)
         .build();

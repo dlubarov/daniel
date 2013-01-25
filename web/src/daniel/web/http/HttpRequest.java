@@ -17,7 +17,6 @@ import daniel.web.http.parsing.TokenOrQuotedStringParser;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 
 public final class HttpRequest {
   public static final class Builder {

@@ -1,13 +1,13 @@
 package daniel.blog.post;
 
 import daniel.data.option.Option;
-import java.util.Date;
+import daniel.data.unit.Instant;
 import java.util.UUID;
 
 public final class Post {
   public static final class Builder {
     private Option<String> uuid = Option.none();
-    private Option<Date> createdAt = Option.none();
+    private Option<Instant> createdAt = Option.none();
     private Option<String> subject = Option.none();
     private Option<String> content = Option.none();
 
@@ -20,7 +20,7 @@ public final class Post {
       return setUuid(UUID.randomUUID().toString());
     }
 
-    public Builder setCreatedAt(Date createdAt) {
+    public Builder setCreatedAt(Instant createdAt) {
       this.createdAt = Option.some(createdAt);
       return this;
     }
@@ -41,7 +41,7 @@ public final class Post {
   }
 
   private final String uuid;
-  private final Date createdAt;
+  private final Instant createdAt;
   private final String subject;
   private final String content;
 
@@ -56,7 +56,7 @@ public final class Post {
     return uuid;
   }
 
-  public Date getCreatedAt() {
+  public Instant getCreatedAt() {
     return createdAt;
   }
 

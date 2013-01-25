@@ -1,6 +1,18 @@
 package daniel.data.unit;
 
+import daniel.data.order.AbstractOrdering;
+import daniel.data.order.Ordering;
+import daniel.data.order.Relation;
+
 public final class Duration {
+  public static final Ordering<Duration> ASCENDING_ORDERING = new AbstractOrdering<Duration>() {
+    @Override public Relation compare(Duration a, Duration b) {
+      return a.seconds < b.seconds ? Relation.LT : Relation.GT;
+    }
+  };
+
+  public static final Ordering<Duration> DESCENDING_ORDERING = ASCENDING_ORDERING.reverse();
+
   private final double seconds;
 
   private Duration(double seconds) {
@@ -37,6 +49,14 @@ public final class Duration {
 
   public static Duration fromYears(double years) {
     return new Duration(years * 31536000.0);
+  }
+
+  public boolean isLessThan(Duration that) {
+    return this.seconds < that.seconds;
+  }
+
+  public boolean isGreaterThan(Duration that) {
+    return this.seconds > that.seconds;
   }
 
   public Duration plus(Duration that) {

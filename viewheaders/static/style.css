@@ -30,16 +30,23 @@ h1 a {
 }
 
 table.hairlined {
-  width: 100%; border-spacing: 0; border-width: 0 0 1px 1px; border-collapse: collapse;
+  width: 100%;
+  border-spacing: 0;
+  border-width: 0 0 1px 1px;
+  border-collapse: collapse;
 }
 table.hairlined, table.hairlined > * > tr > td, table.hairlined > * > tr > th {
-  border: solid #99a;
+  border-style: solid;
+  border-color: #99a;
 }
 table.hairlined > * > tr > td, table.hairlined > * > tr > th {
-  border-width: 1px 1px 0 0; padding: 6px;
+  border-width: 1px 1px 0 0;
+  padding: 6px;
 }
 table.hairlined > * > tr > th {
-  background: #ddd; text-align: center; font: bold 1.1em Arial, Sans-Serif;
+  background: #ddd;
+  text-align: center;
+  font: bold 1.1em Arial, Sans-Serif;
 }
 table.hairlined > * > tr > td {
   background: #f3f3f3;

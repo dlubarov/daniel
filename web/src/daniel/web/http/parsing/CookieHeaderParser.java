@@ -19,7 +19,7 @@ public final class CookieHeaderParser extends Parser<SequentialMultidictionary<S
 
   private static final Parser<Sequence<KeyValuePair<String, String>>> proxy =
       DelimitedRepetitionParser.repeatArbitrarily(
-          CookieKvpHeader.singleton, new CharacterParser(';'));
+          CookieKvpParser.singleton, new CharacterParser(';'));
 
   private CookieHeaderParser() {}
 

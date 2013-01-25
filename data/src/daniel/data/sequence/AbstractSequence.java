@@ -5,7 +5,6 @@ import daniel.data.deque.ArrayDeque;
 import daniel.data.deque.MutableDeque;
 import daniel.data.function.Function;
 import daniel.data.option.Option;
-import daniel.data.order.Ordering;
 import daniel.data.source.Source;
 import daniel.data.stack.DynamicArray;
 import daniel.data.stack.MutableStack;
@@ -67,13 +66,6 @@ public abstract class AbstractSequence<A> extends AbstractCollection<A> implemen
     MutableDeque<A> deque = ArrayDeque.copyOf(this);
     deque.popBack();
     return deque;
-  }
-
-  @Override
-  public Sequence<A> sorted(Ordering<? super A> ordering) {
-    List<A> jcfList = toJCF();
-    Collections.sort(jcfList, ordering.toComparator());
-    return ImmutableArray.copyOf(jcfList);
   }
 
   @Override

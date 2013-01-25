@@ -26,7 +26,7 @@ public final class CollectionSerializer<A> extends AbstractSerializer<Collection
     MutableArray<A> sequence = MutableArray.createWithNulls(size);
     for (int i = 0; i < size; ++i)
       sequence.set(i, elementSerializer.readFromSource(source));
-    return null;
+    return sequence;
   }
 }
 

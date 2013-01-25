@@ -3,7 +3,6 @@ package daniel.data.sequence;
 import daniel.data.collection.Collection;
 import daniel.data.function.Function;
 import daniel.data.option.Option;
-import daniel.data.order.Ordering;
 import java.util.Random;
 
 public interface Sequence<A> extends Collection<A> {
@@ -34,8 +33,6 @@ public interface Sequence<A> extends Collection<A> {
    * Get all elements except the last.
    */
   public Sequence<A> getInit();
-
-  public Sequence<A> sorted(Ordering<? super A> ordering);
 
   public Sequence<A> reversed();
 

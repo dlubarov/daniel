@@ -52,6 +52,7 @@ public final class HttpServer {
   }
 
   public void start() throws IOException {
+    System.out.println("Starting server.");
     Check.that(status == Status.NOT_STARTED, "Server was already started.");
 
     connectionListener = Option.some(new ConnectionListener());

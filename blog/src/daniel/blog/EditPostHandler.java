@@ -3,7 +3,6 @@ package daniel.blog;
 import daniel.blog.post.Post;
 import daniel.blog.post.PostStorage;
 import daniel.blog.post.PostUrlFactory;
-import daniel.data.collection.Collection;
 import daniel.data.option.Option;
 import daniel.web.html.Attribute;
 import daniel.web.html.Document;
@@ -76,7 +75,7 @@ final class EditPostHandler implements Handler {
         .setSubject(subject)
         .setContent(content)
         .build();
-    PostStorage.updatePost(post);
+    PostStorage.updatePost(editedPost);
 
     String location = String.format("%s/%s",
         Config.getBaseUrl(), PostUrlFactory.getViewUrl(editedPost));

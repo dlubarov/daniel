@@ -4,13 +4,17 @@ import daniel.data.dictionary.Dictionary;
 import daniel.data.dictionary.MutableHashTable;
 import daniel.data.function.Function;
 import daniel.data.option.Option;
+import daniel.data.order.Ordering;
 import daniel.data.sequence.ImmutableArray;
+import daniel.data.sequence.Sequence;
 import daniel.data.source.SourceIterator;
 import daniel.data.stack.DynamicArray;
 import daniel.data.stack.MutableStack;
 import daniel.data.util.ToStringBuilder;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 
 public abstract class AbstractCollection<A> implements Collection<A> {
   @Override
@@ -64,6 +68,13 @@ public abstract class AbstractCollection<A> implements Collection<A> {
       groups.getValue(key).pushBack(element);
     }
     return groups;
+  }
+
+  @Override
+  public Sequence<A> sorted(Ordering<? super A> ordering) {
+    List<A> jcfList = new ArrayList<>(toJCF());
+    Collections.sort(jcfList, ordering.toComparator());
+    return ImmutableArray.copyOf(jcfList);
   }
 
   @Override

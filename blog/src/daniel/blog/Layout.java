@@ -47,7 +47,10 @@ public final class Layout {
         new Element(Tag.TITLE, TextNode.rawText("Daniel's Blog")),
         StylesheetUtils.createCssLink("reset.css"),
         StylesheetUtils.createCssLink("style.css"),
-        StylesheetUtils.createCssLink("http://fonts.googleapis.com/css?family=Source+Code+Pro"),
+        // TODO: Remove any fonts that aren't used.
+        StylesheetUtils.createCssLink("http://fonts.googleapis.com/css?family=Source+Code+Pro:400,600,700"),
+        StylesheetUtils.createCssLink("http://fonts.googleapis.com/css?family=Lato"),
+        StylesheetUtils.createCssLink("http://fonts.googleapis.com/css?family=Merriweather:400,700"),
         StylesheetUtils.createCssLink("prettify/prettify.css"),
         JavaScriptUtils.createJavaScriptLink("prettify/prettify.js")
     );
@@ -91,7 +94,7 @@ public final class Layout {
 
   private static Element getFooter() {
     Element left = new Element.Builder(Tag.P)
-            .addChild(TextNode.rawText("Copyright &#169; Daniel Lubarov"))
+            .addChild(TextNode.rawText("Copyright &#169; 2013 Daniel Lubarov"))
             .build();
     Element right = new Element.Builder(Tag.P)
             .setAttribute(Attribute.CLASS, "fr")

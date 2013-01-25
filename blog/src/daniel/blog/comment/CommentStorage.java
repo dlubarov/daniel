@@ -20,6 +20,10 @@ public final class CommentStorage {
 
   private CommentStorage() {}
 
+  public static synchronized Collection<Comment> getAllComments() {
+    return byUuid.getAllValues();
+  }
+
   public static synchronized Option<Comment> getCommentByUuid(String commentUuid) {
     return byUuid.get(commentUuid);
   }
@@ -28,14 +32,15 @@ public final class CommentStorage {
     byUuid.put(comment.getUuid(), comment);
     SinglyLinkedList<String> commentUuids = SinglyLinkedList.copyOf(
         getCommentUuidsByPost(comment.getPostUuid()));
-    commentUuids = commentUuids.pushFront(comment.getPostUuid());
+    commentUuids = commentUuids.pushFront(comment.getUuid());
     indexByPostUuid.put(comment.getPostUuid(), commentUuids);
   }
 
   public static synchronized Collection<Comment> getCommentsByPost(String postUuid) {
     return getCommentUuidsByPost(postUuid).map(new Function<String, Comment>() {
       @Override public Comment apply(String commentUuid) {
-        return getCommentByUuid(commentUuid).getOrThrow();
+        return getCommentByUuid(commentUuid).getOrThrow(
+            "No comment with UUID from index: " + commentUuid);
       }
     });
   }

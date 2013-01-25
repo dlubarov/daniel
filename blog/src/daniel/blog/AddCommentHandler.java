@@ -5,12 +5,12 @@ import daniel.blog.comment.Comment;
 import daniel.blog.comment.CommentStorage;
 import daniel.blog.post.Post;
 import daniel.data.option.Option;
+import daniel.data.unit.Instant;
 import daniel.web.http.HttpRequest;
 import daniel.web.http.HttpResponse;
 import daniel.web.http.RequestMethod;
 import daniel.web.http.server.Handler;
 import daniel.web.http.server.HttpResponseFactory;
-import java.util.Date;
 
 final class AddCommentHandler implements Handler {
   private final Post post;
@@ -46,7 +46,7 @@ final class AddCommentHandler implements Handler {
     Comment comment = new Comment.Builder()
         .setRandomUiid()
         .setPostUuid(post.getUuid())
-        .setCreatedAt(new Date())
+        .setCreatedAt(Instant.now())
         .setAuthorName(authorName)
         .setAuthorEmail(optAuthorEmail)
         .setContent(content)
