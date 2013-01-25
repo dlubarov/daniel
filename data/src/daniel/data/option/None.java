@@ -41,7 +41,7 @@ final class None<A> extends Option<A> {
   }
 
   @Override
-  public A getOrThrow(String exceptionMessage) {
-    throw new RuntimeException(exceptionMessage);
+  public A getOrThrow(String exceptionMessageFormat, Object... args) {
+    throw new RuntimeException(String.format(exceptionMessageFormat, args));
   }
 }

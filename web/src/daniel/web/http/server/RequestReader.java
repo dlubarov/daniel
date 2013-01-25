@@ -20,10 +20,11 @@ final class RequestReader {
     Option<String> optRequestLine = readLineFromStream(inputStream);
     if (optRequestLine.isEmpty())
       return Option.none();
+    String requestLineString = optRequestLine.getOrThrow();
 
     RequestLine requestLine = RequestLineParser.singleton
-        .tryParse(optRequestLine.getOrThrow().getBytes(StandardCharsets.US_ASCII), 0)
-        .getOrThrow("Failed to parse request line.")
+        .tryParse(requestLineString.getBytes(StandardCharsets.US_ASCII), 0)
+        .getOrThrow("Failed to parse request line: %s.", requestLineString)
         .getValue();
     HttpRequest.Builder requestBuilder = new HttpRequest.Builder()
         .setMethod(requestLine.getMethod())

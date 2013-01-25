@@ -48,7 +48,7 @@ final class Some<A> extends Option<A> {
   }
 
   @Override
-  public A getOrThrow(String exceptionMessage) {
+  public A getOrThrow(String exceptionMessageFormat, Object... args) {
     return value;
   }
 }

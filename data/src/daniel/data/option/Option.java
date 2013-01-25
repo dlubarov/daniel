@@ -34,7 +34,7 @@ public abstract class Option<A> extends AbstractImmutableCollection<A> {
 
   public abstract A getOrThrow(RuntimeException e);
 
-  public abstract A getOrThrow(String exceptionMessage);
+  public abstract A getOrThrow(String exceptionMessageFormat, Object... args);
 
   public A getOrThrow() {
     return getOrThrow(new IllegalStateException("No value to get."));
