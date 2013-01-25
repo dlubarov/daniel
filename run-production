@@ -3,4 +3,4 @@
 set -e
 shopt -s globstar
 
-sudo ENVIRONMENT=production java -cp all.jar daniel.multiweb.MultiwebApp 2>&1 | tee -a multiweb.log
+sudo ENVIRONMENT=production java -cp "all.jar:lib/*" daniel.multiweb.MultiwebApp 2>&1 | tee -a multiweb.log
