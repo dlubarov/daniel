@@ -3,7 +3,14 @@
 set -e
 shopt -s globstar
 
+echo 'Compiling...'
 rm -rf manual_out
 mkdir -p manual_out
 find . | grep '.java$' | grep -v 'Test.java$' | xargs javac -cp 'lib/je-5.0.58.jar' -d manual_out
+
+echo 'Packaging...'
+rm -f all.jar
+cd manual_out
+jar cf ../all.jar **/*.class
+
 echo 'Done.'

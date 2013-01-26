@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-
-set -e
-shopt -s globstar
-
-rm -f all.jar
-cd manual_out
-jar cf ../all.jar **/*.class
