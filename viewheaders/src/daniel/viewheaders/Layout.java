@@ -23,14 +23,19 @@ public final class Layout {
   }
 
   private static Element getHead() {
+    Element description = new Element.Builder(Tag.META)
+        .setAttribute(Attribute.NAME, "description")
+        .setAttribute(Attribute.CONTENT, "View the HTTP headers that your web browser is sending.")
+        .build();
+    Element keywords = new Element.Builder(Tag.META)
+        .setAttribute(Attribute.NAME, "keywords")
+        .setAttribute(Attribute.CONTENT, "headers, http, browser")
+        .build();
+    Element base = new Element.Builder(Tag.BASE)
+        .setAttribute(Attribute.HREF, Config.getBaseUrl())
+        .build();
     return new Element(Tag.HEAD,
-        new Element.Builder(Tag.META)
-            .setAttribute(Attribute.HTTP_EQUIV, "Content-type")
-            .setAttribute(Attribute.CONTENT, "application/xhtml+xml; charset=UTF-8")
-            .build(),
-        new Element.Builder(Tag.BASE)
-            .setAttribute(Attribute.HREF, Config.getBaseUrl())
-            .build(),
+        description, keywords, base,
         StylesheetUtils.createCssLink("reset.css"),
         StylesheetUtils.createCssLink("style.css"),
         new Element(Tag.TITLE, TextNode.rawText("View Headers"))

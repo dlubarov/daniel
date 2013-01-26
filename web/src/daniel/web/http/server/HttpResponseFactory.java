@@ -46,13 +46,8 @@ public final class HttpResponseFactory {
   }
 
   private static HttpResponse redirect(String location, HttpStatus status) {
-    Element metaContentType = new Element.Builder(Tag.META)
-        .setAttribute(Attribute.HTTP_EQUIV, "Content-type")
-        .setAttribute(Attribute.CONTENT, "application/xhtml+xml; charset=UTF-8")
-        .build();
     Element title = new Element(Tag.TITLE, TextNode.escapedText(status.toString()));
     Element head = new Element.Builder(Tag.HEAD)
-        .addChild(metaContentType)
         .addChild(title)
         .build();
 

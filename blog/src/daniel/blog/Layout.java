@@ -30,22 +30,19 @@ public final class Layout {
   }
 
   private static Element getHead() {
-    return new Element(Tag.HEAD,
-        new Element.Builder(Tag.META)
-            .setAttribute(Attribute.HTTP_EQUIV, "Content-type")
-            .setAttribute(Attribute.CONTENT, "application/xhtml+xml; charset=UTF-8")
-            .build(),
-        new Element.Builder(Tag.META)
-            .setAttribute(Attribute.NAME, "description")
-            .setAttribute(Attribute.CONTENT, "Thoughts on programming languages, compilers, graphics and other fun software topics.")
-            .build(),
-        new Element.Builder(Tag.META)
-            .setAttribute(Attribute.NAME, "keywords")
-            .setAttribute(Attribute.CONTENT, "daniel, lubarov, java, programming, coding, database, languages, compilers, interpreters, graphics, ray tracing, html, css")
-            .build(),
-        new Element.Builder(Tag.BASE)
+    Element description = new Element.Builder(Tag.META)
+        .setAttribute(Attribute.NAME, "description")
+        .setAttribute(Attribute.CONTENT, "Thoughts on programming languages, compilers, graphics and other fun software topics.")
+        .build();
+    Element keywords = new Element.Builder(Tag.META)
+        .setAttribute(Attribute.NAME, "keywords")
+        .setAttribute(Attribute.CONTENT, "daniel, lubarov, java, programming, coding, database, languages, compilers, interpreters, graphics, ray tracing, html, css")
+        .build();
+    Element base = new Element.Builder(Tag.BASE)
             .setAttribute(Attribute.HREF, Config.getBaseUrl())
-            .build(),
+            .build();
+    return new Element(Tag.HEAD,
+        description, keywords, base,
         new Element(Tag.TITLE, TextNode.rawText("Daniel's Blog")),
         StylesheetUtils.createCssLink("reset.css"),
         StylesheetUtils.createCssLink("style.css"),

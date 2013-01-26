@@ -1,6 +1,5 @@
 package daniel.web.http.server;
 
-import daniel.web.html.Attribute;
 import daniel.web.html.Xhtml5Document;
 import daniel.web.html.Element;
 import daniel.web.html.Tag;
@@ -20,10 +19,6 @@ public final class StandardNotFoundHandler implements Handler {
   @Override
   public HttpResponse handle(HttpRequest request) {
     Element head = new Element(Tag.HEAD,
-        new Element.Builder(Tag.META)
-            .setAttribute(Attribute.HTTP_EQUIV, "Content-type")
-            .setAttribute(Attribute.CONTENT, "application/xhtml+xml; charset=UTF-8")
-            .build(),
         new Element(Tag.TITLE, TextNode.rawText("Daniel's Blog"))
     );
     Element body = new Element(Tag.BODY,

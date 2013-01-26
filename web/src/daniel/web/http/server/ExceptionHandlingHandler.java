@@ -23,12 +23,8 @@ public final class ExceptionHandlingHandler implements Handler {
     } catch (Exception e) {
       e.printStackTrace();
 
-      Element metaContentType = new Element.Builder(Tag.META)
-          .setAttribute(Attribute.HTTP_EQUIV, "Content-type")
-          .setAttribute(Attribute.CONTENT, "application/xhtml+xml; charset=UTF-8")
-          .build();
       Element title = new Element(Tag.TITLE, TextNode.rawText("Internal Server Error"));
-      Element head = new Element(Tag.HEAD, metaContentType, title);
+      Element head = new Element(Tag.HEAD, title);
 
       Element body = new Element(Tag.BODY,
           new Element(Tag.H1, TextNode.escapedText("Oops.")),
