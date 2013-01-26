@@ -61,9 +61,9 @@ final class CreatePostHandler implements PartialHandler {
             .setAttribute(Attribute.STYLE, "display: block; margin: 0px auto;")
             .build())
         .build();
-    Xhtml5Document document = Layout.createDocument(request,
+    Element document = Layout.createDocument(request,
         Option.some("Create a Post"), Option.<String>none(), form);
-    return HttpResponseFactory.htmlResponse(HttpStatus.OK, document);
+    return HttpResponseFactory.xhtmlResponse(HttpStatus.OK, document);
   }
 
   private static HttpResponse handlePost(HttpRequest request) {

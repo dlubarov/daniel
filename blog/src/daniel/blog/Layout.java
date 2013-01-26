@@ -17,16 +17,15 @@ import daniel.web.http.HttpRequest;
 public final class Layout {
   private Layout() {}
 
-  public static Xhtml5Document createDocument(HttpRequest request,
+  public static Element createDocument(HttpRequest request,
       Option<String> title, Option<String> subtitle, Node... content) {
     Collection<String> notifications = Notifications.getAndClearMessages(request);
-    Element html = new Element.Builder(Tag.HTML)
+    return new Element.Builder(Tag.HTML)
         .setAttribute("xmlns", "http://www.w3.org/1999/xhtml")
         .setAttribute("xml:lang", "en")
         .addChild(getHead())
         .addChild(getBody(title, subtitle, notifications, content))
         .build();
-    return new Xhtml5Document(html);
   }
 
   private static Element getHead() {

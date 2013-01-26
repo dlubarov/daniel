@@ -47,10 +47,10 @@ final class HomeHandler implements PartialHandler {
 
     Element intro = new Element(Tag.P, TextNode.rawText(INTRO));
 
-    Xhtml5Document document = Layout.createDocument(request,
+    Element document = Layout.createDocument(request,
         Option.<String>none(), Option.<String>none(),
         intro, listBuilder.build());
-    return Option.some(HttpResponseFactory.htmlResponse(HttpStatus.OK, document));
+    return Option.some(HttpResponseFactory.xhtmlResponse(HttpStatus.OK, document));
   }
 
   public static void unsafeThrow(Throwable throwable) {

@@ -6,6 +6,7 @@ import daniel.data.collection.Collection;
 import daniel.data.function.Function;
 import daniel.data.option.Option;
 import daniel.data.sequence.ImmutableArray;
+import daniel.data.sequence.Sequence;
 import daniel.data.sequence.SinglyLinkedList;
 import daniel.data.serialization.CollectionSerializer;
 import daniel.data.serialization.StringSerializer;
@@ -33,6 +34,23 @@ public final class CommentStorage {
     SinglyLinkedList<String> commentUuids = SinglyLinkedList.copyOf(
         getCommentUuidsByPost(comment.getPostUuid()));
     commentUuids = commentUuids.pushFront(comment.getUuid());
+    indexByPostUuid.put(comment.getPostUuid(), commentUuids);
+  }
+
+  public static synchronized void updateComment(Comment comment) {
+    deleteComment(comment);
+    saveNewComment(comment);
+  }
+
+  public static synchronized void deleteComment(final Comment comment) {
+    byUuid.delete(comment.getUuid());
+    Sequence<String> commentUuids = SinglyLinkedList.copyOf(
+        getCommentUuidsByPost(comment.getPostUuid()));
+    commentUuids = commentUuids.filter(new Function<String, Boolean>() {
+      @Override public Boolean apply(String uuid) {
+        return !uuid.equals(comment.getUuid());
+      }
+    });
     indexByPostUuid.put(comment.getPostUuid(), commentUuids);
   }
 

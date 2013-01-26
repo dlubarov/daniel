@@ -12,14 +12,13 @@ import daniel.web.html.TextNode;
 public final class Layout {
   private Layout() {}
 
-  public static Xhtml5Document createDocument(Node... content) {
-    Element html = new Element.Builder(Tag.HTML)
+  public static Element createDocument(Node... content) {
+    return new Element.Builder(Tag.HTML)
         .setAttribute("xmlns", "http://www.w3.org/1999/xhtml")
         .setAttribute("xml:lang", "en")
         .addChild(getHead())
         .addChild(getBody(content))
         .build();
-    return new Xhtml5Document(html);
   }
 
   private static Element getHead() {

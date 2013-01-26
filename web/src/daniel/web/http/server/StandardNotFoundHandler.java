@@ -35,8 +35,6 @@ public final class StandardNotFoundHandler implements Handler {
         .addChild(body)
         .build();
 
-    return HttpResponseFactory.htmlResponse(
-        HttpStatus.NOT_FOUND,
-        new Xhtml5Document(html));
+    return HttpResponseFactory.xhtmlResponse(HttpStatus.NOT_FOUND, html);
   }
 }

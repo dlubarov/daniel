@@ -17,12 +17,7 @@ import daniel.web.html.TextNode;
 public final class PostFormatter {
   private PostFormatter() {}
 
-  public static Element full(Post post, Collection<Comment> comments) {
-    Sequence<Comment> commentsByDate = comments.sorted(new AbstractOrdering<Comment>() {
-      @Override public Relation compare(Comment a, Comment b) {
-        return Instant.ASCENDING_ORDERING.compare(a.getCreatedAt(), b.getCreatedAt());
-      }
-    });
+  public static Element full(Post post, Sequence<Comment> commentsByDate) {
     Sequence<Element> commentElements = commentsByDate.map(new Function<Comment, Element>() {
       @Override public Element apply(Comment comment) {
         return CommentFormatter.full(comment);

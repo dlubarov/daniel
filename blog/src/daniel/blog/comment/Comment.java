@@ -1,10 +1,23 @@
 package daniel.blog.comment;
 
 import daniel.data.option.Option;
+import daniel.data.order.AbstractOrdering;
+import daniel.data.order.Ordering;
+import daniel.data.order.Relation;
 import daniel.data.unit.Instant;
 import java.util.UUID;
 
 public final class Comment {
+  public static final Ordering<Comment> ASCENDING_CREATED_AT_ORDERING =
+      new AbstractOrdering<Comment>() {
+        @Override public Relation compare(Comment a, Comment b) {
+          return Instant.ASCENDING_ORDERING.compare(a.getCreatedAt(), b.getCreatedAt());
+        }
+      };
+
+  public static final Ordering<Comment> DESCENDING_CREATED_AT_ORDERING =
+      ASCENDING_CREATED_AT_ORDERING.reverse();
+
   public static final class Builder {
     private Option<String> uuid = Option.none();
     private Option<String> postUuid = Option.none();
@@ -13,6 +26,18 @@ public final class Comment {
     private Option<String> authorEmail = Option.none();
     private Option<String> content = Option.none();
     private Option<Boolean> approved = Option.none();
+
+    public Builder() {}
+
+    public Builder(Comment comment) {
+      uuid = Option.some(comment.uuid);
+      postUuid = Option.some(comment.postUuid);
+      createdAt = Option.some(comment.createdAt);
+      authorName = Option.some(comment.authorName);
+      authorEmail = comment.authorEmail;
+      content = Option.some(comment.content);
+      approved = Option.some(comment.approved);
+    }
 
     public Builder setUuid(String uuid) {
       this.uuid = Option.some(uuid);

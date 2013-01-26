@@ -17,7 +17,8 @@ import java.util.Date;
 public final class HttpResponseFactory {
   private HttpResponseFactory() {}
 
-  public static HttpResponse htmlResponse(HttpStatus status, Xhtml5Document document) {
+  public static HttpResponse xhtmlResponse(HttpStatus status, Element html) {
+    Xhtml5Document document = new Xhtml5Document(html);
     byte[] documentBytes = document.toString().getBytes(Charset.forName("UTF-8"));
     return new HttpResponse.Builder()
         .setStatus(status)

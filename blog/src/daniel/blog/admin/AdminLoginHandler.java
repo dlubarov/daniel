@@ -46,20 +46,20 @@ final class AdminLoginHandler implements Handler {
           .setExpires(Instant.now().plus(Duration.fromDays(EXPIRATION_DAYS)))
           .build();
       CookieManager.setCooke(cookie);
-      Xhtml5Document document = Layout.createDocument(request,
+      Element document = Layout.createDocument(request,
           Option.some("Success"), Option.<String>none(),
           TextNode.escapedText("You have been signed in."));
-      return HttpResponseFactory.htmlResponse(HttpStatus.OK, document);
+      return HttpResponseFactory.xhtmlResponse(HttpStatus.OK, document);
     } else {
-      Xhtml5Document document = Layout.createDocument(request,
+      Element document = Layout.createDocument(request,
           Option.some("Oops"), Option.<String>none(),
           TextNode.escapedText("Wrong password."));
-      return HttpResponseFactory.htmlResponse(HttpStatus.OK, document);
+      return HttpResponseFactory.xhtmlResponse(HttpStatus.OK, document);
     }
   }
 
   private HttpResponse handleGet(HttpRequest request) {
-    Xhtml5Document document = Layout.createDocument(request,
+    Element document = Layout.createDocument(request,
         Option.some("Admin Login"), Option.<String>none(),
         new Element.Builder(Tag.FORM)
             .setAttribute(Attribute.ACTION, "admin")
@@ -74,6 +74,6 @@ final class AdminLoginHandler implements Handler {
             .addChild(new Element.Builder(Tag.INPUT)
                 .setAttribute(Attribute.TYPE, "submit").build())
             .build());
-    return HttpResponseFactory.htmlResponse(HttpStatus.OK, document);
+    return HttpResponseFactory.xhtmlResponse(HttpStatus.OK, document);
   }
 }

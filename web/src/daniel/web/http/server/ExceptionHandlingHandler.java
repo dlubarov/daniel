@@ -1,6 +1,5 @@
 package daniel.web.http.server;
 
-import daniel.web.html.Attribute;
 import daniel.web.html.Xhtml5Document;
 import daniel.web.html.Element;
 import daniel.web.html.Tag;
@@ -38,8 +37,7 @@ public final class ExceptionHandlingHandler implements Handler {
           .addChild(body)
           .build();
 
-      Xhtml5Document document = new Xhtml5Document(html);
-      return HttpResponseFactory.htmlResponse(HttpStatus.INTERNAL_SERVER_ERROR, document);
+      return HttpResponseFactory.xhtmlResponse(HttpStatus.INTERNAL_SERVER_ERROR, html);
     }
   }
 }

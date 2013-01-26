@@ -4,9 +4,10 @@ import daniel.blog.comment.Comment;
 import daniel.blog.comment.CommentStorage;
 import daniel.blog.post.Post;
 import daniel.blog.post.PostFormatter;
-import daniel.data.collection.Collection;
+import daniel.data.function.Function;
 import daniel.data.option.Option;
-import daniel.web.html.Xhtml5Document;
+import daniel.data.sequence.Sequence;
+import daniel.web.html.Element;
 import daniel.web.http.HttpRequest;
 import daniel.web.http.HttpResponse;
 import daniel.web.http.HttpStatus;
@@ -27,13 +28,18 @@ final class ViewPostHandler implements Handler {
 
   @Override
   public HttpResponse handle(HttpRequest request) {
-    Collection<Comment> comments = CommentStorage.getCommentsByPost(post.getUuid());
-    Xhtml5Document document = Layout.createDocument(
-        request,
+    Sequence<Comment> comments = CommentStorage.getCommentsByPost(post.getUuid())
+        .filter(new Function<Comment, Boolean>() {
+          @Override public Boolean apply(Comment comment) {
+            return comment.isApproved();
+          }
+        })
+        .sorted(Comment.ASCENDING_CREATED_AT_ORDERING);
+    Element document = Layout.createDocument(request,
         Option.some(post.getSubject()),
         Option.some(formatDate(post.getCreatedAt().toDate())),
         PostFormatter.full(post, comments));
-    return HttpResponseFactory.htmlResponse(HttpStatus.OK, document);
+    return HttpResponseFactory.xhtmlResponse(HttpStatus.OK, document);
   }
 
   private static String formatDate(Date date) {

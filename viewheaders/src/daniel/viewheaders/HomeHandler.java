@@ -24,8 +24,8 @@ final class HomeHandler implements PartialHandler {
     if (!request.getResource().equals("/"))
       return Option.none();
 
-    Xhtml5Document document = Layout.createDocument(getHeaderTable(request.getHeaders()));
-    return Option.some(HttpResponseFactory.htmlResponse(HttpStatus.OK, document));
+    return Option.some(HttpResponseFactory.xhtmlResponse(
+        HttpStatus.OK, getHeaderTable(request.getHeaders())));
   }
 
   private Element getHeaderTable(SequentialMultidictionary<String, String> headers) {

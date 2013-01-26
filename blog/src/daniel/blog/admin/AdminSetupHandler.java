@@ -40,14 +40,14 @@ final class AdminSetupHandler implements Handler {
     String adminPassword = request.getUrlencodedPostData().getValues("admin_password")
         .tryGetOnlyElement().getOrThrow("Expected exactly one password in post data.");
     MiscStorage.setAdminPassword(adminPassword);
-    Xhtml5Document document = Layout.createDocument(request,
+    Element document = Layout.createDocument(request,
         Option.some("Success"), Option.<String>none(),
         TextNode.escapedText("Password has been set."));
-    return HttpResponseFactory.htmlResponse(HttpStatus.OK, document);
+    return HttpResponseFactory.xhtmlResponse(HttpStatus.OK, document);
   }
 
   private HttpResponse handleGet(HttpRequest request) {
-    Xhtml5Document document = Layout.createDocument(
+    Element document = Layout.createDocument(
         request,
         Option.some("Admin Setup"),
         Option.<String>none(),
@@ -65,6 +65,6 @@ final class AdminSetupHandler implements Handler {
                 .setAttribute(Attribute.TYPE, "submit")
                 .build())
             .build());
-    return HttpResponseFactory.htmlResponse(HttpStatus.OK, document);
+    return HttpResponseFactory.xhtmlResponse(HttpStatus.OK, document);
   }
 }
