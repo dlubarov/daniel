@@ -1,7 +1,7 @@
 package daniel.web.http.server;
 
 import daniel.web.html.Attribute;
-import daniel.web.html.Document;
+import daniel.web.html.Xhtml5Document;
 import daniel.web.html.Element;
 import daniel.web.html.Tag;
 import daniel.web.html.TextNode;
@@ -17,7 +17,7 @@ import java.util.Date;
 public final class HttpResponseFactory {
   private HttpResponseFactory() {}
 
-  public static HttpResponse htmlResponse(HttpStatus status, Document document) {
+  public static HttpResponse htmlResponse(HttpStatus status, Xhtml5Document document) {
     byte[] documentBytes = document.toString().getBytes(Charset.forName("UTF-8"));
     return new HttpResponse.Builder()
         .setStatus(status)
@@ -27,7 +27,7 @@ public final class HttpResponseFactory {
         .addHeader(ResponseHeaderName.PRAGMA, "no-cache")
         .addHeader(ResponseHeaderName.CACHE_CONTROL, "no-store, no-cache, must-revalidate, post-check=0, pre-check=0")
         .addHeader(ResponseHeaderName.CONTENT_LENGTH, Integer.toString(documentBytes.length))
-        .addHeader(ResponseHeaderName.CONTENT_TYPE, "text/html; charset=utf-8")
+        .addHeader(ResponseHeaderName.CONTENT_TYPE, "application/xhtml+xml; charset=utf-8")
         .addAllCookies(CookieManager.getCookies())
         .setBody(documentBytes)
         .build();
@@ -57,9 +57,14 @@ public final class HttpResponseFactory {
                 .addChild(TextNode.escapedText("here"))
                 .build(),
             TextNode.escapedText(".")));
-    Element html = new Element(Tag.HTML, head, body);
+    Element html = new Element.Builder(Tag.HTML)
+        .setAttribute("xmlns", "http://www.w3.org/1999/xhtml")
+        .setAttribute("xml:lang", "en")
+        .addChild(head)
+        .addChild(body)
+        .build();
 
-    Document document = new Document("<!DOCTYPE html>", html);
+    Xhtml5Document document = new Xhtml5Document(html);
     byte[] documentBytes = document.toString().getBytes(Charset.forName("UTF-8"));
 
     return new HttpResponse.Builder()

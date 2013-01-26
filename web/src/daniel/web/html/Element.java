@@ -14,7 +14,7 @@ public final class Element implements Node {
   public static final class Builder {
     private final Tag tag;
     private final MutableStack<Node> children = DynamicArray.create();
-    private final MutableHashTable<Attribute, String> attributes = MutableHashTable.create();
+    private final MutableHashTable<String, String> attributes = MutableHashTable.create();
 
     public Builder(Tag tag) {
       this.tag = Check.notNull(tag);
@@ -37,9 +37,17 @@ public final class Element implements Node {
       return this;
     }
 
-    public Builder setAttribute(Attribute attribute, String value) {
+    public Builder setAttribute(String attribute, String value) {
       attributes.put(attribute, value);
       return this;
+    }
+
+    public Builder setAttribute(Attribute attribute, String value) {
+      return setAttribute(attribute.toString(), value);
+    }
+
+    public Builder setEscapedAttribtue(String attribute, String value) {
+      return setAttribute(attribute, EscapeUtils.htmlEncode(value));
     }
 
     public Builder setEscapedAttribtue(Attribute attribute, String value) {
@@ -53,7 +61,7 @@ public final class Element implements Node {
 
   private final Tag tag;
   private final ImmutableSequence<Node> children;
-  private final ImmutableDictionary<Attribute, String> attributes;
+  private final ImmutableDictionary<String, String> attributes;
 
   public Element(Tag tag) {
     this.tag = tag;
@@ -81,8 +89,8 @@ public final class Element implements Node {
 
   @Override
   public String toString() {
-    //if (children.isEmpty() && tag != Tag.TEXTAREA)
-    //  return String.format("<%s%s />", tag, getAttributes());
+    if (children.isEmpty() && tag != Tag.TEXTAREA)
+      return String.format("<%s%s />", tag, getAttributes());
 
     StringBuilder sb = new StringBuilder();
     sb.append(String.format("<%s%s>", tag, getAttributes()));
@@ -94,7 +102,7 @@ public final class Element implements Node {
 
   private String getAttributes() {
     StringBuilder sb = new StringBuilder();
-    for (KeyValuePair<Attribute, String> attribute : attributes)
+    for (KeyValuePair<String, String> attribute : attributes)
       sb.append(String.format(" %s=\"%s\"", attribute.getKey(), attribute.getValue()));
     return sb.toString();
   }

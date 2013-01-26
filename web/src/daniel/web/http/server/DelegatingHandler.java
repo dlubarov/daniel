@@ -32,7 +32,7 @@ public final class DelegatingHandler implements Handler {
 
   private DelegatingHandler(Builder builder) {
     partialHandlers = builder.partialHandlers.toImmutable();
-    defaultHandler = builder.defaultHandler.getOrDefault(new StandardNotFoundHandler());
+    defaultHandler = builder.defaultHandler.getOrDefault(StandardNotFoundHandler.singleton);
   }
 
   @Override

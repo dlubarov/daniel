@@ -8,7 +8,7 @@ import daniel.data.order.AbstractOrdering;
 import daniel.data.order.Relation;
 import daniel.data.sequence.Sequence;
 import daniel.data.unit.Instant;
-import daniel.web.html.Document;
+import daniel.web.html.Xhtml5Document;
 import daniel.web.html.Element;
 import daniel.web.html.Tag;
 import daniel.web.html.TextNode;
@@ -47,7 +47,7 @@ final class HomeHandler implements PartialHandler {
 
     Element intro = new Element(Tag.P, TextNode.rawText(INTRO));
 
-    Document document = Layout.createDocument(request,
+    Xhtml5Document document = Layout.createDocument(request,
         Option.<String>none(), Option.<String>none(),
         intro, listBuilder.build());
     return Option.some(HttpResponseFactory.htmlResponse(HttpStatus.OK, document));

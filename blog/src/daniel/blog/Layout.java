@@ -4,7 +4,7 @@ import daniel.data.collection.Collection;
 import daniel.data.function.Function;
 import daniel.data.option.Option;
 import daniel.web.html.Attribute;
-import daniel.web.html.Document;
+import daniel.web.html.Xhtml5Document;
 import daniel.web.html.Element;
 import daniel.web.html.HtmlUtils;
 import daniel.web.html.JavaScriptUtils;
@@ -17,14 +17,16 @@ import daniel.web.http.HttpRequest;
 public final class Layout {
   private Layout() {}
 
-  public static Document createDocument(HttpRequest request,
+  public static Xhtml5Document createDocument(HttpRequest request,
       Option<String> title, Option<String> subtitle, Node... content) {
     Collection<String> notifications = Notifications.getAndClearMessages(request);
     Element html = new Element.Builder(Tag.HTML)
+        .setAttribute("xmlns", "http://www.w3.org/1999/xhtml")
+        .setAttribute("xml:lang", "en")
         .addChild(getHead())
         .addChild(getBody(title, subtitle, notifications, content))
         .build();
-    return new Document("<!DOCTYPE html>", html);
+    return new Xhtml5Document(html);
   }
 
   private static Element getHead() {

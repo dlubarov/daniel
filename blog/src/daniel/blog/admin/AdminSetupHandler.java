@@ -5,7 +5,7 @@ import daniel.blog.MiscStorage;
 import daniel.data.option.Option;
 import daniel.data.util.Check;
 import daniel.web.html.Attribute;
-import daniel.web.html.Document;
+import daniel.web.html.Xhtml5Document;
 import daniel.web.html.Element;
 import daniel.web.html.Tag;
 import daniel.web.html.TextNode;
@@ -40,14 +40,14 @@ final class AdminSetupHandler implements Handler {
     String adminPassword = request.getUrlencodedPostData().getValues("admin_password")
         .tryGetOnlyElement().getOrThrow("Expected exactly one password in post data.");
     MiscStorage.setAdminPassword(adminPassword);
-    Document document = Layout.createDocument(request,
+    Xhtml5Document document = Layout.createDocument(request,
         Option.some("Success"), Option.<String>none(),
         TextNode.escapedText("Password has been set."));
     return HttpResponseFactory.htmlResponse(HttpStatus.OK, document);
   }
 
   private HttpResponse handleGet(HttpRequest request) {
-    Document document = Layout.createDocument(
+    Xhtml5Document document = Layout.createDocument(
         request,
         Option.some("Admin Setup"),
         Option.<String>none(),

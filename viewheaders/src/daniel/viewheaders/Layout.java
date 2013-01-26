@@ -1,7 +1,7 @@
 package daniel.viewheaders;
 
 import daniel.web.html.Attribute;
-import daniel.web.html.Document;
+import daniel.web.html.Xhtml5Document;
 import daniel.web.html.Element;
 import daniel.web.html.HtmlUtils;
 import daniel.web.html.Node;
@@ -12,9 +12,14 @@ import daniel.web.html.TextNode;
 public final class Layout {
   private Layout() {}
 
-  public static Document createDocument(Node... content) {
-    Element html = new Element(Tag.HTML, getHead(), getBody(content));
-    return new Document("<!DOCTYPE html>", html);
+  public static Xhtml5Document createDocument(Node... content) {
+    Element html = new Element.Builder(Tag.HTML)
+        .setAttribute("xmlns", "http://www.w3.org/1999/xhtml")
+        .setAttribute("xml:lang", "en")
+        .addChild(getHead())
+        .addChild(getBody(content))
+        .build();
+    return new Xhtml5Document(html);
   }
 
   private static Element getHead() {
@@ -33,19 +38,18 @@ public final class Layout {
   }
 
   private static Element getBody(Node[] content) {
-    return new Element(Tag.BODY,
-        new Element(Tag.H1,
-            new Element.Builder(Tag.A)
-                .setAttribute(Attribute.HREF, Config.getBaseUrl())
+    return new Element.Builder(Tag.BODY)
+        .addChild(new Element(Tag.H1,
+            new Element.Builder(Tag.A).setAttribute(Attribute.HREF, Config.getBaseUrl())
                 .addChild(TextNode.escapedText("View Headers"))
-                .build()),
-        new Element.Builder(Tag.DIV)
+                .build()))
+        .addChild(new Element.Builder(Tag.DIV)
             .setAttribute(Attribute.ID, "content")
             .addChildren(content)
-            .build(),
-        HtmlUtils.getClearDiv(),
-        getFooter()
-    );
+            .build())
+        .addChild(HtmlUtils.getClearDiv())
+        .addChild(getFooter())
+        .build();
   }
 
   private static Element getFooter() {

@@ -6,7 +6,7 @@ import daniel.blog.post.Post;
 import daniel.blog.post.PostFormatter;
 import daniel.data.collection.Collection;
 import daniel.data.option.Option;
-import daniel.web.html.Document;
+import daniel.web.html.Xhtml5Document;
 import daniel.web.http.HttpRequest;
 import daniel.web.http.HttpResponse;
 import daniel.web.http.HttpStatus;
@@ -28,7 +28,7 @@ final class ViewPostHandler implements Handler {
   @Override
   public HttpResponse handle(HttpRequest request) {
     Collection<Comment> comments = CommentStorage.getCommentsByPost(post.getUuid());
-    Document document = Layout.createDocument(
+    Xhtml5Document document = Layout.createDocument(
         request,
         Option.some(post.getSubject()),
         Option.some(formatDate(post.getCreatedAt().toDate())),

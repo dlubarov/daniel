@@ -5,7 +5,7 @@ import daniel.blog.post.PostStorage;
 import daniel.blog.post.PostUrlFactory;
 import daniel.data.option.Option;
 import daniel.web.html.Attribute;
-import daniel.web.html.Document;
+import daniel.web.html.Xhtml5Document;
 import daniel.web.html.Element;
 import daniel.web.html.Tag;
 import daniel.web.html.TextNode;
@@ -59,7 +59,7 @@ final class EditPostHandler implements Handler {
             .setAttribute(Attribute.STYLE, "display: block; margin: 0px auto;")
             .build())
         .build();
-    Document document = Layout.createDocument(request,
+    Xhtml5Document document = Layout.createDocument(request,
         Option.some("Edit Post"), Option.<String>none(), form);
     return HttpResponseFactory.htmlResponse(HttpStatus.OK, document);
   }

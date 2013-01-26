@@ -6,7 +6,7 @@ import daniel.data.option.Option;
 import daniel.data.unit.Duration;
 import daniel.data.unit.Instant;
 import daniel.web.html.Attribute;
-import daniel.web.html.Document;
+import daniel.web.html.Xhtml5Document;
 import daniel.web.html.Element;
 import daniel.web.html.Tag;
 import daniel.web.html.TextNode;
@@ -46,12 +46,12 @@ final class AdminLoginHandler implements Handler {
           .setExpires(Instant.now().plus(Duration.fromDays(EXPIRATION_DAYS)))
           .build();
       CookieManager.setCooke(cookie);
-      Document document = Layout.createDocument(request,
+      Xhtml5Document document = Layout.createDocument(request,
           Option.some("Success"), Option.<String>none(),
           TextNode.escapedText("You have been signed in."));
       return HttpResponseFactory.htmlResponse(HttpStatus.OK, document);
     } else {
-      Document document = Layout.createDocument(request,
+      Xhtml5Document document = Layout.createDocument(request,
           Option.some("Oops"), Option.<String>none(),
           TextNode.escapedText("Wrong password."));
       return HttpResponseFactory.htmlResponse(HttpStatus.OK, document);
@@ -59,7 +59,7 @@ final class AdminLoginHandler implements Handler {
   }
 
   private HttpResponse handleGet(HttpRequest request) {
-    Document document = Layout.createDocument(request,
+    Xhtml5Document document = Layout.createDocument(request,
         Option.some("Admin Login"), Option.<String>none(),
         new Element.Builder(Tag.FORM)
             .setAttribute(Attribute.ACTION, "admin")

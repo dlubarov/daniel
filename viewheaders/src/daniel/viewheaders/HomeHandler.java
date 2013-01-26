@@ -4,10 +4,10 @@ import daniel.data.dictionary.KeyValuePair;
 import daniel.data.multidictionary.sequential.SequentialMultidictionary;
 import daniel.data.option.Option;
 import daniel.web.html.Attribute;
-import daniel.web.html.Document;
+import daniel.web.html.Xhtml5Document;
 import daniel.web.html.Element;
-import daniel.web.html.TableBuilder;
 import daniel.web.html.TextNode;
+import daniel.web.html.table.TableBuilder;
 import daniel.web.http.HttpRequest;
 import daniel.web.http.HttpResponse;
 import daniel.web.http.HttpStatus;
@@ -24,25 +24,29 @@ final class HomeHandler implements PartialHandler {
     if (!request.getResource().equals("/"))
       return Option.none();
 
-    Document document = Layout.createDocument(getHeaderTable(request.getHeaders()));
+    Xhtml5Document document = Layout.createDocument(getHeaderTable(request.getHeaders()));
     return Option.some(HttpResponseFactory.htmlResponse(HttpStatus.OK, document));
   }
 
   private Element getHeaderTable(SequentialMultidictionary<String, String> headers) {
     TableBuilder tableBuilder = new TableBuilder()
-        .setAttribute(Attribute.CLASS, "hairlined");
+        .setTableAttribute(Attribute.CLASS, "hairlined");
 
+    tableBuilder.beginTableHead();
     tableBuilder.beginRow();
     tableBuilder.addHeaderEntry(TextNode.escapedText("Name"));
     tableBuilder.addHeaderEntry(TextNode.escapedText("Value"));
     tableBuilder.endRow();
+    tableBuilder.endTableHead();
 
+    tableBuilder.beginTableBody();
     for (KeyValuePair<String, String> header : headers) {
       tableBuilder.beginRow();
-      tableBuilder.addEntry(TextNode.escapedText(header.getKey()));
-      tableBuilder.addEntry(TextNode.escapedText(header.getValue()));
+      tableBuilder.addNormalEntry(TextNode.escapedText(header.getKey()));
+      tableBuilder.addNormalEntry(TextNode.escapedText(header.getValue()));
       tableBuilder.endRow();
     }
+    tableBuilder.endTableBody();
 
     return tableBuilder.build();
   }
