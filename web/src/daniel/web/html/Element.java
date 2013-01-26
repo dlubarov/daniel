@@ -1,9 +1,8 @@
 package daniel.web.html;
 
-import daniel.data.dictionary.ImmutableDictionary;
-import daniel.data.dictionary.ImmutableHashTable;
 import daniel.data.dictionary.KeyValuePair;
-import daniel.data.dictionary.MutableHashTable;
+import daniel.data.multidictionary.sequential.ImmutableArrayMultidictionary;
+import daniel.data.multidictionary.sequential.ImmutableSequentialMultidictionary;
 import daniel.data.sequence.ImmutableArray;
 import daniel.data.sequence.ImmutableSequence;
 import daniel.data.stack.DynamicArray;
@@ -14,7 +13,7 @@ public final class Element implements Node {
   public static final class Builder {
     private final Tag tag;
     private final MutableStack<Node> children = DynamicArray.create();
-    private final MutableHashTable<String, String> attributes = MutableHashTable.create();
+    private final MutableStack<KeyValuePair<String, String>> attributes = DynamicArray.create();
 
     public Builder(Tag tag) {
       this.tag = Check.notNull(tag);
@@ -38,7 +37,7 @@ public final class Element implements Node {
     }
 
     public Builder setAttribute(String attribute, String value) {
-      attributes.put(attribute, value);
+      attributes.pushBack(new KeyValuePair<String, String>(attribute, value));
       return this;
     }
 
@@ -61,30 +60,30 @@ public final class Element implements Node {
 
   private final Tag tag;
   private final ImmutableSequence<Node> children;
-  private final ImmutableDictionary<String, String> attributes;
+  private final ImmutableSequentialMultidictionary<String, String> attributes;
 
   public Element(Tag tag) {
     this.tag = tag;
     this.children = ImmutableArray.create();
-    this.attributes = ImmutableHashTable.create();
+    this.attributes = ImmutableArrayMultidictionary.create();
   }
 
   public Element(Tag tag, Node... children) {
     this.tag = tag;
     this.children = ImmutableArray.create(children);
-    this.attributes = ImmutableHashTable.create();
+    this.attributes = ImmutableArrayMultidictionary.create();
   }
 
   public Element(Tag tag, Iterable<? extends Node> children) {
     this.tag = tag;
     this.children = ImmutableArray.copyOf(children);
-    this.attributes = ImmutableHashTable.create();
+    this.attributes = ImmutableArrayMultidictionary.create();
   }
 
   private Element(Builder builder) {
     this.tag = builder.tag;
     this.children = builder.children.toImmutable();
-    this.attributes = builder.attributes.toImmutable();
+    this.attributes = ImmutableArrayMultidictionary.copyOf(builder.attributes);
   }
 
   @Override

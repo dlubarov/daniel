@@ -73,7 +73,7 @@ public final class HttpResponseFactory {
         .addHeader(ResponseHeaderName.DATE, DateUtils.formatDate(new Date()))
         .addHeader(ResponseHeaderName.LOCATION, location)
         .addHeader(ResponseHeaderName.CONTENT_LENGTH, Integer.toString(documentBytes.length))
-        .addHeader(ResponseHeaderName.CONTENT_TYPE, "text/html; charset=utf-8")
+        .addHeader(ResponseHeaderName.CONTENT_TYPE, "application/xhtml+xml; charset=utf-8")
         .addAllCookies(CookieManager.getCookies())
         .setBody(documentBytes)
         .build();

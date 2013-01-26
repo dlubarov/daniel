@@ -22,6 +22,10 @@ public final class ImmutableArrayMultidictionary<K, V>
     this.keyValuePairs = keyValuePairs;
   }
 
+  public static <K, V> ImmutableArrayMultidictionary<K, V> create() {
+    return new ImmutableArrayMultidictionary<>(ImmutableArray.<KeyValuePair<K, V>>create());
+  }
+
   public static <K, V> ImmutableArrayMultidictionary<K, V> copyOf(
       Iterable<KeyValuePair<K, V>> iterable) {
     return new ImmutableArrayMultidictionary<>(ImmutableArray.copyOf(iterable));
