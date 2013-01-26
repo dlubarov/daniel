@@ -17,7 +17,8 @@ public final class MutableArray<A> extends AbstractSequence<A> {
     return new MutableArray<>((A[]) ArrayUtils.EMPTY_ARRAY);
   }
 
-  @SafeVarargs public static <A> MutableArray<A> create(A... values) {
+  @SafeVarargs
+  public static <A> MutableArray<A> create(A... values) {
     return new MutableArray<>(values.clone());
   }
 

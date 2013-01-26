@@ -17,7 +17,8 @@ public final class ImmutableArray<A> extends AbstractImmutableSequence<A> {
     return new ImmutableArray<>((A[]) ArrayUtils.EMPTY_ARRAY);
   }
 
-  @SafeVarargs public static <A> ImmutableArray<A> create(A... values) {
+  @SafeVarargs
+  public static <A> ImmutableArray<A> create(A... values) {
     return new ImmutableArray<>(values.clone());
   }
 

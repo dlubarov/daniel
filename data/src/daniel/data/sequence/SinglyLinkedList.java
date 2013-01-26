@@ -11,7 +11,8 @@ public abstract class SinglyLinkedList<A> extends AbstractImmutableSequence<A> {
     return new EmptySLL<>();
   }
 
-  @SafeVarargs public static <A> SinglyLinkedList<A> create(A... values) {
+  @SafeVarargs
+  public static <A> SinglyLinkedList<A> create(A... values) {
     SinglyLinkedList<A> backwardsList = new EmptySLL<>();
     for (A element : values)
       backwardsList = new NonEmptySLL<>(element, backwardsList);

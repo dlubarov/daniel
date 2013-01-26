@@ -15,7 +15,8 @@ public final class MutableHashSet<A> extends AbstractSet<A> {
     return new MutableHashSet<>(new java.util.HashSet<A>());
   }
 
-  @SafeVarargs public static <A> MutableHashSet<A> create(A... values) {
+  @SafeVarargs
+  public static <A> MutableHashSet<A> create(A... values) {
     return new MutableHashSet<>(new java.util.HashSet<>(Arrays.asList(values)));
   }
 

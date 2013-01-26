@@ -15,7 +15,8 @@ public final class ImmutableHashSet<A> extends AbstractImmutableSet<A> {
     return new ImmutableHashSet<>(new java.util.HashSet<A>());
   }
 
-  @SafeVarargs public static <A> ImmutableHashSet<A> create(A... values) {
+  @SafeVarargs
+  public static <A> ImmutableHashSet<A> create(A... values) {
     return new ImmutableHashSet<>(new java.util.HashSet<>(Arrays.asList(values)));
   }
 

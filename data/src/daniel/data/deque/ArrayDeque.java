@@ -22,7 +22,8 @@ public final class ArrayDeque<A> extends AbstractMutableDeque<A> {
     return create((A[]) ArrayUtils.EMPTY_ARRAY);
   }
 
-  @SafeVarargs public static <A> ArrayDeque<A> create(A... values) {
+  @SafeVarargs
+  public static <A> ArrayDeque<A> create(A... values) {
     ArrayDeque<A> deque = new ArrayDeque<>(values.length);
     for (A element : values)
       deque.pushBack(element);
