@@ -33,7 +33,7 @@ public final class Layout {
     return new Element(Tag.HEAD,
         new Element.Builder(Tag.META)
             .setAttribute(Attribute.HTTP_EQUIV, "Content-type")
-            .setAttribute(Attribute.CONTENT, "text/html;charset=UTF-8")
+            .setAttribute(Attribute.CONTENT, "application/xhtml+xml; charset=UTF-8")
             .build(),
         new Element.Builder(Tag.META)
             .setAttribute(Attribute.NAME, "description")

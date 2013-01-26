@@ -22,15 +22,17 @@ public final class StandardNotFoundHandler implements Handler {
     Element head = new Element(Tag.HEAD,
         new Element.Builder(Tag.META)
             .setAttribute(Attribute.HTTP_EQUIV, "Content-type")
-            .setAttribute(Attribute.CONTENT, "text/html;charset=UTF-8")
+            .setAttribute(Attribute.CONTENT, "application/xhtml+xml; charset=UTF-8")
             .build(),
-        new Element(Tag.TITLE, TextNode.rawText("Daniel's Blog")));
+        new Element(Tag.TITLE, TextNode.rawText("Daniel's Blog"))
+    );
     Element body = new Element(Tag.BODY,
         new Element(Tag.H1, new Element(Tag.A, TextNode.rawText("Not Found"))),
         new Element(Tag.P,
             TextNode.rawText("The requested resource, "),
             new Element(Tag.STRONG, TextNode.escapedText(request.getResource())),
-            TextNode.rawText(", was not found.")));
+            TextNode.rawText(", was not found."))
+    );
     Element html = new Element.Builder(Tag.HTML)
         .setAttribute("xmlns", "http://www.w3.org/1999/xhtml")
         .setAttribute("xml:lang", "en")

@@ -1,5 +1,6 @@
 package daniel.web.http.server;
 
+import daniel.web.html.Attribute;
 import daniel.web.html.Xhtml5Document;
 import daniel.web.html.Element;
 import daniel.web.html.Tag;
@@ -21,19 +22,26 @@ public final class ExceptionHandlingHandler implements Handler {
       return delegate.handle(request);
     } catch (Exception e) {
       e.printStackTrace();
-      Element head = new Element(Tag.HEAD,
-          new Element(Tag.TITLE, TextNode.rawText("Internal Server Error"))
-      );
+
+      Element metaContentType = new Element.Builder(Tag.META)
+          .setAttribute(Attribute.HTTP_EQUIV, "Content-type")
+          .setAttribute(Attribute.CONTENT, "application/xhtml+xml; charset=UTF-8")
+          .build();
+      Element title = new Element(Tag.TITLE, TextNode.rawText("Internal Server Error"));
+      Element head = new Element(Tag.HEAD, metaContentType, title);
+
       Element body = new Element(Tag.BODY,
           new Element(Tag.H1, TextNode.escapedText("Oops.")),
           new Element(Tag.P, TextNode.escapedText("The server encountered an error."))
       );
+
       Element html = new Element.Builder(Tag.HTML)
           .setAttribute("xmlns", "http://www.w3.org/1999/xhtml")
           .setAttribute("xml:lang", "en")
           .addChild(head)
           .addChild(body)
           .build();
+
       Xhtml5Document document = new Xhtml5Document(html);
       return HttpResponseFactory.htmlResponse(HttpStatus.INTERNAL_SERVER_ERROR, document);
     }

@@ -1,5 +1,6 @@
 package daniel.web.http;
 
+import daniel.data.collection.Collection;
 import daniel.data.dictionary.KeyValuePair;
 import daniel.data.multidictionary.sequential.ImmutableArrayMultidictionary;
 import daniel.data.multidictionary.sequential.ImmutableSequentialMultidictionary;
@@ -169,8 +170,9 @@ public final class HttpRequest {
   }
 
   public String getHost() {
-    return headers.getValues(RequestHeaderName.HOST.getStandardName())
-        .tryGetOnlyElement().getOrThrow("Expected exactly one Host header.");
+    Collection<String> hosts = headers.getValues(RequestHeaderName.HOST.getStandardName());
+    return hosts.tryGetOnlyElement().getOrThrow(
+        "Expected exactly one Host header; received %s.", hosts);
   }
 
   public Option<byte[]> getBody() {
