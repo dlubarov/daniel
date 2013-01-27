@@ -4,7 +4,6 @@ import daniel.data.dictionary.KeyValuePair;
 import daniel.data.multidictionary.sequential.SequentialMultidictionary;
 import daniel.data.option.Option;
 import daniel.web.html.Attribute;
-import daniel.web.html.Xhtml5Document;
 import daniel.web.html.Element;
 import daniel.web.html.TextNode;
 import daniel.web.html.table.TableBuilder;
@@ -24,8 +23,8 @@ final class HomeHandler implements PartialHandler {
     if (!request.getResource().equals("/"))
       return Option.none();
 
-    return Option.some(HttpResponseFactory.xhtmlResponse(
-        HttpStatus.OK, getHeaderTable(request.getHeaders())));
+    Element html = Layout.createDocument(getHeaderTable(request.getHeaders()));
+    return Option.some(HttpResponseFactory.xhtmlResponse(HttpStatus.OK, html));
   }
 
   private Element getHeaderTable(SequentialMultidictionary<String, String> headers) {
