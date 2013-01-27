@@ -179,8 +179,6 @@ public final class HttpRequest {
     return body;
   }
 
-  // TODO: Add methods for reading cookies.
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

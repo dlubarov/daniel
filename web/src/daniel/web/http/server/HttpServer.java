@@ -2,6 +2,7 @@ package daniel.web.http.server;
 
 import daniel.data.option.Option;
 import daniel.data.util.Check;
+import daniel.logging.Logger;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -10,6 +11,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 
 public final class HttpServer {
+  private static final Logger logger = Logger.forClass(HttpServer.class);
+
   public static final class Builder {
     private Option<Handler> handler = Option.none();
     private Option<Executor> executor = Option.none();
@@ -52,7 +55,7 @@ public final class HttpServer {
   }
 
   public void start() throws IOException {
-    System.out.println("Starting server.");
+    logger.info("Starting server.");
     Check.that(status == Status.NOT_STARTED, "Server was already started.");
 
     connectionListener = Option.some(new ConnectionListener());
@@ -88,7 +91,7 @@ public final class HttpServer {
           Socket socket = serverSocket.accept();
           executor.execute(new ConnectionManager(socket, handler));
         } catch (IOException e) {
-          e.printStackTrace();
+          logger.error(e, "Failed to accept connection.");
         }
       } while (status != Status.STOPPED);
     }
