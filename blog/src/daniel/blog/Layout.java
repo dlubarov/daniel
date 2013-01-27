@@ -95,6 +95,7 @@ public final class Layout {
         .build();
     Element validatorLink = new Element.Builder(Tag.A)
         .setAttribute(Attribute.HREF, "http://validator.w3.org/check?uri=referer")
+        .setAttribute(Attribute.TARGET, "_blank")
         .addChild(TextNode.escapedText("Valid XHTML5"))
         .build();
     Element right = new Element.Builder(Tag.P)
