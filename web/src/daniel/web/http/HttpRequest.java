@@ -172,7 +172,7 @@ public final class HttpRequest {
   public String getHost() {
     Collection<String> hosts = headers.getValues(RequestHeaderName.HOST.getStandardName());
     return hosts.tryGetOnlyElement().getOrThrow(
-        "Expected exactly one Host header; received %s.", hosts);
+        "Expected exactly one Host header; received %s.", headers);
   }
 
   public Option<byte[]> getBody() {

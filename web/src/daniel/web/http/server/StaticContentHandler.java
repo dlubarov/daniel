@@ -36,6 +36,7 @@ public final class StaticContentHandler implements PartialHandler {
     public Builder addCommonContentTypes() {
       return this
           .addContentType("text/plain", "txt")
+          .addContentType("text/html", "html", "htm")
           .addContentType("image/gif", "gif")
           .addContentType("image/png", "png")
           .addContentType("image/jpeg", "jpg", "jpeg")
