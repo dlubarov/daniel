@@ -37,6 +37,10 @@ a:hover {
   text-decoration: underline;
 }
 
+img {
+  vertical-align: middle;
+}
+
 ul {
   padding-left: 1em;
   list-style-type: square;

@@ -4,7 +4,6 @@ import daniel.data.collection.Collection;
 import daniel.data.function.Function;
 import daniel.data.option.Option;
 import daniel.web.html.Attribute;
-import daniel.web.html.Xhtml5Document;
 import daniel.web.html.Element;
 import daniel.web.html.HtmlUtils;
 import daniel.web.html.JavaScriptUtils;
@@ -38,8 +37,8 @@ public final class Layout {
         .setAttribute(Attribute.CONTENT, "daniel, lubarov, java, programming, coding, database, languages, compilers, interpreters, graphics, ray tracing, html, css")
         .build();
     Element base = new Element.Builder(Tag.BASE)
-            .setAttribute(Attribute.HREF, Config.getBaseUrl())
-            .build();
+        .setAttribute(Attribute.HREF, Config.getBaseUrl())
+        .build();
     return new Element(Tag.HEAD,
         description, keywords, base,
         new Element(Tag.TITLE, TextNode.rawText("Daniel's Blog")),
@@ -92,12 +91,16 @@ public final class Layout {
 
   private static Element getFooter() {
     Element left = new Element.Builder(Tag.P)
-            .addChild(TextNode.rawText("Copyright &#169; 2013 Daniel Lubarov"))
-            .build();
+        .addChild(TextNode.rawText("Copyright &#169; 2013 Daniel Lubarov"))
+        .build();
+    Element validatorLink = new Element.Builder(Tag.A)
+        .setAttribute(Attribute.HREF, "http://validator.w3.org/check?uri=referer")
+        .addChild(TextNode.escapedText("Valid XHTML5"))
+        .build();
     Element right = new Element.Builder(Tag.P)
-            .setAttribute(Attribute.CLASS, "fr")
-            .addChild(TextNode.escapedText("Valid HTML & CSS"))
-            .build();
+        .setAttribute(Attribute.CLASS, "fr")
+        .addChild(validatorLink)
+        .build();
     return new Element.Builder(Tag.DIV)
         .setAttribute(Attribute.ID, "footer")
         .addChild(right)
