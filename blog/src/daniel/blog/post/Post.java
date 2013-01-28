@@ -69,6 +69,13 @@ public final class Post {
   }
 
   public String getUrlFriendlySubject() {
-    return subject.replaceAll("[^a-zA-Z0-9? -]", "").trim().replace(' ', '-');
+    String urlSubject = subject
+        .toLowerCase()
+        .replaceAll("[^a-zA-Z0-9? -]", "")
+        .trim()
+        .replace(' ', '-');
+    while (urlSubject.contains("--"))
+      urlSubject = urlSubject.replaceAll("--", "-");
+    return urlSubject;
   }
 }

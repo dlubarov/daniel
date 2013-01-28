@@ -63,7 +63,6 @@ final class ConnectionManager implements Runnable {
     writer.write("Upgrade: websocket\r\n");
     writer.write("Connection: Upgrade\r\n");
     writer.write("Sec-WebSocket-Accept: " + accept + "\r\n");
-    writer.write("Sec-WebSocket-Protocol: chat\r\n");
     writer.write("\r\n");
     writer.flush();
 

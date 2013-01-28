@@ -16,8 +16,8 @@ public final class BlogHandler {
         .addPartialHandler(HomeHandler.singleton)
         .addPartialHandler(PostHandler.singleton)
         .addPartialHandler(AdminHandler.singleton)
-        .addPartialHandler(new StaticContentHandler.Builder().setContentRoot(
-            new File(Config.getStaticContentRoot()))
+        .addPartialHandler(new StaticContentHandler.Builder()
+            .setContentRoot(new File(Config.getStaticContentRoot()))
             .addCommonContentTypes()
             .build())
         .build();
