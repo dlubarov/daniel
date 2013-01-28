@@ -1,12 +1,15 @@
 package daniel.web.http.server;
 
+import daniel.data.collection.Collection;
 import daniel.data.dictionary.KeyValuePair;
 import daniel.data.option.Option;
 import daniel.logging.Logger;
 import daniel.web.http.HttpRequest;
 import daniel.web.http.HttpResponse;
+import daniel.web.http.RequestHeaderName;
 import daniel.web.http.RequestMethod;
 import daniel.web.http.cookies.CookieManager;
+import daniel.web.http.websocket.AcceptKeyGenerator;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
@@ -35,10 +38,43 @@ final class ConnectionManager implements Runnable {
 
   private void runWithExceptions() throws IOException {
     Option<HttpRequest> optRequest = RequestReader.readRequest(socket.getInputStream());
-    if (optRequest.isEmpty())
+    if (optRequest.isEmpty()) {
+      logger.info("Received empty request.");
       return;
+    }
 
     HttpRequest request = optRequest.getOrThrow();
+    boolean upgrade = request.getHeaders().getValues("Connection").contains("Upgrade");
+    boolean websocket = upgrade && request.getHeaders().getValues("Upgrade").contains("websocket");
+
+    if (websocket)
+      handleWebsocketRequest(request);
+    else
+      handleNormalRequest(request);
+  }
+
+  private void handleWebsocketRequest(HttpRequest request) throws IOException {
+    String clientKey = request.getHeaders().getValues("Sec-WebSocket-Key")
+        .tryGetOnlyElement().getOrThrow("Expected exactly one websocket key.");
+    String accept = AcceptKeyGenerator.generateAcceptKey(clientKey);
+
+    Writer writer = new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.US_ASCII);
+    writer.write("HTTP/1.1 101 Switching Protocols\r\n");
+    writer.write("Upgrade: websocket\r\n");
+    writer.write("Connection: Upgrade\r\n");
+    writer.write("Sec-WebSocket-Accept: " + accept + "\r\n");
+    writer.write("Sec-WebSocket-Protocol: chat\r\n");
+    writer.write("\r\n");
+    writer.flush();
+
+    continueWebsocketConversation(request);
+  }
+
+  private void continueWebsocketConversation(HttpRequest request) {
+    // TODO continue websocket conversation
+  }
+
+  private void handleNormalRequest(HttpRequest request) throws IOException {
     Writer writer = new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.US_ASCII);
 
     logger.info("Handling request for %s%s.",
