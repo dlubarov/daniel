@@ -6,10 +6,10 @@ import daniel.data.option.Option;
 import daniel.data.unit.Duration;
 import daniel.data.unit.Instant;
 import daniel.web.html.Attribute;
-import daniel.web.html.Xhtml5Document;
 import daniel.web.html.Element;
+import daniel.web.html.InputBuilder;
+import daniel.web.html.ParagraphBuilder;
 import daniel.web.html.Tag;
-import daniel.web.html.TextNode;
 import daniel.web.http.HttpRequest;
 import daniel.web.http.HttpResponse;
 import daniel.web.http.HttpStatus;
@@ -48,32 +48,36 @@ final class AdminLoginHandler implements Handler {
       CookieManager.setCooke(cookie);
       Element document = Layout.createDocument(request,
           Option.some("Success"), Option.<String>none(),
-          TextNode.escapedText("You have been signed in."));
+          new ParagraphBuilder().addEscapedText("You have been signed in.").build()
+      );
       return HttpResponseFactory.xhtmlResponse(HttpStatus.OK, document);
     } else {
       Element document = Layout.createDocument(request,
           Option.some("Oops"), Option.<String>none(),
-          TextNode.escapedText("Wrong password."));
+          new ParagraphBuilder().addEscapedText("Wrong password.").build()
+      );
       return HttpResponseFactory.xhtmlResponse(HttpStatus.OK, document);
     }
   }
 
   private HttpResponse handleGet(HttpRequest request) {
     Element document = Layout.createDocument(request,
-        Option.some("Admin Login"), Option.<String>none(),
-        new Element.Builder(Tag.FORM)
-            .setAttribute(Attribute.ACTION, "admin")
-            .setAttribute(Attribute.METHOD, "post")
-            .addChild(TextNode.escapedText("Password:"))
-            .addChild(new Element(Tag.BR))
-            .addChild(new Element.Builder(Tag.INPUT)
-                .setAttribute(Attribute.TYPE, "password")
-                .setAttribute(Attribute.NAME, "admin_password")
-                .build())
-            .addChild(new Element(Tag.BR))
-            .addChild(new Element.Builder(Tag.INPUT)
-                .setAttribute(Attribute.TYPE, "submit").build())
-            .build());
+        Option.some("Admin Login"), Option.<String>none(), getForm());
     return HttpResponseFactory.xhtmlResponse(HttpStatus.OK, document);
+  }
+
+  private Element getForm() {
+    return new Element.Builder(Tag.FORM)
+        .setAttribute(Attribute.ACTION, "admin")
+        .setAttribute(Attribute.METHOD, "post")
+        .addEscapedText("Password:")
+        .addChild(new Element(Tag.BR))
+        .addChild(new InputBuilder()
+            .setType("password")
+            .setName("admin_password")
+            .build())
+        .addChild(new Element(Tag.BR))
+        .addChild(new InputBuilder().setType("submit").build())
+        .build();
   }
 }

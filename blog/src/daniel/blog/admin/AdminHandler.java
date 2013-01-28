@@ -5,7 +5,6 @@ import daniel.web.http.HttpRequest;
 import daniel.web.http.HttpResponse;
 import daniel.web.http.server.DelegatingHandler;
 import daniel.web.http.server.PartialHandler;
-import daniel.web.http.server.StandardNotFoundHandler;
 
 public final class AdminHandler implements PartialHandler {
   public static final AdminHandler singleton = new AdminHandler();

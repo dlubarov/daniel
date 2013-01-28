@@ -3,14 +3,16 @@ package daniel.blog;
 import daniel.data.collection.Collection;
 import daniel.data.function.Function;
 import daniel.data.option.Option;
+import daniel.web.html.AnchorBuilder;
 import daniel.web.html.Attribute;
 import daniel.web.html.Element;
 import daniel.web.html.HtmlUtils;
 import daniel.web.html.JavaScriptUtils;
 import daniel.web.html.Node;
+import daniel.web.html.ParagraphBuilder;
 import daniel.web.html.StylesheetUtils;
 import daniel.web.html.Tag;
-import daniel.web.html.TextNode;
+import daniel.web.html.TitleBuilder;
 import daniel.web.http.HttpRequest;
 
 public final class Layout {
@@ -41,7 +43,7 @@ public final class Layout {
         .build();
     return new Element(Tag.HEAD,
         description, keywords, base,
-        new Element(Tag.TITLE, TextNode.rawText("Daniel's Blog")),
+        new TitleBuilder().addRawText("Daniel's Blog").build(),
         StylesheetUtils.createCssLink("reset.css"),
         StylesheetUtils.createCssLink("style.css"),
         // TODO: Remove any fonts that aren't used.
@@ -57,9 +59,9 @@ public final class Layout {
       Collection<String> notifications, Node[] content) {
     Collection<Element> notificationElements = notifications.map(new Function<String, Element>() {
       @Override public Element apply(String message) {
-        return new Element.Builder(Tag.P)
-            .setAttribute(Attribute.CLASS, "notice")
-            .addChild(TextNode.escapedText(message))
+        return new ParagraphBuilder()
+            .setClass("notice")
+            .addEscapedText(message)
             .build();
       }
     });
@@ -68,21 +70,28 @@ public final class Layout {
         .setAttribute(Attribute.ID, "container")
         .addChildren(notificationElements);
     if (title.isDefined())
-      contentBuilder.addChild(new Element(Tag.H2, TextNode.escapedText(title.getOrThrow())));
+      contentBuilder.addChild(new Element.Builder(Tag.H2)
+          .addEscapedText(title.getOrThrow())
+          .build());
     if (subtitle.isDefined())
-      contentBuilder.addChild(new Element(Tag.H3, TextNode.escapedText(subtitle.getOrThrow())));
-    contentBuilder.addChild(new Element.Builder(Tag.DIV).setAttribute(Attribute.ID, "content")
+      contentBuilder.addChild(new Element.Builder(Tag.H3)
+          .addEscapedText(subtitle.getOrThrow())
+          .build());
+    contentBuilder.addChild(new Element.Builder(Tag.DIV)
+        .setAttribute(Attribute.ID, "content")
         .addChildren(content)
         .build());
 
+    Element heading = new Element.Builder(Tag.H1)
+        .addChild(new AnchorBuilder()
+            .setHref(Config.getBaseUrl())
+            .addEscapedText("Daniel's Blog")
+            .build())
+        .build();
+
     return new Element.Builder(Tag.BODY)
         .setAttribute(Attribute.ONLOAD, "prettyPrint()")
-        .addChild(new Element(Tag.H1,
-          new Element.Builder(Tag.A)
-              .setAttribute(Attribute.HREF, Config.getBaseUrl())
-              .addChild(TextNode.escapedText("Daniel's Blog"))
-              .build()
-        ))
+        .addChild(heading)
         .addChild(contentBuilder.build())
         .addChild(HtmlUtils.getClearDiv())
         .addChild(getFooter())
@@ -90,16 +99,16 @@ public final class Layout {
   }
 
   private static Element getFooter() {
-    Element left = new Element.Builder(Tag.P)
-        .addChild(TextNode.rawText("Copyright &#169; 2013 Daniel Lubarov"))
+    Element left = new ParagraphBuilder()
+        .addRawText("Copyright &#169; 2013 Daniel Lubarov")
         .build();
-    Element validatorLink = new Element.Builder(Tag.A)
-        .setAttribute(Attribute.HREF, "http://validator.w3.org/check?uri=referer")
-        .setAttribute(Attribute.TARGET, "_blank")
-        .addChild(TextNode.escapedText("Valid XHTML5"))
+    Element validatorLink = new AnchorBuilder()
+        .setHref("http://validator.w3.org/check?uri=referer")
+        .setTarget("_blank")
+        .addEscapedText("Valid XHTML5")
         .build();
-    Element right = new Element.Builder(Tag.P)
-        .setAttribute(Attribute.CLASS, "fr")
+    Element right = new ParagraphBuilder()
+        .setClass("fr")
         .addChild(validatorLink)
         .build();
     return new Element.Builder(Tag.DIV)

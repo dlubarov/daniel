@@ -5,10 +5,9 @@ import daniel.blog.MiscStorage;
 import daniel.data.option.Option;
 import daniel.data.util.Check;
 import daniel.web.html.Attribute;
-import daniel.web.html.Xhtml5Document;
 import daniel.web.html.Element;
+import daniel.web.html.ParagraphBuilder;
 import daniel.web.html.Tag;
-import daniel.web.html.TextNode;
 import daniel.web.http.HttpRequest;
 import daniel.web.http.HttpResponse;
 import daniel.web.http.HttpStatus;
@@ -42,29 +41,22 @@ final class AdminSetupHandler implements Handler {
     MiscStorage.setAdminPassword(adminPassword);
     Element document = Layout.createDocument(request,
         Option.some("Success"), Option.<String>none(),
-        TextNode.escapedText("Password has been set."));
+        new ParagraphBuilder().addEscapedText("Password has been set.").build());
     return HttpResponseFactory.xhtmlResponse(HttpStatus.OK, document);
   }
 
   private HttpResponse handleGet(HttpRequest request) {
-    Element document = Layout.createDocument(
-        request,
-        Option.some("Admin Setup"),
-        Option.<String>none(),
-        new Element.Builder(Tag.FORM)
-            .setAttribute(Attribute.ACTION, "admin")
-            .setAttribute(Attribute.METHOD, "post")
-            .addChild(TextNode.escapedText("Create Admin Password:"))
-            .addChild(new Element(Tag.BR))
-            .addChild(new Element.Builder(Tag.INPUT)
-                .setAttribute(Attribute.TYPE, "password")
-                .setAttribute(Attribute.NAME, "admin_password")
-                .build())
-            .addChild(new Element(Tag.BR))
-            .addChild(new Element.Builder(Tag.INPUT)
-                .setAttribute(Attribute.TYPE, "submit")
-                .build())
-            .build());
+    Element document = Layout.createDocument(request, Option.some("Admin Setup"),
+        Option.<String>none(), new Element.Builder(Tag.FORM).setAttribute(Attribute.ACTION, "admin")
+        .setAttribute(Attribute.METHOD, "post")
+        .addEscapedText("Create Admin Password:")
+        .addChild(new Element(Tag.BR))
+        .addChild(new Element.Builder(Tag.INPUT).setAttribute(Attribute.TYPE, "password")
+            .setAttribute(Attribute.NAME, "admin_password")
+            .build())
+        .addChild(new Element(Tag.BR))
+        .addChild(new Element.Builder(Tag.INPUT).setAttribute(Attribute.TYPE, "submit").build())
+        .build());
     return HttpResponseFactory.xhtmlResponse(HttpStatus.OK, document);
   }
 }

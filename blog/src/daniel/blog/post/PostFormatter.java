@@ -3,16 +3,11 @@ package daniel.blog.post;
 import daniel.blog.comment.Comment;
 import daniel.blog.comment.CommentFormFormatter;
 import daniel.blog.comment.CommentFormatter;
-import daniel.data.collection.Collection;
 import daniel.data.function.Function;
-import daniel.data.order.AbstractOrdering;
-import daniel.data.order.Relation;
 import daniel.data.sequence.Sequence;
-import daniel.data.unit.Instant;
-import daniel.web.html.Attribute;
+import daniel.web.html.AnchorBuilder;
 import daniel.web.html.Element;
 import daniel.web.html.Tag;
-import daniel.web.html.TextNode;
 
 public final class PostFormatter {
   private PostFormatter() {}
@@ -25,10 +20,10 @@ public final class PostFormatter {
     });
 
     Element.Builder builder = new Element.Builder(Tag.DIV);
-    builder.addChild(TextNode.rawText(post.getContent()));
+    builder.addRawText(post.getContent());
     if (!commentElements.isEmpty()) {
       String headerText = String.format("%d Comments", commentElements.getSize());
-      builder.addChild(new Element(Tag.H4, TextNode.escapedText(headerText)));
+      builder.addChild(new Element.Builder(Tag.H4).addEscapedText(headerText).build());
       builder.addChildren(commentElements);
     }
     builder.addChild(CommentFormFormatter.getAddCommentForm(post));
@@ -36,9 +31,9 @@ public final class PostFormatter {
   }
 
   public static Element summaryLink(Post post) {
-    return new Element.Builder(Tag.A)
-        .setAttribute(Attribute.HREF, PostUrlFactory.getViewUrl(post))
-        .addChild(TextNode.escapedText(post.getSubject()))
+    return new AnchorBuilder()
+        .setHref(PostUrlFactory.getViewUrl(post))
+        .addEscapedText(post.getSubject())
         .build();
   }
 }

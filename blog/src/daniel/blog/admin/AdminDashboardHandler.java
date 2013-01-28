@@ -2,11 +2,10 @@ package daniel.blog.admin;
 
 import daniel.blog.Layout;
 import daniel.data.option.Option;
-import daniel.web.html.Attribute;
+import daniel.web.html.AnchorBuilder;
 import daniel.web.html.Element;
+import daniel.web.html.ParagraphBuilder;
 import daniel.web.html.Tag;
-import daniel.web.html.Xhtml5Document;
-import daniel.web.html.TextNode;
 import daniel.web.http.HttpRequest;
 import daniel.web.http.HttpResponse;
 import daniel.web.http.HttpStatus;
@@ -23,20 +22,22 @@ final class AdminDashboardHandler implements PartialHandler {
     if (!request.getResource().equals("/admin"))
       return Option.none();
 
-    Element aCreatePost = new Element.Builder(Tag.A)
-        .setAttribute(Attribute.HREF, "admin/create-post")
-        .addChild(TextNode.escapedText("Create a new post"))
+    Element aCreatePost = new AnchorBuilder()
+        .setHref("admin/create-post")
+        .addEscapedText("Create a new post")
         .build();
-    Element aReviewComments = new Element.Builder(Tag.A)
-        .setAttribute(Attribute.HREF, "admin/review-comments")
-        .addChild(TextNode.escapedText("Review comments"))
+    Element aReviewComments = new AnchorBuilder()
+        .setHref("admin/review-comments")
+        .addEscapedText("Review comments")
         .build();
 
     Element linkList = new Element.Builder(Tag.UL)
         .addChild(new Element(Tag.LI, aCreatePost))
         .addChild(new Element(Tag.LI, aReviewComments))
         .build();
-    Element whatsUp = new Element(Tag.P, TextNode.escapedText("What's up?"));
+    Element whatsUp = new ParagraphBuilder()
+        .addEscapedText("What's up?")
+        .build();
 
     Element document = Layout.createDocument(
         request, Option.some("Admin Control Panel"),

@@ -4,7 +4,6 @@ import daniel.blog.post.Post;
 import daniel.web.html.Attribute;
 import daniel.web.html.Element;
 import daniel.web.html.Tag;
-import daniel.web.html.TextNode;
 
 public final class CommentFormFormatter {
   private CommentFormFormatter() {}
@@ -14,9 +13,7 @@ public final class CommentFormFormatter {
     formBuilder.setAttribute(Attribute.ACTION, post.getUrlFriendlySubject() + "/comment");
     formBuilder.setAttribute(Attribute.METHOD, "post");
     formBuilder.setAttribute(Attribute.CLASS, "add-comment");
-    formBuilder.addChild(new Element.Builder(Tag.H4)
-        .addChild(TextNode.escapedText("Post a Comment"))
-        .build());
+    formBuilder.addChild(new Element.Builder(Tag.H4).addEscapedText("Post a Comment").build());
     formBuilder.addChild(getAuthorNamePart());
     formBuilder.addChild(getAuthorEmailPart());
     formBuilder.addChild(getContentPart());

@@ -8,10 +8,9 @@ import daniel.data.order.AbstractOrdering;
 import daniel.data.order.Relation;
 import daniel.data.sequence.Sequence;
 import daniel.data.unit.Instant;
-import daniel.web.html.Xhtml5Document;
 import daniel.web.html.Element;
+import daniel.web.html.ParagraphBuilder;
 import daniel.web.html.Tag;
-import daniel.web.html.TextNode;
 import daniel.web.http.HttpRequest;
 import daniel.web.http.HttpResponse;
 import daniel.web.http.HttpStatus;
@@ -45,7 +44,7 @@ final class HomeHandler implements PartialHandler {
       listBuilder.addChild(new Element(Tag.LI, summaryLink));
     }
 
-    Element intro = new Element(Tag.P, TextNode.rawText(INTRO));
+    Element intro = new ParagraphBuilder().addRawText(INTRO).build();
 
     Element document = Layout.createDocument(request,
         Option.<String>none(), Option.<String>none(),

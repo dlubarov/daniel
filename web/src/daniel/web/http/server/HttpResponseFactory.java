@@ -1,10 +1,11 @@
 package daniel.web.http.server;
 
-import daniel.web.html.Attribute;
-import daniel.web.html.Xhtml5Document;
+import daniel.web.html.AnchorBuilder;
 import daniel.web.html.Element;
+import daniel.web.html.ParagraphBuilder;
 import daniel.web.html.Tag;
-import daniel.web.html.TextNode;
+import daniel.web.html.TitleBuilder;
+import daniel.web.html.Xhtml5Document;
 import daniel.web.http.DateUtils;
 import daniel.web.http.HttpResponse;
 import daniel.web.http.HttpStatus;
@@ -47,20 +48,21 @@ public final class HttpResponseFactory {
   }
 
   private static HttpResponse redirect(String location, HttpStatus status) {
-    Element title = new Element(Tag.TITLE, TextNode.escapedText(status.toString()));
+    Element title = new TitleBuilder().addEscapedText(status.toString()).build();
     Element head = new Element.Builder(Tag.HEAD)
         .addChild(title)
         .build();
 
-    Element body = new Element(Tag.BODY,
-        new Element(Tag.H1, TextNode.escapedText(status.toString())),
-        new Element(Tag.P,
-            TextNode.escapedText("This document has been moved "),
-            new Element.Builder(Tag.A)
-                .setAttribute(Attribute.HREF, location)
-                .addChild(TextNode.escapedText("here"))
-                .build(),
-            TextNode.escapedText(".")));
+    Element header = new Element.Builder(Tag.H1).addEscapedText(status.toString()).build();
+    Element content = new ParagraphBuilder()
+            .addEscapedText("This document has been moved ")
+            .addChild(new AnchorBuilder()
+                .setHref(location)
+                .addEscapedText("here")
+                .build())
+            .addEscapedText(".")
+            .build();
+    Element body = new Element(Tag.BODY, header, content);
 
     Element html = new Element.Builder(Tag.HTML)
         .setAttribute("xmlns", "http://www.w3.org/1999/xhtml")

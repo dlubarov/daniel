@@ -9,12 +9,11 @@ import daniel.blog.comment.CommentStorage;
 import daniel.data.collection.Collection;
 import daniel.data.function.Function;
 import daniel.data.option.Option;
-import daniel.data.sequence.Sequence;
 import daniel.web.html.Attribute;
 import daniel.web.html.Element;
 import daniel.web.html.Node;
+import daniel.web.html.ParagraphBuilder;
 import daniel.web.html.Tag;
-import daniel.web.html.TextNode;
 import daniel.web.http.HttpRequest;
 import daniel.web.http.HttpResponse;
 import daniel.web.http.HttpStatus;
@@ -67,12 +66,14 @@ public class ReviewCommentsHandler implements PartialHandler {
         .setAttribute(Attribute.ACTION, "admin/review-comments")
         .setAttribute(Attribute.METHOD, "post")
         .addChild(CommentFormatter.full(comment))
-        .addChild(new Element(Tag.P, approveButton, deleteButton))
+        .addChild(new ParagraphBuilder().addChild(approveButton).addChild(deleteButton).build())
         .build();
   }
 
   private static HttpResponse nothingToReviewResponse(HttpRequest request) {
-    Node content = TextNode.escapedText("There are no comments needing review.");
+    Node content = new ParagraphBuilder()
+        .addEscapedText("There are no comments needing review.")
+        .build();
     Element html = Layout.createDocument(request,
         Option.some("Review Comments"), Option.<String>none(), content);
     return HttpResponseFactory.xhtmlResponse(HttpStatus.OK, html);

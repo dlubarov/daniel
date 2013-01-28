@@ -1,13 +1,14 @@
 package daniel.viewheaders;
 
+import daniel.web.html.AnchorBuilder;
 import daniel.web.html.Attribute;
-import daniel.web.html.Xhtml5Document;
 import daniel.web.html.Element;
 import daniel.web.html.HtmlUtils;
 import daniel.web.html.Node;
+import daniel.web.html.ParagraphBuilder;
 import daniel.web.html.StylesheetUtils;
 import daniel.web.html.Tag;
-import daniel.web.html.TextNode;
+import daniel.web.html.TitleBuilder;
 
 public final class Layout {
   private Layout() {}
@@ -37,15 +38,16 @@ public final class Layout {
         description, keywords, base,
         StylesheetUtils.createCssLink("reset.css"),
         StylesheetUtils.createCssLink("style.css"),
-        new Element(Tag.TITLE, TextNode.rawText("View Headers"))
+        new TitleBuilder().addEscapedText("View Headers").build()
     );
   }
 
   private static Element getBody(Node[] content) {
     return new Element.Builder(Tag.BODY)
         .addChild(new Element(Tag.H1,
-            new Element.Builder(Tag.A).setAttribute(Attribute.HREF, Config.getBaseUrl())
-                .addChild(TextNode.escapedText("View Headers"))
+            new AnchorBuilder()
+                .setHref(Config.getBaseUrl())
+                .addEscapedText("View Headers")
                 .build()))
         .addChild(new Element.Builder(Tag.DIV)
             .setAttribute(Attribute.ID, "content")
@@ -59,12 +61,12 @@ public final class Layout {
   private static Element getFooter() {
     return new Element.Builder(Tag.DIV)
         .setAttribute(Attribute.ID, "footer")
-        .addChild(new Element.Builder(Tag.P)
-            .setAttribute(Attribute.CLASS, "fr")
-            .addChild(TextNode.escapedText("Valid HTML & CSS"))
+        .addChild(new ParagraphBuilder()
+            .setClass("fr")
+            .addEscapedText("Valid HTML & CSS")
             .build())
-        .addChild(new Element.Builder(Tag.P)
-            .addChild(TextNode.rawText("Copyright &#169; Daniel Lubarov"))
+        .addChild(new ParagraphBuilder()
+            .addRawText("Copyright &#169; Daniel Lubarov")
             .build())
         .build();
   }

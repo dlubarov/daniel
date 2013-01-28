@@ -8,7 +8,6 @@ import daniel.blog.post.PostUrlFactory;
 import daniel.data.option.Option;
 import daniel.data.unit.Instant;
 import daniel.web.html.Attribute;
-import daniel.web.html.Xhtml5Document;
 import daniel.web.html.Element;
 import daniel.web.html.Tag;
 import daniel.web.http.HttpRequest;

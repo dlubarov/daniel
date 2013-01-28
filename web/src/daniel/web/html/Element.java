@@ -24,6 +24,14 @@ public final class Element implements Node {
       return this;
     }
 
+    public Builder addRawText(String text) {
+      return addChild(TextNode.rawText(text));
+    }
+
+    public Builder addEscapedText(String text) {
+      return addChild(TextNode.escapedText(text));
+    }
+
     public Builder addChildren(Node... children) {
       for (Node child : children)
         addChild(child);

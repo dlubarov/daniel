@@ -5,10 +5,8 @@ import daniel.blog.post.PostStorage;
 import daniel.blog.post.PostUrlFactory;
 import daniel.data.option.Option;
 import daniel.web.html.Attribute;
-import daniel.web.html.Xhtml5Document;
 import daniel.web.html.Element;
 import daniel.web.html.Tag;
-import daniel.web.html.TextNode;
 import daniel.web.http.HttpRequest;
 import daniel.web.http.HttpResponse;
 import daniel.web.http.HttpStatus;
@@ -39,18 +37,16 @@ final class EditPostHandler implements Handler {
     Element form = new Element.Builder(Tag.FORM)
         .setAttribute(Attribute.ACTION, post.getUrlFriendlySubject() + "/edit")
         .setAttribute(Attribute.METHOD, "post")
-        .addChild(new Element.Builder(Tag.INPUT)
-            .setAttribute(Attribute.NAME, "subject")
+        .addChild(new Element.Builder(Tag.INPUT).setAttribute(Attribute.NAME, "subject")
             .setAttribute(Attribute.TYPE, "text")
             .setEscapedAttribtue(Attribute.VALUE, post.getSubject())
             .setAttribute(Attribute.CLASS, "wide")
             .setAttribute(Attribute.STYLE, "margin-bottom: 1em")
             .build())
-        .addChild(new Element.Builder(Tag.TEXTAREA)
-            .setAttribute(Attribute.NAME, "content")
+        .addChild(new Element.Builder(Tag.TEXTAREA).setAttribute(Attribute.NAME, "content")
             .setAttribute(Attribute.CLASS, "wide")
             .setAttribute(Attribute.ROWS, "30")
-            .addChild(TextNode.escapedText(post.getContent()))
+            .addEscapedText(post.getContent())
             .build())
         .addChild(new Element(Tag.BR))
         .addChild(new Element.Builder(Tag.INPUT)

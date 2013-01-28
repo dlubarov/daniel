@@ -1,9 +1,10 @@
 package daniel.web.http.server;
 
-import daniel.web.html.Xhtml5Document;
+import daniel.web.html.AnchorBuilder;
 import daniel.web.html.Element;
+import daniel.web.html.ParagraphBuilder;
 import daniel.web.html.Tag;
-import daniel.web.html.TextNode;
+import daniel.web.html.TitleBuilder;
 import daniel.web.http.HttpRequest;
 import daniel.web.http.HttpResponse;
 import daniel.web.http.HttpStatus;
@@ -19,15 +20,19 @@ public final class StandardNotFoundHandler implements Handler {
   @Override
   public HttpResponse handle(HttpRequest request) {
     Element head = new Element(Tag.HEAD,
-        new Element(Tag.TITLE, TextNode.rawText("Daniel's Blog"))
+        new TitleBuilder().addRawText("Daniel's Blog").build()
     );
-    Element body = new Element(Tag.BODY,
-        new Element(Tag.H1, new Element(Tag.A, TextNode.rawText("Not Found"))),
-        new Element(Tag.P,
-            TextNode.rawText("The requested resource, "),
-            new Element(Tag.STRONG, TextNode.escapedText(request.getResource())),
-            TextNode.rawText(", was not found."))
+
+    Element heading = new Element(Tag.H1,
+        new AnchorBuilder().addEscapedText("Not Found").build()
     );
+    Element content = new ParagraphBuilder()
+        .addEscapedText("The requested resource, ")
+        .addChild(new Element.Builder(Tag.STRONG).addEscapedText(request.getResource()).build())
+        .addEscapedText(", was not found.")
+        .build();
+    Element body = new Element(Tag.BODY, heading, content);
+
     Element html = new Element.Builder(Tag.HTML)
         .setAttribute("xmlns", "http://www.w3.org/1999/xhtml")
         .setAttribute("xml:lang", "en")
