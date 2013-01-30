@@ -15,11 +15,17 @@ public final class HttpServer {
 
   public static final class Builder {
     private Option<Handler> handler = Option.none();
+    private Option<WebSocketHandler> webSocketHandler = Option.none();
     private Option<Executor> executor = Option.none();
     private Option<Integer> port = Option.none();
 
     public Builder setHandler(Handler handler) {
       this.handler = Option.some(handler);
+      return this;
+    }
+
+    public Builder setWebSocketHandler(WebSocketHandler webSocketHandler) {
+      this.webSocketHandler = Option.some(webSocketHandler);
       return this;
     }
 
@@ -39,6 +45,7 @@ public final class HttpServer {
   }
 
   private final Handler handler;
+  private final Option<WebSocketHandler> webSocketHandler;
   private final Executor executor;
   private final int port;
   private Option<ConnectionListener> connectionListener;
@@ -46,6 +53,7 @@ public final class HttpServer {
 
   private HttpServer(Builder builder) {
     handler = builder.handler.getOrThrow("No handler was specified.");
+    webSocketHandler = builder.webSocketHandler;
     executor = builder.executor.getOrDefault(Executors.newCachedThreadPool(new ThreadFactory() {
       @Override public Thread newThread(Runnable r) {
         return new Thread(r, "connection manager");
@@ -89,7 +97,7 @@ public final class HttpServer {
       do {
         try {
           Socket socket = serverSocket.accept();
-          executor.execute(new ConnectionManager(socket, handler));
+          executor.execute(new ConnectionManager(socket, handler, webSocketHandler));
         } catch (IOException e) {
           logger.error(e, "Failed to accept connection.");
         }
