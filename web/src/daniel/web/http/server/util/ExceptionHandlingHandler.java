@@ -1,4 +1,4 @@
-package daniel.web.http.server;
+package daniel.web.http.server.util;
 
 import daniel.web.html.Element;
 import daniel.web.html.ParagraphBuilder;
@@ -7,6 +7,8 @@ import daniel.web.html.TitleBuilder;
 import daniel.web.http.HttpRequest;
 import daniel.web.http.HttpResponse;
 import daniel.web.http.HttpStatus;
+import daniel.web.http.server.Handler;
+import daniel.web.http.server.util.HttpResponseFactory;
 
 public final class ExceptionHandlingHandler implements Handler {
   private final Handler delegate;

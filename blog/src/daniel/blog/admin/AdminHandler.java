@@ -3,7 +3,7 @@ package daniel.blog.admin;
 import daniel.data.option.Option;
 import daniel.web.http.HttpRequest;
 import daniel.web.http.HttpResponse;
-import daniel.web.http.server.DelegatingHandler;
+import daniel.web.http.server.util.DelegatingHandler;
 import daniel.web.http.server.PartialHandler;
 
 public final class AdminHandler implements PartialHandler {

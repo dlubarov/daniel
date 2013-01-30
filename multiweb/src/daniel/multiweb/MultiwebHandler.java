@@ -2,9 +2,9 @@ package daniel.multiweb;
 
 import daniel.blog.BlogHandler;
 import daniel.viewheaders.ViewHeadersHandler;
-import daniel.web.http.server.ExceptionHandlingHandler;
+import daniel.web.http.server.util.ExceptionHandlingHandler;
 import daniel.web.http.server.Handler;
-import daniel.web.http.server.HostBasedHandler;
+import daniel.web.http.server.util.HostBasedHandler;
 
 final class MultiwebHandler {
   private MultiwebHandler() {}

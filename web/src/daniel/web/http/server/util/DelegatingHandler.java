@@ -1,4 +1,4 @@
-package daniel.web.http.server;
+package daniel.web.http.server.util;
 
 import daniel.data.option.Option;
 import daniel.data.sequence.ImmutableSequence;
@@ -6,6 +6,9 @@ import daniel.data.stack.DynamicArray;
 import daniel.data.stack.MutableStack;
 import daniel.web.http.HttpRequest;
 import daniel.web.http.HttpResponse;
+import daniel.web.http.server.Handler;
+import daniel.web.http.server.PartialHandler;
+import daniel.web.http.server.util.StandardNotFoundHandler;
 
 public final class DelegatingHandler implements Handler {
   public static final class Builder {

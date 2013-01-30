@@ -1,4 +1,4 @@
-package daniel.web.http.server;
+package daniel.web.http.server.util;
 
 import daniel.data.option.Option;
 import daniel.data.sequence.ImmutableArray;
@@ -7,16 +7,17 @@ import daniel.logging.Logger;
 import daniel.web.http.HttpRequest;
 import daniel.web.http.HttpResponse;
 import daniel.web.http.RequestMethod;
+import daniel.web.http.server.PartialHandler;
 
-public final class WwwRemover implements PartialHandler {
-  private static final Logger logger = Logger.forClass(WwwRemover.class);
+public final class WwwRemovingHandler implements PartialHandler {
+  private static final Logger logger = Logger.forClass(WwwRemovingHandler.class);
 
-  public static final WwwRemover singleton = new WwwRemover();
+  public static final WwwRemovingHandler singleton = new WwwRemovingHandler();
 
   private static final ImmutableSequence<RequestMethod> methodToRedirect =
       ImmutableArray.create(RequestMethod.GET, RequestMethod.HEAD);
 
-  private WwwRemover() {}
+  private WwwRemovingHandler() {}
 
   @Override
   public Option<HttpResponse> tryHandle(HttpRequest request) {

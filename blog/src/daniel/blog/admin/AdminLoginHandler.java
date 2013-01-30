@@ -16,7 +16,7 @@ import daniel.web.http.HttpStatus;
 import daniel.web.http.cookies.Cookie;
 import daniel.web.http.cookies.CookieManager;
 import daniel.web.http.server.Handler;
-import daniel.web.http.server.HttpResponseFactory;
+import daniel.web.http.server.util.HttpResponseFactory;
 
 final class AdminLoginHandler implements Handler {
   public AdminLoginHandler() {}

@@ -1,9 +1,10 @@
-package daniel.web.http.server;
+package daniel.web.http.server.util;
 
 import daniel.data.dictionary.ImmutableDictionary;
 import daniel.data.dictionary.MutableHashTable;
 import daniel.web.http.HttpRequest;
 import daniel.web.http.HttpResponse;
+import daniel.web.http.server.Handler;
 
 public final class HostBasedHandler implements Handler {
   public static final class Builder {

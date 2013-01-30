@@ -1,4 +1,4 @@
-package daniel.web.http.server;
+package daniel.web.http.server.util;
 
 import daniel.data.dictionary.ImmutableDictionary;
 import daniel.data.dictionary.MutableHashTable;
@@ -12,6 +12,7 @@ import daniel.web.http.HttpResponse;
 import daniel.web.http.HttpStatus;
 import daniel.web.http.HttpVersion;
 import daniel.web.http.ResponseHeaderName;
+import daniel.web.http.server.PartialHandler;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;

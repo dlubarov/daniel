@@ -17,7 +17,7 @@ import daniel.web.html.Tag;
 import daniel.web.http.HttpRequest;
 import daniel.web.http.HttpResponse;
 import daniel.web.http.HttpStatus;
-import daniel.web.http.server.HttpResponseFactory;
+import daniel.web.http.server.util.HttpResponseFactory;
 import daniel.web.http.server.PartialHandler;
 
 public class ReviewCommentsHandler implements PartialHandler {

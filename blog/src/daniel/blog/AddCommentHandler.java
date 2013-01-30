@@ -10,7 +10,7 @@ import daniel.web.http.HttpRequest;
 import daniel.web.http.HttpResponse;
 import daniel.web.http.RequestMethod;
 import daniel.web.http.server.Handler;
-import daniel.web.http.server.HttpResponseFactory;
+import daniel.web.http.server.util.HttpResponseFactory;
 
 final class AddCommentHandler implements Handler {
   private final Post post;

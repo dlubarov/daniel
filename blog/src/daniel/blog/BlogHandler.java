@@ -1,10 +1,10 @@
 package daniel.blog;
 
 import daniel.blog.admin.AdminHandler;
-import daniel.web.http.server.DelegatingHandler;
+import daniel.web.http.server.util.WwwRemovingHandler;
+import daniel.web.http.server.util.DelegatingHandler;
 import daniel.web.http.server.Handler;
-import daniel.web.http.server.StaticContentHandler;
-import daniel.web.http.server.WwwRemover;
+import daniel.web.http.server.util.StaticContentHandler;
 import java.io.File;
 
 public final class BlogHandler {
@@ -12,7 +12,7 @@ public final class BlogHandler {
 
   public static Handler getHandler() {
     return new DelegatingHandler.Builder()
-        .addPartialHandler(WwwRemover.singleton)
+        .addPartialHandler(WwwRemovingHandler.singleton)
         .addPartialHandler(HomeHandler.singleton)
         .addPartialHandler(PostHandler.singleton)
         .addPartialHandler(AdminHandler.singleton)

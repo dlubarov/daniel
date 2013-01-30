@@ -1,4 +1,4 @@
-package daniel.web.http.server;
+package daniel.web.http.server.util;
 
 import daniel.web.html.AnchorBuilder;
 import daniel.web.html.Element;
