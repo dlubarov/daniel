@@ -171,6 +171,9 @@ public final class HttpRequest {
 
   public String getHost() {
     Collection<String> hosts = headers.getValues(RequestHeaderName.HOST.getStandardName());
+    // TODO: Need proper solution for case insensitivity.
+    if (hosts.isEmpty())
+      hosts = headers.getValues(RequestHeaderName.HOST.getStandardName().toLowerCase());
     return hosts.tryGetOnlyElement().getOrThrow(
         "Expected exactly one Host header; received %s.", headers);
   }
