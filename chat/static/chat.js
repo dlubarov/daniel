@@ -8,6 +8,9 @@ function send() {
 
   var messageBox = document.getElementById("message");
   var name = document.getElementById("name").value;
+  if (name == "" || message == "") {
+    return;
+  }
   var message = {
     "name": name,
     "message": messageBox.value
