@@ -73,6 +73,11 @@ public final class ChatPageHandler implements PartialHandler {
   }
 
   private static Element getInputBar() {
+    Element nameBox = new InputBuilder()
+        .setId("name")
+        .setType("text")
+        .setPlaceholder("Your Name")
+        .build();
     Element messageBox = new InputBuilder()
         .setId("message")
         .setType("text")
@@ -86,6 +91,7 @@ public final class ChatPageHandler implements PartialHandler {
         .build();
     return new Element.Builder(Tag.DIV)
         .setAttribute(Attribute.ID, "inputBar")
+        .addChild(nameBox)
         .addChild(messageBox)
         .addChild(sendButton)
         .build();

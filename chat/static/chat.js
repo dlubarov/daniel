@@ -7,13 +7,27 @@ function send() {
   }
 
   var messageBox = document.getElementById("message");
-  var message = messageBox.value;
-  connection.send(message);
+  var name = document.getElementById("name").value;
+  var message = {
+    "name": name,
+    "message": messageBox.value
+  };
+  connection.send(JSON.stringify(message));
   messageBox.value = "";
 }
 
 function addMessage(message) {
   var p = document.createElement("p");
+  p.appendChild(document.createTextNode(message));
+  document.getElementById("messages").appendChild(p);
+}
+
+function addChatMessage(name, message) {
+  var nameElem = document.createElement("strong");
+  nameElem.appendChild(document.createTextNode(name));
+  var p = document.createElement("p");
+  p.appendChild(nameElem);
+  p.appendChild(document.createTextNode(": "));
   p.appendChild(document.createTextNode(message));
   document.getElementById("messages").appendChild(p);
 }
@@ -35,7 +49,8 @@ function start() {
     addMessage("Error detected: " + error);
   }
   connection.onmessage = function(e) {
-    addMessage(e.data);
+    var message = JSON.parse(e.data);
+    addChatMessage(message["name"], message["message"]);
   }
 }
 

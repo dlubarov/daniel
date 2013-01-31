@@ -1,5 +1,6 @@
 package daniel.chat;
 
+import com.google.gson.Gson;
 import daniel.data.multidictionary.MutableHashMultitable;
 import daniel.logging.Logger;
 import daniel.web.http.server.WebSocketHandler;
@@ -11,6 +12,7 @@ import java.nio.charset.StandardCharsets;
 
 public final class ChatWebSocketHandler implements WebSocketHandler {
   private static final Logger logger = Logger.forClass(ChatWebSocketHandler.class);
+  private static final Gson gson = new Gson();
 
   public static final ChatWebSocketHandler singleton = new ChatWebSocketHandler();
 
@@ -33,12 +35,13 @@ public final class ChatWebSocketHandler implements WebSocketHandler {
 
   @Override
   public synchronized void handle(WebSocketManager manager, WebSocketMessage message) {
-    String messageString = new String(message.getData(), StandardCharsets.UTF_8);
-    logger.info("Channel %s received message: %s", getChannel(manager), messageString);
+    String rawMessageString = new String(message.getData(), StandardCharsets.UTF_8);
+    ChatMessage parsedMessage = gson.fromJson(rawMessageString, ChatMessage.class);
+    logger.info("Channel %s received message: %s", getChannel(manager), parsedMessage);
     WebSocketFrame frame = new WebSocketFrame.Builder()
         .setFinalFragment(true)
         .setOpcode(WebSocketOpcode.TEXT_FRAME)
-        .setPayload(message.getData())
+        .setPayload(gson.toJson(parsedMessage).getBytes(StandardCharsets.UTF_8))
         .build();
     for (WebSocketManager peer : managersByChannel.getValues(getChannel(manager)))
       peer.send(frame);
