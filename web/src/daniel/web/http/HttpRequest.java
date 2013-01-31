@@ -47,16 +47,19 @@ public final class HttpRequest {
     }
 
     public Builder addHeader(KeyValuePair<String, String> header) {
-      headers.pushBack(header);
-      return this;
+      return addHeader(header.getKey(), header.getValue());
     }
 
     public Builder addHeader(RequestHeaderName name, String value) {
-      return addHeader(new KeyValuePair<>(name.getStandardName(), value));
+      return addHeader(name.getStandardName(), value);
     }
 
     public Builder addHeader(String name, String value) {
-      return addHeader(new KeyValuePair<>(name, value));
+      for (RequestHeaderName header : RequestHeaderName.values())
+         if (header.getStandardName().equalsIgnoreCase(name))
+           name = header.getStandardName();
+      headers.pushBack(new KeyValuePair<>(name, value));
+      return this;
     }
 
     public Builder setBody(byte[] body) {
@@ -171,9 +174,6 @@ public final class HttpRequest {
 
   public String getHost() {
     Collection<String> hosts = headers.getValues(RequestHeaderName.HOST.getStandardName());
-    // TODO: Need proper solution for case insensitivity.
-    if (hosts.isEmpty())
-      hosts = headers.getValues(RequestHeaderName.HOST.getStandardName().toLowerCase());
     return hosts.tryGetOnlyElement().getOrThrow(
         "Expected exactly one Host header; received %s.", headers);
   }
