@@ -22,6 +22,11 @@ public final class ParagraphBuilder {
     return this;
   }
 
+  public ParagraphBuilder setId(String id) {
+    elementBuilder.setAttribute(Attribute.ID, id);
+    return this;
+  }
+
   public ParagraphBuilder setClass(String clazz) {
     elementBuilder.setAttribute(Attribute.CLASS, clazz);
     return this;

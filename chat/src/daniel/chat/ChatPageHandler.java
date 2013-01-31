@@ -1,10 +1,12 @@
 package daniel.chat;
 
 import daniel.data.option.Option;
+import daniel.web.html.AnchorBuilder;
 import daniel.web.html.Attribute;
 import daniel.web.html.Element;
 import daniel.web.html.InputBuilder;
 import daniel.web.html.JavaScriptUtils;
+import daniel.web.html.ParagraphBuilder;
 import daniel.web.html.StylesheetUtils;
 import daniel.web.html.Tag;
 import daniel.web.html.TitleBuilder;
@@ -60,6 +62,7 @@ public final class ChatPageHandler implements PartialHandler {
         .addChild(new Element.Builder(Tag.H1).addEscapedText(title).build())
         .addChild(getContentPane())
         .addChild(getInputBar())
+        .addChild(getNotice())
         .build();
     return new Element.Builder(Tag.BODY)
         .addChild(content)
@@ -94,6 +97,19 @@ public final class ChatPageHandler implements PartialHandler {
         .addChild(nameBox)
         .addChild(messageBox)
         .addChild(sendButton)
+        .build();
+  }
+
+  private static Element getNotice() {
+    Element exampleLink = new AnchorBuilder()
+        .setHref(Config.getBaseUrl() + "/math")
+        .addEscapedText(Config.getBaseUrl().substring(7) + "/math")
+        .build();
+    return new ParagraphBuilder()
+        .setId("notice")
+        .addRawText("To start a new chat room, just append it to the URL.<br />For example: ")
+        .addChild(exampleLink)
+        .addEscapedText(".")
         .build();
   }
 }

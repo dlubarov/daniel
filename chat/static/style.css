@@ -2,6 +2,15 @@ body {
   font-family: "Trebuchet MS", Arial, sans-serif;
 }
 
+a {
+  text-decoration: none;
+  color: #1039aD;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
 strong {
   font-weight: bold;
 }
@@ -51,4 +60,9 @@ h1 {
 button {
   background-color: #eee;
   width: 70px;
+}
+
+#notice {
+  margin-top: 10px;
+  text-align: center;
 }
