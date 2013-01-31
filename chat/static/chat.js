@@ -8,12 +8,13 @@ function send() {
 
   var messageBox = document.getElementById("message");
   var name = document.getElementById("name").value;
-  if (name == "" || message == "") {
+  var body = messageBox.value;
+  if (name == "" || body == "") {
     return;
   }
   var message = {
     "name": name,
-    "message": messageBox.value
+    "message": body
   };
   connection.send(JSON.stringify(message));
   messageBox.value = "";
