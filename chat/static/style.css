@@ -1,0 +1,42 @@
+body {
+  font-family: "Trebuchet MS", Arial, sans-serif;
+}
+
+h1 {
+  text-align: center;
+  font-size: 200%;
+  margin-top: 2em;
+  margin-bottom: 0.2em;
+}
+
+#content {
+  width: 800px;
+  margin: 0 auto;
+}
+
+#messages {
+  width: 778px;
+  border: 1px solid #bbb;
+  margin-bottom: 10px;
+  padding: 10px;
+}
+
+#message, button {
+  margin: 0;
+  padding: 10px;
+	vertical-align: baseline;
+  height: 25px;
+  border: 1px solid #bbb;
+  font-size: 100%;
+  box-sizing: content-box;
+}
+
+#message {
+  width: 630px;
+}
+
+button {
+  background-color: #eee;
+  width: 116px;
+  margin-left: 10px;
+}

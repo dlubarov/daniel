@@ -1,5 +1,6 @@
 package daniel.web.http.websocket.serialization;
 
+import daniel.data.option.Option;
 import daniel.data.util.Check;
 import daniel.data.util.IOUtils;
 import daniel.web.http.websocket.WebSocketFrame;
@@ -10,11 +11,12 @@ import java.io.InputStream;
 public final class WebSocketFrameDecoder {
   private WebSocketFrameDecoder() {}
 
-  public static WebSocketFrame parseFrame(InputStream inputStream) throws IOException {
+  public static Option<WebSocketFrame> parseFrame(InputStream inputStream) throws IOException {
     WebSocketFrame.Builder builder = new WebSocketFrame.Builder();
 
     int firstByte = inputStream.read();
-    Check.that(firstByte >= 0, "Unexpected end of stream.");
+    if (firstByte == -1)
+      return Option.none();
     builder.setFinalFragment((firstByte & 0b10000000) != 0);
     int opcodeValue = firstByte & 0b1111;
     builder.setOpcode(WebSocketOpcode.fromEncodedValue(opcodeValue));
@@ -39,6 +41,6 @@ public final class WebSocketFrameDecoder {
       builder.setMaskingKey(IOUtils.readFromStream(inputStream, 4));
     builder.setPayload(IOUtils.readFromStream(inputStream, length));
 
-    return builder.build();
+    return Option.some(builder.build());
   }
 }

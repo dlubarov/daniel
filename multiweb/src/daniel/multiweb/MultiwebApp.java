@@ -11,8 +11,10 @@ public final class MultiwebApp {
   public static void main(String[] args) throws Exception {
     HttpServer server = new HttpServer.Builder()
         .setHandler(MultiwebHandler.getHandler())
+        .setWebSocketHandler(MultiwebWebSocketHandler.getHandler())
         .setPort(Config.getPort())
         .build();
+
     server.start();
     server.join();
     logger.info("Server has stopped. Exiting.");

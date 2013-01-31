@@ -26,7 +26,7 @@ public class WebSocketFrameSerializer implements Serializer<WebSocketFrame> {
         @Override public int read() throws IOException {
           return source.take() & 0xFF;
         }
-      });
+      }).getOrThrow();
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
@@ -46,7 +46,7 @@ public class WebSocketFrameSerializer implements Serializer<WebSocketFrame> {
   @Override
   public WebSocketFrame readFromByteArray(byte[] data) {
     try {
-      return WebSocketFrameDecoder.parseFrame(new ByteArrayInputStream(data));
+      return WebSocketFrameDecoder.parseFrame(new ByteArrayInputStream(data)).getOrThrow();
     } catch (IOException e) {
       throw new RuntimeException(e);
     }

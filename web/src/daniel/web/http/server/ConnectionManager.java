@@ -2,19 +2,12 @@ package daniel.web.http.server;
 
 import daniel.data.dictionary.KeyValuePair;
 import daniel.data.option.Option;
-import daniel.data.stack.DynamicArray;
-import daniel.data.stack.MutableStack;
 import daniel.logging.Logger;
 import daniel.web.http.HttpRequest;
 import daniel.web.http.HttpResponse;
 import daniel.web.http.RequestMethod;
 import daniel.web.http.cookies.CookieManager;
 import daniel.web.http.websocket.AcceptKeyGenerator;
-import daniel.web.http.websocket.WebSocketFrame;
-import daniel.web.http.websocket.WebSocketMessage;
-import daniel.web.http.websocket.WebSocketOpcode;
-import daniel.web.http.websocket.serialization.WebSocketFrameDecoder;
-import daniel.web.http.websocket.serialization.WebSocketFrameEncoder;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
@@ -47,7 +40,7 @@ final class ConnectionManager implements Runnable {
   private void runWithExceptions() throws IOException {
     Option<HttpRequest> optRequest = RequestReader.readRequest(socket.getInputStream());
     if (optRequest.isEmpty()) {
-      logger.info("Received empty request.");
+      logger.warn("Received empty request.");
       return;
     }
 
@@ -62,9 +55,10 @@ final class ConnectionManager implements Runnable {
   }
 
   private void handleWebsocketRequest(HttpRequest request) throws IOException {
-    if (webSocketHandler.isEmpty()) {
+    if (webSocketHandler.isEmpty())
       throw new RuntimeException("No WebSocket handler configured.");
-    }
+
+    logger.info("Handling WebSocket request for %s%s.", request.getHost(), request.getResource());
 
     String clientKey = request.getHeaders().getValues("Sec-WebSocket-Key")
         .tryGetOnlyElement().getOrThrow("Expected exactly one websocket key.");
@@ -78,56 +72,13 @@ final class ConnectionManager implements Runnable {
     writer.write("\r\n");
     writer.flush();
 
-    continueWebsocketConversation(request);
-  }
-
-  // TODO: Move into another class & break up.
-  private void continueWebsocketConversation(HttpRequest request) throws IOException {
-    MutableStack<WebSocketFrame> fragments = DynamicArray.create();
-
-    for (;;) {
-      WebSocketFrame frame = WebSocketFrameDecoder.parseFrame(socket.getInputStream());
-      switch (frame.getOpcode()) {
-        case TEXT_FRAME:
-        case BINARY_FRAME:
-        case CONTINUATION:
-          fragments.pushBack(frame);
-          if (frame.isFinalFragment()) {
-            WebSocketMessage message = WebSocketMessage.fromFragments(fragments);
-            webSocketHandler.getOrThrow().handle(message, request);
-            fragments = DynamicArray.create();
-          }
-          break;
-        case CONNECTION_CLOSE:
-          logger.info("WebSocket connection closed.");
-          return;
-        case PING:
-          sendPong();
-          break;
-        case PONG:
-          logger.warn("Received unexpected pong. Ignoring.");
-          break;
-        default:
-          throw new AssertionError("Unexpected opcode.");
-      }
-    }
-  }
-
-  private void sendPong() throws IOException {
-    logger.info("Sending pong");
-    WebSocketFrame pongFrame = new WebSocketFrame.Builder()
-        .setFinalFragment(true)
-        .setOpcode(WebSocketOpcode.PONG)
-        .setPayload(new byte[0])
-        .build();
-    WebSocketFrameEncoder.encodeFrame(pongFrame, socket.getOutputStream());
+    new WebSocketManager(request, socket, webSocketHandler.getOrThrow()).listen();
   }
 
   private void handleNormalRequest(HttpRequest request) throws IOException {
     Writer writer = new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.US_ASCII);
 
-    logger.info("Handling request for %s%s.",
-        request.getHost(), request.getResource());
+    logger.info("Handling request for %s%s.", request.getHost(), request.getResource());
     CookieManager.resetCookies();
     HttpResponse response = handler.handle(request);
 

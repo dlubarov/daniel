@@ -7,6 +7,11 @@ public final class InputBuilder {
     elementBuilder = new Element.Builder(Tag.INPUT);
   }
 
+  public InputBuilder setId(String id) {
+    elementBuilder.setAttribute(Attribute.ID, id);
+    return this;
+  }
+
   public InputBuilder setClass(String clazz) {
     elementBuilder.setAttribute(Attribute.CLASS, clazz);
     return this;
@@ -24,6 +29,11 @@ public final class InputBuilder {
 
   public InputBuilder setName(String name) {
     elementBuilder.setAttribute(Attribute.NAME, name);
+    return this;
+  }
+
+  public InputBuilder setPlaceholder(String placeholder) {
+    elementBuilder.setAttribute(Attribute.PLACEHOLDER, placeholder);
     return this;
   }
 

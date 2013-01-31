@@ -3,15 +3,16 @@ package daniel.data.multidictionary;
 import daniel.data.collection.Collection;
 import daniel.data.collection.ImmutableCollection;
 import daniel.data.dictionary.ImmutableDictionary;
+import daniel.data.dictionary.ImmutableHashTable;
 import daniel.data.dictionary.KeyValuePair;
 import daniel.data.dictionary.MutableHashTable;
 import daniel.data.sequence.ImmutableArray;
 import daniel.data.sequence.SinglyLinkedList;
 import daniel.data.set.Set;
 import daniel.data.source.Source;
+import daniel.data.stack.DynamicArray;
 
-public final class ImmutableHashMultitable<K, V>
-    extends AbstractImmutableMultidictionary<K, V> {
+public final class ImmutableHashMultitable<K, V> extends AbstractImmutableMultidictionary<K, V> {
   private final ImmutableDictionary<K, ? extends ImmutableCollection<V>> valueGroups;
   private final int size;
 
@@ -22,6 +23,10 @@ public final class ImmutableHashMultitable<K, V>
     for (Collection<V> valueGroup : valueGroups.getValues())
       totalSize += valueGroup.getSize();
     this.size = totalSize;
+  }
+
+  public static <K, V> ImmutableHashMultitable<K, V> create() {
+    return new ImmutableHashMultitable<>(ImmutableHashTable.<K, ImmutableCollection<V>>create());
   }
 
   public static <K, V> ImmutableHashMultitable<K, V> copyOf(
@@ -44,7 +49,9 @@ public final class ImmutableHashMultitable<K, V>
 
   @Override
   public Collection<V> getValues(K key) {
-    return valueGroups.getValue(key);
+    return valueGroups.containsKey(key)
+        ? valueGroups.getValue(key)
+        : ImmutableArray.<V>create();
   }
 
   @Override
