@@ -28,7 +28,7 @@ public final class HostBasedHandler implements Handler {
 
   @Override
   public HttpResponse handle(HttpRequest request) {
-    String host = request.getHost();
+    String host = request.getHost().toLowerCase();
     for (String hostRegex : handlersByHost.getKeys())
       if (host.matches(hostRegex))
         return handlersByHost.getValue(hostRegex).handle(request);
