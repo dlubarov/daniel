@@ -6,8 +6,10 @@ function send() {
     return;
   }
 
-  var message = document.getElementById("message").value;
+  var messageBox = document.getElementById("message");
+  var message = messageBox.value;
   connection.send(message);
+  messageBox.value = "";
 }
 
 function addMessage(message) {

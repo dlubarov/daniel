@@ -48,6 +48,7 @@ public final class WebSocketManager {
 
     MutableStack<WebSocketFrame> fragments = DynamicArray.create();
 
+    listeningLoop:
     for (;;) {
       Option<WebSocketFrame> optFrame = WebSocketFrameDecoder.parseFrame(socket.getInputStream());
       if (optFrame.isEmpty())
@@ -73,11 +74,13 @@ public final class WebSocketManager {
         case CONNECTION_CLOSE:
           logger.info("WebSocket connection closed.");
           socket.close();
-          return;
+          break listeningLoop;
         default:
           throw new AssertionError("Unexpected opcode.");
       }
     }
+
+    handler.onDisconnect(this);
   }
 
   private void sendPong() throws IOException {

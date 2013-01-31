@@ -3,13 +3,14 @@ package daniel.data.multidictionary;
 import daniel.data.collection.Collection;
 import daniel.data.dictionary.KeyValuePair;
 import daniel.data.dictionary.MutableHashTable;
-import daniel.data.sequence.ImmutableArray;
+import daniel.data.multiset.MutableHashMultiset;
 import daniel.data.set.Set;
 import daniel.data.source.Source;
 import daniel.data.stack.DynamicArray;
+import daniel.data.stack.MutableStack;
 
 public final class MutableHashMultitable<K, V> extends AbstractMultidictionary<K, V> {
-  private final MutableHashTable<K, DynamicArray<V>> valueGroups;
+  private final MutableHashTable<K, MutableHashMultiset<V>> valueGroups;
   private int size = 0;
 
   private MutableHashMultitable() {
@@ -22,9 +23,19 @@ public final class MutableHashMultitable<K, V> extends AbstractMultidictionary<K
 
   public void put(K key, V value) {
     if (!valueGroups.containsKey(key))
-      valueGroups.put(key, DynamicArray.<V>create());
-    valueGroups.getValue(key).pushBack(value);
+      valueGroups.put(key, MutableHashMultiset.<V>create());
+    valueGroups.getValue(key).add(value);
     ++size;
+  }
+
+  public boolean tryRemove(K key, V value) {
+    if (!valueGroups.containsKey(key))
+      return false;
+    if (valueGroups.getValue(key).tryRemove(value)) {
+      --size;
+      return true;
+    }
+    return false;
   }
 
   public boolean tryRemove(K key) {
@@ -44,12 +55,16 @@ public final class MutableHashMultitable<K, V> extends AbstractMultidictionary<K
 
   @Override
   public Collection<V> getValues(K key) {
-    return valueGroups.tryGetValue(key).getOrDefault(DynamicArray.<V>create());
+    return valueGroups.tryGetValue(key).getOrDefault(MutableHashMultiset.<V>create());
   }
 
   @Override
   public Source<KeyValuePair<K, V>> getEnumerator() {
-    return ImmutableArray.copyOf(this).getEnumerator();
+    MutableStack<KeyValuePair<K, V>> stack = DynamicArray.create();
+    for (KeyValuePair<K, MutableHashMultiset<V>> keyAndValues : valueGroups)
+      for (V value : keyAndValues.getValue())
+        stack.pushBack(new KeyValuePair<>(keyAndValues.getKey(), value));
+    return stack.getEnumerator();
   }
 
   @Override

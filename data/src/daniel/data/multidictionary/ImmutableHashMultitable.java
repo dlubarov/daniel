@@ -11,6 +11,7 @@ import daniel.data.sequence.SinglyLinkedList;
 import daniel.data.set.Set;
 import daniel.data.source.Source;
 import daniel.data.stack.DynamicArray;
+import daniel.data.stack.MutableStack;
 
 public final class ImmutableHashMultitable<K, V> extends AbstractImmutableMultidictionary<K, V> {
   private final ImmutableDictionary<K, ? extends ImmutableCollection<V>> valueGroups;
@@ -56,7 +57,11 @@ public final class ImmutableHashMultitable<K, V> extends AbstractImmutableMultid
 
   @Override
   public Source<KeyValuePair<K, V>> getEnumerator() {
-    return ImmutableArray.copyOf(this).getEnumerator();
+    MutableStack<KeyValuePair<K, V>> stack = DynamicArray.create();
+    for (KeyValuePair<K, ? extends ImmutableCollection<V>> keyAndValues : valueGroups)
+      for (V value : keyAndValues.getValue())
+        stack.pushBack(new KeyValuePair<>(keyAndValues.getKey(), value));
+    return stack.getEnumerator();
   }
 
   @Override

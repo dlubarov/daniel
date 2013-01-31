@@ -21,6 +21,10 @@ h1 {
   padding: 10px;
 }
 
+#messages p + p {
+  margin-top: 10px;
+}
+
 #message, button {
   margin: 0;
   padding: 10px;

@@ -5,7 +5,6 @@ import daniel.web.html.Attribute;
 import daniel.web.html.Element;
 import daniel.web.html.InputBuilder;
 import daniel.web.html.JavaScriptUtils;
-import daniel.web.html.ParagraphBuilder;
 import daniel.web.html.StylesheetUtils;
 import daniel.web.html.Tag;
 import daniel.web.html.TitleBuilder;
@@ -78,12 +77,15 @@ public final class ChatPageHandler implements PartialHandler {
         .setId("message")
         .setType("text")
         .setPlaceholder("Enter your message here...")
+        .setOnKeyDown("if (event.keyCode == 13) { send(); }")
         .build();
     Element sendButton = new Element.Builder(Tag.BUTTON)
+        .setAttribute(Attribute.ID, "sendButton")
         .setAttribute("onclick", "javascript:send();")
         .addEscapedText("Send")
         .build();
     return new Element.Builder(Tag.DIV)
+        .setAttribute(Attribute.ID, "inputBar")
         .addChild(messageBox)
         .addChild(sendButton)
         .build();

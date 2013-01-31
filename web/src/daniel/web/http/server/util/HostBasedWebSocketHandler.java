@@ -33,6 +33,11 @@ public final class HostBasedWebSocketHandler implements WebSocketHandler {
   }
 
   @Override
+  public void onDisconnect(WebSocketManager manager) {
+    getDelegateFor(manager).onDisconnect(manager);
+  }
+
+  @Override
   public void handle(WebSocketManager manager, WebSocketMessage message) {
     getDelegateFor(manager).handle(manager, message);
   }

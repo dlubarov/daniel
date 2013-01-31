@@ -42,6 +42,11 @@ public final class InputBuilder {
     return this;
   }
 
+  public InputBuilder setOnKeyDown(String javascript) {
+    elementBuilder.setAttribute("onkeydown", javascript);
+    return this;
+  }
+
   public Element build() {
     return elementBuilder.build();
   }
