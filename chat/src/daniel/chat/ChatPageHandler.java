@@ -15,6 +15,8 @@ import daniel.web.http.HttpResponse;
 import daniel.web.http.HttpStatus;
 import daniel.web.http.server.PartialHandler;
 import daniel.web.http.server.util.HttpResponseFactory;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 
 public final class ChatPageHandler implements PartialHandler {
   public static final ChatPageHandler singleton = new ChatPageHandler();
@@ -33,11 +35,11 @@ public final class ChatPageHandler implements PartialHandler {
   private static Element getHead() {
     Element description = new Element.Builder(Tag.META)
         .setAttribute(Attribute.NAME, "description")
-        .setAttribute(Attribute.CONTENT, "Chat about anything!")
+        .setAttribute(Attribute.CONTENT, "Chat about anything! To create a new chat room, just append its name to the URL.")
         .build();
     Element keywords = new Element.Builder(Tag.META)
         .setAttribute(Attribute.NAME, "keywords")
-        .setAttribute(Attribute.CONTENT, "chat, chat room, online chat")
+        .setAttribute(Attribute.CONTENT, "chat, chat room, online chat, jabberings")
         .build();
     Element base = new Element.Builder(Tag.BASE)
         .setAttribute(Attribute.HREF, Config.getBaseUrl())
@@ -49,14 +51,21 @@ public final class ChatPageHandler implements PartialHandler {
         .addChild(StylesheetUtils.createCssLink("reset.css"))
         .addChild(StylesheetUtils.createCssLink("style.css"))
         .addChild(JavaScriptUtils.createJavaScriptLink("chat.js"))
-        .addChild(new TitleBuilder().addEscapedText("Online Chat").build())
+        .addChild(new TitleBuilder().addEscapedText("Jabberings.net Online Chat").build())
         .build();
   }
 
   private static Element getBody(HttpRequest request) {
+    String decodedResource;
+    try {
+      decodedResource = URLDecoder.decode(request.getResource(), "UTF-8");
+    } catch (UnsupportedEncodingException e) {
+      throw new AssertionError();
+    }
     String title = request.getResource().length() > 1
-        ? request.getResource()
+        ? decodedResource
         : "Main Room";
+
     Element content = new Element.Builder(Tag.DIV)
         .setAttribute(Attribute.ID, "content")
         .addChild(new Element.Builder(Tag.H1).addEscapedText(title).build())
@@ -107,7 +116,7 @@ public final class ChatPageHandler implements PartialHandler {
         .build();
     return new ParagraphBuilder()
         .setId("notice")
-        .addRawText("To start a new chat room, just append it to the URL.<br />For example: ")
+        .addRawText("To start a new chat room, just append its name to the URL.<br />For example: ")
         .addChild(exampleLink)
         .addEscapedText(".")
         .build();
