@@ -86,6 +86,8 @@ public final class StaticContentHandler implements PartialHandler {
 
     return Option.some(new HttpResponse.Builder().setHttpVersion(HttpVersion._1_1)
         .setStatus(HttpStatus.OK)
+        .addHeader(ResponseHeaderName.DATE, DateUtils.formatDate(new Date()))
+        .addHeader(ResponseHeaderName.EXPIRES, "Thu, 19 Nov 1981 08:52:00 GMT")
         .addHeader(ResponseHeaderName.LAST_MODIFIED, DateUtils.formatDate(lastModified))
         .addHeader(ResponseHeaderName.CONTENT_TYPE, mimeType.getOrThrow())
         .addHeader(ResponseHeaderName.CONTENT_LENGTH, Integer.toString(content.length))
