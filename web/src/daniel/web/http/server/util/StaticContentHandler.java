@@ -2,7 +2,10 @@ package daniel.web.http.server.util;
 
 import daniel.data.dictionary.ImmutableDictionary;
 import daniel.data.dictionary.MutableHashTable;
+import daniel.data.function.Function;
 import daniel.data.option.Option;
+import daniel.data.unit.Duration;
+import daniel.data.unit.Instant;
 import daniel.data.util.Check;
 import daniel.data.util.FilenameUtils;
 import daniel.data.util.IOUtils;
@@ -11,10 +14,12 @@ import daniel.web.http.HttpRequest;
 import daniel.web.http.HttpResponse;
 import daniel.web.http.HttpStatus;
 import daniel.web.http.HttpVersion;
+import daniel.web.http.RequestHeaderName;
 import daniel.web.http.ResponseHeaderName;
 import daniel.web.http.server.PartialHandler;
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.Date;
 
 public final class StaticContentHandler implements PartialHandler {
@@ -76,7 +81,27 @@ public final class StaticContentHandler implements PartialHandler {
     if (!resourcePath.exists() || !isInContentRoot(resourcePath))
       return Option.none();
 
-    Date lastModified = new Date(resourcePath.lastModified());
+    Instant lastModified = Instant.fromDate(new Date(resourcePath.lastModified()));
+    Option<Instant> optIfModifiedSince = request.getHeaders()
+        .getValues(RequestHeaderName.IF_MODIFIED_SINCE.toString())
+        .tryGetOnlyElement()
+        .map(new Function<String, Instant>() {
+          @Override public Instant apply(String dateString) {
+            try {
+              return DateUtils.parseInstant(dateString);
+            } catch (ParseException e) {
+              throw new RuntimeException(e);
+            }
+          }
+        });
+    if (optIfModifiedSince.isDefined() && lastModified.isBefore(optIfModifiedSince.getOrThrow()))
+      return Option.some(new HttpResponse.Builder()
+          .setStatus(HttpStatus.NOT_MODIFIED)
+          .addHeader(ResponseHeaderName.DATE, DateUtils.formatInstant(Instant.now()))
+          .addHeader(ResponseHeaderName.EXPIRES, DateUtils.formatInstant(lastModified.plus(Duration.fromHours(24))))
+          .addHeader(ResponseHeaderName.LAST_MODIFIED, DateUtils.formatInstant(lastModified))
+          .build());
+
     byte[] content;
     try {
       content = IOUtils.readFileToByteArray(resourcePath);
@@ -84,11 +109,13 @@ public final class StaticContentHandler implements PartialHandler {
       throw new RuntimeException(e);
     }
 
+    Instant expires = Instant.now().plus(Duration.fromHours(24));
+
     return Option.some(new HttpResponse.Builder().setHttpVersion(HttpVersion._1_1)
         .setStatus(HttpStatus.OK)
-        .addHeader(ResponseHeaderName.DATE, DateUtils.formatDate(new Date()))
-        .addHeader(ResponseHeaderName.EXPIRES, "Thu, 19 Nov 1981 08:52:00 GMT")
-        .addHeader(ResponseHeaderName.LAST_MODIFIED, DateUtils.formatDate(lastModified))
+        .addHeader(ResponseHeaderName.DATE, DateUtils.formatInstant(Instant.now()))
+        .addHeader(ResponseHeaderName.EXPIRES, DateUtils.formatInstant(expires))
+        .addHeader(ResponseHeaderName.LAST_MODIFIED, DateUtils.formatInstant(lastModified))
         .addHeader(ResponseHeaderName.CONTENT_TYPE, mimeType.getOrThrow())
         .addHeader(ResponseHeaderName.CONTENT_LENGTH, Integer.toString(content.length))
         .setBody(content)

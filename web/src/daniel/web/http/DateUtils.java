@@ -2,6 +2,7 @@ package daniel.web.http;
 
 import daniel.data.unit.Instant;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
@@ -23,5 +24,13 @@ public final class DateUtils {
 
   public static String formatInstant(Instant instant) {
     return formatDate(instant.toDate());
+  }
+
+  public static Date parseDate(String dateString) throws ParseException {
+    return dateFormat.parse(dateString);
+  }
+
+  public static Instant parseInstant(String dateString) throws ParseException {
+    return Instant.fromDate(parseDate(dateString));
   }
 }
