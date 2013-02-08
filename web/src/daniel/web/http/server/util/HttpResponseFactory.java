@@ -26,7 +26,6 @@ public final class HttpResponseFactory {
         .setHttpVersion(HttpVersion._1_1)
         .addHeader(ResponseHeaderName.DATE, DateUtils.formatDate(new Date()))
         .addHeader(ResponseHeaderName.EXPIRES, "Thu, 19 Nov 1981 08:52:00 GMT")
-        .addHeader(ResponseHeaderName.PRAGMA, "no-cache")
         .addHeader(ResponseHeaderName.CACHE_CONTROL, "no-store, no-cache, must-revalidate, post-check=0, pre-check=0")
         .addHeader(ResponseHeaderName.CONTENT_LENGTH, Integer.toString(documentBytes.length))
         .addHeader(ResponseHeaderName.CONTENT_TYPE, "application/xhtml+xml; charset=utf-8")

@@ -4,9 +4,14 @@ import daniel.data.unit.Instant;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 
 public final class DateUtils {
   private static final DateFormat dateFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz");
+
+  static {
+    dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+  }
 
   private DateUtils() {}
 
