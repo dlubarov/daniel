@@ -12,8 +12,9 @@ import daniel.data.serialization.CollectionSerializer;
 import daniel.data.serialization.StringSerializer;
 
 public final class CommentStorage {
-  private static final SerializingDatabase<String, Comment> byUuid = new SerializingDatabase<>(
-      Config.getDatabaseHome("comments"), StringSerializer.singleton, CommentSerializer.singleton);
+  private static final SerializingDatabase<String, Comment> byUuid =
+      new SerializingDatabase<>(Config.getDatabaseHome("comments"),
+          StringSerializer.singleton, CommentSerializer.singleton);
 
   private static final SerializingDatabase<String, Collection<String>> indexByPostUuid =
       new SerializingDatabase<>(Config.getDatabaseHome("comments-index-by-post"),

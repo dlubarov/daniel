@@ -24,6 +24,8 @@ final class PostHandler implements PartialHandler {
           return Option.some(new EditPostHandler(post).handle(request));
         if (rest.startsWith("/comment"))
           return Option.some(new AddCommentHandler(post).handle(request));
+        if (rest.startsWith("/delete"))
+          return Option.some(new DeletePostHandler(post).handle(request));
       }
     }
     return Option.none();

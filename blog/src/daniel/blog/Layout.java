@@ -43,7 +43,7 @@ public final class Layout {
         .build();
     return new Element(Tag.HEAD,
         description, keywords, base,
-        new TitleBuilder().addRawText("Daniel's Blog").build(),
+        new TitleBuilder().addRawText("Daniel Lubarov").build(),
         StylesheetUtils.createCssLink("reset.css"),
         StylesheetUtils.createCssLink("style.css"),
         // TODO: Remove any fonts that aren't used.
@@ -85,7 +85,7 @@ public final class Layout {
     Element heading = new Element.Builder(Tag.H1)
         .addChild(new AnchorBuilder()
             .setHref(Config.getBaseUrl())
-            .addEscapedText("Daniel's Blog")
+            .addEscapedText("Daniel Lubarov")
             .build())
         .build();
 

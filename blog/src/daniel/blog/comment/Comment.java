@@ -5,7 +5,7 @@ import daniel.data.order.AbstractOrdering;
 import daniel.data.order.Ordering;
 import daniel.data.order.Relation;
 import daniel.data.unit.Instant;
-import java.util.UUID;
+import daniel.web.util.UuidUtils;
 
 public final class Comment {
   public static final Ordering<Comment> ASCENDING_CREATED_AT_ORDERING =
@@ -50,7 +50,7 @@ public final class Comment {
     }
 
     public Builder setRandomUiid() {
-      return setUuid(UUID.randomUUID().toString());
+      return setUuid(UuidUtils.randomAlphanumericUuid());
     }
 
     public Builder setCreatedAt(Instant createdAt) {

@@ -19,6 +19,10 @@ public final class PostStorage {
     byUuid.put(post.getUuid(), post);
   }
 
+  public static void deletePost(Post post) {
+    byUuid.delete(post.getUuid());
+  }
+
   public static Collection<Post> getAllPosts() {
     return byUuid.getAllValues();
   }

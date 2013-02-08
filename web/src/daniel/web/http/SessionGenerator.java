@@ -5,7 +5,7 @@ import daniel.data.unit.Duration;
 import daniel.data.unit.Instant;
 import daniel.web.http.cookies.Cookie;
 import daniel.web.http.cookies.CookieManager;
-import java.util.UUID;
+import daniel.web.util.UuidUtils;
 
 public final class SessionGenerator {
   private static final Duration sessionCookieDuration = Duration.fromDays(7);
@@ -22,7 +22,7 @@ public final class SessionGenerator {
       if (cookie.getName().equals("session_id"))
         return cookie.getValue();
 
-    String sessionId = UUID.randomUUID().toString();
+    String sessionId = UuidUtils.randomAlphanumericUuid();
     Cookie cookie = new Cookie.Builder()
         .setName("session_id")
         .setValue(sessionId)

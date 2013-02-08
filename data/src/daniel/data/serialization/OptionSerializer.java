@@ -3,6 +3,9 @@ package daniel.data.serialization;
 import daniel.data.option.Option;
 
 public final class OptionSerializer<A> extends AbstractSerializer<Option<A>> {
+  public static final OptionSerializer<String> optStringSerializer =
+      new OptionSerializer<>(StringSerializer.singleton);
+
   private final Serializer<A> valueSerializer;
 
   public OptionSerializer(Serializer<A> valueSerializer) {
