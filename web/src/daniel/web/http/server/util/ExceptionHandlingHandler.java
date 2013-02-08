@@ -1,5 +1,6 @@
 package daniel.web.http.server.util;
 
+import daniel.logging.Logger;
 import daniel.web.html.Element;
 import daniel.web.html.ParagraphBuilder;
 import daniel.web.html.Tag;
@@ -8,9 +9,10 @@ import daniel.web.http.HttpRequest;
 import daniel.web.http.HttpResponse;
 import daniel.web.http.HttpStatus;
 import daniel.web.http.server.Handler;
-import daniel.web.http.server.util.HttpResponseFactory;
 
 public final class ExceptionHandlingHandler implements Handler {
+  private static final Logger logger = Logger.forClass(ExceptionHandlingHandler.class);
+
   private final Handler delegate;
 
   public ExceptionHandlingHandler(Handler delegate) {
@@ -22,7 +24,7 @@ public final class ExceptionHandlingHandler implements Handler {
     try {
       return delegate.handle(request);
     } catch (Exception e) {
-      e.printStackTrace();
+      logger.error(e, "Error handling requeset:\n", request);
 
       Element title = new TitleBuilder()
           .addEscapedText("Internal Server Error")

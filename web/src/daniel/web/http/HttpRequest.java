@@ -188,6 +188,11 @@ public final class HttpRequest {
     sb.append(String.format("%s %s HTTP/%s", method, resource, httpVersion));
     for (KeyValuePair<String, String> header : headers)
       sb.append(String.format("%s: %s\r\n", header.getKey(), header.getValue()));
+    sb.append("\r\n");
+    if (body.isDefined())
+      sb.append(String.format("[%d bytes in body]", body.getOrThrow().length));
+    else
+      sb.append("[no body]");
     return sb.toString();
   }
 }
