@@ -11,8 +11,8 @@ public final class UuidUtils {
   static {
     for (int i = 0; i < 10; ++i)
       alphanumericCharacters[i] = (char) ('0' + i);
-    for (int i = 10; i < 36; ++i)
-      alphanumericCharacters[i] = (char) ('a' + i);
+    for (int i = 0; i < 26; ++i)
+      alphanumericCharacters[10 + i] = (char) ('a' + i);
   }
 
   private UuidUtils() {}

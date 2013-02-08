@@ -14,9 +14,8 @@ public final class SessionGenerator {
 
   public static String getSessionId(HttpRequest request) {
     Option<String> optSessionId = request.getCookies().getValues("session_id").tryGetOnlyElement();
-    if (optSessionId.isDefined()) {
+    if (optSessionId.isDefined())
       return optSessionId.getOrThrow();
-    }
 
     for (Cookie cookie : CookieManager.getCookies())
       if (cookie.getName().equals("session_id"))
