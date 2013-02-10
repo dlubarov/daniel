@@ -14,6 +14,7 @@ final class MultiwebHandler {
   private MultiwebHandler() {}
 
   public static Handler getHandler() {
+    // TODO: Be more restrictive with stuff at beginning and end of host.
     Handler handler = new HostBasedHandler.Builder()
         .addHandlerForHost(".*daniel.lubarov\\.com.*", BlogHandler.getHandler())
         .addHandlerForHost(".*viewheaders\\.com.*", ViewHeadersHandler.getHandler())

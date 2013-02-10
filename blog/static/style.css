@@ -148,11 +148,14 @@ div.comment h5 {
   margin-bottom: 1em;
 }
 div.comment {
-  border-left: 10px solid #ccc;
+  border-right: 10px solid #ccc;
   background-color: #eee;
   padding: 5px 0;
-  padding-left: 10px;
 }
 div.comment + div.comment {
   margin-top: 1em;
+}
+div.comment img.gravatar {
+  float: left;
+  margin: 0 5px 0 5px;
 }

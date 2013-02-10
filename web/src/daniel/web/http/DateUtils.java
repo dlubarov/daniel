@@ -27,7 +27,9 @@ public final class DateUtils {
   }
 
   public static Date parseDate(String dateString) throws ParseException {
-    return dateFormat.parse(dateString);
+    synchronized (dateFormat) {
+      return dateFormat.parse(dateString);
+    }
   }
 
   public static Instant parseInstant(String dateString) throws ParseException {

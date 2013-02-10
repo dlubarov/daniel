@@ -2,13 +2,13 @@ package daniel.web.http.server.util;
 
 import daniel.data.dictionary.ImmutableDictionary;
 import daniel.data.dictionary.MutableHashTable;
-import daniel.data.function.Function;
 import daniel.data.option.Option;
 import daniel.data.unit.Duration;
 import daniel.data.unit.Instant;
 import daniel.data.util.Check;
 import daniel.data.util.FilenameUtils;
 import daniel.data.util.IOUtils;
+import daniel.logging.Logger;
 import daniel.web.http.DateUtils;
 import daniel.web.http.HttpRequest;
 import daniel.web.http.HttpResponse;
@@ -23,6 +23,8 @@ import java.text.ParseException;
 import java.util.Date;
 
 public final class StaticContentHandler implements PartialHandler {
+  private static final Logger logger = Logger.forClass(StaticContentHandler.class);
+
   public static final class Builder {
     private Option<File> contentRoot = Option.none();
     private final MutableHashTable<String, String> mimeTypesByExtension = MutableHashTable.create();
@@ -82,25 +84,24 @@ public final class StaticContentHandler implements PartialHandler {
       return Option.none();
 
     Instant lastModified = Instant.fromDate(new Date(resourcePath.lastModified()));
-    Option<Instant> optIfModifiedSince = request.getHeaders()
+    Option<String> optIfModifiedSince = request.getHeaders()
         .getValues(RequestHeaderName.IF_MODIFIED_SINCE.toString())
-        .tryGetOnlyElement()
-        .map(new Function<String, Instant>() {
-          @Override public Instant apply(String dateString) {
-            try {
-              return DateUtils.parseInstant(dateString);
-            } catch (ParseException e) {
-              throw new RuntimeException(e);
-            }
-          }
-        });
-    if (optIfModifiedSince.isDefined() && lastModified.isBefore(optIfModifiedSince.getOrThrow()))
-      return Option.some(new HttpResponse.Builder()
-          .setStatus(HttpStatus.NOT_MODIFIED)
-          .addHeader(ResponseHeaderName.DATE, DateUtils.formatInstant(Instant.now()))
-          .addHeader(ResponseHeaderName.EXPIRES, DateUtils.formatInstant(lastModified.plus(Duration.fromHours(24))))
-          .addHeader(ResponseHeaderName.LAST_MODIFIED, DateUtils.formatInstant(lastModified))
-          .build());
+        .tryGetOnlyElement();
+    if (optIfModifiedSince.isDefined()) {
+      try {
+        Instant ifModifiedSince = DateUtils.parseInstant(optIfModifiedSince.getOrThrow());
+        if (lastModified.isBefore(ifModifiedSince))
+          return Option.some(new HttpResponse.Builder()
+              .setStatus(HttpStatus.NOT_MODIFIED)
+              .addHeader(ResponseHeaderName.DATE, DateUtils.formatInstant(Instant.now()))
+              .addHeader(ResponseHeaderName.EXPIRES, DateUtils.formatInstant(lastModified.plus(Duration.fromHours(24))))
+              .addHeader(ResponseHeaderName.LAST_MODIFIED, DateUtils.formatInstant(lastModified))
+              .build());
+      } catch (ParseException e) {
+        logger.error(e, "Failed to parse If-Modified-Since header: %s",
+            optIfModifiedSince.getOrThrow());
+      }
+    }
 
     byte[] content;
     try {
