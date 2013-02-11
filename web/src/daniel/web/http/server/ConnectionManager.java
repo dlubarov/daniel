@@ -1,19 +1,24 @@
 package daniel.web.http.server;
 
 import daniel.data.dictionary.KeyValuePair;
+import daniel.data.multidictionary.MutableHashMultitable;
 import daniel.data.option.Option;
 import daniel.logging.Logger;
 import daniel.web.http.HttpRequest;
 import daniel.web.http.HttpResponse;
 import daniel.web.http.RequestMethod;
+import daniel.web.http.compression.AcceptEncodingParser;
 import daniel.web.http.cookies.CookieManager;
 import daniel.web.http.websocket.AcceptKeyGenerator;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
+import java.util.zip.GZIPOutputStream;
 
+// TODO: Split this logic up more.
 final class ConnectionManager implements Runnable {
   private static final Logger logger = Logger.forClass(ConnectionManager.class);
 
@@ -83,15 +88,43 @@ final class ConnectionManager implements Runnable {
     CookieManager.resetCookies();
     HttpResponse response = handler.handle(request);
 
+    // TODO: This breaks header order, which is okay but not ideal.
+    MutableHashMultitable<String, String> responseHeaders =
+        MutableHashMultitable.copyOf(response.getHeaders());
+    if (!responseHeaders.containsKey("Connection"))
+      responseHeaders.put("Connection", "close");
+
+    boolean gzipAccepted = AcceptEncodingParser.getAcceptedEncodings(request.getHeaders()).contains("gzip");
+    if (gzipAccepted && !responseHeaders.containsKey("Content-Encoding"))
+      responseHeaders.put("Content-Encoding", "gzip");
+
+    // Write headers.
     writer.write(String.format("HTTP/%s %s\r\n", response.getHttpVersion(), response.getStatus()));
-    for (KeyValuePair<String, String> header : response.getHeaders())
+    for (KeyValuePair<String, String> header : responseHeaders)
       writer.write(String.format("%s: %s\r\n", header.getKey(), header.getValue()));
-    writer.write("Connection: close\r\n");
     writer.write("\r\n");
     writer.flush();
-    if (response.getBody().isDefined() && request.getMethod() != RequestMethod.HEAD)
-      socket.getOutputStream().write(response.getBody().getOrThrow());
-    socket.getOutputStream().flush();
+
+    // Write body.
+    if (response.getBody().isDefined() && request.getMethod() != RequestMethod.HEAD) {
+      OutputStream outputStream = socket.getOutputStream();
+      Option<String> optContentEncoding = responseHeaders
+          .getValues("Content-Encoding").tryGetOnlyElement();
+      if (optContentEncoding.isDefined()) {
+        String contentEncoding = optContentEncoding.getOrThrow();
+        switch (contentEncoding) {
+          case "gzip":
+            outputStream = new GZIPOutputStream(outputStream, true);
+            break;
+          default:
+            throw new RuntimeException("Unexpected encoding: " + contentEncoding);
+        }
+      }
+      outputStream.write(response.getBody().getOrThrow());
+      outputStream.flush();
+    } else
+      socket.getOutputStream().flush();
+
     socket.close();
   }
 }

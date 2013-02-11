@@ -7,6 +7,8 @@ import daniel.data.set.Set;
 public interface Multidictionary<K, V> extends Collection<KeyValuePair<K, V>> {
   public Set<K> getKeys();
 
+  public boolean containsKey(K key);
+
   public Collection<V> getValues(K key);
 
   @Override

@@ -21,6 +21,13 @@ public final class MutableHashMultitable<K, V> extends AbstractMultidictionary<K
     return new MutableHashMultitable<>();
   }
 
+  public static <K, V> MutableHashMultitable<K, V> copyOf(Iterable<KeyValuePair<K, V>> keyValuePairs) {
+    MutableHashMultitable<K, V> result = create();
+    for (KeyValuePair<K, V> keyValuePair : keyValuePairs)
+      result.put(keyValuePair.getKey(), keyValuePair.getValue());
+    return result;
+  }
+
   public void put(K key, V value) {
     if (!valueGroups.containsKey(key))
       valueGroups.put(key, MutableHashMultiset.<V>create());
@@ -51,6 +58,11 @@ public final class MutableHashMultitable<K, V> extends AbstractMultidictionary<K
   @Override
   public Set<K> getKeys() {
     return valueGroups.getKeys();
+  }
+
+  @Override
+  public boolean containsKey(K key) {
+    return valueGroups.containsKey(key);
   }
 
   @Override

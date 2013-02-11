@@ -49,6 +49,11 @@ public final class ImmutableHashMultitable<K, V> extends AbstractImmutableMultid
   }
 
   @Override
+  public boolean containsKey(K key) {
+    return valueGroups.containsKey(key);
+  }
+
+  @Override
   public Collection<V> getValues(K key) {
     return valueGroups.containsKey(key)
         ? valueGroups.getValue(key)

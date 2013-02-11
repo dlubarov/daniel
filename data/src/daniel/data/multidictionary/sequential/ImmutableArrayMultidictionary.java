@@ -37,6 +37,11 @@ public final class ImmutableArrayMultidictionary<K, V>
   }
 
   @Override
+  public boolean containsKey(K key) {
+    return !getValues(key).isEmpty();
+  }
+
+  @Override
   public Collection<V> getValues(K key) {
     Option<? extends Collection<KeyValuePair<K, V>>> optValues = keyValuePairs
         .groupBy(new GetKeyFunction<K, V>()).tryGetValue(key);
