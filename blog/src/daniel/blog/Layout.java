@@ -19,13 +19,13 @@ public final class Layout {
   private Layout() {}
 
   public static Element createDocument(HttpRequest request,
-      Option<String> title, Option<String> subtitle, Node... content) {
+      Option<String> title, Option<String> dateline, Node... content) {
     Collection<String> notifications = Notifications.getAndClearMessages(request);
     return new Element.Builder(Tag.HTML)
         .setAttribute("xmlns", "http://www.w3.org/1999/xhtml")
         .setAttribute("xml:lang", "en")
         .addChild(getHead())
-        .addChild(getBody(title, subtitle, notifications, content))
+        .addChild(getBody(title, dateline, notifications, content))
         .build();
   }
 
@@ -55,7 +55,7 @@ public final class Layout {
     );
   }
 
-  private static Element getBody(Option<String> title, Option<String> subtitle,
+  private static Element getBody(Option<String> title, Option<String> dateline,
       Collection<String> notifications, Node[] content) {
     Collection<Element> notificationElements = notifications.map(new Function<String, Element>() {
       @Override public Element apply(String message) {
@@ -73,9 +73,9 @@ public final class Layout {
       contentBuilder.addChild(new Element.Builder(Tag.H2)
           .addEscapedText(title.getOrThrow())
           .build());
-    if (subtitle.isDefined())
-      contentBuilder.addChild(new Element.Builder(Tag.H3)
-          .addEscapedText(subtitle.getOrThrow())
+    if (dateline.isDefined())
+      contentBuilder.addChild(new Element.Builder(Tag.H6).setAttribute(Attribute.CLASS, "dateline")
+          .addEscapedText(dateline.getOrThrow())
           .build());
     contentBuilder.addChild(new Element.Builder(Tag.DIV)
         .setAttribute(Attribute.ID, "content")
