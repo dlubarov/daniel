@@ -1,18 +1,18 @@
 package daniel.web.http.multipart;
 
 import daniel.data.dictionary.KeyValuePair;
-import daniel.data.multidictionary.sequential.ImmutableArrayMultidictionary;
-import daniel.data.multidictionary.sequential.SequentialMultidictionary;
+import daniel.data.table.sequential.ImmutableArrayTable;
+import daniel.data.table.sequential.SequentialTable;
 import daniel.data.sequence.ImmutableArray;
 import daniel.data.util.EqualsBuilder;
 import daniel.data.util.HashCodeBuilder;
 import java.util.Arrays;
 
 public final class Part {
-  private final SequentialMultidictionary<String, String> headers;
+  private final SequentialTable<String, String> headers;
   private final byte[] body;
 
-  private Part(SequentialMultidictionary<String, String> headers, byte[] body) {
+  private Part(SequentialTable<String, String> headers, byte[] body) {
     this.headers = headers;
     this.body = body;
   }
@@ -22,10 +22,10 @@ public final class Part {
   }
 
   public static Part fromKeyValuePairs(Iterable<KeyValuePair<String, String>> headers, byte[] body) {
-    return new Part(ImmutableArrayMultidictionary.copyOf(headers), body);
+    return new Part(ImmutableArrayTable.copyOf(headers), body);
   }
 
-  public SequentialMultidictionary<String, String> getHeaders() {
+  public SequentialTable<String, String> getHeaders() {
     return headers;
   }
 

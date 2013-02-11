@@ -1,7 +1,7 @@
 package daniel.web.http.parsing;
 
 import daniel.data.dictionary.KeyValuePair;
-import daniel.data.multidictionary.sequential.SequentialMultidictionary;
+import daniel.data.table.sequential.SequentialTable;
 import java.nio.charset.StandardCharsets;
 import org.junit.Test;
 
@@ -12,7 +12,7 @@ public class CookieHeaderParserTest {
   public void testTryParse() {
     String cookieHeader = "$Version=1; Skin=new;";
     byte[] cookieHeaderBytes = cookieHeader.getBytes(StandardCharsets.US_ASCII);
-    SequentialMultidictionary<String, String> result =
+    SequentialTable<String, String> result =
         CookieHeaderParser.singleton.tryParse(cookieHeaderBytes, 0)
             .getOrThrow().getValue();
 

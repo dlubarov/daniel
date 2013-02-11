@@ -1,7 +1,7 @@
 package daniel.data.collection;
 
 import daniel.data.dictionary.KeyValuePair;
-import daniel.data.dictionary.MutableHashTable;
+import daniel.data.dictionary.MutableHashDictionary;
 import daniel.data.option.Option;
 import daniel.data.sequence.Sequence;
 import daniel.data.source.Source;
@@ -36,8 +36,8 @@ final class EqualityTester {
   }
 
   private static boolean areEqualAnyOrder(Collection<?> a, Collection<?> b) {
-    MutableHashTable<Object, Integer> aCounts = MutableHashTable.create();
-    MutableHashTable<Object, Integer> bCounts = MutableHashTable.create();
+    MutableHashDictionary<Object, Integer> aCounts = MutableHashDictionary.create();
+    MutableHashDictionary<Object, Integer> bCounts = MutableHashDictionary.create();
     for (Object element : a)
       aCounts.put(element, aCounts.tryGetValue(element).getOrDefault(0) + 1);
     for (Object element : b)

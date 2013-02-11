@@ -1,7 +1,7 @@
 package daniel.web.html.table;
 
 import daniel.data.dictionary.KeyValuePair;
-import daniel.data.dictionary.MutableHashTable;
+import daniel.data.dictionary.MutableHashDictionary;
 import daniel.data.util.Check;
 import daniel.web.html.Attribute;
 import daniel.web.html.Element;
@@ -9,7 +9,7 @@ import daniel.web.html.Node;
 import daniel.web.html.Tag;
 
 public final class TableBuilder {
-  private final MutableHashTable<String, String> attributes = MutableHashTable.create();
+  private final MutableHashDictionary<String, String> attributes = MutableHashDictionary.create();
   private final TableSectionBuilder theadBuilder = new TableSectionBuilder(Tag.THEAD);
   private final TableSectionBuilder tfootBuilder = new TableSectionBuilder(Tag.TFOOT);
   private final TableSectionBuilder tbodyBuilder = new TableSectionBuilder(Tag.TBODY);

@@ -1,4 +1,4 @@
-package daniel.data.multidictionary.sequential;
+package daniel.data.table.sequential;
 
 import daniel.data.collection.Collection;
 import daniel.data.dictionary.KeyValuePair;
@@ -12,23 +12,23 @@ import daniel.data.set.Set;
 import daniel.data.source.Source;
 
 /**
- * An immutable multidictionary backed by a simple array of key-value pairs.
+ * An immutable table backed by a simple array of key-value pairs.
  */
-public final class ImmutableArrayMultidictionary<K, V>
-    extends AbstractImmutableSequentialMultidictionary<K, V> {
+public final class ImmutableArrayTable<K, V>
+    extends AbstractImmutableSequentialTable<K, V> {
   private final ImmutableSequence<KeyValuePair<K, V>> keyValuePairs;
 
-  private ImmutableArrayMultidictionary(ImmutableSequence<KeyValuePair<K, V>> keyValuePairs) {
+  private ImmutableArrayTable(ImmutableSequence<KeyValuePair<K, V>> keyValuePairs) {
     this.keyValuePairs = keyValuePairs;
   }
 
-  public static <K, V> ImmutableArrayMultidictionary<K, V> create() {
-    return new ImmutableArrayMultidictionary<>(ImmutableArray.<KeyValuePair<K, V>>create());
+  public static <K, V> ImmutableArrayTable<K, V> create() {
+    return new ImmutableArrayTable<>(ImmutableArray.<KeyValuePair<K, V>>create());
   }
 
-  public static <K, V> ImmutableArrayMultidictionary<K, V> copyOf(
+  public static <K, V> ImmutableArrayTable<K, V> copyOf(
       Iterable<KeyValuePair<K, V>> iterable) {
-    return new ImmutableArrayMultidictionary<>(ImmutableArray.copyOf(iterable));
+    return new ImmutableArrayTable<>(ImmutableArray.copyOf(iterable));
   }
 
   @Override

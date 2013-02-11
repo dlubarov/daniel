@@ -1,7 +1,7 @@
 package daniel.data.collection;
 
 import daniel.data.dictionary.Dictionary;
-import daniel.data.dictionary.MutableHashTable;
+import daniel.data.dictionary.MutableHashDictionary;
 import daniel.data.function.Function;
 import daniel.data.option.Option;
 import daniel.data.order.Ordering;
@@ -60,7 +60,7 @@ public abstract class AbstractCollection<A> implements Collection<A> {
 
   @Override
   public <K> Dictionary<K, ? extends Collection<A>> groupBy(Function<? super A, ? extends K> grouper) {
-    MutableHashTable<K, MutableStack<A>> groups = MutableHashTable.create();
+    MutableHashDictionary<K, MutableStack<A>> groups = MutableHashDictionary.create();
     for (A element : this) {
       K key = grouper.apply(element);
       if (!groups.containsKey(key))

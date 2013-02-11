@@ -1,7 +1,7 @@
 package daniel.chat;
 
 import com.google.gson.Gson;
-import daniel.data.multidictionary.MutableHashMultitable;
+import daniel.data.table.MutableHashTable;
 import daniel.logging.Logger;
 import daniel.web.http.server.WebSocketHandler;
 import daniel.web.http.server.WebSocketManager;
@@ -16,10 +16,10 @@ public final class ChatWebSocketHandler implements WebSocketHandler {
 
   public static final ChatWebSocketHandler singleton = new ChatWebSocketHandler();
 
-  private final MutableHashMultitable<String, WebSocketManager> managersByChannel;
+  private final MutableHashTable<String, WebSocketManager> managersByChannel;
 
   private ChatWebSocketHandler() {
-    this.managersByChannel = MutableHashMultitable.create();
+    this.managersByChannel = MutableHashTable.create();
   }
 
   @Override

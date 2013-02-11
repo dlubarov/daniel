@@ -1,7 +1,7 @@
 package daniel.web.http.server;
 
 import daniel.data.dictionary.KeyValuePair;
-import daniel.data.multidictionary.MutableHashMultitable;
+import daniel.data.table.MutableHashTable;
 import daniel.data.option.Option;
 import daniel.logging.Logger;
 import daniel.web.http.HttpRequest;
@@ -89,8 +89,8 @@ final class ConnectionManager implements Runnable {
     HttpResponse response = handler.handle(request);
 
     // TODO: This breaks header order, which is okay but not ideal.
-    MutableHashMultitable<String, String> responseHeaders =
-        MutableHashMultitable.copyOf(response.getHeaders());
+    MutableHashTable<String, String> responseHeaders =
+        MutableHashTable.copyOf(response.getHeaders());
     if (!responseHeaders.containsKey("Connection"))
       responseHeaders.put("Connection", "close");
 

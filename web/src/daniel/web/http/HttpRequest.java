@@ -2,9 +2,9 @@ package daniel.web.http;
 
 import daniel.data.collection.Collection;
 import daniel.data.dictionary.KeyValuePair;
-import daniel.data.multidictionary.sequential.ImmutableArrayMultidictionary;
-import daniel.data.multidictionary.sequential.ImmutableSequentialMultidictionary;
-import daniel.data.multidictionary.sequential.SequentialMultidictionary;
+import daniel.data.table.sequential.ImmutableArrayTable;
+import daniel.data.table.sequential.ImmutableSequentialTable;
+import daniel.data.table.sequential.SequentialTable;
 import daniel.data.option.Option;
 import daniel.data.sequence.ImmutableSequence;
 import daniel.data.stack.DynamicArray;
@@ -75,7 +75,7 @@ public final class HttpRequest {
   private final RequestMethod method;
   private final String resource;
   private final HttpVersion httpVersion;
-  private final ImmutableSequentialMultidictionary<String, String> headers;
+  private final ImmutableSequentialTable<String, String> headers;
   private final Option<byte[]> body;
 
   private Option<ImmutableSequence<Part>> memParts = Option.none();
@@ -84,7 +84,7 @@ public final class HttpRequest {
     this.method = builder.method.getOrThrow("No request method was set.");
     this.resource = builder.resource.getOrThrow("No request resource was set.");
     this.httpVersion = builder.httpVersion.getOrThrow("No HTTP version was set.");
-    this.headers = ImmutableArrayMultidictionary.copyOf(builder.headers);
+    this.headers = ImmutableArrayTable.copyOf(builder.headers);
     this.body = builder.body;
   }
 
@@ -100,15 +100,15 @@ public final class HttpRequest {
     return httpVersion;
   }
 
-  public SequentialMultidictionary<String, String> getHeaders() {
+  public SequentialTable<String, String> getHeaders() {
     return headers;
   }
 
-  public SequentialMultidictionary<String, String> getCookies() {
+  public SequentialTable<String, String> getCookies() {
     MutableStack<KeyValuePair<String, String>> cookies = DynamicArray.create();
     for (String cookieList : headers.getValues(RequestHeaderName.COOKIE.getStandardName())) {
       byte[] cookieListBytes = cookieList.getBytes(StandardCharsets.US_ASCII);
-      ParseResult<SequentialMultidictionary<String, String>> resCookieList =
+      ParseResult<SequentialTable<String, String>> resCookieList =
           CookieHeaderParser.singleton.tryParse(cookieListBytes, 0)
               .getOrThrow("Failed to parse cookie list.");
       Check.that(resCookieList.getRem() == cookieListBytes.length,
@@ -116,10 +116,10 @@ public final class HttpRequest {
       for (KeyValuePair<String, String> cookie : resCookieList.getValue())
         cookies.pushBack(cookie);
     }
-    return ImmutableArrayMultidictionary.copyOf(cookies);
+    return ImmutableArrayTable.copyOf(cookies);
   }
 
-  public SequentialMultidictionary<String, String> getUrlencodedPostData() {
+  public SequentialTable<String, String> getUrlencodedPostData() {
     String contentType = headers.getValues(RequestHeaderName.CONTENT_TYPE.getStandardName())
         .tryGetOnlyElement().getOrThrow("Expected exactly one content type.");
     Check.that(contentType.equals("application/x-www-form-urlencoded"),
@@ -142,7 +142,7 @@ public final class HttpRequest {
         throw new AssertionError("UTF-8 should be supported universally.");
       }
     }
-    return ImmutableArrayMultidictionary.copyOf(keyValuePairs);
+    return ImmutableArrayTable.copyOf(keyValuePairs);
   }
 
   public ImmutableSequence<Part> getParts() {

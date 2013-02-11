@@ -1,8 +1,8 @@
 package daniel.web.html;
 
 import daniel.data.dictionary.KeyValuePair;
-import daniel.data.multidictionary.sequential.ImmutableArrayMultidictionary;
-import daniel.data.multidictionary.sequential.ImmutableSequentialMultidictionary;
+import daniel.data.table.sequential.ImmutableArrayTable;
+import daniel.data.table.sequential.ImmutableSequentialTable;
 import daniel.data.sequence.ImmutableArray;
 import daniel.data.sequence.ImmutableSequence;
 import daniel.data.stack.DynamicArray;
@@ -68,30 +68,30 @@ public final class Element implements Node {
 
   private final Tag tag;
   private final ImmutableSequence<Node> children;
-  private final ImmutableSequentialMultidictionary<String, String> attributes;
+  private final ImmutableSequentialTable<String, String> attributes;
 
   public Element(Tag tag) {
     this.tag = tag;
     this.children = ImmutableArray.create();
-    this.attributes = ImmutableArrayMultidictionary.create();
+    this.attributes = ImmutableArrayTable.create();
   }
 
   public Element(Tag tag, Node... children) {
     this.tag = tag;
     this.children = ImmutableArray.create(children);
-    this.attributes = ImmutableArrayMultidictionary.create();
+    this.attributes = ImmutableArrayTable.create();
   }
 
   public Element(Tag tag, Iterable<? extends Node> children) {
     this.tag = tag;
     this.children = ImmutableArray.copyOf(children);
-    this.attributes = ImmutableArrayMultidictionary.create();
+    this.attributes = ImmutableArrayTable.create();
   }
 
   private Element(Builder builder) {
     this.tag = builder.tag;
     this.children = builder.children.toImmutable();
-    this.attributes = ImmutableArrayMultidictionary.copyOf(builder.attributes);
+    this.attributes = ImmutableArrayTable.copyOf(builder.attributes);
   }
 
   @Override

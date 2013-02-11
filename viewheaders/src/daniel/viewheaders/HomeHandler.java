@@ -1,7 +1,7 @@
 package daniel.viewheaders;
 
 import daniel.data.dictionary.KeyValuePair;
-import daniel.data.multidictionary.sequential.SequentialMultidictionary;
+import daniel.data.table.sequential.SequentialTable;
 import daniel.data.option.Option;
 import daniel.web.html.Attribute;
 import daniel.web.html.Element;
@@ -27,7 +27,7 @@ final class HomeHandler implements PartialHandler {
     return Option.some(HttpResponseFactory.xhtmlResponse(HttpStatus.OK, html));
   }
 
-  private Element getHeaderTable(SequentialMultidictionary<String, String> headers) {
+  private Element getHeaderTable(SequentialTable<String, String> headers) {
     TableBuilder tableBuilder = new TableBuilder()
         .setTableAttribute(Attribute.CLASS, "hairlined");
 

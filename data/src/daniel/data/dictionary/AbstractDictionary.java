@@ -13,7 +13,7 @@ public abstract class AbstractDictionary<K, V>
     implements Dictionary<K, V> {
   @Override
   public ImmutableDictionary<K, V> toImmutable() {
-    return ImmutableHashTable.copyOf(this);
+    return ImmutableHashDictionary.copyOf(this);
   }
 
   @Override
@@ -38,7 +38,7 @@ public abstract class AbstractDictionary<K, V>
 
   @Override
   public Dictionary<K, V> filter(Function<? super KeyValuePair<K, V>, Boolean> predicate) {
-    MutableHashTable<K, V> filteredDictionary = MutableHashTable.create();
+    MutableHashDictionary<K, V> filteredDictionary = MutableHashDictionary.create();
     for (KeyValuePair<K, V> keyValuePair : this)
       filteredDictionary.put(keyValuePair.getKey(), keyValuePair.getValue());
     return filteredDictionary;

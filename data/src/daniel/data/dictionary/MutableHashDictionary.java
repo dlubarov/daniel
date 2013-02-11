@@ -7,31 +7,40 @@ import daniel.data.source.Source;
 import java.util.HashMap;
 import java.util.Map;
 
-public final class ImmutableHashTable<K, V> extends AbstractImmutableDictionary<K, V> {
+public final class MutableHashDictionary<K, V> extends AbstractDictionary<K, V> {
   private final HashMap<K, V> proxy;
 
-  private ImmutableHashTable(HashMap<K, V> proxy) {
+  private MutableHashDictionary(HashMap<K, V> proxy) {
     this.proxy = proxy;
   }
 
-  public static <K, V> ImmutableHashTable<K, V> create() {
-    return new ImmutableHashTable<>(new HashMap<K, V>());
+  public static <K, V> MutableHashDictionary<K, V> create() {
+    return new MutableHashDictionary<>(new HashMap<K, V>());
   }
 
-  public static <K, V> ImmutableHashTable<K, V> copyOf(Map<? extends K, ? extends V> map) {
-    return new ImmutableHashTable<>(new HashMap<>(map));
-  }
-
-  public static <K, V> ImmutableHashTable<K, V> copyOf(Iterable<KeyValuePair<K, V>> keyValuePairs) {
+  public static <K, V> MutableHashDictionary<K, V> copyOf(
+      Iterable<KeyValuePair<? extends K, ? extends V>> keyValuePairs) {
     HashMap<K, V> proxy = new HashMap<>();
     for (KeyValuePair<? extends K, ? extends V> keyValuePair : keyValuePairs)
       proxy.put(keyValuePair.getKey(), keyValuePair.getValue());
-    return new ImmutableHashTable<>(proxy);
+    return new MutableHashDictionary<>(proxy);
+  }
+
+  public static <K, V> MutableHashDictionary<K, V> copyOf(Map<? extends K, ? extends V> map) {
+    return new MutableHashDictionary<>(new HashMap<>(map));
   }
 
   @Override
   public Option<V> tryGetValue(K key) {
     return Option.fromNullable(proxy.get(key));
+  }
+
+  public void put(K key, V value) {
+    proxy.put(key, value);
+  }
+
+  public boolean tryRemove(K key) {
+    return proxy.remove(key) != null;
   }
 
   @Override

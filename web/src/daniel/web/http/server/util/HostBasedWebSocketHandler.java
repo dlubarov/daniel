@@ -1,15 +1,15 @@
 package daniel.web.http.server.util;
 
 import daniel.data.dictionary.ImmutableDictionary;
-import daniel.data.dictionary.MutableHashTable;
+import daniel.data.dictionary.MutableHashDictionary;
 import daniel.web.http.server.WebSocketHandler;
 import daniel.web.http.server.WebSocketManager;
 import daniel.web.http.websocket.WebSocketMessage;
 
 public final class HostBasedWebSocketHandler implements WebSocketHandler {
   public static final class Builder {
-    private final MutableHashTable<String, WebSocketHandler> handlersByHost =
-        MutableHashTable.create();
+    private final MutableHashDictionary<String, WebSocketHandler> handlersByHost =
+        MutableHashDictionary.create();
 
     public Builder addHandlerForHost(String hostRegex, WebSocketHandler handler) {
       handlersByHost.put(hostRegex, handler);

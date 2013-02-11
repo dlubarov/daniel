@@ -2,9 +2,9 @@ package daniel.web.http;
 
 import daniel.data.collection.Collection;
 import daniel.data.dictionary.KeyValuePair;
-import daniel.data.multidictionary.sequential.ImmutableArrayMultidictionary;
-import daniel.data.multidictionary.sequential.ImmutableSequentialMultidictionary;
-import daniel.data.multidictionary.sequential.SequentialMultidictionary;
+import daniel.data.table.sequential.ImmutableArrayTable;
+import daniel.data.table.sequential.ImmutableSequentialTable;
+import daniel.data.table.sequential.SequentialTable;
 import daniel.data.option.Option;
 import daniel.data.stack.DynamicArray;
 import daniel.data.stack.MutableStack;
@@ -78,13 +78,13 @@ public final class HttpResponse {
 
   private final HttpVersion httpVersion;
   private final HttpStatus status;
-  private final ImmutableSequentialMultidictionary<String, String> headers;
+  private final ImmutableSequentialTable<String, String> headers;
   private final Option<byte[]> body;
 
   private HttpResponse(Builder builder) {
     this.httpVersion = builder.httpVersion.getOrThrow("No HTTP version was set.");
     this.status = builder.status.getOrThrow("No response status was set.");
-    this.headers = ImmutableArrayMultidictionary.copyOf(builder.headers);
+    this.headers = ImmutableArrayTable.copyOf(builder.headers);
     this.body = builder.body;
   }
 
@@ -96,7 +96,7 @@ public final class HttpResponse {
     return status;
   }
 
-  public SequentialMultidictionary<String, String> getHeaders() {
+  public SequentialTable<String, String> getHeaders() {
     return headers;
   }
 

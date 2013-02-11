@@ -1,17 +1,17 @@
 package daniel.data.multiset;
 
 import daniel.data.dictionary.KeyValuePair;
-import daniel.data.dictionary.MutableHashTable;
+import daniel.data.dictionary.MutableHashDictionary;
 import daniel.data.source.Source;
 import daniel.data.stack.DynamicArray;
 import daniel.data.stack.MutableStack;
 
 public final class MutableHashMultiset<A> extends AbstractMutableMultiset<A> {
-  private final MutableHashTable<A, Integer> elementCounts;
+  private final MutableHashDictionary<A, Integer> elementCounts;
   private int size;
 
   private MutableHashMultiset() {
-    this.elementCounts = MutableHashTable.create();
+    this.elementCounts = MutableHashDictionary.create();
     this.size = 0;
   }
 

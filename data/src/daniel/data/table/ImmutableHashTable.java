@@ -1,11 +1,11 @@
-package daniel.data.multidictionary;
+package daniel.data.table;
 
 import daniel.data.collection.Collection;
 import daniel.data.collection.ImmutableCollection;
 import daniel.data.dictionary.ImmutableDictionary;
-import daniel.data.dictionary.ImmutableHashTable;
+import daniel.data.dictionary.ImmutableHashDictionary;
 import daniel.data.dictionary.KeyValuePair;
-import daniel.data.dictionary.MutableHashTable;
+import daniel.data.dictionary.MutableHashDictionary;
 import daniel.data.sequence.ImmutableArray;
 import daniel.data.sequence.SinglyLinkedList;
 import daniel.data.set.Set;
@@ -13,12 +13,11 @@ import daniel.data.source.Source;
 import daniel.data.stack.DynamicArray;
 import daniel.data.stack.MutableStack;
 
-public final class ImmutableHashMultitable<K, V> extends AbstractImmutableMultidictionary<K, V> {
+public final class ImmutableHashTable<K, V> extends AbstractImmutableTable<K, V> {
   private final ImmutableDictionary<K, ? extends ImmutableCollection<V>> valueGroups;
   private final int size;
 
-  private ImmutableHashMultitable(
-      ImmutableDictionary<K, ? extends ImmutableCollection<V>> valueGroups) {
+  private ImmutableHashTable(ImmutableDictionary<K, ? extends ImmutableCollection<V>> valueGroups) {
     this.valueGroups = valueGroups;
     int totalSize = 0;
     for (Collection<V> valueGroup : valueGroups.getValues())
@@ -26,13 +25,13 @@ public final class ImmutableHashMultitable<K, V> extends AbstractImmutableMultid
     this.size = totalSize;
   }
 
-  public static <K, V> ImmutableHashMultitable<K, V> create() {
-    return new ImmutableHashMultitable<>(ImmutableHashTable.<K, ImmutableCollection<V>>create());
+  public static <K, V> ImmutableHashTable<K, V> create() {
+    return new ImmutableHashTable<>(ImmutableHashDictionary.<K, ImmutableCollection<V>>create());
   }
 
-  public static <K, V> ImmutableHashMultitable<K, V> copyOf(
+  public static <K, V> ImmutableHashTable<K, V> copyOf(
       Iterable<KeyValuePair<K, V>> keyValuePairs) {
-    MutableHashTable<K, SinglyLinkedList<V>> valueGroups = MutableHashTable.create();
+    MutableHashDictionary<K, SinglyLinkedList<V>> valueGroups = MutableHashDictionary.create();
     for (KeyValuePair<K, V> keyValuePair : keyValuePairs) {
       K key = keyValuePair.getKey();
       V value = keyValuePair.getValue();
@@ -40,7 +39,7 @@ public final class ImmutableHashMultitable<K, V> extends AbstractImmutableMultid
           .getOrDefault(SinglyLinkedList.<V>create());
       valueGroups.put(key, oldGroup.pushFront(value));
     }
-    return new ImmutableHashMultitable<>(valueGroups.toImmutable());
+    return new ImmutableHashTable<>(valueGroups.toImmutable());
   }
 
   @Override

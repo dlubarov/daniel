@@ -1,7 +1,7 @@
 package daniel.web.http.server.util;
 
 import daniel.data.dictionary.ImmutableDictionary;
-import daniel.data.dictionary.MutableHashTable;
+import daniel.data.dictionary.MutableHashDictionary;
 import daniel.data.option.Option;
 import daniel.data.unit.Duration;
 import daniel.data.unit.Instant;
@@ -27,7 +27,8 @@ public final class StaticContentHandler implements PartialHandler {
 
   public static final class Builder {
     private Option<File> contentRoot = Option.none();
-    private final MutableHashTable<String, String> mimeTypesByExtension = MutableHashTable.create();
+    private final MutableHashDictionary<String, String>
+        mimeTypesByExtension = MutableHashDictionary.create();
 
     public Builder setContentRoot(File contentRoot) {
       this.contentRoot = Option.some(contentRoot);

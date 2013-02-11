@@ -1,28 +1,28 @@
-package daniel.data.multidictionary;
+package daniel.data.table;
 
 import daniel.data.collection.Collection;
 import daniel.data.dictionary.KeyValuePair;
-import daniel.data.dictionary.MutableHashTable;
+import daniel.data.dictionary.MutableHashDictionary;
 import daniel.data.multiset.MutableHashMultiset;
 import daniel.data.set.Set;
 import daniel.data.source.Source;
 import daniel.data.stack.DynamicArray;
 import daniel.data.stack.MutableStack;
 
-public final class MutableHashMultitable<K, V> extends AbstractMultidictionary<K, V> {
-  private final MutableHashTable<K, MutableHashMultiset<V>> valueGroups;
+public final class MutableHashTable<K, V> extends AbstractTable<K, V> {
+  private final MutableHashDictionary<K, MutableHashMultiset<V>> valueGroups;
   private int size = 0;
 
-  private MutableHashMultitable() {
-    valueGroups = MutableHashTable.create();
+  private MutableHashTable() {
+    valueGroups = MutableHashDictionary.create();
   }
 
-  public static <K, V> MutableHashMultitable<K, V> create() {
-    return new MutableHashMultitable<>();
+  public static <K, V> MutableHashTable<K, V> create() {
+    return new MutableHashTable<>();
   }
 
-  public static <K, V> MutableHashMultitable<K, V> copyOf(Iterable<KeyValuePair<K, V>> keyValuePairs) {
-    MutableHashMultitable<K, V> result = create();
+  public static <K, V> MutableHashTable<K, V> copyOf(Iterable<KeyValuePair<K, V>> keyValuePairs) {
+    MutableHashTable<K, V> result = create();
     for (KeyValuePair<K, V> keyValuePair : keyValuePairs)
       result.put(keyValuePair.getKey(), keyValuePair.getValue());
     return result;

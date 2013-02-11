@@ -1,14 +1,15 @@
 package daniel.web.http.server.util;
 
 import daniel.data.dictionary.ImmutableDictionary;
-import daniel.data.dictionary.MutableHashTable;
+import daniel.data.dictionary.MutableHashDictionary;
 import daniel.web.http.HttpRequest;
 import daniel.web.http.HttpResponse;
 import daniel.web.http.server.Handler;
 
 public final class HostBasedHandler implements Handler {
   public static final class Builder {
-    private final MutableHashTable<String, Handler> handlersByHost = MutableHashTable.create();
+    private final MutableHashDictionary<String, Handler>
+        handlersByHost = MutableHashDictionary.create();
 
     public Builder addHandlerForHost(String hostRegex, Handler handler) {
       handlersByHost.put(hostRegex, handler);
