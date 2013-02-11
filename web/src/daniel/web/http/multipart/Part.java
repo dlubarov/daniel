@@ -1,9 +1,9 @@
 package daniel.web.http.multipart;
 
 import daniel.data.dictionary.KeyValuePair;
+import daniel.data.sequence.ImmutableArray;
 import daniel.data.table.sequential.ImmutableArrayTable;
 import daniel.data.table.sequential.SequentialTable;
-import daniel.data.sequence.ImmutableArray;
 import daniel.data.util.EqualsBuilder;
 import daniel.data.util.HashCodeBuilder;
 import java.util.Arrays;

@@ -1,9 +1,9 @@
 package daniel.viewheaders;
 
-import daniel.web.http.server.util.WwwRemovingHandler;
-import daniel.web.http.server.util.DelegatingHandler;
 import daniel.web.http.server.Handler;
+import daniel.web.http.server.util.DelegatingHandler;
 import daniel.web.http.server.util.StaticContentHandler;
+import daniel.web.http.server.util.WwwRemovingHandler;
 import java.io.File;
 
 public final class ViewHeadersHandler {

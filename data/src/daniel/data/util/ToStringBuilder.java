@@ -1,6 +1,5 @@
 package daniel.data.util;
 
-import daniel.data.dictionary.KeyValuePair;
 import daniel.data.stack.DynamicArray;
 import daniel.data.stack.MutableStack;
 

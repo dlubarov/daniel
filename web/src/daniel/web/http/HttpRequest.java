@@ -2,13 +2,13 @@ package daniel.web.http;
 
 import daniel.data.collection.Collection;
 import daniel.data.dictionary.KeyValuePair;
-import daniel.data.table.sequential.ImmutableArrayTable;
-import daniel.data.table.sequential.ImmutableSequentialTable;
-import daniel.data.table.sequential.SequentialTable;
 import daniel.data.option.Option;
 import daniel.data.sequence.ImmutableSequence;
 import daniel.data.stack.DynamicArray;
 import daniel.data.stack.MutableStack;
+import daniel.data.table.sequential.ImmutableArrayTable;
+import daniel.data.table.sequential.ImmutableSequentialTable;
+import daniel.data.table.sequential.SequentialTable;
 import daniel.data.util.Check;
 import daniel.parsing.ParseResult;
 import daniel.web.http.multipart.Part;

@@ -1,12 +1,12 @@
 package daniel.web.html;
 
 import daniel.data.dictionary.KeyValuePair;
-import daniel.data.table.sequential.ImmutableArrayTable;
-import daniel.data.table.sequential.ImmutableSequentialTable;
 import daniel.data.sequence.ImmutableArray;
 import daniel.data.sequence.ImmutableSequence;
 import daniel.data.stack.DynamicArray;
 import daniel.data.stack.MutableStack;
+import daniel.data.table.sequential.ImmutableArrayTable;
+import daniel.data.table.sequential.ImmutableSequentialTable;
 import daniel.data.util.Check;
 
 public final class Element implements Node {

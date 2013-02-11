@@ -1,8 +1,8 @@
 package daniel.web.http.server;
 
 import daniel.data.dictionary.KeyValuePair;
-import daniel.data.table.MutableHashTable;
 import daniel.data.option.Option;
+import daniel.data.table.MutableHashTable;
 import daniel.logging.Logger;
 import daniel.web.http.HttpRequest;
 import daniel.web.http.HttpResponse;
@@ -95,8 +95,10 @@ final class ConnectionManager implements Runnable {
       responseHeaders.put("Connection", "close");
 
     boolean gzipAccepted = AcceptEncodingParser.getAcceptedEncodings(request.getHeaders()).contains("gzip");
-    if (gzipAccepted && !responseHeaders.containsKey("Content-Encoding"))
+    if (gzipAccepted && !responseHeaders.containsKey("Content-Encoding")) {
       responseHeaders.put("Content-Encoding", "gzip");
+      responseHeaders.put("Vary", "Accept-Encoding");
+    }
 
     // Write headers.
     writer.write(String.format("HTTP/%s %s\r\n", response.getHttpVersion(), response.getStatus()));

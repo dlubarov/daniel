@@ -1,8 +1,8 @@
 package daniel.web.http.compression;
 
-import daniel.data.table.Table;
 import daniel.data.set.MutableHashSet;
 import daniel.data.set.Set;
+import daniel.data.table.Table;
 import daniel.web.http.RequestHeaderName;
 
 public final class AcceptEncodingParser {

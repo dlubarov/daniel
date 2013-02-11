@@ -14,7 +14,6 @@ import daniel.web.http.HttpVersion;
 import daniel.web.http.ResponseHeaderName;
 import daniel.web.http.cookies.CookieManager;
 import java.nio.charset.Charset;
-import java.util.Date;
 
 public final class HttpResponseFactory {
   private HttpResponseFactory() {}

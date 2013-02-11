@@ -1,8 +1,8 @@
 package daniel.data.table.sequential;
 
 import daniel.data.dictionary.KeyValuePair;
-import daniel.data.table.ImmutableTable;
 import daniel.data.sequence.ImmutableSequence;
+import daniel.data.table.ImmutableTable;
 
 public interface ImmutableSequentialTable<K, V>
     extends SequentialTable<K, V>, ImmutableTable<K, V>,

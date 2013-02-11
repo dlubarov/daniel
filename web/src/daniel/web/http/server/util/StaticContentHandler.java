@@ -15,6 +15,7 @@ import daniel.web.http.HttpResponse;
 import daniel.web.http.HttpStatus;
 import daniel.web.http.HttpVersion;
 import daniel.web.http.RequestHeaderName;
+import daniel.web.http.RequestMethod;
 import daniel.web.http.ResponseHeaderName;
 import daniel.web.http.server.PartialHandler;
 import java.io.File;
@@ -104,24 +105,30 @@ public final class StaticContentHandler implements PartialHandler {
       }
     }
 
-    byte[] content;
-    try {
-      content = IOUtils.readFileToByteArray(resourcePath);
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
+    Option<byte[]> content;
+    if (request.getMethod() == RequestMethod.HEAD)
+      content = Option.none();
+    else
+      try {
+        content = Option.some(IOUtils.readFileToByteArray(resourcePath));
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
 
     Instant expires = Instant.now().plus(Duration.fromHours(24));
 
-    return Option.some(new HttpResponse.Builder().setHttpVersion(HttpVersion._1_1)
+    HttpResponse.Builder responseBuilder = new HttpResponse.Builder()
+        .setHttpVersion(HttpVersion._1_1)
         .setStatus(HttpStatus.OK)
         .addHeader(ResponseHeaderName.DATE, DateUtils.formatInstant(Instant.now()))
         .addHeader(ResponseHeaderName.EXPIRES, DateUtils.formatInstant(expires))
         .addHeader(ResponseHeaderName.LAST_MODIFIED, DateUtils.formatInstant(lastModified))
-        .addHeader(ResponseHeaderName.CONTENT_TYPE, mimeType.getOrThrow())
-        .addHeader(ResponseHeaderName.CONTENT_LENGTH, Integer.toString(content.length))
-        .setBody(content)
-        .build());
+        .addHeader(ResponseHeaderName.CONTENT_TYPE, mimeType.getOrThrow());
+    if (content.isDefined())
+      responseBuilder
+          .addHeader(ResponseHeaderName.CONTENT_LENGTH, Integer.toString(content.getOrThrow().length))
+          .setBody(content);
+    return Option.some(responseBuilder.build());
   }
 
   private boolean isInContentRoot(File file) {

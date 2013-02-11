@@ -2,12 +2,12 @@ package daniel.web.http;
 
 import daniel.data.collection.Collection;
 import daniel.data.dictionary.KeyValuePair;
-import daniel.data.table.sequential.ImmutableArrayTable;
-import daniel.data.table.sequential.ImmutableSequentialTable;
-import daniel.data.table.sequential.SequentialTable;
 import daniel.data.option.Option;
 import daniel.data.stack.DynamicArray;
 import daniel.data.stack.MutableStack;
+import daniel.data.table.sequential.ImmutableArrayTable;
+import daniel.data.table.sequential.ImmutableSequentialTable;
+import daniel.data.table.sequential.SequentialTable;
 import daniel.web.http.cookies.Cookie;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -66,9 +66,13 @@ public final class HttpResponse {
       return this;
     }
 
-    public Builder setBody(byte[] body) {
-      this.body = Option.some(body);
+    public Builder setBody(Option<byte[]> body) {
+      this.body = body;
       return this;
+    }
+
+    public Builder setBody(byte[] body) {
+      return setBody(Option.some(body));
     }
 
     public HttpResponse build() {

@@ -14,8 +14,8 @@ import daniel.web.html.Tag;
 import daniel.web.http.HttpRequest;
 import daniel.web.http.HttpResponse;
 import daniel.web.http.HttpStatus;
-import daniel.web.http.server.util.HttpResponseFactory;
 import daniel.web.http.server.PartialHandler;
+import daniel.web.http.server.util.HttpResponseFactory;
 
 final class HomeHandler implements PartialHandler {
   public static final HomeHandler singleton = new HomeHandler();

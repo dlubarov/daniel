@@ -1,11 +1,11 @@
 package daniel.web.http.parsing;
 
 import daniel.data.dictionary.KeyValuePair;
-import daniel.data.table.sequential.ImmutableArrayTable;
-import daniel.data.table.sequential.SequentialTable;
 import daniel.data.option.Option;
 import daniel.data.stack.DynamicArray;
 import daniel.data.stack.MutableStack;
+import daniel.data.table.sequential.ImmutableArrayTable;
+import daniel.data.table.sequential.SequentialTable;
 import daniel.parsing.ParseResult;
 import daniel.parsing.Parser;
 

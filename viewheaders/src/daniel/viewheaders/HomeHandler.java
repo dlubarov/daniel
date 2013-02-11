@@ -1,8 +1,8 @@
 package daniel.viewheaders;
 
 import daniel.data.dictionary.KeyValuePair;
-import daniel.data.table.sequential.SequentialTable;
 import daniel.data.option.Option;
+import daniel.data.table.sequential.SequentialTable;
 import daniel.web.html.Attribute;
 import daniel.web.html.Element;
 import daniel.web.html.TextNode;
@@ -10,8 +10,8 @@ import daniel.web.html.table.TableBuilder;
 import daniel.web.http.HttpRequest;
 import daniel.web.http.HttpResponse;
 import daniel.web.http.HttpStatus;
-import daniel.web.http.server.util.HttpResponseFactory;
 import daniel.web.http.server.PartialHandler;
+import daniel.web.http.server.util.HttpResponseFactory;
 
 final class HomeHandler implements PartialHandler {
   public static final HomeHandler singleton = new HomeHandler();
