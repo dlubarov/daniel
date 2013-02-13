@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 
 /**
  * @see RWUtils
@@ -38,5 +39,12 @@ public final class IOUtils {
 
   public static byte[] readFileToByteArray(File file) throws IOException {
     return readEntireStream(new FileInputStream(file));
+  }
+
+  public static void copyStream(InputStream input, OutputStream output) throws IOException {
+    byte[] buffer = new byte[1024];
+    int bytesRead;
+    while ((bytesRead = input.read(buffer)) != -1)
+      output.write(buffer, 0, bytesRead);
   }
 }

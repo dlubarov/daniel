@@ -1,9 +1,12 @@
 package daniel.web.http.server;
 
 import daniel.data.dictionary.KeyValuePair;
+import daniel.data.function.Function;
 import daniel.data.option.Option;
 import daniel.data.table.MutableHashTable;
+import daniel.data.util.CompressionUtils;
 import daniel.logging.Logger;
+import daniel.web.http.ContentEncoding;
 import daniel.web.http.HttpRequest;
 import daniel.web.http.HttpResponse;
 import daniel.web.http.RequestMethod;
@@ -91,14 +94,37 @@ final class ConnectionManager implements Runnable {
     // TODO: This breaks header order, which is okay but not ideal.
     MutableHashTable<String, String> responseHeaders =
         MutableHashTable.copyOf(response.getHeaders());
-    if (!responseHeaders.containsKey("Connection"))
-      responseHeaders.put("Connection", "close");
 
     boolean gzipAccepted = AcceptEncodingParser.getAcceptedEncodings(request.getHeaders()).contains("gzip");
-    if (gzipAccepted && !responseHeaders.containsKey("Content-Encoding")) {
-      responseHeaders.put("Content-Encoding", "gzip");
-      responseHeaders.put("Vary", "Accept-Encoding");
+    String defaultContentEncoding = gzipAccepted ? "gzip" : "identity";
+    String contentEncodingString = responseHeaders.getValues("Content-Encoding")
+        .tryGetOnlyElement().getOrDefault(defaultContentEncoding);
+    final ContentEncoding contentEncoding = ContentEncoding.valueOf(contentEncodingString.toUpperCase());
+
+    Option<byte[]> encodedContent = response.getBody().map(new Function<byte[], byte[]>() {
+      @Override public byte[] apply(byte[] rawContent) {
+        switch (contentEncoding) {
+          case IDENTITY:
+            return rawContent;
+          case GZIP:
+            return CompressionUtils.gzip(rawContent);
+          default:
+            throw new AssertionError("Unexpected content encoding: " + contentEncoding);
+        }
+      }
+    });
+
+    if (!responseHeaders.containsKey("Content-Encoding") && contentEncoding != ContentEncoding.IDENTITY) {
+      responseHeaders.put("Content-Encoding", contentEncoding.name().toLowerCase());
+      if (!responseHeaders.containsKey("Vary"))
+        responseHeaders.put("Vary", "Accept-Encoding");
     }
+
+    if (encodedContent.isDefined() && !responseHeaders.containsKey("Content-Length"))
+      responseHeaders.put("Content-Length", Integer.toString(encodedContent.getOrThrow().length));
+
+    if (!responseHeaders.containsKey("Connection"))
+      responseHeaders.put("Connection", "close");
 
     // Write headers.
     writer.write(String.format("HTTP/%s %s\r\n", response.getHttpVersion(), response.getStatus()));
@@ -108,24 +134,8 @@ final class ConnectionManager implements Runnable {
     writer.flush();
 
     // Write body.
-    if (response.getBody().isDefined() && request.getMethod() != RequestMethod.HEAD) {
-      OutputStream outputStream = socket.getOutputStream();
-      Option<String> optContentEncoding = responseHeaders
-          .getValues("Content-Encoding").tryGetOnlyElement();
-      if (optContentEncoding.isDefined()) {
-        String contentEncoding = optContentEncoding.getOrThrow();
-        switch (contentEncoding) {
-          case "gzip":
-            outputStream = new GZIPOutputStream(outputStream, true);
-            break;
-          default:
-            throw new RuntimeException("Unexpected encoding: " + contentEncoding);
-        }
-      }
-      outputStream.write(response.getBody().getOrThrow());
-      outputStream.flush();
-    } else
-      socket.getOutputStream().flush();
+    if (encodedContent.isDefined() && request.getMethod() != RequestMethod.HEAD)
+      socket.getOutputStream().write(encodedContent.getOrThrow());
 
     socket.close();
   }

@@ -125,9 +125,7 @@ public final class StaticContentHandler implements PartialHandler {
         .addHeader(ResponseHeaderName.LAST_MODIFIED, DateUtils.formatInstant(lastModified))
         .addHeader(ResponseHeaderName.CONTENT_TYPE, mimeType.getOrThrow());
     if (content.isDefined())
-      responseBuilder
-          .addHeader(ResponseHeaderName.CONTENT_LENGTH, Integer.toString(content.getOrThrow().length))
-          .setBody(content);
+      responseBuilder.setBody(content);
     return Option.some(responseBuilder.build());
   }
 
