@@ -86,8 +86,8 @@ final class ConnectionManager implements Runnable {
   private void handleNormalRequest(HttpRequest request) throws IOException {
     Writer writer = new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.US_ASCII);
 
-    logger.info("Handling request for %s%s.", request.getHost(), request.getResource());
     logger.info("User agents: %s.", request.getHeaders().getValues("User-Agent"));
+    logger.info("Handling request for %s%s.", request.getHost(), request.getResource());
     CookieManager.resetCookies();
     HttpResponse response = handler.handle(request);
 

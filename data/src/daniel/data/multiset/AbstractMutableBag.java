@@ -2,9 +2,7 @@ package daniel.data.multiset;
 
 import daniel.data.collection.AbstractCollection;
 
-public abstract class AbstractMutableMultiset<A>
-    extends AbstractCollection<A>
-    implements MutableMultiset<A> {
+public abstract class AbstractMutableBag<A> extends AbstractCollection<A> implements MutableBag<A> {
   @Override
   public abstract int getCount(A value);
 

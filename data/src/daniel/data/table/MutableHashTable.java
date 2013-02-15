@@ -3,14 +3,15 @@ package daniel.data.table;
 import daniel.data.collection.Collection;
 import daniel.data.dictionary.KeyValuePair;
 import daniel.data.dictionary.MutableHashDictionary;
-import daniel.data.multiset.MutableHashMultiset;
+import daniel.data.multiset.MutableHashBag;
+import daniel.data.multiset.MutableHashBag;
 import daniel.data.set.Set;
 import daniel.data.source.Source;
 import daniel.data.stack.DynamicArray;
 import daniel.data.stack.MutableStack;
 
 public final class MutableHashTable<K, V> extends AbstractTable<K, V> {
-  private final MutableHashDictionary<K, MutableHashMultiset<V>> valueGroups;
+  private final MutableHashDictionary<K, MutableHashBag<V>> valueGroups;
   private int size = 0;
 
   private MutableHashTable() {
@@ -30,7 +31,7 @@ public final class MutableHashTable<K, V> extends AbstractTable<K, V> {
 
   public void put(K key, V value) {
     if (!valueGroups.containsKey(key))
-      valueGroups.put(key, MutableHashMultiset.<V>create());
+      valueGroups.put(key, MutableHashBag.<V>create());
     valueGroups.getValue(key).add(value);
     ++size;
   }
@@ -67,13 +68,13 @@ public final class MutableHashTable<K, V> extends AbstractTable<K, V> {
 
   @Override
   public Collection<V> getValues(K key) {
-    return valueGroups.tryGetValue(key).getOrDefault(MutableHashMultiset.<V>create());
+    return valueGroups.tryGetValue(key).getOrDefault(MutableHashBag.<V>create());
   }
 
   @Override
   public Source<KeyValuePair<K, V>> getEnumerator() {
     MutableStack<KeyValuePair<K, V>> stack = DynamicArray.create();
-    for (KeyValuePair<K, MutableHashMultiset<V>> keyAndValues : valueGroups)
+    for (KeyValuePair<K, MutableHashBag<V>> keyAndValues : valueGroups)
       for (V value : keyAndValues.getValue())
         stack.pushBack(new KeyValuePair<>(keyAndValues.getKey(), value));
     return stack.getEnumerator();

@@ -6,21 +6,21 @@ import daniel.data.source.Source;
 import daniel.data.stack.DynamicArray;
 import daniel.data.stack.MutableStack;
 
-public final class MutableHashMultiset<A> extends AbstractMutableMultiset<A> {
+public final class MutableHashBag<A> extends AbstractMutableBag<A> {
   private final MutableHashDictionary<A, Integer> elementCounts;
   private int size;
 
-  private MutableHashMultiset() {
+  private MutableHashBag() {
     this.elementCounts = MutableHashDictionary.create();
     this.size = 0;
   }
 
-  public static <A> MutableHashMultiset<A> create() {
-    return new MutableHashMultiset<>();
+  public static <A> MutableHashBag<A> create() {
+    return new MutableHashBag<>();
   }
 
-  public static <A> MutableHashMultiset<A> copyOf(Iterable<A> iterable) {
-    MutableHashMultiset<A> result = new MutableHashMultiset<>();
+  public static <A> MutableHashBag<A> copyOf(Iterable<A> iterable) {
+    MutableHashBag<A> result = new MutableHashBag<>();
     for (A element : iterable)
       result.add(element);
     return result;

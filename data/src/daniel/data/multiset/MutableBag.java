@@ -2,7 +2,7 @@ package daniel.data.multiset;
 
 import daniel.data.collection.Collection;
 
-public interface MutableMultiset<A> extends Collection<A> {
+public interface MutableBag<A> extends Collection<A> {
   public void add(A value);
 
   public void add(A value, int count);
