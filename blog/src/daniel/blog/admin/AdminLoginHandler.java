@@ -21,7 +21,7 @@ import daniel.web.http.server.util.HttpResponseFactory;
 final class AdminLoginHandler implements Handler {
   public AdminLoginHandler() {}
 
-  private static final long EXPIRATION_DAYS = 2;
+  private static final long EXPIRATION_DAYS = 30;
 
   @Override
   public HttpResponse handle(HttpRequest request) {
