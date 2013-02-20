@@ -4,7 +4,7 @@ set -e
 shopt -s globstar
 
 if [[ $UID != 0 ]]; then
-  echo "Run with sudo."
+  echo 'Run with sudo.'
   exit 1
 fi
 
