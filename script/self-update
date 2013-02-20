@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+set -e
+
+old_head=$(git rev-parse --verify HEAD)
+git pull -q
+new_head=$(git rev-parse --verify HEAD)
+
+if [ "$new_head" != "$old_head" ]; then
+  echo 'Pulled new changes. Restarting.'
+  script/stop-daemon
+  script/start-daemon
+else
+  echo 'No new changes.'
+fi

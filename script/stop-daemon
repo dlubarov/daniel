@@ -1,2 +1,14 @@
 #!/usr/bin/env bash
-sudo pkill -f MultiwebApp
+
+set -e
+
+if [[ $UID != 0 ]]; then
+  echo "Run with sudo."
+  exit 1
+fi
+
+pkill -f MultiwebApp
+while pgrep -f MultiwebApp >/dev/null; do
+  echo "Awaiting shutdown..."
+  sleep 1
+done

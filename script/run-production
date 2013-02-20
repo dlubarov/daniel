@@ -3,4 +3,10 @@
 set -e
 shopt -s globstar
 
-sudo ENVIRONMENT=production java -cp "all.jar:lib/*" daniel.multiweb.MultiwebApp 2>&1 | tee -a multiweb.log
+if [[ $UID != 0 ]]; then
+  echo "Run with sudo."
+  exit 1
+fi
+
+export ENVIRONMENT=production
+java -cp "all.jar:lib/*" daniel.multiweb.MultiwebApp 2>&1 | tee -a multiweb.log
