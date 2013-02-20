@@ -21,7 +21,6 @@ public final class HttpResponseFactory {
     byte[] documentBytes = document.toString().getBytes(Charset.forName("UTF-8"));
     return new HttpResponse.Builder()
         .setStatus(status)
-        .setHttpVersion(HttpVersion._1_1)
         .addHeader(ResponseHeaderName.EXPIRES, "Thu, 19 Nov 1981 08:52:00 GMT")
         .addHeader(ResponseHeaderName.CACHE_CONTROL, "no-store, no-cache, must-revalidate, post-check=0, pre-check=0")
         .addHeader(ResponseHeaderName.CONTENT_TYPE, "application/xhtml+xml; charset=utf-8")
@@ -71,7 +70,6 @@ public final class HttpResponseFactory {
 
     return new HttpResponse.Builder()
         .setStatus(status)
-        .setHttpVersion(HttpVersion._1_1)
         .addHeader(ResponseHeaderName.LOCATION, location)
         .addHeader(ResponseHeaderName.CONTENT_TYPE, "application/xhtml+xml; charset=utf-8")
         .addAllCookies(CookieManager.getCookies())

@@ -15,7 +15,7 @@ import java.nio.charset.StandardCharsets;
 
 public final class HttpResponse {
   public static final class Builder {
-    private Option<HttpVersion> httpVersion = Option.none();
+    private HttpVersion httpVersion = HttpVersion._1_1;
     private Option<HttpStatus> status = Option.none();
     private final MutableStack<KeyValuePair<String, String>> headers;
     private Option<byte[]> body = Option.none();
@@ -25,7 +25,7 @@ public final class HttpResponse {
     }
 
     public Builder setHttpVersion(HttpVersion httpVersion) {
-      this.httpVersion = Option.some(httpVersion);
+      this.httpVersion = httpVersion;
       return this;
     }
 
@@ -86,7 +86,7 @@ public final class HttpResponse {
   private final Option<byte[]> body;
 
   private HttpResponse(Builder builder) {
-    this.httpVersion = builder.httpVersion.getOrThrow("No HTTP version was set.");
+    this.httpVersion = builder.httpVersion;
     this.status = builder.status.getOrThrow("No response status was set.");
     this.headers = ImmutableArrayTable.copyOf(builder.headers);
     this.body = builder.body;

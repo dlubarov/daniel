@@ -87,8 +87,7 @@ public final class StaticContentHandler implements PartialHandler {
 
     Instant lastModified = Instant.fromDate(new Date(resourcePath.lastModified()));
     Option<String> optIfModifiedSince = request.getHeaders()
-        .getValues(RequestHeaderName.IF_MODIFIED_SINCE.toString())
-        .tryGetOnlyElement();
+        .getValues("If-Modified-Since").tryGetOnlyElement();
     if (optIfModifiedSince.isDefined()) {
       try {
         Instant ifModifiedSince = DateUtils.parseInstant(optIfModifiedSince.getOrThrow());
@@ -117,7 +116,6 @@ public final class StaticContentHandler implements PartialHandler {
     Instant expires = Instant.now().plus(Duration.fromHours(24));
 
     HttpResponse.Builder responseBuilder = new HttpResponse.Builder()
-        .setHttpVersion(HttpVersion._1_1)
         .setStatus(HttpStatus.OK)
         .addHeader(ResponseHeaderName.EXPIRES, DateUtils.formatInstant(expires))
         .addHeader(ResponseHeaderName.LAST_MODIFIED, DateUtils.formatInstant(lastModified))
