@@ -119,11 +119,11 @@ final class ConnectionManager implements Runnable {
     if (!responseHeaders.containsKey("Date"))
       responseHeaders.put("Date", DateUtils.formatInstant(Instant.now()));
 
-    if (!responseHeaders.containsKey("Content-Encoding") && contentEncoding != ContentEncoding.IDENTITY) {
+    if (!responseHeaders.containsKey("Content-Encoding") && contentEncoding != ContentEncoding.IDENTITY)
       responseHeaders.put("Content-Encoding", contentEncoding.name().toLowerCase());
-      if (!responseHeaders.containsKey("Vary"))
-        responseHeaders.put("Vary", "Accept-Encoding");
-    }
+
+    if (!responseHeaders.containsKey("Vary"))
+      responseHeaders.put("Vary", "Accept-Encoding");
 
     if (encodedContent.isDefined() && !responseHeaders.containsKey("Content-Length"))
       responseHeaders.put("Content-Length", Integer.toString(encodedContent.getOrThrow().length));

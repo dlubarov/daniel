@@ -8,9 +8,10 @@ import java.util.Date;
 import java.util.TimeZone;
 
 public final class DateUtils {
-  private static final DateFormat dateFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz");
+  private static final DateFormat dateFormat;
 
   static {
+    dateFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz");
     dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
   }
 
