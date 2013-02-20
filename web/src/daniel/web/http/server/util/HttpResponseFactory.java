@@ -1,13 +1,11 @@
 package daniel.web.http.server.util;
 
-import daniel.data.unit.Instant;
 import daniel.web.html.AnchorBuilder;
 import daniel.web.html.Element;
 import daniel.web.html.ParagraphBuilder;
 import daniel.web.html.Tag;
 import daniel.web.html.TitleBuilder;
 import daniel.web.html.Xhtml5Document;
-import daniel.web.http.DateUtils;
 import daniel.web.http.HttpResponse;
 import daniel.web.http.HttpStatus;
 import daniel.web.http.HttpVersion;
@@ -24,7 +22,6 @@ public final class HttpResponseFactory {
     return new HttpResponse.Builder()
         .setStatus(status)
         .setHttpVersion(HttpVersion._1_1)
-        .addHeader(ResponseHeaderName.DATE, DateUtils.formatInstant(Instant.now()))
         .addHeader(ResponseHeaderName.EXPIRES, "Thu, 19 Nov 1981 08:52:00 GMT")
         .addHeader(ResponseHeaderName.CACHE_CONTROL, "no-store, no-cache, must-revalidate, post-check=0, pre-check=0")
         .addHeader(ResponseHeaderName.CONTENT_TYPE, "application/xhtml+xml; charset=utf-8")
@@ -75,7 +72,6 @@ public final class HttpResponseFactory {
     return new HttpResponse.Builder()
         .setStatus(status)
         .setHttpVersion(HttpVersion._1_1)
-        .addHeader(ResponseHeaderName.DATE, DateUtils.formatInstant(Instant.now()))
         .addHeader(ResponseHeaderName.LOCATION, location)
         .addHeader(ResponseHeaderName.CONTENT_TYPE, "application/xhtml+xml; charset=utf-8")
         .addAllCookies(CookieManager.getCookies())

@@ -24,19 +24,29 @@ function main() {
 
   gl.uniform2f(resolutionLocation, canvas.width, canvas.height);
 
-  var image = new Image();
+  image = new Image();
   image.src = "rainbow.png";
-  image.onload = function() {
-    render(image);
-  }
+  image.onload = startGame;
+}
+
+function startGame() {
+  step();
 }
 
 function step() {
+  gl.clearColor(0, 0, 0, 0);
   gl.clear(gl.COLOR_BUFFER_BIT);
-  gl.glClear(0, 0, 0, 0);
+  render(image);
+
+  var error = gl.getError();
+  if (error != gl.NO_ERROR && error != gl.CONTEXT_LOST_WEBGL) {
+    alert("fail");
+  } else {
+    requestAnimationFrame(step);
+  }
 }
 
-function render(image) {
+function render() {
   // Create a texture.
   var texture = gl.createTexture();
   gl.bindTexture(gl.TEXTURE_2D, texture);
@@ -52,13 +62,12 @@ function render(image) {
   // provide texture coordinates for the rectangle.
   var texCoordBuffer = gl.createBuffer();
   gl.bindBuffer(gl.ARRAY_BUFFER, texCoordBuffer);
-  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
-      0.0,  0.0,
-      1.0,  0.0,
-      0.0,  1.0,
-      0.0,  1.0,
-      1.0,  0.0,
-      1.0,  1.0]), gl.STATIC_DRAW);
+  gl.bufferData(
+      gl.ARRAY_BUFFER,
+      new Float32Array([
+        0.0, 0.0, 1.0, 0.0, 0.0, 1.0,
+        0.0, 1.0, 1.0, 0.0, 1.0, 1.0]),
+      gl.STATIC_DRAW);
   gl.enableVertexAttribArray(texCoordLocation);
   gl.vertexAttribPointer(texCoordLocation, 2, gl.FLOAT, false, 0, 0);
 
@@ -70,8 +79,7 @@ function render(image) {
 
   setRectangle(100, 100, 200, 200);
 
-  // draw
-  gl.drawArrays(gl.TRIANGLES, 0, 6);
+  gl.drawArrays(gl.TRIANGLES, 0, 6); // Draw.
 }
 
 // Returns a random integer from 0 to -1.

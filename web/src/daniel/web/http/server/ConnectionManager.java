@@ -4,9 +4,11 @@ import daniel.data.dictionary.KeyValuePair;
 import daniel.data.function.Function;
 import daniel.data.option.Option;
 import daniel.data.table.MutableHashTable;
+import daniel.data.unit.Instant;
 import daniel.data.util.CompressionUtils;
 import daniel.logging.Logger;
 import daniel.web.http.ContentEncoding;
+import daniel.web.http.DateUtils;
 import daniel.web.http.HttpRequest;
 import daniel.web.http.HttpResponse;
 import daniel.web.http.RequestMethod;
@@ -113,6 +115,9 @@ final class ConnectionManager implements Runnable {
         }
       }
     });
+
+    if (!responseHeaders.containsKey("Date"))
+      responseHeaders.put("Date", DateUtils.formatInstant(Instant.now()));
 
     if (!responseHeaders.containsKey("Content-Encoding") && contentEncoding != ContentEncoding.IDENTITY) {
       responseHeaders.put("Content-Encoding", contentEncoding.name().toLowerCase());

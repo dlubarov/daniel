@@ -95,7 +95,6 @@ public final class StaticContentHandler implements PartialHandler {
         if (lastModified.isBefore(ifModifiedSince))
           return Option.some(new HttpResponse.Builder()
               .setStatus(HttpStatus.NOT_MODIFIED)
-              .addHeader(ResponseHeaderName.DATE, DateUtils.formatInstant(Instant.now()))
               .addHeader(ResponseHeaderName.EXPIRES, DateUtils.formatInstant(lastModified.plus(Duration.fromHours(24))))
               .addHeader(ResponseHeaderName.LAST_MODIFIED, DateUtils.formatInstant(lastModified))
               .build());
@@ -120,7 +119,6 @@ public final class StaticContentHandler implements PartialHandler {
     HttpResponse.Builder responseBuilder = new HttpResponse.Builder()
         .setHttpVersion(HttpVersion._1_1)
         .setStatus(HttpStatus.OK)
-        .addHeader(ResponseHeaderName.DATE, DateUtils.formatInstant(Instant.now()))
         .addHeader(ResponseHeaderName.EXPIRES, DateUtils.formatInstant(expires))
         .addHeader(ResponseHeaderName.LAST_MODIFIED, DateUtils.formatInstant(lastModified))
         .addHeader(ResponseHeaderName.CONTENT_TYPE, mimeType.getOrThrow());
