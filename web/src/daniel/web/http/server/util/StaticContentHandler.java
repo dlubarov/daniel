@@ -13,8 +13,6 @@ import daniel.web.http.DateUtils;
 import daniel.web.http.HttpRequest;
 import daniel.web.http.HttpResponse;
 import daniel.web.http.HttpStatus;
-import daniel.web.http.HttpVersion;
-import daniel.web.http.RequestHeaderName;
 import daniel.web.http.RequestMethod;
 import daniel.web.http.ResponseHeaderName;
 import daniel.web.http.server.PartialHandler;
@@ -91,7 +89,9 @@ public final class StaticContentHandler implements PartialHandler {
     if (optIfModifiedSince.isDefined()) {
       try {
         Instant ifModifiedSince = DateUtils.parseInstant(optIfModifiedSince.getOrThrow());
-        if (lastModified.isBefore(ifModifiedSince))
+        boolean modifiedSince = lastModified.isAfter(ifModifiedSince);
+        logger.info("Modified since %s: %b.", ifModifiedSince, modifiedSince);
+        if (!modifiedSince)
           return Option.some(new HttpResponse.Builder()
               .setStatus(HttpStatus.NOT_MODIFIED)
               .addHeader(ResponseHeaderName.EXPIRES, DateUtils.formatInstant(lastModified.plus(Duration.fromHours(24))))

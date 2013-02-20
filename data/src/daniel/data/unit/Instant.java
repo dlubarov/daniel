@@ -51,4 +51,22 @@ public final class Instant {
   public Date toDate() {
     return new Date((long) sinceEpoch.getMilliseconds());
   }
+
+  @Override
+  public boolean equals(Object o) {
+    return o instanceof Instant && sinceEpoch == ((Instant) o).sinceEpoch;
+  }
+
+  @Override
+  public int hashCode() {
+    return sinceEpoch.hashCode();
+  }
+
+  /**
+   * Provides a human-friendly representation of this Instant. The exact format is undefined.
+   */
+  @Override
+  public String toString() {
+    return toDate().toString();
+  }
 }

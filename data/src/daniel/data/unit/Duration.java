@@ -98,4 +98,42 @@ public final class Duration {
   public double getYears() {
     return seconds / 31536000.0;
   }
+
+  @Override
+  public boolean equals(Object o) {
+    return o instanceof Duration && seconds == ((Duration) o).seconds;
+  }
+
+  @Override
+  public int hashCode() {
+    return new Double(seconds).hashCode();
+  }
+
+  /**
+   * Provides a human-friendly representation of this Duration. The exact format is undefined.
+   */
+  @Override
+  public String toString() {
+    long baseYears = (long) getYears();
+    if (baseYears > 1)
+      return baseYears + " years";
+
+    long baseDays = (long) getDays();
+    if (baseDays > 1)
+      return baseDays + " days";
+
+    long baseHours = (long) getHours();
+    if (baseHours > 1)
+      return baseHours + " hours";
+
+    long baseMinutes = (long) getMinutes();
+    if (baseMinutes > 1)
+      return baseMinutes + " minutes";
+
+    long baseSeconds = (long) getSeconds();
+    if (baseSeconds > 1)
+      return baseSeconds + " seconds";
+
+    return "a moment";
+  }
 }
