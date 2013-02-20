@@ -7,9 +7,9 @@ git pull -q
 new_head=$(git rev-parse --verify HEAD)
 
 if [ "$new_head" != "$old_head" ]; then
-  echo 'Pulled new changes. Restarting.'
-  script/stop-daemon
-  script/start-daemon
+  echo "Pulled new version: $new_head."
+  script/compile
+  script/restart-daemon
 else
   echo 'No new changes.'
 fi
