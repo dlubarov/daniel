@@ -9,7 +9,7 @@ echo -n 'Stopping daemon.'
 
 pkill -f MultiwebApp
 while pgrep -f MultiwebApp >/dev/null; do
-  sleep 1
+  sleep 0.5
   echo -n '.'
 done
 
