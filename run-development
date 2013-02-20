@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-
-set -e
-shopt -s globstar
-
-ENVIRONMENT=development java -cp all.jar daniel.multiweb.MultiwebApp

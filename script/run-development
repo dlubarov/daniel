@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+set -e
+shopt -s globstar
+
+ENVIRONMENT=development java -cp "all.jar:lib/*" daniel.multiweb.MultiwebApp 2>&1 | tee -a multiweb.log
