@@ -13,6 +13,8 @@ public final class Duration {
 
   public static final Ordering<Duration> DESCENDING_ORDERING = ASCENDING_ORDERING.reverse();
 
+  public static final Duration ZERO = new Duration(0);
+
   private final double seconds;
 
   private Duration(double seconds) {

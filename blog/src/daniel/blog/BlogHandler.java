@@ -14,6 +14,7 @@ public final class BlogHandler {
     return new DelegatingHandler.Builder()
         .addPartialHandler(WwwRemovingHandler.singleton)
         .addPartialHandler(HomeHandler.singleton)
+        .addPartialHandler(VersionHandler.singleton)
         .addPartialHandler(PostHandler.singleton)
         .addPartialHandler(AdminHandler.singleton)
         .addPartialHandler(new StaticContentHandler.Builder()

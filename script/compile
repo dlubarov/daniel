@@ -11,6 +11,9 @@ find . | grep '.java$' | grep -v 'Test.java$' | xargs javac -cp 'lib/*' -d manua
 echo 'Packaging...'
 rm -f all.jar
 cd manual_out
-jar cf ../all.jar **/*.class
+version=$(git rev-parse --verify HEAD)
+echo "Implementation-Version: $version" > manifest-extras
+jar cmf manifest-extras ../all.jar **/*.class
+rm manifest-extras
 
 echo 'Done.'

@@ -14,6 +14,8 @@ public final class Instant {
 
   public static final Ordering<Instant> DESCENDING_ORDERING = ASCENDING_ORDERING.reverse();
 
+  public static final Instant UNIX_EPOCH = new Instant(Duration.ZERO);
+
   private final Duration sinceEpoch;
 
   private Instant(Duration sinceEpoch) {
