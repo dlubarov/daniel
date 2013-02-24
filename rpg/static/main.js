@@ -4,6 +4,8 @@ var texCoordLocation;
 var resolutionLocation;
 var colorLocation;
 
+var dx = 0, dy = 0;
+
 function main() {
   var canvas = document.getElementById("myCanvas");
   gl = canvas.getContext("experimental-webgl", { alpha: false });
@@ -31,35 +33,42 @@ function main() {
 
 function startGame() {
   step();
-}
 
-function step() {
-  gl.clearColor(0, 0, 0, 0);
-  gl.clear(gl.COLOR_BUFFER_BIT);
-  render(image);
-
-  var error = gl.getError();
-  if (error != gl.NO_ERROR && error != gl.CONTEXT_LOST_WEBGL) {
-    alert("fail");
-  } else {
-    requestAnimationFrame(step);
-  }
-}
-
-function render() {
   // Create a texture.
   var texture = gl.createTexture();
   gl.bindTexture(gl.TEXTURE_2D, texture);
+
+  // Upload the image into the texture.
+  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
 
   // Set the parameters so we can render any size image.
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
-  // Upload the image into the texture.
-  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+}
 
-  // provide texture coordinates for the rectangle.
+function step() {
+  gl.clearColor(0, 0, 0, 0);
+  gl.clear(gl.COLOR_BUFFER_BIT);
+
+  logic();
+  render();
+
+  var error = gl.getError();
+  if (error != gl.NO_ERROR && error != gl.CONTEXT_LOST_WEBGL) {
+    alert("WebGL error.");
+  } else {
+    requestAnimationFrame(step);
+  }
+}
+
+function logic() {
+  dx += 1; dy += 1;
+}
+
+function render() {
+  // Provide texture coordinates for the rectangle.
   var texCoordBuffer = gl.createBuffer();
   gl.bindBuffer(gl.ARRAY_BUFFER, texCoordBuffer);
   gl.bufferData(
@@ -77,8 +86,7 @@ function render() {
   gl.enableVertexAttribArray(positionLocation);
   gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
 
-  setRectangle(100, 100, 200, 200);
-
+  setRectangle(100 + dx, 100 + dy, 200, 200);
   gl.drawArrays(gl.TRIANGLES, 0, 6); // Draw.
 }
 

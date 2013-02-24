@@ -10,6 +10,7 @@ public final class RpgHandler {
   private RpgHandler() {}
 
   public static Handler getHandler() {
+    // TODO: Move from static index.html to something else. Need to handle /.
     return new DelegatingHandler.Builder()
         .addPartialHandler(WwwRemovingHandler.singleton)
         .addPartialHandler(new StaticContentHandler.Builder()
