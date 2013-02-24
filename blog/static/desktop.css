@@ -1,0 +1,18 @@
+h1 {
+  margin-top: 1em;
+}
+
+#container {
+  width: 800px;
+  margin: 0 auto;
+}
+
+#footer {
+  width: 800px;
+  margin: 4px auto 30px auto;
+}
+
+form.add-comment {
+  width: 400px;
+  margin: 0 auto;
+}

@@ -14,6 +14,7 @@ import daniel.web.html.StylesheetUtils;
 import daniel.web.html.Tag;
 import daniel.web.html.TitleBuilder;
 import daniel.web.http.HttpRequest;
+import daniel.web.util.UserAgentUtils;
 
 public final class Layout {
   private Layout() {}
@@ -24,12 +25,12 @@ public final class Layout {
     return new Element.Builder(Tag.HTML)
         .setAttribute("xmlns", "http://www.w3.org/1999/xhtml")
         .setAttribute("xml:lang", "en")
-        .addChild(getHead())
+        .addChild(getHead(isSmallScreen(request)))
         .addChild(getBody(title, dateline, notifications, content))
         .build();
   }
 
-  private static Element getHead() {
+  private static Element getHead(boolean smallScreen) {
     Element description = new Element.Builder(Tag.META)
         .setAttribute(Attribute.NAME, "description")
         .setAttribute(Attribute.CONTENT, "Thoughts on programming languages, compilers, graphics and other fun software topics.")
@@ -45,7 +46,8 @@ public final class Layout {
         description, keywords, base,
         new TitleBuilder().addRawText("Daniel Lubarov").build(),
         StylesheetUtils.createCssLink("reset.css"),
-        StylesheetUtils.createCssLink("style.css"),
+        StylesheetUtils.createCssLink("common.css"),
+        StylesheetUtils.createCssLink(smallScreen ? "mobile.css" : "desktop.css"),
         // TODO: Remove any fonts that aren't used.
         StylesheetUtils.createCssLink("http://fonts.googleapis.com/css?family=Source+Code+Pro:400,600,700"),
         StylesheetUtils.createCssLink("http://fonts.googleapis.com/css?family=Lato"),
@@ -116,5 +118,10 @@ public final class Layout {
         .addChild(right)
         .addChild(left)
         .build();
+  }
+
+  private static boolean isSmallScreen(HttpRequest request) {
+    Option<String> optUserAgent = request.getHeaders().getValues("User-Agent").tryGetOnlyElement();
+    return optUserAgent.isDefined() && UserAgentUtils.isMobile(optUserAgent.getOrThrow());
   }
 }

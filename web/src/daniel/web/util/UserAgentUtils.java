@@ -4,7 +4,7 @@ import java.util.regex.Pattern;
 
 public final class UserAgentUtils {
   private static final Pattern pattern = Pattern.compile(
-      "Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile",
+      "Android|BlackBerry|iPhone|iPod|Opera Mini|IEMobile",
       Pattern.CASE_INSENSITIVE);
 
   private UserAgentUtils() {}
