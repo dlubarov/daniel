@@ -1,0 +1,154 @@
+@charset "UTF-8";
+
+p {
+    margin: 0.8em 0;
+}
+
+li {
+    margin: 0.5em 0;
+}
+
+h1 {
+    text-align: center;
+    font-size: 5em;
+    margin-bottom: -18px;
+}
+
+ul {
+    padding-left: 2.5em;
+    list-style-type: square;
+}
+
+blockquote {
+    margin: 0.8em 0;
+    padding-left: 2.5em;
+    border-left: 1px solid #0f0;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+.clear {
+    clear: both;
+}
+
+body {
+    color: #0f0;
+    background-color: #000;
+    font: .90em Verdana, Arial, sans-serif;
+    padding: 3em;
+}
+
+a {
+    color: #0f0;
+    font-weight: bold;
+}
+a:hover {
+    text-decoration: none;
+}
+
+ul.navigation {
+    list-style: none;
+    text-align: center;
+    margin: 0.8em 0;
+    padding: 0;
+}
+ul.navigation li {
+    display: inline;
+}
+ul.navigation a {
+    padding: 0 8px;
+    margin: 0 8px;
+    text-decoration: none;
+
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-color: #000;
+    border-style: solid;
+}
+ul.navigation a:hover {
+    border-color: #0f0;
+}
+
+.fr {
+    float: right;
+}
+.tc {
+    text-align: center;
+}
+.tr {
+    text-align: right;
+}
+.wide {
+    width: 100%;
+}
+
+div.panel {
+    border: solid 1px #0f0;
+    padding: 0.1em 1em;
+    margin: 0.5em 0.5em 0 0.5em;
+}
+
+#left {
+    float: left;
+    width: 70%;
+}
+
+#left div.panel {
+    border: solid 1px #0f0;
+}
+
+#right {
+    float: left;
+    width: 30%;
+    font-size: 0.9em;
+}
+
+#right div.panel {
+    margin-left: 0.29em;
+    margin-right: 0.59em;
+    margin-top: 0.59em;
+}
+
+div.footer {
+    font-size: 0.9em;
+}
+
+table.hairlined {
+    border-spacing: 0;
+    border-width: 0 0 1px 1px;
+    border-collapse: collapse;
+    padding: 0;
+    margin: 0.3em auto;
+}
+table.hairlined, table.hairlined > * > tr > td, table.hairlined > * > tr > th {
+    border-style: solid;
+    border-color: #0f0;
+}
+table.hairlined > * > tr > td, table.hairlined > * > tr > th {
+    border-width: 1px 1px 0 0;
+    padding: 6px 12px 4px 12px;
+    margin: 0;
+}
+table.hairlined > * > tr > th {
+    text-align: center;
+    font-weight: bold;
+}
+
+fieldset {
+    border: 1px solid #0f0;
+    padding: 7px;
+}
+
+input {
+    color: #0f0;
+    background-color: #000;
+    border: 1px solid #0f0;
+}
+
+#login td {
+    padding: 5px;
+}
+
