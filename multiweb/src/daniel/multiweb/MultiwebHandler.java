@@ -1,5 +1,6 @@
 package daniel.multiweb;
 
+import daniel.alexresume.AlexResumeHandler;
 import daniel.blog.BlogHandler;
 import daniel.chat.ChatHandler;
 import daniel.rpg.RpgHandler;
@@ -14,7 +15,8 @@ final class MultiwebHandler {
   public static Handler getHandler() {
     // TODO: Be more restrictive with stuff at beginning and end of host.
     Handler handler = new HostBasedHandler.Builder()
-        .addHandlerForHost(".*daniel.lubarov\\.com.*", BlogHandler.getHandler())
+        .addHandlerForHost(".*daniel\\.lubarov\\.com.*", BlogHandler.getHandler())
+        .addHandlerForHost(".*alex\\.lubarov\\.com.*", AlexResumeHandler.getHandler())
         .addHandlerForHost(".*viewheaders\\.com.*", ViewHeadersHandler.getHandler())
         .addHandlerForHost(".*jabberings\\.net.*", ChatHandler.getHandler())
         .addHandlerForHost(".*rpg\\.com.*", RpgHandler.getHandler())

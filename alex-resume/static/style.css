@@ -1,0 +1,99 @@
+@charset "UTF-8";
+
+
+/* General visual consistencies */
+
+ul, ol, dl, p, h1, h2, h3, h4, h5, h6 {
+	margin-top: 12px;
+	margin-bottom: 10px;
+	padding-top: 0;
+	padding-bottom: 0;
+}
+ul ul, ul ol, ul dl, ol ul, ol ol, ol dl, dl dl, dl ul, dl ol {
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+h1 { font-size: 240%; font-variant: small-caps}
+h2 { font-size: 160%; font-variant: small-caps}
+h3 { font-size: 140%; font-variant: small-caps}
+h4 { font-size: 100%; }
+h5 { font-size: 70%; }
+h6 { font-size: 50%; }
+
+a, a:link, a:visited, a:active { text-decoration: underline; }
+a:hover { text-decoration: none; }
+
+
+
+/* Two-column layout */
+
+div.two-columns {
+	width: 99.5%;
+	display: inline-block;	/* for IE/Mac to contain its child elements */
+	/* \*/ display: block;	/* override above rule for every other 
+				   browser using IE/Mac backslash hack */
+	background-color: #fcfcfc;
+	color: #000;
+}
+div.two-columns:after {
+	content: "."; 
+	display: block; 
+	height: 0; 
+	clear: both; 
+	visibility: hidden;
+}
+div.two-columns, 
+div.two-columns div.left-column,
+div.two-columns div.right-column {
+	border: solid 1px #ddd;
+	border-width: 1px;
+}
+div.two-columns div.left-column,
+div.two-columns div.right-column {
+	float: left;
+	border-width: 0 1px 0 0;
+	margin: 0 -1px;
+}
+div.two-columns div.left-column { width: 75%; }
+div.two-columns div.right-column { width: 25%; }
+* html div.two-columns div.left-column,
+* html div.two-columns div.right-column {
+	position: relative;	/* IE/Win 6 and earlier need this */
+}
+div.two-columns div.right-column {
+	border-width: 0 0 0 1px;
+	margin-right: -3px;
+	margin-left: 0;	
+}
+div.two-columns div.inside-column {
+	padding: 1px 10px;	/* 1px is there to get past a margin rendering
+				   bug in Netscape 7 and older FireFox */
+}
+
+
+
+/* Miscellany */
+
+body {
+	background-color: #eee;
+	color: #000;
+	font-family: arial, helvetica, sans-serif;
+	font-size: 100%;
+	padding: 8px;
+	margin: 0;
+}
+
+#masthead {
+	margin: 0;
+	padding: 8px;
+}
+#masthead h1 {
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+a.toggle-button {
+	color: #44f;
+	text-decoration: none;
+}
