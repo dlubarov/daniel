@@ -21,7 +21,7 @@ final class HomeHandler implements PartialHandler {
   public static final HomeHandler singleton = new HomeHandler();
 
   private static final String INTRO = ""
-      + "Welcome! I'm Daniel, an engineer at <a href=\"https://squareup.com/\">Square</a>. "
+      + "Welcome! I'm <span itemprop='name'>Daniel Lubarov</span>, an engineer at <a href='https://squareup.com/' itemprop='affiliation'>Square</a>. "
       + "Here are some of my most recent posts.";
 
   private HomeHandler() {}
@@ -47,17 +47,8 @@ final class HomeHandler implements PartialHandler {
     Element intro = new ParagraphBuilder().addRawText(INTRO).build();
 
     Element document = Layout.createDocument(request,
-        Option.<String>none(), Option.<String>none(),
+        Option.<String>none(), Option.<Instant>none(),
         intro, listBuilder.build());
     return Option.some(HttpResponseFactory.xhtmlResponse(HttpStatus.OK, document));
-  }
-
-  public static void unsafeThrow(Throwable throwable) {
-    throw (RuntimeException) throwable;
-  }
-
-  @SuppressWarnings("unchecked")
-  private static <B extends Throwable> void unsafeThrowHelper(Throwable a) throws B {
-    throw (B) a;
   }
 }

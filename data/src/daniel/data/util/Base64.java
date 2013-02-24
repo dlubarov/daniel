@@ -34,9 +34,9 @@ package daniel.data.util;
  * @author Stephen Uhler
  * @version 1.9, 02/07/24
  */
-public class Base64 {
-  static byte[] encodeData;
-  static String charSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+public final class Base64 {
+  private static final byte[] encodeData;
+  private static final String charSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
   static {
     encodeData = new byte[64];
@@ -46,8 +46,7 @@ public class Base64 {
     }
   }
 
-  private Base64() {
-  }
+  private Base64() {}
 
   /**
    * base-64 encode a string
@@ -66,7 +65,6 @@ public class Base64 {
    * @param src The byte array to encode
    * @return The base64 encoded result
    */
-
   public static String encode(byte[] src) {
     return encode(src, 0, src.length);
   }
@@ -79,7 +77,6 @@ public class Base64 {
    * @param length The number of bytes
    * @return The base64 encoded result
    */
-
   public static String encode(byte[] src, int start, int length) {
     byte[] dst = new byte[(length + 2) / 3 * 4 + length / 72];
     int x = 0;
@@ -110,10 +107,7 @@ public class Base64 {
       }
     }
 
-	/*
-   * now clean up the end bytes
-	 */
-
+    // Now clean up the end bytes.
     switch (state) {
       case 1:
         dst[dstIndex++] = encodeData[(old << 4) & 0x30];
@@ -135,24 +129,20 @@ public class Base64 {
    * @param s a Base64 encoded string
    * @return The byte array eith the decoded result
    */
-
   public static byte[] decode(String s) {
     int end = 0;  // end state
-    if (s.endsWith("=")) {
+    if (s.endsWith("="))
       end++;
-    }
-    if (s.endsWith("==")) {
+    if (s.endsWith("=="))
       end++;
-    }
     int len = (s.length() + 3) / 4 * 3 - end;
     byte[] result = new byte[len];
     int dst = 0;
     try {
       for (int src = 0; src < s.length(); src++) {
         int code = charSet.indexOf(s.charAt(src));
-        if (code == -1) {
+        if (code == -1)
           break;
-        }
         switch (src % 4) {
           case 0:
             result[dst] = (byte) (code << 2);
@@ -170,15 +160,7 @@ public class Base64 {
             break;
         }
       }
-    } catch (ArrayIndexOutOfBoundsException e) {
-    }
+    } catch (ArrayIndexOutOfBoundsException e) {}
     return result;
-  }
-
-  /** Test the decoder and encoder. Call as <code>Base64 [string]</code>. */
-
-  public static void main(String[] args) {
-    System.out.println("encode: " + args[0] + " -> (" + encode(args[0]) + ")");
-    System.out.println("decode: " + args[0] + " -> (" + new String(decode(args[0])) + ")");
   }
 }

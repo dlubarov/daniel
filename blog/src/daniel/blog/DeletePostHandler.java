@@ -4,6 +4,7 @@ import daniel.blog.admin.Authenticator;
 import daniel.blog.post.Post;
 import daniel.blog.post.PostStorage;
 import daniel.data.option.Option;
+import daniel.data.unit.Instant;
 import daniel.web.html.Attribute;
 import daniel.web.html.Element;
 import daniel.web.html.ParagraphBuilder;
@@ -28,7 +29,7 @@ final class DeletePostHandler implements Handler {
           .addEscapedText("You are not allowed to delete posts.")
           .build();
       Element html = Layout.createDocument(request,
-          Option.some("Forbidden"), Option.<String>none(), content);
+          Option.some("Forbidden"), Option.<Instant>none(), content);
       return HttpResponseFactory.xhtmlResponse(HttpStatus.FORBIDDEN, html);
     }
 
@@ -55,7 +56,7 @@ final class DeletePostHandler implements Handler {
             .build())
         .build();
     Element document = Layout.createDocument(request,
-        Option.some("Delete Post"), Option.<String>none(), form);
+        Option.some("Delete Post"), Option.<Instant>none(), form);
     return HttpResponseFactory.xhtmlResponse(HttpStatus.OK, document);
   }
 

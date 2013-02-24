@@ -109,7 +109,7 @@ var setupWebGL = function(canvas, opt_attribs) {
     if (container) {
       container.innerHTML = makeFailHTML(str);
     }
-  };
+  }
 
   if (!window.WebGLRenderingContext) {
     showLink(GET_A_WEBGL_BROWSER);
@@ -141,7 +141,7 @@ var create3DContext = function(canvas, opt_attribs) {
     }
   }
   return context;
-}
+};
 
 var updateCSSIfInIFrame = function() {
   if (isInIFrame()) {
@@ -201,7 +201,7 @@ var loadShader = function(gl, shaderSource, shaderType, opt_errorCallback) {
   }
 
   return shader;
-}
+};
 
 /**
  * Creates a program, attaches shaders, binds attrib locations, links the
@@ -252,7 +252,7 @@ var loadProgram = function(
  */
 var createShaderFromScript = function(
     gl, scriptId, opt_shaderType, opt_errorCallback) {
-  var shaderSource = "";
+  var shaderSource;
   var shaderType;
   var shaderScript = document.getElementById(scriptId);
   if (!shaderScript) {
@@ -267,7 +267,6 @@ var createShaderFromScript = function(
       shaderType = gl.FRAGMENT_SHADER;
     } else if (shaderType != gl.VERTEX_SHADER && shaderType != gl.FRAGMENT_SHADER) {
       throw("*** Error: unknown shader type");
-      return null;
     }
   }
 
@@ -341,7 +340,7 @@ var resizeCanvasToDisplaySize = function(canvas) {
     canvas.width = canvas.clientWidth;
     canvas.height = canvas.clientHeight;
   }
-}
+};
 
 /* export functions */
 this.createProgram = loadProgram;

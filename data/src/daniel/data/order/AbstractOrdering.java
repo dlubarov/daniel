@@ -5,7 +5,7 @@ import java.util.Comparator;
 public abstract class AbstractOrdering<A> implements Ordering<A> {
   @Override
   public Ordering<A> reverse() {
-    return new ReverseOrdering<A>(this);
+    return new ReverseOrdering<>(this);
   }
 
   @Override

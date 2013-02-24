@@ -3,6 +3,7 @@ package daniel.blog;
 import daniel.data.collection.Collection;
 import daniel.data.function.Function;
 import daniel.data.option.Option;
+import daniel.data.unit.Instant;
 import daniel.web.html.AnchorBuilder;
 import daniel.web.html.Attribute;
 import daniel.web.html.Element;
@@ -13,14 +14,19 @@ import daniel.web.html.ParagraphBuilder;
 import daniel.web.html.StylesheetUtils;
 import daniel.web.html.Tag;
 import daniel.web.html.TitleBuilder;
+import daniel.web.http.DateUtils;
 import daniel.web.http.HttpRequest;
 import daniel.web.util.UserAgentUtils;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 public final class Layout {
+  private static final DateFormat datelineFormat = new SimpleDateFormat("MMMMM d, yyyy");
+
   private Layout() {}
 
   public static Element createDocument(HttpRequest request,
-      Option<String> title, Option<String> dateline, Node... content) {
+      Option<String> title, Option<Instant> dateline, Node... content) {
     Collection<String> notifications = Notifications.getAndClearMessages(request);
     return new Element.Builder(Tag.HTML)
         .setAttribute("xmlns", "http://www.w3.org/1999/xhtml")
@@ -57,7 +63,7 @@ public final class Layout {
     );
   }
 
-  private static Element getBody(Option<String> title, Option<String> dateline,
+  private static Element getBody(Option<String> title, Option<Instant> dateline,
       Collection<String> notifications, Node[] content) {
     Collection<Element> notificationElements = notifications.map(new Function<String, Element>() {
       @Override public Element apply(String message) {
@@ -76,8 +82,10 @@ public final class Layout {
           .addEscapedText(title.getOrThrow())
           .build());
     if (dateline.isDefined())
-      contentBuilder.addChild(new Element.Builder(Tag.H6).setAttribute(Attribute.CLASS, "dateline")
-          .addEscapedText(dateline.getOrThrow())
+      contentBuilder.addChild(new Element.Builder(Tag.TIME)
+          .setAttribute(Attribute.CLASS, "dateline")
+          .setAttribute(Attribute.DATETIME, DateUtils.formatIso8601(dateline.getOrThrow()))
+          .addEscapedText(datelineFormat.format(dateline.getOrThrow().toDate()))
           .build());
     contentBuilder.addChild(new Element.Builder(Tag.DIV)
         .setAttribute(Attribute.ID, "content")

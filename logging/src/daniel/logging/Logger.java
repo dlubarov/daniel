@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.TimeZone;
 
 public final class Logger {
-  public static final DateFormat dateFormat = new SimpleDateFormat("MMM d h:mm a");
+  private static final DateFormat dateFormat = new SimpleDateFormat("MMM d h:mm a");
 
   static {
     dateFormat.setTimeZone(TimeZone.getTimeZone("America/Los_Angeles"));

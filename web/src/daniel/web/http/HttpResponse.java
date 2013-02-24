@@ -56,7 +56,7 @@ public final class HttpResponse {
         throw new AssertionError("wtf?");
       }
       if (cookie.getExpires().isDefined())
-        sb.append("; Expires=").append(DateUtils.formatInstant(cookie.getExpires().getOrThrow()));
+        sb.append("; Expires=").append(DateUtils.formatRfc1123(cookie.getExpires().getOrThrow()));
       return addHeader(ResponseHeaderName.SET_COOKIE, sb.toString());
     }
 

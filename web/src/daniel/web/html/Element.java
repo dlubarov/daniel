@@ -45,7 +45,7 @@ public final class Element implements Node {
     }
 
     public Builder setAttribute(String attribute, String value) {
-      attributes.pushBack(new KeyValuePair<String, String>(attribute, value));
+      attributes.pushBack(new KeyValuePair<>(attribute, value));
       return this;
     }
 

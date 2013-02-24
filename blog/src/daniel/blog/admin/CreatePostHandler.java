@@ -39,29 +39,33 @@ final class CreatePostHandler implements PartialHandler {
   }
 
   private static HttpResponse handleGet(HttpRequest request) {
+    Element subject = new Element.Builder(Tag.INPUT)
+        .setAttribute(Attribute.NAME, "subject")
+        .setAttribute(Attribute.TYPE, "text")
+        .setAttribute(Attribute.CLASS, "wide")
+        .setAttribute(Attribute.STYLE, "margin-bottom: 1em")
+        .build();
+    Element content = new Element.Builder(Tag.TEXTAREA)
+        .setAttribute(Attribute.NAME, "content")
+        .setAttribute(Attribute.CLASS, "wide")
+        .setAttribute(Attribute.ROWS, "30")
+        .build();
+    Element submit = new Element.Builder(Tag.INPUT)
+        .setAttribute(Attribute.TYPE, "submit")
+        .setAttribute(Attribute.VALUE, "Create Post")
+        .setAttribute(Attribute.STYLE, "display: block; margin: 0px auto;")
+        .build();
     Element form = new Element.Builder(Tag.FORM)
         .setAttribute(Attribute.ACTION, "admin/create-post")
         .setAttribute(Attribute.METHOD, "post")
-        .addChild(new Element.Builder(Tag.INPUT)
-            .setAttribute(Attribute.NAME, "subject")
-            .setAttribute(Attribute.TYPE, "text")
-            .setAttribute(Attribute.CLASS, "wide")
-            .setAttribute(Attribute.STYLE, "margin-bottom: 1em")
-            .build())
-        .addChild(new Element.Builder(Tag.TEXTAREA)
-            .setAttribute(Attribute.NAME, "content")
-            .setAttribute(Attribute.CLASS, "wide")
-            .setAttribute(Attribute.ROWS, "30")
-            .build())
+        .addChild(subject)
+        .addChild(content)
         .addChild(new Element(Tag.BR))
-        .addChild(new Element.Builder(Tag.INPUT)
-            .setAttribute(Attribute.TYPE, "submit")
-            .setAttribute(Attribute.VALUE, "Create Post")
-            .setAttribute(Attribute.STYLE, "display: block; margin: 0px auto;")
-            .build())
+        .addChild(submit)
         .build();
+
     Element document = Layout.createDocument(request,
-        Option.some("Create a Post"), Option.<String>none(), form);
+        Option.some("Create a Post"), Option.<Instant>none(), form);
     return HttpResponseFactory.xhtmlResponse(HttpStatus.OK, document);
   }
 
@@ -70,6 +74,7 @@ final class CreatePostHandler implements PartialHandler {
         .tryGetOnlyElement().getOrThrow();
     String content = request.getUrlencodedPostData().getValues("content")
         .tryGetOnlyElement().getOrThrow();
+
     Post post = new Post.Builder()
         .setRandomUiid()
         .setCreatedAt(Instant.now())

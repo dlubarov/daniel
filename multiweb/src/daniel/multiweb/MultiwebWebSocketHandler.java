@@ -4,7 +4,7 @@ import daniel.chat.ChatWebSocketHandler;
 import daniel.web.http.server.WebSocketHandler;
 import daniel.web.http.server.util.HostBasedWebSocketHandler;
 
-public final class MultiwebWebSocketHandler {
+final class MultiwebWebSocketHandler {
   private MultiwebWebSocketHandler() {}
 
   public static WebSocketHandler getHandler() {

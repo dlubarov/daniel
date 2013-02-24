@@ -23,7 +23,7 @@ public final class HostBasedWebSocketHandler implements WebSocketHandler {
 
   private final ImmutableDictionary<String, WebSocketHandler> handlersByHost;
 
-  public HostBasedWebSocketHandler(Builder builder) {
+  private HostBasedWebSocketHandler(Builder builder) {
     handlersByHost = builder.handlersByHost.toImmutable();
   }
 

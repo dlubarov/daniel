@@ -10,7 +10,7 @@ import daniel.web.html.StylesheetUtils;
 import daniel.web.html.Tag;
 import daniel.web.html.TitleBuilder;
 
-public final class Layout {
+final class Layout {
   private Layout() {}
 
   public static Element createDocument(Node... content) {

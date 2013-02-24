@@ -13,13 +13,8 @@ import daniel.web.http.HttpResponse;
 import daniel.web.http.HttpStatus;
 import daniel.web.http.server.Handler;
 import daniel.web.http.server.util.HttpResponseFactory;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 final class ViewPostHandler implements Handler {
-  private static final DateFormat dateFormat = new SimpleDateFormat("MMMMM d, yyyy");
-
   private final Post post;
 
   ViewPostHandler(Post post) {
@@ -37,14 +32,8 @@ final class ViewPostHandler implements Handler {
         .sorted(Comment.ASCENDING_CREATED_AT_ORDERING);
     Element document = Layout.createDocument(request,
         Option.some(post.getSubject()),
-        Option.some(formatDate(post.getCreatedAt().toDate())),
+        Option.some(post.getCreatedAt()),
         PostFormatter.full(post, comments));
     return HttpResponseFactory.xhtmlResponse(HttpStatus.OK, document);
-  }
-
-  private static String formatDate(Date date) {
-    synchronized (dateFormat) {
-      return dateFormat.format(date);
-    }
   }
 }

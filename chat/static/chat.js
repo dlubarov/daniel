@@ -45,13 +45,13 @@ function start() {
   connection = new WebSocket(uri);
   connection.onopen = function() {
     addMessage("Connected to server.");
-  }
+  };
   connection.onclose = function() {
     addMessage("Connection was closed.");
-  }
+  };
   connection.onerror = function(error) {
     addMessage("Error detected: " + error);
-  }
+  };
   connection.onmessage = function(e) {
     var message = JSON.parse(e.data);
     addChatMessage(message["name"], message["message"]);

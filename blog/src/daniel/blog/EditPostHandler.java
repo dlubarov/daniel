@@ -5,6 +5,7 @@ import daniel.blog.post.Post;
 import daniel.blog.post.PostStorage;
 import daniel.blog.post.PostUrlFactory;
 import daniel.data.option.Option;
+import daniel.data.unit.Instant;
 import daniel.web.html.Attribute;
 import daniel.web.html.Element;
 import daniel.web.html.ParagraphBuilder;
@@ -29,7 +30,7 @@ final class EditPostHandler implements Handler {
           .addEscapedText("You are not allowed to edit posts.")
           .build();
       Element html = Layout.createDocument(request,
-          Option.some("Forbidden"), Option.<String>none(), content);
+          Option.some("Forbidden"), Option.<Instant>none(), content);
       return HttpResponseFactory.xhtmlResponse(HttpStatus.FORBIDDEN, html);
     }
 
@@ -67,7 +68,7 @@ final class EditPostHandler implements Handler {
             .build())
         .build();
     Element document = Layout.createDocument(request,
-        Option.some("Edit Post"), Option.<String>none(), form);
+        Option.some("Edit Post"), Option.<Instant>none(), form);
     return HttpResponseFactory.xhtmlResponse(HttpStatus.OK, document);
   }
 

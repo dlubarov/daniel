@@ -1,6 +1,6 @@
 package daniel.chat;
 
-public final class Config {
+final class Config {
   private Config() {}
 
   public static String getBaseUrl() {

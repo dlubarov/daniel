@@ -47,6 +47,7 @@ public final class CommentFormatter {
   }
 
   private static Node formatAuthorAndCreatedAt(Comment comment) {
+    // TODO: Microdata
     return new Element.Builder(Tag.H5)
         .addChild(formatAuthor(comment))
         .addEscapedText(" on ")

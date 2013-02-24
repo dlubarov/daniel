@@ -9,6 +9,7 @@ import daniel.blog.comment.CommentStorage;
 import daniel.data.collection.Collection;
 import daniel.data.function.Function;
 import daniel.data.option.Option;
+import daniel.data.unit.Instant;
 import daniel.web.html.Attribute;
 import daniel.web.html.Element;
 import daniel.web.html.Node;
@@ -47,7 +48,7 @@ public class ReviewCommentsHandler implements PartialHandler {
     Comment comment = getFirstComment(unapprovedComments);
     Element form = commentReviewForm(comment);
     Element html = Layout.createDocument(request,
-        Option.some("Review Comments"), Option.<String>none(), form);
+        Option.some("Review Comments"), Option.<Instant>none(), form);
     return HttpResponseFactory.xhtmlResponse(HttpStatus.OK, html);
   }
 
@@ -75,7 +76,7 @@ public class ReviewCommentsHandler implements PartialHandler {
         .addEscapedText("There are no comments needing review.")
         .build();
     Element html = Layout.createDocument(request,
-        Option.some("Review Comments"), Option.<String>none(), content);
+        Option.some("Review Comments"), Option.<Instant>none(), content);
     return HttpResponseFactory.xhtmlResponse(HttpStatus.OK, html);
   }
 

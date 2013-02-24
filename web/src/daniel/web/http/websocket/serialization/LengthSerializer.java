@@ -1,6 +1,6 @@
 package daniel.web.http.websocket.serialization;
 
-public final class LengthSerializer {
+final class LengthSerializer {
   private LengthSerializer() {}
 
   /**

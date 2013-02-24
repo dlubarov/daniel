@@ -7,7 +7,7 @@ import daniel.data.option.Option;
  * Stores session data in memory. This data will be lost when the JVM shuts down.
  */
 public final class MemorySessionData<A> {
-  private MutableHashDictionary<String, A> dataBySessionId = MutableHashDictionary.create();
+  private final MutableHashDictionary<String, A> dataBySessionId = MutableHashDictionary.create();
 
   public synchronized void set(HttpRequest request, A value) {
     dataBySessionId.put(SessionGenerator.getSessionId(request), value);

@@ -16,12 +16,10 @@ import daniel.web.http.compression.AcceptEncodingParser;
 import daniel.web.http.cookies.CookieManager;
 import daniel.web.http.websocket.AcceptKeyGenerator;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
-import java.util.zip.GZIPOutputStream;
 
 // TODO: Split this logic up more.
 final class ConnectionManager implements Runnable {
@@ -117,7 +115,7 @@ final class ConnectionManager implements Runnable {
     });
 
     if (!responseHeaders.containsKey("Date"))
-      responseHeaders.put("Date", DateUtils.formatInstant(Instant.now()));
+      responseHeaders.put("Date", DateUtils.formatRfc1123(Instant.now()));
 
     if (!responseHeaders.containsKey("Content-Encoding") && contentEncoding != ContentEncoding.IDENTITY)
       responseHeaders.put("Content-Encoding", contentEncoding.name().toLowerCase());

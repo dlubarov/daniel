@@ -88,14 +88,15 @@ public final class StaticContentHandler implements PartialHandler {
         .getValues("If-Modified-Since").tryGetOnlyElement();
     if (optIfModifiedSince.isDefined()) {
       try {
-        Instant ifModifiedSince = DateUtils.parseInstant(optIfModifiedSince.getOrThrow());
+        Instant ifModifiedSince = DateUtils.parseRfc1123(optIfModifiedSince.getOrThrow());
         boolean modifiedSince = lastModified.isAfter(ifModifiedSince);
         logger.info("Modified since %s: %b.", ifModifiedSince, modifiedSince);
         if (!modifiedSince)
           return Option.some(new HttpResponse.Builder()
               .setStatus(HttpStatus.NOT_MODIFIED)
-              .addHeader(ResponseHeaderName.EXPIRES, DateUtils.formatInstant(lastModified.plus(Duration.fromHours(24))))
-              .addHeader(ResponseHeaderName.LAST_MODIFIED, DateUtils.formatInstant(lastModified))
+              .addHeader(ResponseHeaderName.EXPIRES, DateUtils.formatRfc1123(
+                  lastModified.plus(Duration.fromHours(24))))
+              .addHeader(ResponseHeaderName.LAST_MODIFIED, DateUtils.formatRfc1123(lastModified))
               .build());
       } catch (ParseException e) {
         logger.error(e, "Failed to parse If-Modified-Since header: %s",
@@ -117,8 +118,8 @@ public final class StaticContentHandler implements PartialHandler {
 
     HttpResponse.Builder responseBuilder = new HttpResponse.Builder()
         .setStatus(HttpStatus.OK)
-        .addHeader(ResponseHeaderName.EXPIRES, DateUtils.formatInstant(expires))
-        .addHeader(ResponseHeaderName.LAST_MODIFIED, DateUtils.formatInstant(lastModified))
+        .addHeader(ResponseHeaderName.EXPIRES, DateUtils.formatRfc1123(expires))
+        .addHeader(ResponseHeaderName.LAST_MODIFIED, DateUtils.formatRfc1123(lastModified))
         .addHeader(ResponseHeaderName.CONTENT_TYPE, mimeType.getOrThrow());
     if (content.isDefined())
       responseBuilder.setBody(content);

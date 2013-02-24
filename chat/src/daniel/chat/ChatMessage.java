@@ -2,7 +2,7 @@ package daniel.chat;
 
 import daniel.data.util.ToStringBuilder;
 
-public final class ChatMessage {
+final class ChatMessage {
   private final String name;
   private final String message;
 

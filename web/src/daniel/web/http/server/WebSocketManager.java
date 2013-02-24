@@ -23,7 +23,7 @@ public final class WebSocketManager {
 
   private final HttpRequest request;
   private final Socket socket;
-  private WebSocketHandler handler;
+  private final WebSocketHandler handler;
 
   public WebSocketManager(HttpRequest request, Socket socket, WebSocketHandler handler) {
     this.request = request;

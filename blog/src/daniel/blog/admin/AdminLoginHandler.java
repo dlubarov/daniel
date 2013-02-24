@@ -47,13 +47,13 @@ final class AdminLoginHandler implements Handler {
           .build();
       CookieManager.setCooke(cookie);
       Element document = Layout.createDocument(request,
-          Option.some("Success"), Option.<String>none(),
+          Option.some("Success"), Option.<Instant>none(),
           new ParagraphBuilder().addEscapedText("You have been signed in.").build()
       );
       return HttpResponseFactory.xhtmlResponse(HttpStatus.OK, document);
     } else {
       Element document = Layout.createDocument(request,
-          Option.some("Oops"), Option.<String>none(),
+          Option.some("Oops"), Option.<Instant>none(),
           new ParagraphBuilder().addEscapedText("Wrong password.").build()
       );
       return HttpResponseFactory.xhtmlResponse(HttpStatus.OK, document);
@@ -62,22 +62,27 @@ final class AdminLoginHandler implements Handler {
 
   private HttpResponse handleGet(HttpRequest request) {
     Element document = Layout.createDocument(request,
-        Option.some("Admin Login"), Option.<String>none(), getForm());
+        Option.some("Admin Login"), Option.<Instant>none(), getForm());
     return HttpResponseFactory.xhtmlResponse(HttpStatus.OK, document);
   }
 
   private Element getForm() {
+    Element password = new InputBuilder()
+        .setType("password")
+        .setName("admin_password")
+        .build();
+    Element submit = new InputBuilder()
+        .setType("submit")
+        .build();
+
     return new Element.Builder(Tag.FORM)
         .setAttribute(Attribute.ACTION, "admin")
         .setAttribute(Attribute.METHOD, "post")
         .addEscapedText("Password:")
         .addChild(new Element(Tag.BR))
-        .addChild(new InputBuilder()
-            .setType("password")
-            .setName("admin_password")
-            .build())
+        .addChild(password)
         .addChild(new Element(Tag.BR))
-        .addChild(new InputBuilder().setType("submit").build())
+        .addChild(submit)
         .build();
   }
 }

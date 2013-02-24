@@ -3,9 +3,11 @@ package daniel.blog.admin;
 import daniel.blog.Layout;
 import daniel.blog.MiscStorage;
 import daniel.data.option.Option;
+import daniel.data.unit.Instant;
 import daniel.data.util.Check;
 import daniel.web.html.Attribute;
 import daniel.web.html.Element;
+import daniel.web.html.Node;
 import daniel.web.html.ParagraphBuilder;
 import daniel.web.html.Tag;
 import daniel.web.http.HttpRequest;
@@ -40,23 +42,31 @@ final class AdminSetupHandler implements Handler {
         .tryGetOnlyElement().getOrThrow("Expected exactly one password in post data.");
     MiscStorage.setAdminPassword(adminPassword);
     Element document = Layout.createDocument(request,
-        Option.some("Success"), Option.<String>none(),
+        Option.some("Success"), Option.<Instant>none(),
         new ParagraphBuilder().addEscapedText("Password has been set.").build());
     return HttpResponseFactory.xhtmlResponse(HttpStatus.OK, document);
   }
 
   private HttpResponse handleGet(HttpRequest request) {
-    Element document = Layout.createDocument(request, Option.some("Admin Setup"),
-        Option.<String>none(), new Element.Builder(Tag.FORM).setAttribute(Attribute.ACTION, "admin")
+    Element passwordInput = new Element.Builder(Tag.INPUT)
+        .setAttribute(Attribute.TYPE, "password")
+        .setAttribute(Attribute.NAME, "admin_password")
+        .build();
+    Element submit = new Element.Builder(Tag.INPUT)
+        .setAttribute(Attribute.TYPE, "submit")
+        .build();
+    Node content = new Element.Builder(Tag.FORM)
+        .setAttribute(Attribute.ACTION, "admin")
         .setAttribute(Attribute.METHOD, "post")
         .addEscapedText("Create Admin Password:")
         .addChild(new Element(Tag.BR))
-        .addChild(new Element.Builder(Tag.INPUT).setAttribute(Attribute.TYPE, "password")
-            .setAttribute(Attribute.NAME, "admin_password")
-            .build())
+        .addChild(passwordInput)
         .addChild(new Element(Tag.BR))
-        .addChild(new Element.Builder(Tag.INPUT).setAttribute(Attribute.TYPE, "submit").build())
-        .build());
+        .addChild(submit)
+        .build();
+
+    Element document = Layout.createDocument(request,
+        Option.some("Admin Setup"), Option.<Instant>none(), content);
     return HttpResponseFactory.xhtmlResponse(HttpStatus.OK, document);
   }
 }

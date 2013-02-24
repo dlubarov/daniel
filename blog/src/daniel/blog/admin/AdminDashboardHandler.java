@@ -2,6 +2,7 @@ package daniel.blog.admin;
 
 import daniel.blog.Layout;
 import daniel.data.option.Option;
+import daniel.data.unit.Instant;
 import daniel.web.html.AnchorBuilder;
 import daniel.web.html.Element;
 import daniel.web.html.ParagraphBuilder;
@@ -41,7 +42,7 @@ final class AdminDashboardHandler implements PartialHandler {
 
     Element document = Layout.createDocument(
         request, Option.some("Admin Control Panel"),
-        Option.<String>none(), whatsUp, linkList);
+        Option.<Instant>none(), whatsUp, linkList);
     return Option.some(HttpResponseFactory.xhtmlResponse(HttpStatus.OK, document));
   }
 }
