@@ -23,6 +23,12 @@ h2 {
   font-size: 200%;
 }
 
+h3 {
+  font-size: 110%;
+  margin-top: 0.8em;
+  margin-bottom: 0.4em;
+}
+
 h6.dateline {
   margin-top: 0.5em;
   font-size: 80%;
