@@ -9,6 +9,7 @@ import daniel.web.html.HtmlUtils;
 import daniel.web.html.Node;
 import daniel.web.html.ParagraphBuilder;
 import daniel.web.html.Tag;
+import daniel.web.http.DateUtils;
 import java.nio.charset.Charset;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -28,7 +29,7 @@ public final class CommentFormatter {
   }
 
   private static Node getPrefixAndContent(Comment comment) {
-    return new Element.Builder(Tag.DIV)
+    return new Element.Builder(Tag.ARTICLE)
         .setAttribute(Attribute.STYLE, "float: left;")
         .addChild(formatAuthorAndCreatedAt(comment))
         .addChild(formatContent(comment))
@@ -47,22 +48,25 @@ public final class CommentFormatter {
   }
 
   private static Node formatAuthorAndCreatedAt(Comment comment) {
-    // TODO: Microdata
     return new Element.Builder(Tag.H5)
         .addChild(formatAuthor(comment))
         .addEscapedText(" on ")
-        .addEscapedText(formatCreatedAt(comment))
+        .addChild(formatCreatedAt(comment))
         .build();
   }
 
   private static Node formatAuthor(Comment comment) {
+    // TODO: Microdata
     return new Element.Builder(Tag.STRONG)
         .addEscapedText(comment.getAuthorName())
         .build();
   }
 
-  private static String formatCreatedAt(Comment comment) {
-    return dateFormat.format(comment.getCreatedAt().toDate());
+  private static Element formatCreatedAt(Comment comment) {
+    return new Element.Builder(Tag.TIME)
+        .setAttribute(Attribute.DATETIME, DateUtils.formatIso8601(comment.getCreatedAt()))
+        .addEscapedText(dateFormat.format(comment.getCreatedAt().toDate()))
+        .build();
   }
 
   private static Element formatContent(Comment comment) {

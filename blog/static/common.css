@@ -8,17 +8,17 @@ h1, h2, h3, h4, h5, h6 {
   font-family: 'Trebuchet MS', 'Lato', sans-serif;
 }
 
-h1 {
+#logo {
   font-size: 150%;
   text-align: center;
 }
 
-h1 a, h1 a:hover {
+#logo a, #logo a:hover {
   color: black;
   text-decoration: none;
 }
 
-h2 {
+.title {
   margin-top: 0.5em;
   font-size: 200%;
 }
@@ -27,6 +27,12 @@ h3 {
   font-size: 110%;
   margin-top: 0.8em;
   margin-bottom: 0.4em;
+}
+
+h4 {
+  font-size: 130%;
+  margin-top: 2.0em;
+  margin-bottom: 0.3em;
 }
 
 .dateline {
@@ -84,12 +90,6 @@ p code {
   padding: 1px 5px;
 }
 
-h4 {
-  font-size: 130%;
-  margin-top: 2.0em;
-  margin-bottom: 0.3em;
-}
-
 small {
   font-size: 75%;
 }
@@ -99,7 +99,7 @@ small {
   border-bottom: 1px solid #444;
 }
 
-#footer {
+footer {
   font-family: 'Trebuchet MS', 'Lato', sans-serif;
   font-size: 0.9em;
   clear: both;

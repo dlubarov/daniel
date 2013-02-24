@@ -74,25 +74,19 @@ public final class Layout {
       }
     });
 
-    Element.Builder contentBuilder = new Element.Builder(Tag.DIV)
+    Element.Builder contentBuilder = new Element.Builder(Tag.ARTICLE)
         .setAttribute(Attribute.ID, "container")
         .addChildren(notificationElements);
-    if (title.isDefined())
-      contentBuilder.addChild(new Element.Builder(Tag.H2)
-          .addEscapedText(title.getOrThrow())
-          .build());
-    if (dateline.isDefined())
-      contentBuilder.addChild(new Element.Builder(Tag.TIME)
-          .setAttribute(Attribute.CLASS, "dateline")
-          .setAttribute(Attribute.DATETIME, DateUtils.formatIso8601(dateline.getOrThrow()))
-          .addEscapedText(datelineFormat.format(dateline.getOrThrow().toDate()))
-          .build());
+    Option<Element> optHeader = getHeader(title, dateline);
+    if (optHeader.isDefined())
+      contentBuilder.addChild(optHeader.getOrThrow());
     contentBuilder.addChild(new Element.Builder(Tag.DIV)
         .setAttribute(Attribute.ID, "content")
         .addChildren(content)
         .build());
 
     Element heading = new Element.Builder(Tag.H1)
+        .setAttribute(Attribute.ID, "logo")
         .addChild(new AnchorBuilder()
             .setHref(Config.getBaseUrl())
             .addEscapedText("Daniel Lubarov")
@@ -108,6 +102,28 @@ public final class Layout {
         .build();
   }
 
+  private static Option<Element> getHeader(Option<String> title, Option<Instant> dateline) {
+    if (title.isEmpty() && dateline.isEmpty())
+      return Option.none();
+    Element.Builder headerBuilder = new Element.Builder(Tag.HGROUP);
+    if (title.isDefined())
+      headerBuilder.addChild(new Element.Builder(Tag.H1)
+          .setAttribute(Attribute.CLASS, "title")
+          .addEscapedText(title.getOrThrow())
+          .build());
+    if (dateline.isDefined()) {
+      Element time = new Element.Builder(Tag.TIME)
+          .setAttribute(Attribute.DATETIME, DateUtils.formatIso8601(dateline.getOrThrow()))
+          .addEscapedText(datelineFormat.format(dateline.getOrThrow().toDate()))
+          .build();
+      headerBuilder.addChild(new Element.Builder(Tag.H6)
+          .setAttribute(Attribute.CLASS, "dateline")
+          .addChild(time)
+          .build());
+    }
+    return Option.some(headerBuilder.build());
+  }
+
   private static Element getFooter() {
     Element left = new ParagraphBuilder()
         .addRawText("Copyright &#169; 2013 Daniel Lubarov")
@@ -121,8 +137,7 @@ public final class Layout {
         .setClass("fr")
         .addChild(validatorLink)
         .build();
-    return new Element.Builder(Tag.DIV)
-        .setAttribute(Attribute.ID, "footer")
+    return new Element.Builder(Tag.FOOTER)
         .addChild(right)
         .addChild(left)
         .build();

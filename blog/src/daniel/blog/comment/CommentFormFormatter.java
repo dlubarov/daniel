@@ -9,16 +9,19 @@ public final class CommentFormFormatter {
   private CommentFormFormatter() {}
 
   public static Element getAddCommentForm(Post post) {
-    Element.Builder formBuilder = new Element.Builder(Tag.FORM);
-    formBuilder.setAttribute(Attribute.ACTION, post.getUrlFriendlySubject() + "/comment");
-    formBuilder.setAttribute(Attribute.METHOD, "post");
-    formBuilder.setAttribute(Attribute.CLASS, "add-comment");
-    formBuilder.addChild(new Element.Builder(Tag.H4).addEscapedText("Post a Comment").build());
-    formBuilder.addChild(getAuthorNamePart());
-    formBuilder.addChild(getAuthorEmailPart());
-    formBuilder.addChild(getContentPart());
-    formBuilder.addChild(getSubmitPart());
-    return formBuilder.build();
+    Element form = new Element.Builder(Tag.FORM)
+        .setAttribute(Attribute.ACTION, post.getUrlFriendlySubject() + "/comment")
+        .setAttribute(Attribute.METHOD, "post")
+        .setAttribute(Attribute.CLASS, "add-comment")
+        .addChild(new Element.Builder(Tag.H4).addEscapedText("Post a Comment").build())
+        .addChild(getAuthorNamePart())
+        .addChild(getAuthorEmailPart())
+        .addChild(getContentPart())
+        .addChild(getSubmitPart())
+        .build();
+    return new Element.Builder(Tag.ASIDE)
+        .addChild(form)
+        .build();
   }
 
   private static Element getAuthorNamePart() {
