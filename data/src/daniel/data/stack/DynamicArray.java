@@ -5,6 +5,9 @@ import daniel.data.source.Source;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * A {@link MutableStack} backed by an array. It provides efficient random access to elements.
+ */
 public final class DynamicArray<A> extends AbstractMutableStack<A> {
   private final ArrayList<A> proxy;
 

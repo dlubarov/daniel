@@ -1,5 +1,8 @@
 package daniel.data.function;
 
+/**
+ * Utilities for working with boolean {@link Function}s.
+ */
 public final class Predicates {
   private Predicates() {}
 

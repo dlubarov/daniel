@@ -5,6 +5,9 @@ import daniel.data.source.SingletonSource;
 import daniel.data.source.Source;
 import daniel.data.util.Check;
 
+/**
+ * An {@link Option} which contains a single value.
+ */
 final class Some<A> extends Option<A> {
   private final A value;
 

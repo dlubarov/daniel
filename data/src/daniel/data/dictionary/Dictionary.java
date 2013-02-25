@@ -5,6 +5,9 @@ import daniel.data.function.Function;
 import daniel.data.option.Option;
 import daniel.data.set.Set;
 
+/**
+ * A structure which maps keys to values. It cannot contain duplicate keys.
+ */
 public interface Dictionary<K, V> extends Set<KeyValuePair<K, V>> {
   @Override
   public ImmutableDictionary<K, V> toImmutable();

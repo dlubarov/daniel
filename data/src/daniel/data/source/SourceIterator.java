@@ -4,6 +4,9 @@ import daniel.data.option.Option;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+/**
+ * An {@link Iterator} which draws its values from a {@link Source}.
+ */
 public final class SourceIterator<A> implements Iterator<A> {
   private final Source<A> source;
   private Option<A> next;

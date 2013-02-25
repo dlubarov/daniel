@@ -3,6 +3,9 @@ package daniel.data.source;
 import daniel.data.function.Function;
 import daniel.data.option.Option;
 
+/**
+ * A lazy filter around another {@link Source}.
+ */
 final class FilteredSource<A> extends AbstractSource<A> {
   private final Source<A> original;
   private final Function<? super A, Boolean> predicate;

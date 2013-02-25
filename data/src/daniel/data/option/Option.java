@@ -3,6 +3,10 @@ package daniel.data.option;
 import daniel.data.collection.AbstractImmutableCollection;
 import daniel.data.function.Function;
 
+/**
+ * An object which may or may not hold a value. In other words, it is a
+ * {@link daniel.data.collection.Collection} which contains at most one element.
+ */
 public abstract class Option<A> extends AbstractImmutableCollection<A> {
   Option() {}
 

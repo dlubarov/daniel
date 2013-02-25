@@ -4,6 +4,9 @@ import daniel.data.option.Option;
 import daniel.data.sequence.ImmutableArray;
 import daniel.data.sequence.Sequence;
 
+/**
+ * A {@link Source} which is composed of other {@link Source}s.
+ */
 public final class RecursiveSource<A> extends AbstractSource<A> {
   private final Source<Source<A>> delegateSource;
   private Option<Source<A>> currentDelegate;

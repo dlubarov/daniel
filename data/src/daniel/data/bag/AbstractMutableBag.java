@@ -1,4 +1,4 @@
-package daniel.data.multiset;
+package daniel.data.bag;
 
 import daniel.data.collection.AbstractCollection;
 

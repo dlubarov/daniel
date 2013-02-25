@@ -4,6 +4,9 @@ import daniel.data.source.RandomAccessEnumerator;
 import daniel.data.source.Source;
 import daniel.data.util.ArrayUtils;
 
+/**
+ * A {@link MutableDeque} backed by a circular array queue.
+ */
 public final class ArrayDeque<A> extends AbstractMutableDeque<A> {
   private static final int MINIMUM_CAPACITY = 4;
 

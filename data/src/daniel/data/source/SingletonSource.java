@@ -2,6 +2,9 @@ package daniel.data.source;
 
 import daniel.data.option.Option;
 
+/**
+ * A {@link Source} which provides exactly one object.
+ */
 public final class SingletonSource<A> extends AbstractSource<A> {
   private Option<A> value;
 

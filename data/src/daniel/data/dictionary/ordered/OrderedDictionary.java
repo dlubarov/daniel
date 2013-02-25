@@ -5,6 +5,9 @@ import daniel.data.dictionary.KeyValuePair;
 import daniel.data.function.Function;
 import daniel.data.set.ordered.OrderedSet;
 
+/**
+ * A {@link Dictionary} with a consistent, defined of enumeration.
+ */
 public interface OrderedDictionary<K, V> extends Dictionary<K, V>, OrderedSet<KeyValuePair<K, V>> {
   @Override
   public ImmutableOrderedDictionary<K, V> filter(Function<? super KeyValuePair<K, V>, Boolean> predicate);

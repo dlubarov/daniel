@@ -7,6 +7,11 @@ import daniel.data.order.Ordering;
 import daniel.data.sequence.Sequence;
 import daniel.data.source.Source;
 
+/**
+ * A finite group of elements.
+ *
+ * @param <A> the type of the elements in the group
+ */
 public interface Collection<A> extends Iterable<A> {
   public Source<A> getEnumerator();
 

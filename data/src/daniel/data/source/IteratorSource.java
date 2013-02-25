@@ -3,6 +3,9 @@ package daniel.data.source;
 import daniel.data.option.Option;
 import java.util.Iterator;
 
+/**
+ * An {@link Source} which draws its values from a {@link Iterator}.
+ */
 public final class IteratorSource<A> extends AbstractSource<A> {
   private final Iterator<A> iterator;
 

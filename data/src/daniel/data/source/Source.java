@@ -4,6 +4,9 @@ import daniel.data.function.Function;
 import daniel.data.option.Option;
 import daniel.data.sequence.Sequence;
 
+/**
+ * A stream of objects which may or may not be finite, similar to an {@link java.util.Iterator}.
+ */
 public interface Source<A> {
   public Option<A> tryTake();
 

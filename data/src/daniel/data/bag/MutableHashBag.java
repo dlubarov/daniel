@@ -1,4 +1,4 @@
-package daniel.data.multiset;
+package daniel.data.bag;
 
 import daniel.data.dictionary.KeyValuePair;
 import daniel.data.dictionary.MutableHashDictionary;

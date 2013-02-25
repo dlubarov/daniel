@@ -5,6 +5,9 @@ import daniel.data.function.Function;
 import daniel.data.option.Option;
 import java.util.Random;
 
+/**
+ * A {@link Collection} of elements with a consistent, defined order of enumeration.
+ */
 public interface Sequence<A> extends Collection<A> {
   @Override
   public <B> Sequence<B> map(Function<? super A, ? extends B> transformation);

@@ -1,4 +1,6 @@
 package daniel.data.collection;
 
-public interface ImmutableCollection<A> extends Collection<A> {
-}
+/**
+ * A {@link Collection} whose elements never change.
+ */
+public interface ImmutableCollection<A> extends Collection<A> {}

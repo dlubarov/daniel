@@ -3,6 +3,9 @@ package daniel.data.source;
 import daniel.data.function.Function;
 import daniel.data.option.Option;
 
+/**
+ * A lazy transformation around another {@link Source}.
+ */
 final class MappedSource<A, B> extends AbstractSource<B> {
   private final Source<A> original;
   private final Function<? super A, ? extends B> transformation;

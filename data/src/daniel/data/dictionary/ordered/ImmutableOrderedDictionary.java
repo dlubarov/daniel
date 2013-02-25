@@ -5,6 +5,9 @@ import daniel.data.dictionary.KeyValuePair;
 import daniel.data.function.Function;
 import daniel.data.set.ordered.ImmutableOrderedSet;
 
+/**
+ * An {@link OrderedDictionary} whose elements never change.
+ */
 public interface ImmutableOrderedDictionary<K, V> extends
     OrderedDictionary<K, V>, ImmutableDictionary<K, V>, ImmutableOrderedSet<KeyValuePair<K, V>> {
   @Override

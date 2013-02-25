@@ -5,8 +5,8 @@ import daniel.data.dictionary.KeyValuePair;
 import daniel.data.set.Set;
 
 /**
- * A collection of key-value pairs. Unlike a Dictionary, a Table allows multiple entries with
- * the same key.
+ * A collection of key-value pairs. Unlike a {@link daniel.data.dictionary.Dictionary}, it allows
+ * multiple entries with the same key.
  */
 public interface Table<K, V> extends Collection<KeyValuePair<K, V>> {
   public Set<K> getKeys();

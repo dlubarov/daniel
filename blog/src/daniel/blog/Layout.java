@@ -39,11 +39,13 @@ public final class Layout {
   private static Element getHead(boolean smallScreen) {
     Element description = new Element.Builder(Tag.META)
         .setAttribute(Attribute.NAME, "description")
-        .setAttribute(Attribute.CONTENT, "Thoughts on programming languages, compilers, graphics and other fun software topics.")
+        .setAttribute(Attribute.CONTENT,
+            "Thoughts on programming languages, compilers, graphics, databases and other fun software topics.")
         .build();
     Element keywords = new Element.Builder(Tag.META)
         .setAttribute(Attribute.NAME, "keywords")
-        .setAttribute(Attribute.CONTENT, "daniel, lubarov, java, programming, coding, database, languages, compilers, interpreters, graphics, ray tracing, html, css")
+        .setAttribute(Attribute.CONTENT,
+            "daniel, lubarov, java, programming, coding, database, languages, compilers, interpreters, graphics, ray tracing, html, css")
         .build();
     Element base = new Element.Builder(Tag.BASE)
         .setAttribute(Attribute.HREF, Config.getBaseUrl())

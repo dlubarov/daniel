@@ -4,6 +4,9 @@ import daniel.data.function.Function;
 import daniel.data.source.EmptySource;
 import daniel.data.source.Source;
 
+/**
+ * An {@link Option} which does not contain a value. In other words, it is an empty collection.
+ */
 final class None<A> extends Option<A> {
   @Override
   public Source<A> getEnumerator() {

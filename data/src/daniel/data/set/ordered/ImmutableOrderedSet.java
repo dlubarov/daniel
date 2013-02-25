@@ -4,6 +4,9 @@ import daniel.data.function.Function;
 import daniel.data.sequence.ordered.ImmutableOrderedSequence;
 import daniel.data.set.ImmutableSet;
 
+/**
+ * A {@link OrderedSet} whose elements (and their order) never change.
+ */
 public interface ImmutableOrderedSet<A>
     extends OrderedSet<A>, ImmutableSet<A>, ImmutableOrderedSequence<A> {
   @Override
