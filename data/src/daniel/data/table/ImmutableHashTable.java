@@ -37,7 +37,7 @@ public final class ImmutableHashTable<K, V> extends AbstractImmutableTable<K, V>
       V value = keyValuePair.getValue();
       SinglyLinkedList<V> oldGroup = valueGroups.tryGetValue(key)
           .getOrDefault(SinglyLinkedList.<V>create());
-      valueGroups.put(key, oldGroup.pushFront(value));
+      valueGroups.put(key, oldGroup.plusFront(value));
     }
     return new ImmutableHashTable<>(valueGroups.toImmutable());
   }

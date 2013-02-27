@@ -8,7 +8,6 @@ import daniel.web.html.TitleBuilder;
 import daniel.web.html.Xhtml5Document;
 import daniel.web.http.HttpResponse;
 import daniel.web.http.HttpStatus;
-import daniel.web.http.HttpVersion;
 import daniel.web.http.ResponseHeaderName;
 import daniel.web.http.cookies.CookieManager;
 import java.nio.charset.Charset;

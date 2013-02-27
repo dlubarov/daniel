@@ -14,7 +14,7 @@ public final class CookieManager {
   private CookieManager() {}
 
   public static void setCooke(Cookie cookie) {
-    cookies.set(cookies.get().pushFront(cookie));
+    cookies.set(cookies.get().plusFront(cookie));
   }
 
   public static Collection<Cookie> getCookies() {

@@ -1,9 +1,9 @@
 package daniel.data.table;
 
+import daniel.data.bag.MutableHashBag;
 import daniel.data.collection.Collection;
 import daniel.data.dictionary.KeyValuePair;
 import daniel.data.dictionary.MutableHashDictionary;
-import daniel.data.bag.MutableHashBag;
 import daniel.data.set.Set;
 import daniel.data.source.Source;
 import daniel.data.stack.DynamicArray;

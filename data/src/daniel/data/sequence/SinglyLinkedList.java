@@ -54,8 +54,7 @@ public abstract class SinglyLinkedList<A> extends AbstractImmutableSequence<A> {
     return reversedList;
   }
 
-  // TODO: Reconsider naming (prepend/pushFront/etc.)
-  public SinglyLinkedList<A> pushFront(A value) {
+  public SinglyLinkedList<A> plusFront(A value) {
     return new NonEmptySLL<>(value, this);
   }
 

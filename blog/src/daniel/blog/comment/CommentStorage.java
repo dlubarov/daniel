@@ -34,7 +34,7 @@ public final class CommentStorage {
     byUuid.put(comment.getUuid(), comment);
     SinglyLinkedList<String> commentUuids = SinglyLinkedList.copyOf(
         getCommentUuidsByPost(comment.getPostUuid()));
-    commentUuids = commentUuids.pushFront(comment.getUuid());
+    commentUuids = commentUuids.plusFront(comment.getUuid());
     indexByPostUuid.put(comment.getPostUuid(), commentUuids);
   }
 

@@ -12,7 +12,7 @@ public final class Notifications {
   private Notifications() {}
 
   public static void addMessage(HttpRequest request, String message) {
-    messageData.set(request, getMessages(request).pushFront(message));
+    messageData.set(request, getMessages(request).plusFront(message));
   }
 
   public static Collection<String> getAndClearMessages(HttpRequest request) {
