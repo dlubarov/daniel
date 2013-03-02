@@ -6,6 +6,9 @@ import daniel.blog.Notifications;
 import daniel.blog.comment.Comment;
 import daniel.blog.comment.CommentFormatter;
 import daniel.blog.comment.CommentStorage;
+import daniel.blog.post.Post;
+import daniel.blog.post.PostFormatter;
+import daniel.blog.post.PostStorage;
 import daniel.data.collection.Collection;
 import daniel.data.function.Function;
 import daniel.data.option.Option;
@@ -46,26 +49,28 @@ public class ReviewCommentsHandler implements PartialHandler {
     if (unapprovedComments.isEmpty())
       return nothingToReviewResponse(request);
     Comment comment = getFirstComment(unapprovedComments);
-    Element form = commentReviewForm(comment);
+    Post post = PostStorage.getPostByUuid(comment.getPostUuid()).getOrThrow();
+    Element form = commentReviewForm(comment, post);
     Element html = Layout.createDocument(request,
         Option.some("Review Comments"), Option.<Instant>none(), form);
     return HttpResponseFactory.xhtmlResponse(HttpStatus.OK, html);
   }
 
-  private static Element commentReviewForm(Comment comment) {
+  private static Element commentReviewForm(Comment comment, Post post) {
     Element approveButton = new Element.Builder(Tag.INPUT)
-            .setAttribute(Attribute.NAME, "approve")
-            .setAttribute(Attribute.TYPE, "submit")
-            .setAttribute(Attribute.VALUE, "Approve")
-            .build();
+        .setAttribute(Attribute.NAME, "approve")
+        .setAttribute(Attribute.TYPE, "submit")
+        .setAttribute(Attribute.VALUE, "Approve")
+        .build();
     Element deleteButton = new Element.Builder(Tag.INPUT)
-            .setAttribute(Attribute.NAME, "delete")
-            .setAttribute(Attribute.TYPE, "submit")
-            .setAttribute(Attribute.VALUE, "Delete")
-            .build();
+        .setAttribute(Attribute.NAME, "delete")
+        .setAttribute(Attribute.TYPE, "submit")
+        .setAttribute(Attribute.VALUE, "Delete")
+        .build();
     return new Element.Builder(Tag.FORM)
         .setAttribute(Attribute.ACTION, "admin/review-comments")
         .setAttribute(Attribute.METHOD, "post")
+        .addChild(PostFormatter.summaryLink(post))
         .addChild(CommentFormatter.full(comment))
         .addChild(new ParagraphBuilder().addChild(approveButton).addChild(deleteButton).build())
         .build();
