@@ -41,12 +41,6 @@ h1, h2, h3, h4, h5, h6 {
   margin-bottom: 0.2em;
 }
 
-h4 {
-  font-size: 130%;
-  margin-top: 2.0em;
-  margin-bottom: 0.3em;
-}
-
 .dateline {
   margin-top: 0.5em;
   font-size: 80%;
@@ -59,6 +53,17 @@ a {
 
 a:hover {
   text-decoration: underline;
+}
+
+input, textarea {
+  border: 1px solid #888;
+  background-color: #fff;
+  font-size: 85%;
+  padding: 3px;
+}
+
+input[type=submit], button {
+  background-color: #eee;
 }
 
 img {
@@ -137,9 +142,15 @@ form.add-comment input, form.add-comment textarea {
   box-sizing: border-box;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
-  margin: 0.8em 0;
+  margin: 0.4em 0;
 }
-form.add-comment input.submit-button {
+
+form.add-comment {
+  display: block;
+  margin-top: 2em;
+}
+
+form.add-comment input[type=submit] {
   width: auto;
   margin: 0 auto;
 }

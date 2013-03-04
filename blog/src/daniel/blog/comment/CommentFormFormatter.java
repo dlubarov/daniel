@@ -61,7 +61,6 @@ public final class CommentFormFormatter {
     return new Element.Builder(Tag.INPUT)
         .setAttribute(Attribute.TYPE, "submit")
         .setAttribute(Attribute.VALUE, "Post Comment")
-        .setAttribute(Attribute.CLASS, "submit-button")
         .build();
   }
 }
