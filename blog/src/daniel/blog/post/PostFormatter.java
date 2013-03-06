@@ -37,7 +37,9 @@ public final class PostFormatter {
     });
 
     String headerText = String.format("%d Comments", commentElements.getSize());
-    Element commentsHeader = new Element.Builder(Tag.H4).addEscapedText(headerText).build();
+    Element commentsHeader = new Element.Builder(Tag.H3)
+        .addEscapedText(headerText)
+        .build();
     return Option.some(new Element.Builder(Tag.SECTION)
         .addChild(commentsHeader)
         .addChildren(commentElements)
