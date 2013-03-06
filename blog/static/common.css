@@ -9,7 +9,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #logo {
-  font-family: 'Poiret One', 'Cutive Mono', sans-serif;
+  font-family: 'Poiret One', sans-serif;
   font-size: 250%;
   text-align: center;
 }
@@ -30,7 +30,6 @@ h1, h2, h3, h4, h5, h6 {
 .title {
   margin-top: 0.5em;
   font-size: 200%;
-  font-weight: bold;
 }
 
 #content h2 {
@@ -133,7 +132,7 @@ footer {
   margin-bottom: 0.8em;
 }
 
-p + p, p + ul, ul + p, p + pre, pre + p {
+#content p + p, p + ul, ul + p, p + pre, pre + p {
   margin-top: 0.8em;
 }
 
