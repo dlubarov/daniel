@@ -1,10 +1,11 @@
-package daniel.web.http.server.util;
+package daniel.multiweb;
 
 import daniel.web.http.HttpRequest;
 import daniel.web.http.HttpResponse;
 import daniel.web.http.server.Handler;
+import daniel.web.http.server.util.HttpResponseFactory;
 
-public final class VersionHandler implements Handler {
+final class VersionHandler implements Handler {
   public static final VersionHandler singleton = new VersionHandler();
 
   private VersionHandler() {}

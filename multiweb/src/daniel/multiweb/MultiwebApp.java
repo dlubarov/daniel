@@ -2,6 +2,7 @@ package daniel.multiweb;
 
 import daniel.logging.Logger;
 import daniel.web.http.server.HttpServer;
+import daniel.web.http.server.util.ExceptionHandlingHandler;
 
 public final class MultiwebApp {
   private static final Logger logger = Logger.forClass(MultiwebApp.class);
@@ -10,7 +11,7 @@ public final class MultiwebApp {
 
   public static void main(String[] args) throws Exception {
     HttpServer server = new HttpServer.Builder()
-        .setHandler(MultiwebHandler.getHandler())
+        .setHandler(new ExceptionHandlingHandler(MultiwebHandler.singleton))
         .setWebSocketHandler(MultiwebWebSocketHandler.getHandler())
         .setPort(Config.getPort())
         .build();

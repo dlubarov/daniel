@@ -1,6 +1,6 @@
 package daniel.multiweb;
 
-public final class Config {
+final class Config {
   private Config() {}
 
   public static int getPort() {
