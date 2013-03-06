@@ -52,7 +52,7 @@ public final class Layout {
         .build();
     return new Element(Tag.HEAD,
         description, keywords, base,
-        new TitleBuilder().addRawText("Daniel Lubarov").build(),
+        new TitleBuilder().addRawText("Modern Software").build(),
         StylesheetUtils.createCssLink("reset.css"),
         StylesheetUtils.createCssLink("common.css"),
         StylesheetUtils.createCssLink(smallScreen ? "mobile.css" : "desktop.css"),
@@ -60,6 +60,7 @@ public final class Layout {
         StylesheetUtils.createCssLink("http://fonts.googleapis.com/css?family=Source+Code+Pro:400,600,700"),
         StylesheetUtils.createCssLink("http://fonts.googleapis.com/css?family=Lato"),
         StylesheetUtils.createCssLink("http://fonts.googleapis.com/css?family=Merriweather:400,700"),
+        StylesheetUtils.createCssLink("http://fonts.googleapis.com/css?family=Cutive+Mono"),
         StylesheetUtils.createCssLink("prettify/prettify.css"),
         JavaScriptUtils.createJavaScriptLink("prettify/prettify.js")
     );
@@ -87,17 +88,23 @@ public final class Layout {
         .addChildren(content)
         .build());
 
-    Element heading = new Element.Builder(Tag.H1)
+    Element heading1 = new Element.Builder(Tag.H1)
         .setAttribute(Attribute.ID, "logo")
         .addChild(new AnchorBuilder()
             .setHref(Config.getBaseUrl())
-            .addEscapedText("Daniel Lubarov")
+            .addEscapedText("Modern Software")
             .build())
+        .build();
+
+    Element heading2 = new Element.Builder(Tag.H2)
+        .setAttribute(Attribute.ID, "logo2")
+        .addEscapedText("A blog by Daniel Lubarov")
         .build();
 
     return new Element.Builder(Tag.BODY)
         .setAttribute(Attribute.ONLOAD, "prettyPrint()")
-        .addChild(heading)
+        .addChild(heading1)
+        .addChild(heading2)
         .addChild(contentBuilder.build())
         .addChild(HtmlUtils.getClearDiv())
         .addChild(getFooter())

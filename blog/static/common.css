@@ -9,8 +9,14 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #logo {
+  font-family: 'Cutive Mono', sans-serif;
   font-size: 150%;
   text-align: center;
+}
+
+#logo2 {
+  text-align: center;
+  margin-bottom: 10px;
 }
 
 #logo a, #logo a:hover {
