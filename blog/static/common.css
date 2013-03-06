@@ -1,6 +1,6 @@
 body {
   font-family: 'Merriweather', serif;
-  color: #444;
+  color: #000;
   line-height: 120%;
 }
 
@@ -10,11 +10,12 @@ h1, h2, h3, h4, h5, h6 {
 
 #logo {
   font-family: 'Cutive Mono', sans-serif;
-  font-size: 150%;
+  font-size: 200%;
   text-align: center;
 }
 
 #logo2 {
+  font-family: 'Cutive Mono', sans-serif;
   text-align: center;
   margin-bottom: 10px;
 }
@@ -27,6 +28,7 @@ h1, h2, h3, h4, h5, h6 {
 .title {
   margin-top: 0.5em;
   font-size: 200%;
+  font-weight: bold;
 }
 
 #content h2 {
@@ -48,7 +50,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .dateline {
-  margin-top: 0.5em;
+  margin-top: 0.6em;
   font-size: 80%;
 }
 

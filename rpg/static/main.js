@@ -4,11 +4,17 @@ var texCoordLocation;
 var resolutionLocation;
 var colorLocation;
 
+var lastTime = getCurrentTime();
+
 var dx = 0, dy = 0;
 
 function main() {
   var canvas = document.getElementById("myCanvas");
   gl = canvas.getContext("experimental-webgl", { alpha: false });
+  if (!gl) {
+    alert("WebGL is not supported by your browser.");
+    return;
+  }
 
   // Set up a GLSL program.
   var vertexShader = createShaderFromScriptElement(gl, "2d-vertex-shader");
@@ -32,8 +38,6 @@ function main() {
 }
 
 function startGame() {
-  step();
-
   // Create a texture.
   var texture = gl.createTexture();
   gl.bindTexture(gl.TEXTURE_2D, texture);
@@ -46,13 +50,21 @@ function startGame() {
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+
+  step();
+}
+
+function getCurrentTime() {
+  return new Date().getTime() / 1000;
 }
 
 function step() {
+  var now = getCurrentTime();
+  var dt = now - lastTime;
   gl.clearColor(0, 0, 0, 0);
   gl.clear(gl.COLOR_BUFFER_BIT);
 
-  logic();
+  logic(dt);
   render();
 
   var error = gl.getError();
@@ -61,10 +73,13 @@ function step() {
   } else {
     requestAnimationFrame(step);
   }
+
+  lastTime = now;
 }
 
-function logic() {
-  dx += 1; dy += 1;
+function logic(dt) {
+  dx += dt * 50;
+  dy += dt * 50;
 }
 
 function render() {

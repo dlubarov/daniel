@@ -52,7 +52,7 @@ public final class Layout {
         .build();
     return new Element(Tag.HEAD,
         description, keywords, base,
-        new TitleBuilder().addRawText("Modern Software").build(),
+        new TitleBuilder().addRawText("Software and Stuff, a blog by Daniel").build(),
         StylesheetUtils.createCssLink("reset.css"),
         StylesheetUtils.createCssLink("common.css"),
         StylesheetUtils.createCssLink(smallScreen ? "mobile.css" : "desktop.css"),
@@ -92,13 +92,13 @@ public final class Layout {
         .setAttribute(Attribute.ID, "logo")
         .addChild(new AnchorBuilder()
             .setHref(Config.getBaseUrl())
-            .addEscapedText("Modern Software")
+            .addEscapedText("Software & Stuff")
             .build())
         .build();
 
     Element heading2 = new Element.Builder(Tag.H2)
         .setAttribute(Attribute.ID, "logo2")
-        .addEscapedText("A blog by Daniel Lubarov")
+        .addEscapedText("a blog by Daniel Lubarov")
         .build();
 
     return new Element.Builder(Tag.BODY)
