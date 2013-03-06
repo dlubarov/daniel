@@ -4,7 +4,7 @@ body {
   line-height: 150%;
 }
 
-h1, h2, h3 {
+h1, h2, h3, h4, h5, h6 {
   font-family: 'Trebuchet MS', 'Lato', sans-serif;
 }
 
@@ -146,29 +146,25 @@ form.add-comment input, form.add-comment textarea {
   box-sizing: border-box;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
-  margin: 0.4em 0;
+  margin: 6px 0;
 }
-
 form.add-comment {
   display: block;
-  margin-top: 2em;
 }
-
+#content form.add-comment h2 {
+  margin-top: 2em;
+  margin-bottom: 0;
+}
 form.add-comment input[type=submit] {
   width: auto;
   margin: 0 auto;
 }
 
-/* Notices */
-p.notice {
-  text-align: center;
-  border: 1px solid #ccc;
-  background: #ffc8af;
-  padding: 7px;
-  margin-bottom: 12px;
-}
-
 /* Comments */
+#content .comments h2 {
+  margin-top: 2em;
+  margin-bottom: 6px;
+}
 #container div.comment p {
   margin: 0;
 }
@@ -180,9 +176,18 @@ div.comment {
   padding: 8px 0;
 }
 div.comment + div.comment {
-  margin-top: 0.5em;
+  margin-top: 6px;
 }
 div.comment img.gravatar {
   float: left;
   margin: 0 8px;
+}
+
+/* Notices */
+p.notice {
+  text-align: center;
+  border: 1px solid #ccc;
+  background: #ffc8af;
+  padding: 7px;
+  margin-bottom: 12px;
 }

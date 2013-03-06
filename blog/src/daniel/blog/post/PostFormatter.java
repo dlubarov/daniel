@@ -7,6 +7,7 @@ import daniel.data.function.Function;
 import daniel.data.option.Option;
 import daniel.data.sequence.Sequence;
 import daniel.web.html.AnchorBuilder;
+import daniel.web.html.Attribute;
 import daniel.web.html.Element;
 import daniel.web.html.HtmlUtils;
 import daniel.web.html.Tag;
@@ -37,10 +38,11 @@ public final class PostFormatter {
     });
 
     String headerText = String.format("%d Comments", commentElements.getSize());
-    Element commentsHeader = new Element.Builder(Tag.H3)
+    Element commentsHeader = new Element.Builder(Tag.H2)
         .addEscapedText(headerText)
         .build();
     return Option.some(new Element.Builder(Tag.SECTION)
+        .setAttribute(Attribute.CLASS, "comments")
         .addChild(commentsHeader)
         .addChildren(commentElements)
         .build());

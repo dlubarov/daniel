@@ -13,7 +13,7 @@ public final class CommentFormFormatter {
         .setAttribute(Attribute.ACTION, post.getUrlFriendlySubject() + "/comment")
         .setAttribute(Attribute.METHOD, "post")
         .setAttribute(Attribute.CLASS, "add-comment")
-        .addChild(new Element.Builder(Tag.H3)
+        .addChild(new Element.Builder(Tag.H2)
             .addEscapedText("Post a Comment")
             .build())
         .addChild(getAuthorNamePart())
