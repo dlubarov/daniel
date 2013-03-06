@@ -4,3 +4,4 @@ set -e
 
 rm -rf manual_out
 rm -f all.jar
+rm -f multiweb.log
