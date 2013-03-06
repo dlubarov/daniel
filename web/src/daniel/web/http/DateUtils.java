@@ -11,7 +11,7 @@ public final class DateUtils {
   private static final DateFormat iso8601Format;
 
   static {
-    rfc1123Format = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz");
+    rfc1123Format = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss 'GMT'");
     rfc1123Format.setTimeZone(TimeZone.getTimeZone("GMT"));
 
     iso8601Format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'");
