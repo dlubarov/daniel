@@ -49,6 +49,7 @@ final class UpdateTask implements Runnable {
   }
 
   private void runWithExceptions() throws Exception {
-    new ProcessBuilder("script/self-update").start().waitFor();
+    String command = "script/self-update > updater.log";
+    new ProcessBuilder("/bin/sh", "-c", command).start().waitFor();
   }
 }
