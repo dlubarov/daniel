@@ -8,6 +8,7 @@ import daniel.data.option.Option;
 import daniel.data.sequence.Sequence;
 import daniel.web.html.AnchorBuilder;
 import daniel.web.html.Element;
+import daniel.web.html.HtmlUtils;
 import daniel.web.html.Tag;
 
 public final class PostFormatter {
@@ -19,8 +20,10 @@ public final class PostFormatter {
     Option<Element> optCommentsSection = getCommentsSection(commentsByDate);
     if (optCommentsSection.isDefined())
       builder.addChild(optCommentsSection.getOrThrow());
-    builder.addChild(CommentFormFormatter.getAddCommentForm(post));
-    return builder.build();
+    return builder
+        .addChild(HtmlUtils.getClearDiv())
+        .addChild(CommentFormFormatter.getAddCommentForm(post))
+        .build();
   }
 
   private static Option<Element> getCommentsSection(Sequence<Comment> commentsByDate) {
