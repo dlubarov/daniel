@@ -59,7 +59,6 @@ public final class Layout {
         // TODO: Remove any fonts that aren't used.
         StylesheetUtils.createCssLink("http://fonts.googleapis.com/css?family=Source+Code+Pro:400,600,700"),
         StylesheetUtils.createCssLink("http://fonts.googleapis.com/css?family=Lato"),
-        StylesheetUtils.createCssLink("http://fonts.googleapis.com/css?family=Merriweather:400,700"),
         StylesheetUtils.createCssLink("http://fonts.googleapis.com/css?family=Cutive+Mono"),
         StylesheetUtils.createCssLink("prettify/prettify.css"),
         JavaScriptUtils.createJavaScriptLink("prettify/prettify.js")
