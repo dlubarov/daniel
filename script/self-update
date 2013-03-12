@@ -8,7 +8,8 @@ if [[ $UID != 0 ]]; then
 fi
 
 old_head=$(git rev-parse --verify HEAD)
-git pull -q
+git fetch -q
+git reset --hard origin/master
 new_head=$(git rev-parse --verify HEAD)
 
 if [ "$new_head" != "$old_head" ]; then

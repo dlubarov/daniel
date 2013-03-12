@@ -13,6 +13,7 @@ import daniel.web.html.Node;
 import daniel.web.html.ParagraphBuilder;
 import daniel.web.html.StylesheetUtils;
 import daniel.web.html.Tag;
+import daniel.web.html.TextNode;
 import daniel.web.html.TitleBuilder;
 import daniel.web.http.DateUtils;
 import daniel.web.http.HttpRequest;
@@ -56,13 +57,23 @@ public final class Layout {
         StylesheetUtils.createCssLink("reset.css"),
         StylesheetUtils.createCssLink("common.css"),
         StylesheetUtils.createCssLink(smallScreen ? "mobile.css" : "desktop.css"),
-        // TODO: Remove any fonts that aren't used.
         StylesheetUtils.createCssLink("http://fonts.googleapis.com/css?family=Source+Code+Pro:400,600,700"),
         StylesheetUtils.createCssLink("http://fonts.googleapis.com/css?family=Lato"),
         StylesheetUtils.createCssLink("http://fonts.googleapis.com/css?family=Poiret+One"),
         StylesheetUtils.createCssLink("http://fonts.googleapis.com/css?family=Cutive+Mono"),
         StylesheetUtils.createCssLink("prettify/prettify.css"),
-        JavaScriptUtils.createJavaScriptLink("prettify/prettify.js")
+        JavaScriptUtils.createJavaScriptLink("prettify/prettify.js"),
+        TextNode.rawText(""
+            + "<script type=\"text/javascript\">\n"
+            + "  var _gaq = _gaq || [];\n"
+            + "  _gaq.push(['_setAccount', 'UA-39230019-1']);\n"
+            + "  _gaq.push(['_trackPageview']);\n"
+            + "  (function() {\n"
+            + "    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;\n"
+            + "    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';\n"
+            + "    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);\n"
+            + "  })();\n"
+            + "</script>")
     );
   }
 

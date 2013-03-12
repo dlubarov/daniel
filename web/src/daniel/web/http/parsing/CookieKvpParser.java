@@ -25,7 +25,7 @@ public final class CookieKvpParser extends Parser<KeyValuePair<String, String>> 
     String cookieName = new String(data, p, pEquals - p);
     p = pEquals + 1;
 
-    ParseResult<String> resValue = TokenOrQuotedStringParser.singleton.tryParse(data, p)
+    ParseResult<String> resValue = LenientTokenOrQuotedStringParser.singleton.tryParse(data, p)
         .getOrThrow("No cookie value found.");
     p = resValue.getRem();
     String value;
