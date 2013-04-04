@@ -23,15 +23,20 @@ public class CookieHeaderParserTest {
 
   @Test
   public void testTryParse_googleAnalytics() {
-    String cookieHeader = "__utma=11106849.1375890264.1363113408.1363113408.1363113408.1; __utmb=11106849.1.10.1363113408; __utmc=11106849; __utmz=11106849.1363113408.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none)";
+    String cookieHeader = "__utma=11106849.1694674570.1364289598.1364289598.1364289598.1; __utmc=11106849; __utmz=11106849.1364289598.1.1.utmcsr=stackoverflow.com|utmccn=(referral)|utmcmd=referral|utmcct=/users/714009/daniel";
     byte[] cookieHeaderBytes = cookieHeader.getBytes(StandardCharsets.US_ASCII);
-    SequentialTable<String, String> result =
-        CookieHeaderParser.singleton.tryParse(cookieHeaderBytes, 0)
-            .getOrThrow().getValue();
+    SequentialTable<String, String> result = CookieHeaderParser.singleton
+        .tryParse(cookieHeaderBytes, 0).getOrThrow().getValue();
 
-    assertEquals(4, result.getSize());
-    assertEquals(new KeyValuePair<>("__utma", "11106849.1375890264.1363113408.1363113408.1363113408.1"), result.get(0));
-    assertEquals(new KeyValuePair<>("__utmz", "11106849.1363113408.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none)"),
-        result.get(3));
+    assertEquals(3, result.getSize());
+    assertEquals(
+        new KeyValuePair<>("__utma", "11106849.1694674570.1364289598.1364289598.1364289598.1"),
+        result.get(0));
+    assertEquals(
+        new KeyValuePair<>("__utmc", "11106849"),
+        result.get(1));
+    assertEquals(
+        new KeyValuePair<>("__utmz", "11106849.1364289598.1.1.utmcsr=stackoverflow.com|utmccn=(referral)|utmcmd=referral|utmcct=/users/714009/daniel"),
+        result.get(2));
   }
 }

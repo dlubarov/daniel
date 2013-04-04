@@ -10,7 +10,7 @@ public final class LenientTokenParser extends Parser<String> {
   public static final LenientTokenParser singleton = new LenientTokenParser();
 
   private static final ImmutableSet<Character> separators = ImmutableHashSet.create(
-      '<', '>', '@', ',', ';', ':', '\\', '\'', '/', '[', ']', '?', '{', '}', ' ', '\t');
+      '<', '>', '@', ',', ';', '\\', '\'', '{', '}', ' ', '\t');
 
   private LenientTokenParser() {}
 
