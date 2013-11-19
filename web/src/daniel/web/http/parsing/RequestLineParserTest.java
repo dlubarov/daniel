@@ -4,10 +4,10 @@ import daniel.parsing.ParseResult;
 import daniel.web.http.HttpVersion;
 import daniel.web.http.RequestLine;
 import daniel.web.http.RequestMethod;
-import java.nio.charset.StandardCharsets;
 import org.junit.Test;
+import java.nio.charset.StandardCharsets;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class RequestLineParserTest {
   private static final RequestLine example1 = new RequestLine.Builder()

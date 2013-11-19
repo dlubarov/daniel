@@ -1,0 +1,76 @@
+body {
+  font-family: "Trebuchet MS", Arial;
+}
+
+a {
+  text-decoration: none;
+  color: #1492d6;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+h1 {
+  text-align: center;
+  font-size: 200%;
+  margin-top: 1em;
+  margin-bottom: -0.1em;
+}
+
+h1 a {
+  color: black;
+}
+
+.fullwidth {
+  width: 800px;
+  margin: 0 auto;
+}
+
+div.tags ul {
+  display: inline;
+}
+div.tags li {
+  display: inline;
+  font-size: 85%;
+  border: 1px solid #aaf;
+  background: #eef;
+  padding: 3px;
+}
+div.tags li + li, div.tags input {
+  margin-left: 0.5em;
+}
+
+table.alerts {
+  width: 100%;
+  border-spacing: 0;
+  border-width: 0 0 1px 1px;
+  border-collapse: collapse;
+}
+table.alerts, table.alerts > * > tr > td, table.alerts > * > tr > th {
+  border-style: solid;
+  border-color: #b9b9b9;
+}
+table.alerts > * > tr > td, table.alerts > * > tr > th {
+  border-width: 1px 1px 0 0;
+  padding: 6px;
+}
+table.alerts > * > tr > th {
+  background: #cccccc;
+  font: bold 1.1em Arial, Sans-Serif;
+}
+table.alerts > * > tr:nth-child(even) > td {
+  background: #eaeaea;
+}
+table.alerts > * > tr:nth-child(odd) > td {
+  background: #ffffff;
+}
+
+table.alerts > tbody > tr > td.status-ok {
+  background: #cfc;
+}
+table.alerts > tbody > tr > td.status-warning {
+  background: #ffa;
+}
+table.alerts > tbody > tr > td.status-critical {
+  background: #f88;
+}

@@ -3,12 +3,16 @@ package daniel.data.serialization;
 import com.google.gson.Gson;
 
 public final class GsonSerializer<A> extends AbstractSerializer<A> {
-  private static final Gson gson = new Gson();
-
   private final Class<A> clazz;
+  private final Gson gson;
 
   public GsonSerializer(Class<A> clazz) {
+    this(clazz, new Gson());
+  }
+
+  public GsonSerializer(Class<A> clazz, Gson gson) {
     this.clazz = clazz;
+    this.gson = gson;
   }
 
   @Override

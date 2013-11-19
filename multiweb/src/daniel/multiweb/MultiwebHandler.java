@@ -3,6 +3,8 @@ package daniel.multiweb;
 import daniel.alexresume.AlexResumeHandler;
 import daniel.blog.BlogHandler;
 import daniel.chat.ChatHandler;
+import daniel.nagger.NaggerHandler;
+import daniel.pokemon.handlers.PokemonHandler;
 import daniel.rpg.RpgHandler;
 import daniel.viewheaders.ViewHeadersHandler;
 import daniel.web.http.HttpRequest;
@@ -14,12 +16,14 @@ final class MultiwebHandler implements Handler {
   public static final MultiwebHandler singleton = new MultiwebHandler();
 
   private static final Handler hostBasedHandler = new HostBasedHandler.Builder()
-        .addHandlerForHost(".*daniel\\.lubarov\\.com.*", BlogHandler.getHandler())
-        .addHandlerForHost(".*alex\\.lubarov\\.com.*", AlexResumeHandler.getHandler())
-        .addHandlerForHost(".*viewheaders\\.com.*", ViewHeadersHandler.getHandler())
-        .addHandlerForHost(".*jabberings\\.net.*", ChatHandler.getHandler())
-        .addHandlerForHost(".*rpg\\.com.*", RpgHandler.getHandler())
-        .build();
+      .addHandlerForHost(".*daniel\\.lubarov\\.com.*", BlogHandler.getHandler())
+      .addHandlerForHost(".*alex\\.lubarov\\.com.*", AlexResumeHandler.getHandler())
+      .addHandlerForHost(".*viewheaders\\.com.*", ViewHeadersHandler.getHandler())
+      .addHandlerForHost(".*jabberings\\.net.*", ChatHandler.getHandler())
+      .addHandlerForHost(".*rpg\\.com.*", RpgHandler.getHandler())
+      .addHandlerForHost(".*pokemon\\.com.*", PokemonHandler.getHandler())
+      .addHandlerForHost(".*nagger\\.com.*", NaggerHandler.getHandler())
+      .build();
 
   private MultiwebHandler() {}
 

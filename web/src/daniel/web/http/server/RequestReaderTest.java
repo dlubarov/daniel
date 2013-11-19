@@ -4,12 +4,12 @@ import daniel.web.http.HttpRequest;
 import daniel.web.http.HttpVersion;
 import daniel.web.http.RequestHeaderName;
 import daniel.web.http.RequestMethod;
+import org.junit.Test;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class RequestReaderTest {
   @Test

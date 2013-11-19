@@ -1,11 +1,11 @@
 package daniel.data.util;
 
+import org.junit.Test;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import org.junit.Test;
 
-import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.*;
 
 public class IOUtilsTest {
   @Test

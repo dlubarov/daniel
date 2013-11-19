@@ -33,13 +33,24 @@ final class AddCommentHandler implements Handler {
         : Option.some(authorEmail);
     String content = request.getUrlencodedPostData().getValues("content")
         .tryGetOnlyElement().getOrThrow();
+    String challenge = request.getUrlencodedPostData().getValues("challenge")
+        .tryGetOnlyElement().getOrThrow();
 
     if (authorName.isEmpty()) {
       Notifications.addMessage(request, "Name cannot be empty.");
       return getRedirectResponse();
     }
     if (content.isEmpty()) {
-      Notifications.addMessage(request, "Content cannot be empty");
+      Notifications.addMessage(request, "Content cannot be empty.");
+      return getRedirectResponse();
+    }
+    if (challenge.isEmpty()) {
+      Notifications.addMessage(request,
+          "Please answer \"What do cows drink?\" to show that you're not a generic bot.");
+      return getRedirectResponse();
+    }
+    if (!(challenge.equalsIgnoreCase("milk") || challenge.equalsIgnoreCase("water"))) {
+      Notifications.addMessage(request, "No, that's now what cows drink! Comment rejected!");
       return getRedirectResponse();
     }
 

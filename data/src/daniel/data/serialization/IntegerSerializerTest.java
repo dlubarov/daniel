@@ -2,7 +2,7 @@ package daniel.data.serialization;
 
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class IntegerSerializerTest {
   @Test

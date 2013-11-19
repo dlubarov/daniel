@@ -19,6 +19,7 @@ public final class CommentFormFormatter {
         .addChild(getAuthorNamePart())
         .addChild(getAuthorEmailPart())
         .addChild(getContentPart())
+        .addChild(getChallengePart())
         .addChild(getSubmitPart())
         .build();
     return new Element.Builder(Tag.ASIDE)
@@ -56,6 +57,28 @@ public final class CommentFormFormatter {
         .build();
     return new Element.Builder(Tag.DIV)
         .addChild(textarea)
+        .build();
+  }
+
+  private static Element getChallengePart() {
+    Element text = new Element.Builder(Tag.SPAN)
+        .addEscapedText("What do cows drink?")
+        .setAttribute(Attribute.STYLE, "display: table-cell; width: 1px; white-space: nowrap;")
+        .build();
+    Element filler = new Element.Builder(Tag.SPAN)
+        .addRawText("&#160;")
+        .setAttribute(Attribute.STYLE, "display: table-cell; width: 0.5em;")
+        .build();
+    Element input = new Element.Builder(Tag.INPUT)
+        .setAttribute(Attribute.NAME, "challenge")
+        .setAttribute(Attribute.TYPE, "text")
+        .setAttribute(Attribute.STYLE, "display: table-cell; width: 100%; margin: 0;")
+        .build();
+    return new Element.Builder(Tag.DIV)
+        .setAttribute(Attribute.STYLE, "display: table; width: 100%; margin: 6px 0;")
+        .addChild(text)
+        .addChild(filler)
+        .addChild(input)
         .build();
   }
 

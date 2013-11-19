@@ -16,6 +16,7 @@ public final class ChatWebSocketHandler implements WebSocketHandler {
 
   public static final ChatWebSocketHandler singleton = new ChatWebSocketHandler();
 
+  // TODO: Should be multi-map? (Or just Set<WebSocketManager>.)
   private final MutableHashTable<String, WebSocketManager> managersByChannel;
 
   private ChatWebSocketHandler() {

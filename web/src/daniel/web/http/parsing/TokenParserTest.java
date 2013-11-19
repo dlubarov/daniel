@@ -2,11 +2,10 @@ package daniel.web.http.parsing;
 
 import daniel.data.option.Option;
 import daniel.parsing.ParseResult;
-import java.nio.charset.StandardCharsets;
 import org.junit.Test;
+import java.nio.charset.StandardCharsets;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class TokenParserTest {
   @Test

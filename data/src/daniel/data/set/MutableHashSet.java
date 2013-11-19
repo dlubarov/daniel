@@ -36,6 +36,10 @@ public final class MutableHashSet<A> extends AbstractSet<A> {
     return proxy.add(value);
   }
 
+  public boolean tryRemove(A value) {
+    return proxy.remove(value);
+  }
+
   @Override
   public Source<A> getEnumerator() {
     return new IteratorSource<>(proxy.iterator());

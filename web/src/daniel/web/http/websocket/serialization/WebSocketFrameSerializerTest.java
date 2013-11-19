@@ -2,11 +2,11 @@ package daniel.web.http.websocket.serialization;
 
 import daniel.web.http.websocket.WebSocketFrame;
 import daniel.web.http.websocket.WebSocketOpcode;
-import java.util.Random;
 import org.junit.Before;
 import org.junit.Test;
+import java.util.Random;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class WebSocketFrameSerializerTest {
   private Random random;

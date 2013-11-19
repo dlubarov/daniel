@@ -4,7 +4,7 @@ import daniel.data.sequence.ImmutableArray;
 import daniel.data.sequence.Sequence;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class RecursiveSourceTest {
   @Test
