@@ -1,4 +1,3 @@
-var BASE_URL = 'http://nagger.com.dlubarov.local:12345';
 var connection;
 
 Array.prototype.last = function() {
