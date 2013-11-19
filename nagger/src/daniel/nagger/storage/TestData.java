@@ -37,7 +37,7 @@ public class TestData {
     alert.command = "case $(($RANDOM % 3)) in 0) echo 'ok'; exit 0;; 1) echo 'warning'; exit 1;; 2) echo 'critical'; exit 2;; esac";
     alert.frequency = "2 seconds";
     alert.recipientUuids.add(recipientUuid);
-    alert.checks.add(createCheck(Status.OK, "All good."));
+    alert.addCheck(createCheck(Status.OK, "All good."));
     return alert;
   }
 
@@ -62,7 +62,7 @@ public class TestData {
     alert.command = "echo 'Batch sizes are close the maximum.'; exit 1";
     alert.frequency = "30 seconds";
     alert.recipientUuids.add(recipientUuid);
-    alert.checks.add(createCheck(Status.WARNING, "Batch sizes are close to the maximum."));
+    alert.addCheck(createCheck(Status.WARNING, "Batch sizes are close to the maximum."));
     alert.tags.add("eero");
     alert.tags.add("settlement");
     return alert;
@@ -78,7 +78,7 @@ public class TestData {
     alert.recipientUuids.add(recipientUuid);
     alert.tags.add("amex");
     alert.tags.add("settlement");
-    alert.checks.add(createCheck(Status.OK, "Latest batch size was 1234."));
+    alert.addCheck(createCheck(Status.OK, "Latest batch size was 1234."));
     return alert;
   }
 

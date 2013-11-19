@@ -1,11 +1,12 @@
 package daniel.nagger.model;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
+import java.util.LinkedList;
 import java.util.Set;
 
 public class Alert {
+  private static final int MAX_CHECKS_TO_STORE = 100;
+
   public String uuid;
   public String name;
   public String description;
@@ -13,5 +14,11 @@ public class Alert {
   public String frequency;
   public Set<String> tags = new HashSet<>();
   public Set<String> recipientUuids = new HashSet<>();
-  public List<Check> checks = new ArrayList<>();
+  public LinkedList<Check> checks = new LinkedList<>();
+
+  public void addCheck(Check check) {
+    if (checks.size() >= MAX_CHECKS_TO_STORE)
+      checks.removeFirst();
+    checks.add(check);
+  }
 }

@@ -42,7 +42,7 @@ public class AlertProcessor {
             (int) (System.currentTimeMillis() - check.triggeredAtMillis);
         addCheckMessage.status = check.status = result.status;
         addCheckMessage.details = check.details = result.output;
-        alert.checks.add(check);
+        alert.addCheck(check);
         AlertStorage.updateAlert(alert);
 
         S2cMessage message = new S2cMessage();
