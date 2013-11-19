@@ -16,13 +16,13 @@ final class MultiwebHandler implements Handler {
   public static final MultiwebHandler singleton = new MultiwebHandler();
 
   private static final Handler hostBasedHandler = new HostBasedHandler.Builder()
+      .addHandlerForHost(".*nagger\\.lubarov\\.com.*", NaggerHandler.getHandler())
       .addHandlerForHost(".*daniel\\.lubarov\\.com.*", BlogHandler.getHandler())
       .addHandlerForHost(".*alex\\.lubarov\\.com.*", AlexResumeHandler.getHandler())
       .addHandlerForHost(".*viewheaders\\.com.*", ViewHeadersHandler.getHandler())
       .addHandlerForHost(".*jabberings\\.net.*", ChatHandler.getHandler())
       .addHandlerForHost(".*rpg\\.com.*", RpgHandler.getHandler())
       .addHandlerForHost(".*pokemon\\.com.*", PokemonHandler.getHandler())
-      .addHandlerForHost(".*nagger\\.com.*", NaggerHandler.getHandler())
       .build();
 
   private MultiwebHandler() {}
