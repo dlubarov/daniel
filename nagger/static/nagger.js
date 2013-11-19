@@ -83,7 +83,8 @@ function handleMessage(message) {
 function refreshAlert(alert) {
   var rows = document.getElementsByClassName('alert-' + alert.uuid);
   for (var i = 0; i < rows.length; ++i) {
-    rows[i].parentNode.replaceChild(rows[i], createRow(alert));
+    var row = rows[i];
+    row.parentNode.replaceChild(createRow(alert), row);
   }
 }
 
@@ -244,7 +245,7 @@ function createRow(alert) {
   tdSince.appendChild(document.createTextNode(since));
 
   var tr = document.createElement('tr');
-  tr.classNames = 'alert-' + alert.uuid;
+  tr.className = 'alert-' + alert.uuid;
   tr.appendChild(tdName);
   tr.appendChild(tdStatus);
   tr.appendChild(tdSince);
