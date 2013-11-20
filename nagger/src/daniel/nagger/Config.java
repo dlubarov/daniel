@@ -5,8 +5,8 @@ public final class Config {
 
   public static String getBaseUrl() {
     return inDevMode()
-        ? "http://nagger.lubarov.com.wopr:12345"
-        : "http://nagger.lubarov.com";
+        ? "http://nagger.daniel.lubarov.com.wopr:12345"
+        : "http://nagger.daniel.lubarov.com";
   }
 
   public static String getStaticContentRoot() {

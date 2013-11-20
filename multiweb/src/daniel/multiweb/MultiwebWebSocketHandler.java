@@ -10,7 +10,7 @@ final class MultiwebWebSocketHandler {
 
   public static WebSocketHandler getHandler() {
     return new HostBasedWebSocketHandler.Builder()
-        .addHandlerForHost(".*nagger\\.lubarov\\.com.*", NaggerWebSocketHandler.singleton)
+        .addHandlerForHost(".*nagger\\.daniel\\.lubarov\\.com.*", NaggerWebSocketHandler.singleton)
         .addHandlerForHost(".*jabberings\\.net.*", ChatWebSocketHandler.singleton)
         .build();
   }

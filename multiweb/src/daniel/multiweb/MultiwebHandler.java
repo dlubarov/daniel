@@ -16,7 +16,7 @@ final class MultiwebHandler implements Handler {
   public static final MultiwebHandler singleton = new MultiwebHandler();
 
   private static final Handler hostBasedHandler = new HostBasedHandler.Builder()
-      .addHandlerForHost(".*nagger\\.lubarov\\.com.*", NaggerHandler.getHandler())
+      .addHandlerForHost(".*nagger\\.daniel\\.lubarov\\.com.*", NaggerHandler.getHandler())
       .addHandlerForHost(".*daniel\\.lubarov\\.com.*", BlogHandler.getHandler())
       .addHandlerForHost(".*alex\\.lubarov\\.com.*", AlexResumeHandler.getHandler())
       .addHandlerForHost(".*viewheaders\\.com.*", ViewHeadersHandler.getHandler())

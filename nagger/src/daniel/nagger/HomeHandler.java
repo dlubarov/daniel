@@ -4,7 +4,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import daniel.data.option.Option;
 import daniel.nagger.model.Alert;
+import daniel.nagger.model.Recipient;
 import daniel.nagger.storage.AlertStorage;
+import daniel.nagger.storage.RecipientStorage;
 import daniel.web.html.Attribute;
 import daniel.web.html.Element;
 import daniel.web.html.JavaScriptUtils;
@@ -49,9 +51,14 @@ public final class HomeHandler implements PartialHandler {
 
   private static Element getBody() {
     Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
     Map<String, Alert> alertsByUuid = new HashMap<>();
     for (Alert alert : AlertStorage.getAllAlerts())
       alertsByUuid.put(alert.uuid, alert);
+
+    Map<String, Recipient> recipientsByUuid = new HashMap<>();
+    for (Recipient recipient : RecipientStorage.getAllRecipients())
+      recipientsByUuid.put(recipient.uuid, recipient);
 
     return new Element.Builder(Tag.BODY)
         .addChild(new Element.Builder(Tag.P)
@@ -60,6 +67,7 @@ public final class HomeHandler implements PartialHandler {
         .addChild(new Element.Builder(Tag.SCRIPT)
             .setAttribute(Attribute.TYPE, "text/javascript")
             .addEscapedText("var alerts = " + gson.toJson(alertsByUuid) + ";")
+            .addEscapedText("var recipients = " + gson.toJson(recipientsByUuid) + ";")
             .build())
         .build();
   }
