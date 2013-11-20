@@ -6,7 +6,12 @@ import com.google.gson.GsonBuilder;
 import daniel.data.set.MutableHashSet;
 import daniel.logging.Logger;
 import daniel.nagger.messages.c2s.C2sMessage;
+import daniel.nagger.messages.s2c.S2cEditAlertCommandMessage;
+import daniel.nagger.messages.s2c.S2cEditAlertDescriptionMessage;
+import daniel.nagger.messages.s2c.S2cEditAlertNameMessage;
 import daniel.nagger.messages.s2c.S2cMessage;
+import daniel.nagger.model.Alert;
+import daniel.nagger.storage.AlertStorage;
 import daniel.web.http.server.WebSocketHandler;
 import daniel.web.http.server.WebSocketManager;
 import daniel.web.http.websocket.WebSocketFrame;
@@ -46,8 +51,52 @@ public final class NaggerWebSocketHandler implements WebSocketHandler {
   @Override
   public void handle(WebSocketManager manager, WebSocketMessage message) {
     C2sMessage c2sMessage = gson.fromJson(new String(message.getData(), CHARSET), C2sMessage.class);
-    // TODO handle message
-    logger.warn("Unexpected incoming message %s from %s.", c2sMessage, manager);
+    if (c2sMessage.createAlert != null) {
+      // TODO handle message
+    }
+    if (c2sMessage.addCheck != null) {
+      // TODO handle message
+    }
+    if (c2sMessage.addTag != null) {
+      // TODO handle message
+    }
+    if (c2sMessage.editAlertName != null) {
+      String alertUuid = c2sMessage.editAlertName.alertUuid;
+      String newName = c2sMessage.editAlertName.newName;
+      Alert alert = AlertStorage.getAlertByUuid(alertUuid).getOrThrow("No such alert: " + alertUuid);
+      alert.name = newName;
+      AlertStorage.updateAlert(alert);
+
+      S2cMessage response = new S2cMessage();
+      response.editAlertName = new S2cEditAlertNameMessage();
+      response.editAlertName.alertUuid = alertUuid;
+      response.editAlertName.newName = newName;
+    }
+    if (c2sMessage.editAlertDescription != null) {
+      String alertUuid = c2sMessage.editAlertDescription.alertUuid;
+      String newDescription = c2sMessage.editAlertDescription.newDescription;
+      Alert alert = AlertStorage.getAlertByUuid(alertUuid).getOrThrow("No such alert: " + alertUuid);
+      alert.description = newDescription;
+      AlertStorage.updateAlert(alert);
+
+      S2cMessage response = new S2cMessage();
+      response.editAlertDescription = new S2cEditAlertDescriptionMessage();
+      response.editAlertDescription.alertUuid = alertUuid;
+      response.editAlertDescription.newDescription = newDescription;
+    }
+    if (c2sMessage.editAlertCommand != null) {
+      String alertUuid = c2sMessage.editAlertCommand.alertUuid;
+      String newCommand = c2sMessage.editAlertCommand.newCommand;
+      Alert alert = AlertStorage.getAlertByUuid(alertUuid).getOrThrow("No such alert: " + alertUuid);
+      alert.command = newCommand;
+      AlertStorage.updateAlert(alert);
+
+      S2cMessage response = new S2cMessage();
+      response.editAlertCommand = new S2cEditAlertCommandMessage();
+      response.editAlertCommand.alertUuid = alertUuid;
+      response.editAlertCommand.newCommand = newCommand;
+      broadcast(response);
+    }
   }
 
   public void broadcast(S2cMessage s2cMessage) {

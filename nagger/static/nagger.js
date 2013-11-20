@@ -1,3 +1,4 @@
+var MAX_CHECKS_TO_STORE = 20;
 var connection;
 
 Array.prototype.last = function() {
@@ -40,7 +41,6 @@ window.onload = function() {
 };
 
 function handleMessage(message) {
-  console.info(message);
   if (message.createAlert) {
     var createAlert = message.createAlert;
     var alert = {
@@ -63,8 +63,20 @@ function handleMessage(message) {
       status: addCheck.status,
       details: addCheck.details
     };
-    alerts[addCheck.alertUuid].checks.push(check);
-    refreshAlert(alerts[addCheck.alertUuid]);
+    alert = alerts[addCheck.alertUuid];
+    checks = alert.checks;
+    if (checks.length >= MAX_CHECKS_TO_STORE) {
+      checks.shift();
+    }
+    checks.push(check);
+
+    if (getRequestedResource().startsWith('/alert/' + alert.uuid)) {
+      var checkTables = document.getElementsByClassName('checks-table');
+      for (var i = 0; i < checkTables.length; ++i) {
+        var checkTable = checkTables[i];
+        checkTable.parentNode.replaceChild(generateCheckTable(alert.checks), checkTable);
+      }
+    }
   }
   if (message.addTag) {
     ;
@@ -76,7 +88,15 @@ function handleMessage(message) {
     ;
   }
   if (message.editAlertCommand) {
-    ;
+    var editAlertCommand = message.editAlertCommand;
+    var alert = alerts[editAlertCommand.alertUuid];
+    alert.command = editAlertCommand.newCommand;
+
+    if (getRequestedResource().startsWith('/alert/' + alert.uuid)) {
+      console.log(alert.command);
+      var editor = document.getElementsByClassName('command-editor')[0];
+      editor.value = alert.command;
+    }
   }
 }
 
@@ -147,15 +167,40 @@ function generateAlertView(alertUuid) {
   var div = document.createElement('div');
   div.appendChild(title);
   div.appendChild(desc);
+  div.appendChild(generateCommandSection(alert));
   div.appendChild(generateTagSection(alert.tags));
+  div.appendChild(generateChecksSection(alert.checks));
   return div;
 }
 
-function generateTagLink(tag) {
-  var link = document.createElement('a');
-  link.href = '/tag/' + tag;
-  link.appendChild(document.createTextNode(tag));
-  return link;
+function generateCommandSection(alert) {
+  var title = document.createElement('h3');
+  title.appendChild(document.createTextNode('Command'));
+
+  var editor = document.createElement('textarea');
+  editor.className = 'command-editor';
+  editor.value = alert.command;
+  editor.rows = 5;
+
+  var saveButton = document.createElement('button');
+  saveButton.appendChild(document.createTextNode('Save Command'));
+  saveButton.onclick = function() {
+    var message = {
+      editAlertCommand: {
+        alertUuid: alert.uuid,
+        newCommand: editor.value
+      }
+    };
+    console.log(message);
+    connection.send(JSON.stringify(message));
+  };
+
+  var div = document.createElement('div');
+  div.className = 'command';
+  div.appendChild(title);
+  div.appendChild(editor);
+  div.appendChild(saveButton);
+  return div;
 }
 
 function generateTagSection(tags) {
@@ -183,6 +228,70 @@ function generateTagList(tags) {
   return list;
 }
 
+function generateTagLink(tag) {
+  var link = document.createElement('a');
+  link.href = '/tag/' + tag;
+  link.appendChild(document.createTextNode(tag));
+  return link;
+}
+
+function generateChecksSection(checks) {
+  var title = document.createElement('h3');
+  title.appendChild(document.createTextNode('Recent Checks'));
+
+  var div = document.createElement('div');
+  div.className = 'checks';
+  div.appendChild(title);
+  div.appendChild(generateCheckTable(checks));
+  return div;
+}
+
+function generateCheckTable(checks) {
+  var headRow = document.createElement('tr');
+  headRow.appendChild(generateTh('Triggered'));
+  headRow.appendChild(generateTh('Duration'));
+  headRow.appendChild(generateTh('Status'));
+  headRow.appendChild(generateTh('Details'));
+  var thead = document.createElement('thead');
+  thead.appendChild(headRow);
+
+  var tbody = document.createElement('tbody');
+  for (var i = checks.length - 1; i >= 0; --i) {
+    tbody.appendChild(generateCheckRow(checks[i]));
+  }
+
+  var table = document.createElement('table');
+  table.className = 'hairlined checks-table';
+  table.appendChild(thead);
+  table.appendChild(tbody);
+  return table;
+}
+
+function generateCheckRow(check) {
+  var sinceTriggered = new Date().getTime() - check.triggeredAtMillis;
+  var tdTriggeredAt = document.createElement('td');
+  tdTriggeredAt.appendChild(document.createTextNode(reprInterval(sinceTriggered) + ' ago'));
+
+  var tdDurationMillis = document.createElement('td');
+  tdDurationMillis.appendChild(document.createTextNode(reprInterval(check.durationMillis)));
+
+  var tdStatus = document.createElement('td');
+  if (check.status) {
+    tdStatus.className = "status-" + check.status.toLowerCase();
+  }
+  tdStatus.appendChild(document.createTextNode(check.status));
+
+  var tdDetails = document.createElement('td');
+  tdDetails.appendChild(document.createTextNode(check.details));
+
+  var tr = document.createElement('tr');
+  tr.appendChild(tdTriggeredAt);
+  tr.appendChild(tdDurationMillis);
+  tr.appendChild(tdStatus);
+  tr.appendChild(tdDetails);
+  return tr;
+}
+
 function generate404() {
   var p = document.createElement('p');
   p.appendChild(document.createTextNode('Not found.'));
@@ -194,7 +303,7 @@ function generateTable() {
   var tbody = generateTbody();
 
   var table = document.createElement('table');
-  table.className = 'alerts';
+  table.className = 'hairlined';
   table.appendChild(thead);
   table.appendChild(tbody);
   return table;
@@ -227,11 +336,15 @@ function generateTbody() {
 function createRow(alert) {
   var lastCheck = alert.checks.last();
   var status = lastCheck ? lastCheck.status : '';
-  var since = lastCheck ? reprInterval(new Date().getTime() - lastCheck.triggeredAtMillis) : '';
+  var since = lastCheck ? reprInterval(new Date().getTime() - lastCheck.triggeredAtMillis) + ' ago' : '';
 
   var link = document.createElement('a');
   link.appendChild(document.createTextNode(alert.name));
-  link.href = 'javascript:loadPage("/alert/' + alert.uuid + '");';
+  link.href = '/alert/' + alert.uuid;
+  link.onclick = function() {
+    loadPage('/alert/' + alert.uuid);
+    return false;
+  };
   var tdName = document.createElement('td');
   tdName.appendChild(link);
 
@@ -259,19 +372,22 @@ function reprInterval(millis) {
   var days = Math.floor(hours / 24);
 
   if (days) {
-    return days + ' day' + plural(days) + ' ago';
+    return days + ' day' + plural(days);
   }
   if (hours) {
-    return hours + ' hour' + plural(hours) + ' ago';
+    return hours + ' hour' + plural(hours);
   }
   if (minutes) {
-    return minutes + ' minute' + plural(minutes) + ' ago';
+    return minutes + ' minute' + plural(minutes);
   }
   if (seconds) {
-    return seconds + ' second' + plural(seconds) + ' ago';
+    return seconds + ' second' + plural(seconds);
+  }
+  if (millis) {
+    return millis + ' ms';
   }
 
-  return "a moment ago";
+  return 'a moment';
 }
 
 function plural(n) {

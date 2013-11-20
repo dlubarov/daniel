@@ -33,8 +33,8 @@ public class TestData {
     Alert alert = new Alert();
     alert.uuid = UuidUtils.randomAlphanumericUuid();
     alert.name = "Random Alert";
-    alert.description = "Randomly switches between OK, WARNING and CRITICAL";
-    alert.command = "case $(($RANDOM % 3)) in 0) echo 'ok'; exit 0;; 1) echo 'warning'; exit 1;; 2) echo 'critical'; exit 2;; esac";
+    alert.description = "Randomly switches between OK, WARNING and CRITICAL.";
+    alert.command = "case $(($RANDOM % 3)) in 0) echo 'Randomly decided to return OK.'; exit 0;; 1) echo 'Randomly decided to return WARNING.'; exit 1;; 2) echo 'Randomly decided to return CRITICAL.'; exit 2;; esac";
     alert.frequency = "2 seconds";
     alert.recipientUuids.add(recipientUuid);
     alert.addCheck(createCheck(Status.OK, "All good."));

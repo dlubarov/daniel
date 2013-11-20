@@ -25,17 +25,17 @@ public class AlertProcessor {
 
   public AlertProcessor() {
     for (Alert alert : AlertStorage.getAllAlerts()) {
-      startProcessing(alert);
+      startProcessing(alert.uuid);
     }
   }
 
-  public void startProcessing(final Alert alert) {
-    final Frequency frequency = FrequencyParser.parse(alert.frequency);
+  public void startProcessing(final String alertUuid) {
     Runnable task = new Runnable() {
       @Override public void run() {
+        Alert alert = AlertStorage.getAlertByUuid(alertUuid).getOrThrow();
         Check check = new Check();
         S2cAddCheckMessage addCheckMessage = new S2cAddCheckMessage();
-        addCheckMessage.alertUuid = alert.uuid;
+        addCheckMessage.alertUuid = alertUuid;
         addCheckMessage.triggeredAtMillis = check.triggeredAtMillis = System.currentTimeMillis();
         CommandResult result = CommandExecutor.execute(alert.command);
         addCheckMessage.durationMillis = check.durationMillis =
@@ -49,6 +49,7 @@ public class AlertProcessor {
         message.addCheck = addCheckMessage;
         NaggerWebSocketHandler.singleton.broadcast(message);
 
+        Frequency frequency = FrequencyParser.parse(alert.frequency);
         executorService.schedule(this, frequency.amount, frequency.unit);
       }
     };

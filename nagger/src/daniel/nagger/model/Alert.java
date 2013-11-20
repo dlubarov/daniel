@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.Set;
 
 public class Alert {
-  private static final int MAX_CHECKS_TO_STORE = 100;
+  private static final int MAX_CHECKS_TO_STORE = 20;
 
   public String uuid;
   public String name;
