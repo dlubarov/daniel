@@ -11,6 +11,7 @@ import daniel.nagger.messages.c2s.C2sEditAlertCommandMessage;
 import daniel.nagger.messages.c2s.C2sEditAlertDescriptionMessage;
 import daniel.nagger.messages.c2s.C2sEditAlertNameMessage;
 import daniel.nagger.messages.c2s.C2sMessage;
+import daniel.nagger.messages.s2c.S2cCreateAlertMessage;
 import daniel.nagger.messages.s2c.S2cEditAlertCommandMessage;
 import daniel.nagger.messages.s2c.S2cEditAlertDescriptionMessage;
 import daniel.nagger.messages.s2c.S2cEditAlertNameMessage;
@@ -78,6 +79,19 @@ public final class NaggerWebSocketHandler implements WebSocketHandler {
     alert.frequency = createAlert.frequency;
     alert.recipientUuids = createAlert.recipientUuids;
     alert.tags = createAlert.tags;
+
+    AlertStorage.saveNewAlert(alert);
+    AlertProcessor.singleton.startProcessing(alert.uuid);
+
+    S2cMessage response = new S2cMessage();
+    response.createAlert = new S2cCreateAlertMessage();
+    response.createAlert.uuid = alert.uuid;
+    response.createAlert.name = alert.name;
+    response.createAlert.description = alert.description;
+    response.createAlert.command = alert.command;
+    response.createAlert.frequency = alert.frequency;
+    response.createAlert.recipientUuids = alert.recipientUuids;
+    response.createAlert.tags = alert.tags;
   }
 
   private void handle(C2sAddTagMessage addTag) {

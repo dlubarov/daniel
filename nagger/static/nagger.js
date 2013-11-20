@@ -49,11 +49,11 @@ function handleMessage(message) {
       description: createAlert.description,
       command: createAlert.command,
       frequency: createAlert.frequency,
-      tags: [],
-      recipientUuids: [],
+      tags: createAlert.tags,
+      recipientUuids: createAlert.recipientUuids,
       checks: []
     }
-    refresh();
+    refresh(); // TODO
   }
   if (message.addCheck) {
     var addCheck = message.addCheck;
@@ -70,6 +70,7 @@ function handleMessage(message) {
     }
     checks.push(check);
 
+    refreshAlert(alert);
     if (getRequestedResource().startsWith('/alert/' + alert.uuid)) {
       var checkTables = document.getElementsByClassName('checks-table');
       for (var i = 0; i < checkTables.length; ++i) {
@@ -79,21 +80,24 @@ function handleMessage(message) {
     }
   }
   if (message.addTag) {
-    ;
+    // TODO
+    refreshAlert(alert);
   }
   if (message.editAlertName) {
-    ;
+    // TODO
+    refreshAlert(alert);
   }
   if (message.editAlertDescription) {
-    ;
+    // TODO
+    refreshAlert(alert);
   }
   if (message.editAlertCommand) {
     var editAlertCommand = message.editAlertCommand;
     var alert = alerts[editAlertCommand.alertUuid];
     alert.command = editAlertCommand.newCommand;
 
+    refreshAlert(alert);
     if (getRequestedResource().startsWith('/alert/' + alert.uuid)) {
-      console.log(alert.command);
       var editor = document.getElementsByClassName('command-editor')[0];
       editor.value = alert.command;
     }
@@ -124,13 +128,14 @@ function loadPage(resource) {
   }
   body.appendChild(getTitle());
   body.appendChild(content);
+  body.appendChild(getCreateAlertLink());
 
   window.history.pushState("Foo", "Nagger - " + resource, resource);
 }
 
 function getTitle() {
   var titleLink = document.createElement('a');
-  titleLink.href = 'javascript:loadPage("/");';
+  titleLink.href = 'javascript:loadPage("/");'; // TODO
   titleLink.appendChild(document.createTextNode('Nagger'));
 
   var titleHeader = document.createElement('h1');
@@ -138,6 +143,17 @@ function getTitle() {
   return titleHeader;
 }
 
+function getCreateAlertLink() {
+  var a = document.createElement('a');
+  a.href = 'javascript:loadPage("/create-alert");'; // TODO
+  a.appendChild(document.createTextNode('Create New Alert'));
+
+  var p = document.createElement('p');
+  p.appendChild(a);
+  return p;
+}
+
+// TODO: Should never do this since we lose input.
 function refresh() {
   loadPage(getRequestedResource());
 }
@@ -146,10 +162,18 @@ function getContent(resource) {
   if (resource == '/') {
     return generateTable();
   }
+  if (resource.startsWith('/create-alert')) {
+    return generateCreateAlertForm();
+  }
   if (resource.startsWith('/alert/')) {
     return generateAlertView(resource.substring('/alert/'.length));
   }
   return generate404();
+}
+
+function generateCreateAlertForm() {
+  var div = document.createElement('div');
+  return div;
 }
 
 function generateAlertView(alertUuid) {
@@ -191,7 +215,6 @@ function generateCommandSection(alert) {
         newCommand: editor.value
       }
     };
-    console.log(message);
     connection.send(JSON.stringify(message));
   };
 

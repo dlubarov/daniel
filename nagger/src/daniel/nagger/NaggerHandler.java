@@ -12,7 +12,7 @@ public final class NaggerHandler {
 
   public static Handler getHandler() {
     TestData.init();
-    new AlertProcessor();
+    AlertProcessor.singleton.initialize();
     return new DelegatingHandler.Builder()
         .addPartialHandler(WwwRemovingHandler.singleton)
         .addPartialHandler(new StaticContentHandler.Builder()

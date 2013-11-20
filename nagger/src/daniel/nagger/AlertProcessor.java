@@ -11,7 +11,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadFactory;
 
-public class AlertProcessor {
+public final class AlertProcessor {
+  public static final AlertProcessor singleton = new AlertProcessor();
+
   private final ScheduledExecutorService executorService = Executors.newScheduledThreadPool(10,
       new ThreadFactory() {
         @Override
@@ -23,7 +25,9 @@ public class AlertProcessor {
         }
   });
 
-  public AlertProcessor() {
+  private AlertProcessor() {}
+
+  public void initialize() {
     for (Alert alert : AlertStorage.getAllAlerts()) {
       startProcessing(alert.uuid);
     }
