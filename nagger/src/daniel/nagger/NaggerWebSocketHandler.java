@@ -15,6 +15,7 @@ import daniel.nagger.messages.s2c.S2cCreateAlertMessage;
 import daniel.nagger.messages.s2c.S2cEditAlertCommandMessage;
 import daniel.nagger.messages.s2c.S2cEditAlertDescriptionMessage;
 import daniel.nagger.messages.s2c.S2cEditAlertNameMessage;
+import daniel.nagger.messages.s2c.S2cJumpToAlertMessage;
 import daniel.nagger.messages.s2c.S2cMessage;
 import daniel.nagger.model.Alert;
 import daniel.nagger.storage.AlertStorage;
@@ -35,7 +36,8 @@ public final class NaggerWebSocketHandler implements WebSocketHandler {
   private static final Gson gson = new GsonBuilder()
       .setFieldNamingPolicy(FieldNamingPolicy.IDENTITY)
       .create();
-  public static final Charset CHARSET = StandardCharsets.US_ASCII;
+
+  public static final Charset CHARSET = StandardCharsets.UTF_8;
 
   private final MutableHashSet<WebSocketManager> activeClients;
 
@@ -59,7 +61,7 @@ public final class NaggerWebSocketHandler implements WebSocketHandler {
   public void handle(WebSocketManager manager, WebSocketMessage message) {
     C2sMessage c2sMessage = gson.fromJson(new String(message.getData(), CHARSET), C2sMessage.class);
     if (c2sMessage.createAlert != null)
-      handle(c2sMessage.createAlert);
+      handle(manager, c2sMessage.createAlert);
     if (c2sMessage.addTag != null)
       handle(c2sMessage.addTag);
     if (c2sMessage.editAlertName != null)
@@ -70,7 +72,7 @@ public final class NaggerWebSocketHandler implements WebSocketHandler {
       handle(c2sMessage.editAlertCommand);
   }
 
-  private void handle(C2sCreateAlertMessage createAlert) {
+  private void handle(WebSocketManager client, C2sCreateAlertMessage createAlert) {
     Alert alert = new Alert();
     alert.uuid = UuidUtils.randomAlphanumericUuid();
     alert.name = createAlert.name;
@@ -83,15 +85,21 @@ public final class NaggerWebSocketHandler implements WebSocketHandler {
     AlertStorage.saveNewAlert(alert);
     AlertProcessor.singleton.startProcessing(alert.uuid);
 
-    S2cMessage response = new S2cMessage();
-    response.createAlert = new S2cCreateAlertMessage();
-    response.createAlert.uuid = alert.uuid;
-    response.createAlert.name = alert.name;
-    response.createAlert.description = alert.description;
-    response.createAlert.command = alert.command;
-    response.createAlert.frequency = alert.frequency;
-    response.createAlert.recipientUuids = alert.recipientUuids;
-    response.createAlert.tags = alert.tags;
+    S2cMessage generalUpdate = new S2cMessage();
+    generalUpdate.createAlert = new S2cCreateAlertMessage();
+    generalUpdate.createAlert.uuid = alert.uuid;
+    generalUpdate.createAlert.name = alert.name;
+    generalUpdate.createAlert.description = alert.description;
+    generalUpdate.createAlert.command = alert.command;
+    generalUpdate.createAlert.frequency = alert.frequency;
+    generalUpdate.createAlert.recipientUuids = alert.recipientUuids;
+    generalUpdate.createAlert.tags = alert.tags;
+    broadcast(generalUpdate);
+
+    S2cMessage responseToCreator = new S2cMessage();
+    responseToCreator.jumpToAlert = new S2cJumpToAlertMessage();
+    responseToCreator.jumpToAlert.alertUuid = alert.uuid;
+    send(client, responseToCreator);
   }
 
   private void handle(C2sAddTagMessage addTag) {
@@ -140,10 +148,14 @@ public final class NaggerWebSocketHandler implements WebSocketHandler {
 
   public void broadcast(S2cMessage s2cMessage) {
     for (WebSocketManager client : activeClients)
-      client.send(new WebSocketFrame.Builder()
-          .setFinalFragment(true)
-          .setOpcode(WebSocketOpcode.TEXT_FRAME)
-          .setPayload(gson.toJson(s2cMessage).getBytes(CHARSET))
-          .build());
+      send(client, s2cMessage);
+  }
+
+  public void send(WebSocketManager client, S2cMessage s2cMessage) {
+    client.send(new WebSocketFrame.Builder()
+        .setFinalFragment(true)
+        .setOpcode(WebSocketOpcode.TEXT_FRAME)
+        .setPayload(gson.toJson(s2cMessage).getBytes(CHARSET))
+        .build());
   }
 }

@@ -7,4 +7,5 @@ public class S2cMessage {
   public S2cEditAlertNameMessage editAlertName;
   public S2cEditAlertDescriptionMessage editAlertDescription;
   public S2cEditAlertCommandMessage editAlertCommand;
+  public S2cJumpToAlertMessage jumpToAlert;
 }

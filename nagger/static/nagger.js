@@ -41,6 +41,9 @@ window.onload = function() {
 };
 
 function handleMessage(message) {
+  if (!message.addCheck) {
+    console.log(message);
+  }
   if (message.createAlert) {
     var createAlert = message.createAlert;
     var alert = {
@@ -53,6 +56,7 @@ function handleMessage(message) {
       recipientUuids: createAlert.recipientUuids,
       checks: []
     }
+    alerts[alert.uuid] = alert;
     refresh(); // TODO
   }
   if (message.addCheck) {
@@ -102,6 +106,9 @@ function handleMessage(message) {
       editor.value = alert.command;
     }
   }
+  if (message.jumpToAlert) {
+    loadPage('/alert/' + message.jumpToAlert.alertUuid);
+  }
 }
 
 function refreshAlert(alert) {
@@ -149,6 +156,9 @@ function getCreateAlertLink() {
   a.appendChild(document.createTextNode('Create New Alert'));
 
   var p = document.createElement('p');
+  p.style.textAlign = 'center';
+  p.style.marginTop = '0.5em';
+  p.style.marginBottom = '1em';
   p.appendChild(a);
   return p;
 }
@@ -172,7 +182,52 @@ function getContent(resource) {
 }
 
 function generateCreateAlertForm() {
+  var header = document.createElement('h2');
+  header.appendChild(document.createTextNode('Create New Alert'));
+
+  var nameBox = document.createElement('input');
+  nameBox.type = 'text';
+  nameBox.placeholder = 'alert name';
+
+  var descriptionBox = document.createElement('input');
+  descriptionBox.type = 'text';
+  descriptionBox.placeholder = 'description';
+
+  var commandBox = document.createElement('textarea');
+  commandBox.rows = 5;
+  commandBox.className = 'command-editor';
+  commandBox.placeholder = 'command to run';
+
+  var frequencyBox = document.createElement('input');
+  frequencyBox.type = 'text';
+  frequencyBox.placeholder = 'frequency';
+
+  var createButton = document.createElement('button');
+  createButton.appendChild(document.createTextNode('Create'));
+  createButton.onclick = function() {
+    var message = {
+      createAlert: {
+        name: nameBox.value,
+        description: descriptionBox.value,
+        command: commandBox.value,
+        frequency: frequencyBox.value,
+        tags: [], // TODO
+        recipientUuids: [] // TODO
+      }
+    };
+    connection.send(JSON.stringify(message));
+
+    // TODO: gray out form.
+  }
+
   var div = document.createElement('div');
+  div.className = 'create-alert';
+  div.appendChild(header);
+  div.appendChild(nameBox);
+  div.appendChild(descriptionBox);
+  div.appendChild(commandBox);
+  div.appendChild(frequencyBox);
+  div.appendChild(createButton);
   return div;
 }
 
