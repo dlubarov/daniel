@@ -11,6 +11,7 @@ import daniel.nagger.messages.c2s.C2sEditAlertCommandMessage;
 import daniel.nagger.messages.c2s.C2sEditAlertDescriptionMessage;
 import daniel.nagger.messages.c2s.C2sEditAlertNameMessage;
 import daniel.nagger.messages.c2s.C2sMessage;
+import daniel.nagger.messages.s2c.S2cAddTagMessage;
 import daniel.nagger.messages.s2c.S2cCreateAlertMessage;
 import daniel.nagger.messages.s2c.S2cEditAlertCommandMessage;
 import daniel.nagger.messages.s2c.S2cEditAlertDescriptionMessage;
@@ -103,47 +104,55 @@ public final class NaggerWebSocketHandler implements WebSocketHandler {
   }
 
   private void handle(C2sAddTagMessage addTag) {
-    // TODO
+    Alert alert = AlertStorage.getAlertByUuid(addTag.alertUuid)
+        .getOrThrow("No such alert: " + addTag.alertUuid);
+    alert.tags.add(addTag.tag);
+    AlertStorage.updateAlert(alert);
+
+    S2cMessage generalUpdate = new S2cMessage();
+    generalUpdate.addTag = new S2cAddTagMessage();
+    generalUpdate.addTag.alertUuid = addTag.alertUuid;
+    generalUpdate.addTag.tag = addTag.tag;
+    broadcast(generalUpdate);
   }
 
   private void handle(C2sEditAlertNameMessage editAlertName) {
-    String alertUuid = editAlertName.alertUuid;
-    String newName = editAlertName.newName;
-    Alert alert = AlertStorage.getAlertByUuid(alertUuid).getOrThrow("No such alert: " + alertUuid);
-    alert.name = newName;
+    Alert alert = AlertStorage.getAlertByUuid(editAlertName.alertUuid)
+        .getOrThrow("No such alert: " + editAlertName.alertUuid);
+    alert.name = editAlertName.newName;
     AlertStorage.updateAlert(alert);
 
-    S2cMessage response = new S2cMessage();
-    response.editAlertName = new S2cEditAlertNameMessage();
-    response.editAlertName.alertUuid = alertUuid;
-    response.editAlertName.newName = newName;
+    S2cMessage generalUpdate = new S2cMessage();
+    generalUpdate.editAlertName = new S2cEditAlertNameMessage();
+    generalUpdate.editAlertName.alertUuid = editAlertName.alertUuid;
+    generalUpdate.editAlertName.newName = editAlertName.newName;
+    broadcast(generalUpdate);
   }
 
   private void handle(C2sEditAlertDescriptionMessage editAlertDescription) {
-    String alertUuid = editAlertDescription.alertUuid;
-    String newDescription = editAlertDescription.newDescription;
-    Alert alert = AlertStorage.getAlertByUuid(alertUuid).getOrThrow("No such alert: " + alertUuid);
-    alert.description = newDescription;
+    Alert alert = AlertStorage.getAlertByUuid(editAlertDescription.alertUuid)
+        .getOrThrow("No such alert: " + editAlertDescription.alertUuid);
+    alert.description = editAlertDescription.newDescription;
     AlertStorage.updateAlert(alert);
 
-    S2cMessage response = new S2cMessage();
-    response.editAlertDescription = new S2cEditAlertDescriptionMessage();
-    response.editAlertDescription.alertUuid = alertUuid;
-    response.editAlertDescription.newDescription = newDescription;
+    S2cMessage generalUpdate = new S2cMessage();
+    generalUpdate.editAlertDescription = new S2cEditAlertDescriptionMessage();
+    generalUpdate.editAlertDescription.alertUuid = editAlertDescription.alertUuid;
+    generalUpdate.editAlertDescription.newDescription = editAlertDescription.newDescription;
+    broadcast(generalUpdate);
   }
 
   private void handle(C2sEditAlertCommandMessage editAlertCommand) {
-    String alertUuid = editAlertCommand.alertUuid;
-    String newCommand = editAlertCommand.newCommand;
-    Alert alert = AlertStorage.getAlertByUuid(alertUuid).getOrThrow("No such alert: " + alertUuid);
-    alert.command = newCommand;
+    Alert alert = AlertStorage.getAlertByUuid(editAlertCommand.alertUuid)
+        .getOrThrow("No such alert: " + editAlertCommand.alertUuid);
+    alert.command = editAlertCommand.newCommand;
     AlertStorage.updateAlert(alert);
 
-    S2cMessage response = new S2cMessage();
-    response.editAlertCommand = new S2cEditAlertCommandMessage();
-    response.editAlertCommand.alertUuid = alertUuid;
-    response.editAlertCommand.newCommand = newCommand;
-    broadcast(response);
+    S2cMessage generalUpdate = new S2cMessage();
+    generalUpdate.editAlertCommand = new S2cEditAlertCommandMessage();
+    generalUpdate.editAlertCommand.alertUuid = editAlertCommand.alertUuid;
+    generalUpdate.editAlertCommand.newCommand = editAlertCommand.newCommand;
+    broadcast(generalUpdate);
   }
 
   public void broadcast(S2cMessage s2cMessage) {

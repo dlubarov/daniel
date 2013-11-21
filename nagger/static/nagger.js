@@ -74,7 +74,7 @@ function handleMessage(message) {
     }
     checks.push(check);
 
-    refreshAlert(alert);
+    refreshAlertRow(alert);
     if (getRequestedResource().startsWith('/alert/' + alert.uuid)) {
       var checkTables = document.getElementsByClassName('checks-table');
       for (var i = 0; i < checkTables.length; ++i) {
@@ -84,23 +84,31 @@ function handleMessage(message) {
     }
   }
   if (message.addTag) {
-    // TODO
-    refreshAlert(alert);
+    var addTag = message.addTag;
+    var alert = alerts[addTag.alertUuid];
+    alert.tags.push(addTag.tag);
+
+    if (getRequestedResource().startsWith('/alert/' + alert.uuid)) {
+      var li = document.createElement('li');
+      li.appendChild(generateTagLink(addTag.tag));
+      var tagList = document.getElementsByClassName('tag-list')[0];
+      tagList.appendChild(li);
+    }
   }
   if (message.editAlertName) {
     // TODO
-    refreshAlert(alert);
+    refreshAlertRow(alert);
   }
   if (message.editAlertDescription) {
     // TODO
-    refreshAlert(alert);
+    refreshAlertRow(alert);
   }
   if (message.editAlertCommand) {
     var editAlertCommand = message.editAlertCommand;
     var alert = alerts[editAlertCommand.alertUuid];
     alert.command = editAlertCommand.newCommand;
 
-    refreshAlert(alert);
+    refreshAlertRow(alert);
     if (getRequestedResource().startsWith('/alert/' + alert.uuid)) {
       var editor = document.getElementsByClassName('command-editor')[0];
       editor.value = alert.command;
@@ -111,7 +119,7 @@ function handleMessage(message) {
   }
 }
 
-function refreshAlert(alert) {
+function refreshAlertRow(alert) {
   var rows = document.getElementsByClassName('alert-' + alert.uuid);
   for (var i = 0; i < rows.length; ++i) {
     var row = rows[i];
@@ -170,7 +178,10 @@ function refresh() {
 
 function getContent(resource) {
   if (resource == '/') {
-    return generateTable();
+    return generateAlertTable(null);
+  }
+  if (resource.startsWith('/tag/')) {
+    return generateAlertTable(resource.substring('/tag/'.length));
   }
   if (resource.startsWith('/create-alert')) {
     return generateCreateAlertForm();
@@ -247,7 +258,7 @@ function generateAlertView(alertUuid) {
   div.appendChild(title);
   div.appendChild(desc);
   div.appendChild(generateCommandSection(alert));
-  div.appendChild(generateTagSection(alert.tags));
+  div.appendChild(generateTagSection(alert));
   div.appendChild(generateChecksSection(alert.checks));
   return div;
 }
@@ -281,23 +292,39 @@ function generateCommandSection(alert) {
   return div;
 }
 
-function generateTagSection(tags) {
+function generateTagSection(alert) {
   var title = document.createElement('h3');
   title.appendChild(document.createTextNode('Tags'));
 
   var textbox = document.createElement('input');
   textbox.placeholder = 'new tag';
+  textbox.onkeypress = function(e) {
+    e = e || window.event;
+    var keyCode = e.keyCode || e.which;
+    if (keyCode == '13') {
+      var message = {
+        addTag: {
+          alertUuid: alert.uuid,
+          tag: textbox.value
+        }
+      };
+      connection.send(JSON.stringify(message));
+      textbox.value = '';
+      return false;
+    }
+  }
 
   var div = document.createElement('div');
   div.className = 'tags';
   div.appendChild(title);
-  div.appendChild(generateTagList(tags));
+  div.appendChild(generateTagList(alert.tags));
   div.appendChild(textbox);
   return div;
 }
 
 function generateTagList(tags) {
   var list = document.createElement('ul');
+  list.className = 'tag-list';
   for (var i = 0; i < tags.length; ++i) {
     var li = document.createElement('li');
     li.appendChild(generateTagLink(tags[i]));
@@ -376,9 +403,9 @@ function generate404() {
   return p;
 }
 
-function generateTable() {
-  var thead = generateThead();
-  var tbody = generateTbody();
+function generateAlertTable(tag) {
+  var thead = generateAlertThead();
+  var tbody = generateAlertTbody(tag);
 
   var table = document.createElement('table');
   table.className = 'hairlined';
@@ -387,7 +414,7 @@ function generateTable() {
   return table;
 }
 
-function generateThead() {
+function generateAlertThead() {
   var tr = document.createElement('tr');
   tr.appendChild(generateTh('alert'));
   tr.appendChild(generateTh('status'));
@@ -403,10 +430,14 @@ function generateTh(text) {
   return th;
 }
 
-function generateTbody() {
+function generateAlertTbody(tag) {
   var tbody = document.createElement('tbody');
   for (var alertUuid in alerts) {
-    tbody.appendChild(createRow(alerts[alertUuid]));
+    var alert = alerts[alertUuid];
+    var exclude = tag && alert.tags.indexOf(tag) == -1;
+    if (!exclude) {
+      tbody.appendChild(createRow(alerts[alertUuid]));
+    }
   }
   return tbody;
 }
