@@ -118,14 +118,33 @@ function handleMessage(message) {
       editor.value = alert.command;
     }
   }
-  if (message.jumpToAlert) {
-    loadPage('/alert/' + message.jumpToAlert.alertUuid);
+  if (message.createRecipient) {
+    var createRecipient = message.createRecipient;
+    var recipient = {
+      uuid: createRecipient.uuid,
+      name: createRecipient.name,
+      command: createRecipient.command
+    };
+    recipients[recipient.uuid] = recipient;
+    refresh(); // TODO
+  }
+  if (message.addRecipient) {
+    var addRecipient = message.addRecipient;
+    var alert = alerts[addRecipient.alertUuid];
+    alert.recipientUuids.push(addRecipient.recipientUuid);
+    refresh(); // TODO
   }
   if (message.editRecipientCommand) {
     var editRecipientCommand = message.editRecipientCommand;
     var recipient = recipients[editRecipientCommand.recipientUuid];
     recipient.command = editRecipientCommand.newCommand;
     refresh(); // TODO
+  }
+  if (message.jumpToAlert) {
+    loadPage('/alert/' + message.jumpToAlert.alertUuid);
+  }
+  if (message.jumpToRecipient) {
+    loadPage('/recipient/' + message.jumpToRecipient.recipientUuid);
   }
 }
 
@@ -177,15 +196,21 @@ function getTitle() {
 }
 
 function getCreateAlertLink() {
-  var a = document.createElement('a');
-  a.href = 'javascript:loadPage("/create-alert");'; // TODO
-  a.appendChild(document.createTextNode('Create New Alert'));
+  var aAlert = document.createElement('a');
+  aAlert.href = 'javascript:loadPage("/create-alert");'; // TODO
+  aAlert.appendChild(document.createTextNode('Create New Alert'));
+
+  var aRecipient = document.createElement('a');
+  aRecipient.href = 'javascript:loadPage("/create-recipient");'; // TODO
+  aRecipient.appendChild(document.createTextNode('Create New Recipient'));
 
   var p = document.createElement('p');
   p.style.textAlign = 'center';
   p.style.marginTop = '0.5em';
   p.style.marginBottom = '1em';
-  p.appendChild(a);
+  p.appendChild(aAlert);
+  p.appendChild(document.createTextNode(' ' + String.fromCharCode(183) + ' '));
+  p.appendChild(aRecipient);
   return p;
 }
 
@@ -204,6 +229,9 @@ function getContent(resource) {
   }
   if (resource.startsWith('/create-alert')) {
     return generateCreateAlertForm();
+  }
+  if (resource.startsWith('/create-recipient')) {
+    return generateCreateRecipientForm();
   }
   if (resource.startsWith('/alert/')) {
     return generateAlertView(resource.substring('/alert/'.length));
@@ -338,6 +366,42 @@ function generateCreateAlertForm() {
   return div;
 }
 
+function generateCreateRecipientForm() {
+  var header = document.createElement('h2');
+  header.appendChild(document.createTextNode('Create New Recipient'));
+
+  var nameBox = document.createElement('input');
+  nameBox.type = 'text';
+  nameBox.placeholder = 'name';
+
+  var commandBox = document.createElement('textarea');
+  commandBox.rows = 5;
+  commandBox.className = 'command-editor';
+  commandBox.placeholder = 'command to run';
+
+  var createButton = document.createElement('button');
+  createButton.appendChild(document.createTextNode('Create'));
+  createButton.onclick = function() {
+    var message = {
+      createRecipient: {
+        name: nameBox.value,
+        command: commandBox.value
+      }
+    };
+    connection.send(JSON.stringify(message));
+
+    // TODO: gray out form.
+  }
+
+  var div = document.createElement('div');
+  div.className = 'create-alert';
+  div.appendChild(header);
+  div.appendChild(nameBox);
+  div.appendChild(commandBox);
+  div.appendChild(createButton);
+  return div;
+}
+
 function generateAlertView(alertUuid) {
   var alert = alerts[alertUuid];
   if (!alert) {
@@ -405,6 +469,7 @@ function generateRecipientSection(alert) {
 
   var textbox = document.createElement('input');
   textbox.type = 'text';
+  textbox.setAttribute('list', 'recipient-options');
   textbox.placeholder = 'new recipient';
   textbox.onkeypress = function(e) {
     e = e || window.event;
@@ -425,11 +490,20 @@ function generateRecipientSection(alert) {
     }
   }
 
+  var datalist = document.createElement('datalist');
+  datalist.id = 'recipient-options';
+  for (var recipientUuid in recipients) {
+    var option = document.createElement('option');
+    option.value = recipients[recipientUuid].name;
+    datalist.appendChild(option);
+  }
+
   var div = document.createElement('div');
   div.className = 'recipients';
   div.appendChild(title);
   div.appendChild(generateRecipientList(alert.recipientUuids));
   div.appendChild(textbox);
+  div.appendChild(datalist);
   return div;
 }
 

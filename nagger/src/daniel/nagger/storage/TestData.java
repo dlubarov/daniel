@@ -151,8 +151,8 @@ public class TestData {
   private static void createRecipient() {
     Recipient recipient = new Recipient();
     recipient.uuid = RECIPIENT_UUID;
-    recipient.name = "Daniel";
-    recipient.command = "sendmail daniel@lubarov.com";
+    recipient.name = "Payments Team";
+    recipient.command = "sendmail payments-robots@squareup.com";
     RecipientStorage.saveNewRecipient(recipient);
   }
 

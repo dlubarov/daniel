@@ -14,13 +14,16 @@ import daniel.nagger.messages.c2s.C2sEditAlertDescriptionMessage;
 import daniel.nagger.messages.c2s.C2sEditAlertNameMessage;
 import daniel.nagger.messages.c2s.C2sEditRecipientCommandMessage;
 import daniel.nagger.messages.c2s.C2sMessage;
+import daniel.nagger.messages.s2c.S2cAddRecipientMessage;
 import daniel.nagger.messages.s2c.S2cAddTagMessage;
 import daniel.nagger.messages.s2c.S2cCreateAlertMessage;
+import daniel.nagger.messages.s2c.S2cCreateRecipientMessage;
 import daniel.nagger.messages.s2c.S2cEditAlertCommandMessage;
 import daniel.nagger.messages.s2c.S2cEditAlertDescriptionMessage;
 import daniel.nagger.messages.s2c.S2cEditAlertNameMessage;
 import daniel.nagger.messages.s2c.S2cEditRecipientCommandMessage;
 import daniel.nagger.messages.s2c.S2cJumpToAlertMessage;
+import daniel.nagger.messages.s2c.S2cJumpToRecipientMessage;
 import daniel.nagger.messages.s2c.S2cMessage;
 import daniel.nagger.model.Alert;
 import daniel.nagger.model.Recipient;
@@ -69,18 +72,18 @@ public final class NaggerWebSocketHandler implements WebSocketHandler {
     C2sMessage c2sMessage = gson.fromJson(new String(message.getData(), CHARSET), C2sMessage.class);
     if (c2sMessage.createAlert != null)
       handle(manager, c2sMessage.createAlert);
+    if (c2sMessage.createRecipient != null)
+      handle(manager, c2sMessage.createRecipient);
     if (c2sMessage.addTag != null)
       handle(c2sMessage.addTag);
+    if (c2sMessage.addRecipient != null)
+      handle(c2sMessage.addRecipient);
     if (c2sMessage.editAlertName != null)
       handle(c2sMessage.editAlertName);
     if (c2sMessage.editAlertDescription != null)
       handle(c2sMessage.editAlertDescription);
     if (c2sMessage.editAlertCommand != null)
       handle(c2sMessage.editAlertCommand);
-    if (c2sMessage.createRecipient != null)
-      handle(c2sMessage.createRecipient);
-    if (c2sMessage.addRecipient != null)
-      handle(c2sMessage.addRecipient);
     if (c2sMessage.editRecipientCommand != null)
       handle(c2sMessage.editRecipientCommand);
   }
@@ -115,16 +118,51 @@ public final class NaggerWebSocketHandler implements WebSocketHandler {
     send(client, responseToCreator);
   }
 
+  private void handle(WebSocketManager client, C2sCreateRecipientMessage createRecipient) {
+    Recipient recipient = new Recipient();
+    recipient.uuid = UuidUtils.randomAlphanumericUuid();
+    recipient.name = createRecipient.name;
+    recipient.command = createRecipient.command;
+    RecipientStorage.saveNewRecipient(recipient);
+
+    S2cMessage generalUpdate = new S2cMessage();
+    generalUpdate.createRecipient = new S2cCreateRecipientMessage();
+    generalUpdate.createRecipient.uuid = recipient.uuid;
+    generalUpdate.createRecipient.name = recipient.name;
+    generalUpdate.createRecipient.command = recipient.command;
+    broadcast(generalUpdate);
+
+    S2cMessage responseToCreator = new S2cMessage();
+    responseToCreator.jumpToRecipient = new S2cJumpToRecipientMessage();
+    responseToCreator.jumpToRecipient.recipientUuid = recipient.uuid;
+    send(client, responseToCreator);
+  }
+
   private void handle(C2sAddTagMessage addTag) {
     Alert alert = AlertStorage.getAlertByUuid(addTag.alertUuid)
         .getOrThrow("No such alert: " + addTag.alertUuid);
-    alert.tags.add(addTag.tag);
+    if (!alert.tags.add(addTag.tag))
+      return;
     AlertStorage.updateAlert(alert);
 
     S2cMessage generalUpdate = new S2cMessage();
     generalUpdate.addTag = new S2cAddTagMessage();
     generalUpdate.addTag.alertUuid = addTag.alertUuid;
     generalUpdate.addTag.tag = addTag.tag;
+    broadcast(generalUpdate);
+  }
+
+  private void handle(C2sAddRecipientMessage addRecipient) {
+    Alert alert = AlertStorage.getAlertByUuid(addRecipient.alertUuid)
+        .getOrThrow("No such alert: " + addRecipient.alertUuid);
+    if (!alert.recipientUuids.add(addRecipient.recipientUuid))
+      return;
+    AlertStorage.updateAlert(alert);
+
+    S2cMessage generalUpdate = new S2cMessage();
+    generalUpdate.addRecipient = new S2cAddRecipientMessage();
+    generalUpdate.addRecipient.alertUuid = addRecipient.alertUuid;
+    generalUpdate.addRecipient.recipientUuid = addRecipient.recipientUuid;
     broadcast(generalUpdate);
   }
 
@@ -165,14 +203,6 @@ public final class NaggerWebSocketHandler implements WebSocketHandler {
     generalUpdate.editAlertCommand.alertUuid = editAlertCommand.alertUuid;
     generalUpdate.editAlertCommand.newCommand = editAlertCommand.newCommand;
     broadcast(generalUpdate);
-  }
-
-  private void handle(C2sCreateRecipientMessage createRecipient) {
-    // TODO
-  }
-
-  private void handle(C2sAddRecipientMessage addRecipient) {
-    // TODO
   }
 
   private void handle(C2sEditRecipientCommandMessage editRecipientCommand) {

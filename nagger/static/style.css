@@ -59,31 +59,29 @@ input[type=text] {
   border: 1px solid #ccc;
   padding: 6px;
 }
-div.tags ul {
+div.tags ul, div.recipients ul {
   display: inline;
   font-size: 85%;
 }
-div.tags li {
+div.tags li, div.recipients li {
   display: inline;
   float: left;
 }
-div.tags li a {
+div.tags li a, div.recipients li a {
   padding: 6px;
   color: #3e6d8e;
   display: block;
   background: #e0eaf1;
   border: 1px solid transparent;
 }
-div.tags li a:hover {
+div.tags li a:hover, div.recipients li a:hover {
   text-decoration: none;
-}
-div.tags li a:hover {
   border: 1px solid #3e6d8e;
 }
-div.tags li + li, div.tags ul + input {
+div.tags li + li, div.tags ul + input, div.recipients li + li, div.recipients ul + input {
   margin-left: 0.5em;
 }
-div.tags ul:empty + input {
+div.tags ul:empty + input, div.recipients ul:empty + input {
   margin-left: 0;
 }
 div.create-alert input {
