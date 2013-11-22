@@ -27,7 +27,8 @@ function startWS() {
     console.log("Connection was closed.");
   };
   connection.onerror = function(error) {
-    console.log("Error detected: " + error);
+    console.log("Error detected.");
+    console.log(error);
   };
   connection.onmessage = function(e) {
     var message = JSON.parse(e.data);
