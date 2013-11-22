@@ -13,13 +13,12 @@ public final class WebSocketFrameEncoder {
         | frame.getOpcode().getEncodedValue();
     outputStream.write(firstByte);
 
-
     int len = frame.getPayload().length;
-    int lenFirstByte = len > (2 << 16)
+    int lenFirstByte = len >= (2 << 16)
         ? 127
         : (len >= 126 ? 126 : len);
 
-    int secondByte = (frame.getMaskingKey().isDefined() ? 0b10000000 : 0) | lenFirstByte;
+    int secondByte = (frame.getMaskingKey().isDefined() ? (1 << 7) : 0) | lenFirstByte;
     outputStream.write(secondByte);
 
     if (lenFirstByte == 126)

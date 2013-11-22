@@ -15,8 +15,6 @@ import java.net.Socket;
 
 /**
  * Manages a single WebSocket connection.
- *
- * TODO: Needs locking around output stream.
  */
 public final class WebSocketManager {
   private static final Logger logger = Logger.forClass(WebSocketManager.class);
@@ -35,7 +33,7 @@ public final class WebSocketManager {
     return request;
   }
 
-  public void send(WebSocketFrame frame) {
+  public synchronized void send(WebSocketFrame frame) {
     try {
       WebSocketFrameEncoder.encodeFrame(frame, socket.getOutputStream());
     } catch (IOException e) {

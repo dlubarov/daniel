@@ -9,7 +9,7 @@ final class LengthSerializer {
   public static byte[] encodeLength(int length, int numBytes) {
     byte[] bytes = new byte[numBytes];
     for (int i = 0; i < numBytes; ++i)
-      bytes[i] = (byte) (length >> (numBytes - i - 1) * 8);
+      bytes[i] = (byte) (length >>> (numBytes - i - 1) * 8);
     return bytes;
   }
 
