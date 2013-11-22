@@ -5,21 +5,27 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import daniel.data.set.MutableHashSet;
 import daniel.logging.Logger;
+import daniel.nagger.messages.c2s.C2sAddRecipientMessage;
 import daniel.nagger.messages.c2s.C2sAddTagMessage;
 import daniel.nagger.messages.c2s.C2sCreateAlertMessage;
+import daniel.nagger.messages.c2s.C2sCreateRecipientMessage;
 import daniel.nagger.messages.c2s.C2sEditAlertCommandMessage;
 import daniel.nagger.messages.c2s.C2sEditAlertDescriptionMessage;
 import daniel.nagger.messages.c2s.C2sEditAlertNameMessage;
+import daniel.nagger.messages.c2s.C2sEditRecipientCommandMessage;
 import daniel.nagger.messages.c2s.C2sMessage;
 import daniel.nagger.messages.s2c.S2cAddTagMessage;
 import daniel.nagger.messages.s2c.S2cCreateAlertMessage;
 import daniel.nagger.messages.s2c.S2cEditAlertCommandMessage;
 import daniel.nagger.messages.s2c.S2cEditAlertDescriptionMessage;
 import daniel.nagger.messages.s2c.S2cEditAlertNameMessage;
+import daniel.nagger.messages.s2c.S2cEditRecipientCommandMessage;
 import daniel.nagger.messages.s2c.S2cJumpToAlertMessage;
 import daniel.nagger.messages.s2c.S2cMessage;
 import daniel.nagger.model.Alert;
+import daniel.nagger.model.Recipient;
 import daniel.nagger.storage.AlertStorage;
+import daniel.nagger.storage.RecipientStorage;
 import daniel.web.http.server.WebSocketHandler;
 import daniel.web.http.server.WebSocketManager;
 import daniel.web.http.websocket.WebSocketFrame;
@@ -71,6 +77,12 @@ public final class NaggerWebSocketHandler implements WebSocketHandler {
       handle(c2sMessage.editAlertDescription);
     if (c2sMessage.editAlertCommand != null)
       handle(c2sMessage.editAlertCommand);
+    if (c2sMessage.createRecipient != null)
+      handle(c2sMessage.createRecipient);
+    if (c2sMessage.addRecipient != null)
+      handle(c2sMessage.addRecipient);
+    if (c2sMessage.editRecipientCommand != null)
+      handle(c2sMessage.editRecipientCommand);
   }
 
   private void handle(WebSocketManager client, C2sCreateAlertMessage createAlert) {
@@ -155,12 +167,33 @@ public final class NaggerWebSocketHandler implements WebSocketHandler {
     broadcast(generalUpdate);
   }
 
+  private void handle(C2sCreateRecipientMessage createRecipient) {
+    // TODO
+  }
+
+  private void handle(C2sAddRecipientMessage addRecipient) {
+    // TODO
+  }
+
+  private void handle(C2sEditRecipientCommandMessage editRecipientCommand) {
+    Recipient recipient = RecipientStorage.getRecipientByUuid(editRecipientCommand.recipientUuid)
+        .getOrThrow("No such recipient: %s.", editRecipientCommand.recipientUuid);
+    recipient.command = editRecipientCommand.newCommand;
+    RecipientStorage.updateRecipient(recipient);
+
+    S2cMessage generalUpdate = new S2cMessage();
+    generalUpdate.editRecipientCommand = new S2cEditRecipientCommandMessage();
+    generalUpdate.editRecipientCommand.recipientUuid = editRecipientCommand.recipientUuid;
+    generalUpdate.editRecipientCommand.newCommand = editRecipientCommand.newCommand;
+    broadcast(generalUpdate);
+  }
+
   public void broadcast(S2cMessage s2cMessage) {
     for (WebSocketManager client : activeClients)
       send(client, s2cMessage);
   }
 
-  public void send(WebSocketManager client, S2cMessage s2cMessage) {
+  private void send(WebSocketManager client, S2cMessage s2cMessage) {
     client.send(new WebSocketFrame.Builder()
         .setFinalFragment(true)
         .setOpcode(WebSocketOpcode.TEXT_FRAME)

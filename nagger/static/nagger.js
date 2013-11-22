@@ -121,6 +121,12 @@ function handleMessage(message) {
   if (message.jumpToAlert) {
     loadPage('/alert/' + message.jumpToAlert.alertUuid);
   }
+  if (message.editRecipientCommand) {
+    var editRecipientCommand = message.editRecipientCommand;
+    var recipient = recipients[editRecipientCommand.recipientUuid];
+    recipient.command = editRecipientCommand.newCommand;
+    refresh(); // TODO
+  }
 }
 
 function updateAlertTable(alert) {
@@ -202,7 +208,49 @@ function getContent(resource) {
   if (resource.startsWith('/alert/')) {
     return generateAlertView(resource.substring('/alert/'.length));
   }
+  if (resource.startsWith('/recipient/')) {
+    return generateRecipientView(resource.substring('/recipient/'.length));
+  }
   return generate404();
+}
+
+function generateRecipientView(recipientUuid) {
+  var recipient = recipients[recipientUuid];
+  if (!recipient) {
+    return generate404();
+  }
+
+  var title = document.createElement('h2');
+  title.appendChild(document.createTextNode('Recipient: ' + recipient.name));
+
+  var commandHeading = document.createElement('h3');
+  commandHeading.appendChild(document.createTextNode('Command'));
+
+  var commandEditor = document.createElement('textarea');
+  commandEditor.className = 'command-editor';
+  commandEditor.rows = '5';
+  commandEditor.appendChild(document.createTextNode(recipient.command));
+
+  var saveButton = document.createElement('button');
+  saveButton.appendChild(document.createTextNode('Save Command'));
+  saveButton.onclick = function() {
+    var message = {
+      editRecipientCommand: {
+        recipientUuid: recipientUuid,
+        newCommand: commandEditor.value
+      }
+    };
+    connection.send(JSON.stringify(message));
+
+    saveButton.style.background = 'gray';
+  }
+
+  var div = document.createElement('div');
+  div.appendChild(title);
+  div.appendChild(commandHeading);
+  div.appendChild(commandEditor);
+  div.appendChild(saveButton);
+  return div;
 }
 
 function generateSearchView(query) {
@@ -306,6 +354,7 @@ function generateAlertView(alertUuid) {
   div.appendChild(title);
   div.appendChild(desc);
   div.appendChild(generateCommandSection(alert));
+  div.appendChild(generateRecipientSection(alert));
   div.appendChild(generateTagSection(alert));
   div.appendChild(generateChecksSection(alert.checks));
   return div;
@@ -338,6 +387,68 @@ function generateCommandSection(alert) {
   div.appendChild(editor);
   div.appendChild(saveButton);
   return div;
+}
+
+function findRecipientByName(recipientName) {
+  for (var recipientUuid in recipients) {
+    var recipient = recipients[recipientUuid];
+    if (recipient.name == recipientName) {
+      return recipient;
+    }
+  }
+  return null; // TODO: exception
+}
+
+function generateRecipientSection(alert) {
+  var title = document.createElement('h3');
+  title.appendChild(document.createTextNode('Recipients'));
+
+  var textbox = document.createElement('input');
+  textbox.type = 'text';
+  textbox.placeholder = 'new recipient';
+  textbox.onkeypress = function(e) {
+    e = e || window.event;
+    var keyCode = e.keyCode || e.which;
+    if (keyCode == '13') {
+      var recipientName = textbox.value;
+      var recipient = findRecipientByName(recipientName)
+        || alert('No such recipient: ' + recipientName);
+      var message = {
+        addRecipient: {
+          alertUuid: alert.uuid,
+          recipientUuid: recipient.uuid
+        }
+      };
+      connection.send(JSON.stringify(message));
+      textbox.value = '';
+      return false;
+    }
+  }
+
+  var div = document.createElement('div');
+  div.className = 'recipients';
+  div.appendChild(title);
+  div.appendChild(generateRecipientList(alert.recipientUuids));
+  div.appendChild(textbox);
+  return div;
+}
+
+function generateRecipientList(recipientUuids) {
+  var list = document.createElement('ul');
+  list.className = 'recipient-list';
+  for (var i = 0; i < recipientUuids.length; ++i) {
+    var li = document.createElement('li');
+    li.appendChild(generateRecipientLink(recipients[recipientUuids[i]]));
+    list.appendChild(li);
+  }
+  return list;
+}
+
+function generateRecipientLink(recipient) {
+  var link = document.createElement('a');
+  link.href = '/recipient/' + recipient.uuid;
+  link.appendChild(document.createTextNode(recipient.name));
+  return link;
 }
 
 function generateTagSection(alert) {
@@ -466,9 +577,9 @@ function generateAlertTable(query) {
 
 function generateAlertThead() {
   var tr = document.createElement('tr');
-  tr.appendChild(generateTh('alert'));
-  tr.appendChild(generateTh('status'));
-  tr.appendChild(generateTh('last check'));
+  tr.appendChild(generateThWithWidth('alert', '50%'));
+  tr.appendChild(generateThWithWidth('status', '25%'));
+  tr.appendChild(generateThWithWidth('last check', '25%'));
   var thead = document.createElement('thead');
   thead.appendChild(tr);
   return thead;
@@ -477,6 +588,12 @@ function generateAlertThead() {
 function generateTh(text) {
   var th = document.createElement('th');
   th.appendChild(document.createTextNode(text));
+  return th;
+}
+
+function generateThWithWidth(text, width) {
+  var th = generateTh(text);
+  th.style.width = width;
   return th;
 }
 
@@ -554,6 +671,6 @@ function plural(n) {
 
 function isQuerySatisfied(query, alert) {
   var tags = alert.tags;
-  var status = alert.checks ? alert.checks.last.status : '';
+  var status = alert.checks ? alert.checks.last().status : '';
   return eval(query);
 }

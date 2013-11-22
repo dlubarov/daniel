@@ -15,10 +15,70 @@ public class TestData {
 
     createRecipient();
 
-    createGatewayAlerts("Gateway X");
-    createGatewayAlerts("Gateway Y");
-    createGatewayAlerts("Gateway Z");
-    createRandomAlert();
+    createHostAlerts("A");
+    createHostAlerts("B");
+    createHostAlerts("C");
+    createHostAlerts("D");
+    createHostAlerts("E");
+    createHostAlerts("F");
+
+    createGatewayAlerts("X");
+    createGatewayAlerts("Y");
+    createGatewayAlerts("Z");
+  }
+
+  private static void createHostAlerts(String host) {
+    createHostCpuAlert(host);
+    createHostMemoryAlert(host);
+    createHostDiskAlert(host);
+  }
+
+  private static void createHostCpuAlert(String host) {
+    Alert alert = new Alert();
+    alert.uuid = UuidUtils.randomAlphanumericUuid();
+    alert.name = "Host " + host + " CPU Utilization";
+    alert.description = "Checks for an abnormally high CPU utilization.";
+    alert.command = randomCommand(
+        "CPU is at 5%.",
+        "CPU is at 65%.",
+        "CPU is at 100%.");
+    alert.frequency = "3 seconds";
+    alert.tags.add("cpu");
+    alert.tags.add("host " + host);
+    alert.recipientUuids.add(RECIPIENT_UUID);
+    AlertStorage.saveNewAlert(alert);
+  }
+
+  private static void createHostMemoryAlert(String host) {
+    Alert alert = new Alert();
+    alert.uuid = UuidUtils.randomAlphanumericUuid();
+    alert.name = "Host " + host + " Memory Utilization";
+    alert.description = "Checks for an abnormally high memory utilization.";
+    alert.command = randomCommand(
+        "memory is at 30%.",
+        "memory is at 80%.",
+        "memory is at 100%.");
+    alert.frequency = "3 seconds";
+    alert.tags.add("memory");
+    alert.tags.add("host " + host);
+    alert.recipientUuids.add(RECIPIENT_UUID);
+    AlertStorage.saveNewAlert(alert);
+  }
+
+  private static void createHostDiskAlert(String host) {
+    Alert alert = new Alert();
+    alert.uuid = UuidUtils.randomAlphanumericUuid();
+    alert.name = "Host " + host + " Disk Utilization";
+    alert.description = "Checks for an abnormally high disk utilization.";
+    alert.command = randomCommand(
+        "disk utilization at 45%.",
+        "disk utilization at 85%.",
+        "disk utilization at 95%.");
+    alert.frequency = "3 seconds";
+    alert.tags.add("disk");
+    alert.tags.add("host " + host);
+    alert.recipientUuids.add(RECIPIENT_UUID);
+    AlertStorage.saveNewAlert(alert);
   }
 
   private static void createGatewayAlerts(String gatewayName) {
@@ -30,13 +90,16 @@ public class TestData {
   private static void createLatencyAlert(String gatewayName) {
     Alert alert = new Alert();
     alert.uuid = UuidUtils.randomAlphanumericUuid();
-    alert.name = gatewayName + " Auth Decline Rate";
-    alert.description = "Checks for an abnormally high auth decline rate.";
-    alert.command = "exit 0";
-    alert.frequency = "5 seconds";
+    alert.name = "Gateway " + gatewayName + " Auth Latency";
+    alert.description = "Checks for an abnormally high auth latency.";
+    alert.command = randomCommand(
+        "Average latency is 600ms.",
+        "Average latency is 900ms.",
+        "Average latency is 1600ms.");
+    alert.frequency = "3 seconds";
     alert.tags.add("authorizations");
     alert.tags.add("latency");
-    alert.tags.add(gatewayName);
+    alert.tags.add("gateway " + gatewayName);
     alert.recipientUuids.add(RECIPIENT_UUID);
     AlertStorage.saveNewAlert(alert);
   }
@@ -44,12 +107,16 @@ public class TestData {
   private static void createDeclineRateAlert(String gatewayName) {
     Alert alert = new Alert();
     alert.uuid = UuidUtils.randomAlphanumericUuid();
-    alert.name = gatewayName + " Auth Decline Rate";
+    alert.name = "Gateway " + gatewayName + " Auth Decline Rate";
     alert.description = "Checks for an abnormally high auth decline rate.";
-    alert.command = "exit 0";
-    alert.frequency = "5 seconds";
+    alert.command = randomCommand(
+        "Decline rate is 100%.",
+        "Decline rate is 90%.",
+        "Decline rate is 70%.");
+    alert.frequency = "3 seconds";
+    alert.tags.add("authorizations");
     alert.tags.add("decline rate");
-    alert.tags.add(gatewayName);
+    alert.tags.add("gateway " + gatewayName);
     alert.recipientUuids.add(RECIPIENT_UUID);
     AlertStorage.saveNewAlert(alert);
   }
@@ -57,28 +124,28 @@ public class TestData {
   private static void createBatchSizeAlert(String gatewayName) {
     Alert alert = new Alert();
     alert.uuid = UuidUtils.randomAlphanumericUuid();
-    alert.name = gatewayName + " Batch Size";
+    alert.name = "Gateway " + gatewayName + " Batch Size";
     alert.description = "Checks if " + gatewayName + "'s batch sizes are close to the maximum.";
-    alert.command = "echo 'Batch sizes are close the maximum.'; exit 1";
-    alert.frequency = "30 seconds";
+    alert.command = randomCommand(
+        "Last batch had 60k records.",
+        "Last batch had 140k records.",
+        "Last batch had 150k records.");
+    alert.frequency = "3 seconds";
     alert.recipientUuids.add(RECIPIENT_UUID);
     alert.addCheck(createCheck(Status.WARNING, "Batch sizes are close to the maximum."));
     alert.tags.add("settlement");
     alert.tags.add("batch size");
-    alert.tags.add(gatewayName);
+    alert.tags.add("gateway " + gatewayName);
     AlertStorage.saveNewAlert(alert);
   }
 
-  private static void createRandomAlert() {
-    Alert alert = new Alert();
-    alert.uuid = UuidUtils.randomAlphanumericUuid();
-    alert.name = "Random Alert";
-    alert.description = "Randomly switches between OK, WARNING and CRITICAL.";
-    alert.command = "case $(($RANDOM % 3)) in 0) echo 'Randomly decided to return OK.'; exit 0;; 1) echo 'Randomly decided to return WARNING.'; exit 1;; 2) echo 'Randomly decided to return CRITICAL.'; exit 2;; esac";
-    alert.frequency = "2 seconds";
-    alert.recipientUuids.add(RECIPIENT_UUID);
-    alert.addCheck(createCheck(Status.OK, "All good."));
-    AlertStorage.saveNewAlert(alert);
+  private static String randomCommand(String ok, String warning, String critical) {
+    return new StringBuilder()
+        .append("case $(($RANDOM % 3)) in\n")
+        .append("  0) echo '").append(ok).append("'; exit 0;;\n")
+        .append("  1) echo '").append(warning).append("'; exit 1;;\n")
+        .append("  2) echo '").append(critical).append("'; exit 2;;\n")
+        .append("esac").toString();
   }
 
   private static void createRecipient() {
@@ -86,8 +153,6 @@ public class TestData {
     recipient.uuid = RECIPIENT_UUID;
     recipient.name = "Daniel";
     recipient.command = "sendmail daniel@lubarov.com";
-    // TODO: Try this instead.
-    //recipient.command = "(echo \"Subject: $ALERT_NAME is $STATUS\"; echo; sendmail daniel@lubarov.com)";
     RecipientStorage.saveNewRecipient(recipient);
   }
 

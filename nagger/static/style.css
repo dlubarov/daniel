@@ -27,6 +27,7 @@ h1 a {
 
 h2 {
   font-size: 130%;
+  margin-bottom: 0.5em;
 }
 
 .fullwidth {
@@ -89,6 +90,13 @@ div.create-alert input {
   box-sizing: border-box;
   display: block;
   width: 100%;
+}
+
+table.alert-table {
+  table-layout: fixed;
+}
+table.alert-table th, table.alert-table td {
+  width: 13%;
 }
 
 table.hairlined {
