@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
   font-family: "Trebuchet MS", Arial;
 }
@@ -50,25 +54,41 @@ button {
   background-color: #eee;
   border: 1px solid #ccc;
 }
+input[type=text] {
+  border: 1px solid #ccc;
+  padding: 6px;
+}
 div.tags ul {
   display: inline;
+  font-size: 85%;
 }
 div.tags li {
   display: inline;
-  font-size: 85%;
-  border: 1px solid #aaf;
-  background: #eef;
-  padding: 3px;
+  float: left;
 }
-div.tags li + li, div.tags li + input {
+div.tags li a {
+  padding: 6px;
+  color: #3e6d8e;
+  display: block;
+  background: #e0eaf1;
+  border: 1px solid transparent;
+}
+div.tags li a:hover {
+  text-decoration: none;
+}
+div.tags li a:hover {
+  border: 1px solid #3e6d8e;
+}
+div.tags li + li, div.tags ul + input {
   margin-left: 0.5em;
 }
+div.tags ul:empty + input {
+  margin-left: 0;
+}
 div.create-alert input {
+  box-sizing: border-box;
   display: block;
   width: 100%;
-  box-sizing: border-box;
-  border: 1px solid #ccc;
-  padding: 6px;
 }
 
 table.hairlined {

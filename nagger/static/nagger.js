@@ -1,6 +1,10 @@
 var MAX_CHECKS_TO_STORE = 20;
 var connection;
 
+Array.prototype.contains = function(obj) {
+  return this.indexOf(obj) != -1;
+};
+
 Array.prototype.last = function() {
   return this[this.length - 1];
 };
@@ -74,7 +78,7 @@ function handleMessage(message) {
     }
     checks.push(check);
 
-    refreshAlertRow(alert);
+    updateAlertTable(alert);
     if (getRequestedResource().startsWith('/alert/' + alert.uuid)) {
       var checkTables = document.getElementsByClassName('checks-table');
       for (var i = 0; i < checkTables.length; ++i) {
@@ -97,18 +101,18 @@ function handleMessage(message) {
   }
   if (message.editAlertName) {
     // TODO
-    refreshAlertRow(alert);
+    updateAlertTable(alert);
   }
   if (message.editAlertDescription) {
     // TODO
-    refreshAlertRow(alert);
+    updateAlertTable(alert);
   }
   if (message.editAlertCommand) {
     var editAlertCommand = message.editAlertCommand;
     var alert = alerts[editAlertCommand.alertUuid];
     alert.command = editAlertCommand.newCommand;
 
-    refreshAlertRow(alert);
+    updateAlertTable(alert);
     if (getRequestedResource().startsWith('/alert/' + alert.uuid)) {
       var editor = document.getElementsByClassName('command-editor')[0];
       editor.value = alert.command;
@@ -119,7 +123,15 @@ function handleMessage(message) {
   }
 }
 
-function refreshAlertRow(alert) {
+function updateAlertTable(alert) {
+  if (getRequestedResource().startsWith('/search/')) {
+    var query = decodeURI(getRequestedResource().substring('/search/'.length));
+    var tables = document.getElementsByClassName('alert-table');
+    for (var i = 0; i < tables.length; ++i) {
+      tables[i].parentNode.replaceChild(generateAlertTable(query), tables[i]);
+    }
+    return;
+  }
   var rows = document.getElementsByClassName('alert-' + alert.uuid);
   for (var i = 0; i < rows.length; ++i) {
     var row = rows[i];
@@ -178,10 +190,11 @@ function refresh() {
 
 function getContent(resource) {
   if (resource == '/') {
-    return generateAlertTable(null);
+    return generateAlertTable('true');
   }
-  if (resource.startsWith('/tag/')) {
-    return generateAlertTable(resource.substring('/tag/'.length));
+  if (resource.startsWith('/search/')) {
+    var query = decodeURI(resource.substring('/search/'.length));
+    return generateSearchView(query);
   }
   if (resource.startsWith('/create-alert')) {
     return generateCreateAlertForm();
@@ -190,6 +203,41 @@ function getContent(resource) {
     return generateAlertView(resource.substring('/alert/'.length));
   }
   return generate404();
+}
+
+function generateSearchView(query) {
+  var textbox = document.createElement('input');
+  textbox.type = 'text';
+  textbox.value = query;
+  textbox.style.display = 'block';
+  textbox.style.width = '100%';
+
+  // Wrapper with overflow:hidden is need to get <input> to display correctly.
+  var textboxWrapper = document.createElement('div');
+  textboxWrapper.appendChild(textbox);
+  textboxWrapper.style.overflow = 'hidden';
+
+  var submitButton = document.createElement('button');
+  submitButton.appendChild(document.createTextNode('Update Search'));
+  submitButton.style.display = 'block';
+  submitButton.style.cssFloat = 'right';
+  submitButton.style.marginLeft = '1em';
+
+  submitButton.onclick = function() {
+    loadPage('/search/' + textbox.value);
+  }
+
+  var searchArea = document.createElement('div');
+  searchArea.style.marginTop = '0.5em';
+  searchArea.style.marginBottom = '0.5em';
+  searchArea.appendChild(submitButton);
+  searchArea.appendChild(textboxWrapper);
+
+  var searchView = document.createElement('div');
+  searchView.className = 'search';
+  searchView.appendChild(searchArea);
+  searchView.appendChild(generateAlertTable(query));
+  return searchView;
 }
 
 function generateCreateAlertForm() {
@@ -297,6 +345,7 @@ function generateTagSection(alert) {
   title.appendChild(document.createTextNode('Tags'));
 
   var textbox = document.createElement('input');
+  textbox.type = 'text';
   textbox.placeholder = 'new tag';
   textbox.onkeypress = function(e) {
     e = e || window.event;
@@ -334,8 +383,9 @@ function generateTagList(tags) {
 }
 
 function generateTagLink(tag) {
+  var query = 'tags.contains(\'' + tag + '\')';
   var link = document.createElement('a');
-  link.href = '/tag/' + tag;
+  link.href = '/search/' + query;
   link.appendChild(document.createTextNode(tag));
   return link;
 }
@@ -403,12 +453,12 @@ function generate404() {
   return p;
 }
 
-function generateAlertTable(tag) {
+function generateAlertTable(query) {
   var thead = generateAlertThead();
-  var tbody = generateAlertTbody(tag);
+  var tbody = generateAlertTbody(query);
 
   var table = document.createElement('table');
-  table.className = 'hairlined';
+  table.className = 'alert-table hairlined';
   table.appendChild(thead);
   table.appendChild(tbody);
   return table;
@@ -430,13 +480,12 @@ function generateTh(text) {
   return th;
 }
 
-function generateAlertTbody(tag) {
+function generateAlertTbody(query) {
   var tbody = document.createElement('tbody');
   for (var alertUuid in alerts) {
     var alert = alerts[alertUuid];
-    var exclude = tag && alert.tags.indexOf(tag) == -1;
-    if (!exclude) {
-      tbody.appendChild(createRow(alerts[alertUuid]));
+    if (!query || isQuerySatisfied(query, alert)) {
+      tbody.appendChild(createRow(alert));
     }
   }
   return tbody;
@@ -501,4 +550,10 @@ function reprInterval(millis) {
 
 function plural(n) {
   return n == 1 ? '' : 's';
+}
+
+function isQuerySatisfied(query, alert) {
+  var tags = alert.tags;
+  var status = alert.checks ? alert.checks.last.status : '';
+  return eval(query);
 }
