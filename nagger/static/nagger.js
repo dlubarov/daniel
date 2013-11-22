@@ -119,6 +119,17 @@ function handleMessage(message) {
       editor.value = alert.command;
     }
   }
+  if (message.editAlertFrequency) {
+    var editAlertFrequency = message.editAlertFrequency;
+    var alert = alerts[editAlertFrequency.alertUuid];
+    alert.frequency = editAlertFrequency.newFrequency;
+
+    updateAlertTable(alert);
+    if (getRequestedResource().startsWith('/alert/' + alert.uuid)) {
+      var editor = document.getElementsByClassName('frequency-editor')[0];
+      editor.value = alert.frequency;
+    }
+  }
   if (message.createRecipient) {
     var createRecipient = message.createRecipient;
     var recipient = {
@@ -419,6 +430,7 @@ function generateAlertView(alertUuid) {
   div.appendChild(title);
   div.appendChild(desc);
   div.appendChild(generateCommandSection(alert));
+  div.appendChild(generateFrequencySection(alert));
   div.appendChild(generateRecipientSection(alert));
   div.appendChild(generateTagSection(alert));
   div.appendChild(generateChecksSection(alert.checks));
@@ -448,6 +460,35 @@ function generateCommandSection(alert) {
 
   var div = document.createElement('div');
   div.className = 'command';
+  div.appendChild(title);
+  div.appendChild(editor);
+  div.appendChild(saveButton);
+  return div;
+}
+
+function generateFrequencySection(alert) {
+  var title = document.createElement('h3');
+  title.appendChild(document.createTextNode('Frequency'));
+
+  var editor = document.createElement('input');
+  editor.className = 'frequency-editor';
+  editor.type = 'text';
+  editor.value = alert.frequency;
+
+  var saveButton = document.createElement('button');
+  saveButton.appendChild(document.createTextNode('Save Frequency'));
+  saveButton.onclick = function() {
+    var message = {
+      editAlertFrequency: {
+        alertUuid: alert.uuid,
+        newFrequency: editor.value
+      }
+    };
+    connection.send(JSON.stringify(message));
+  };
+
+  var div = document.createElement('div');
+  div.className = 'frequency';
   div.appendChild(title);
   div.appendChild(editor);
   div.appendChild(saveButton);

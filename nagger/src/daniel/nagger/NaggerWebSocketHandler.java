@@ -11,6 +11,7 @@ import daniel.nagger.messages.c2s.C2sCreateAlertMessage;
 import daniel.nagger.messages.c2s.C2sCreateRecipientMessage;
 import daniel.nagger.messages.c2s.C2sEditAlertCommandMessage;
 import daniel.nagger.messages.c2s.C2sEditAlertDescriptionMessage;
+import daniel.nagger.messages.c2s.C2sEditAlertFrequencyMessage;
 import daniel.nagger.messages.c2s.C2sEditAlertNameMessage;
 import daniel.nagger.messages.c2s.C2sEditRecipientCommandMessage;
 import daniel.nagger.messages.c2s.C2sMessage;
@@ -20,6 +21,7 @@ import daniel.nagger.messages.s2c.S2cCreateAlertMessage;
 import daniel.nagger.messages.s2c.S2cCreateRecipientMessage;
 import daniel.nagger.messages.s2c.S2cEditAlertCommandMessage;
 import daniel.nagger.messages.s2c.S2cEditAlertDescriptionMessage;
+import daniel.nagger.messages.s2c.S2cEditAlertFrequencyMessage;
 import daniel.nagger.messages.s2c.S2cEditAlertNameMessage;
 import daniel.nagger.messages.s2c.S2cEditRecipientCommandMessage;
 import daniel.nagger.messages.s2c.S2cJumpToAlertMessage;
@@ -84,6 +86,8 @@ public final class NaggerWebSocketHandler implements WebSocketHandler {
       handle(c2sMessage.editAlertDescription);
     if (c2sMessage.editAlertCommand != null)
       handle(c2sMessage.editAlertCommand);
+    if (c2sMessage.editAlertFrequency != null)
+      handle(c2sMessage.editAlertFrequency);
     if (c2sMessage.editRecipientCommand != null)
       handle(c2sMessage.editRecipientCommand);
   }
@@ -202,6 +206,19 @@ public final class NaggerWebSocketHandler implements WebSocketHandler {
     generalUpdate.editAlertCommand = new S2cEditAlertCommandMessage();
     generalUpdate.editAlertCommand.alertUuid = editAlertCommand.alertUuid;
     generalUpdate.editAlertCommand.newCommand = editAlertCommand.newCommand;
+    broadcast(generalUpdate);
+  }
+
+  private void handle(C2sEditAlertFrequencyMessage editAlertFrequency) {
+    Alert alert = AlertStorage.getAlertByUuid(editAlertFrequency.alertUuid)
+        .getOrThrow("No such alert: " + editAlertFrequency.alertUuid);
+    alert.frequency = editAlertFrequency.newFrequency;
+    AlertStorage.updateAlert(alert);
+
+    S2cMessage generalUpdate = new S2cMessage();
+    generalUpdate.editAlertFrequency = new S2cEditAlertFrequencyMessage();
+    generalUpdate.editAlertFrequency.alertUuid = editAlertFrequency.alertUuid;
+    generalUpdate.editAlertFrequency.newFrequency = editAlertFrequency.newFrequency;
     broadcast(generalUpdate);
   }
 

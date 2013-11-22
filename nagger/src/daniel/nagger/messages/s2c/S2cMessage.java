@@ -10,6 +10,7 @@ public class S2cMessage {
   public S2cEditAlertDescriptionMessage editAlertDescription;
   public S2cEditAlertCommandMessage editAlertCommand;
   public S2cEditRecipientCommandMessage editRecipientCommand;
+  public S2cEditAlertFrequencyMessage editAlertFrequency;
   public S2cJumpToAlertMessage jumpToAlert;
   public S2cJumpToRecipientMessage jumpToRecipient;
 }
