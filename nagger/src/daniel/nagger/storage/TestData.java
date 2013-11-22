@@ -7,13 +7,19 @@ import daniel.nagger.model.Recipient;
 import daniel.web.util.UuidUtils;
 
 public class TestData {
-  private static final String RECIPIENT_UUID = UuidUtils.randomAlphanumericUuid();
+  private static final String PAYMENTS_EMAIL_UUID = UuidUtils.randomAlphanumericUuid();
+  private static final String PAYMENTS_PAGER_UUID = UuidUtils.randomAlphanumericUuid();
+  private static final String PROD_ENG_EMAIL_UUID = UuidUtils.randomAlphanumericUuid();
+  private static final String PROD_ENG_PAGER_UUID = UuidUtils.randomAlphanumericUuid();
 
   public static void init() {
     AlertStorage.deleteAll();
     RecipientStorage.deleteAll();
 
-    createRecipient();
+    createPaymentsEmailRecipient();
+    createPaymentsPagerRecipient();
+    createProdEngEmailRecipient();
+    createProdEngPagerRecipient();
 
     createHostAlerts("A");
     createHostAlerts("B");
@@ -45,7 +51,8 @@ public class TestData {
     alert.frequency = "3 seconds";
     alert.tags.add("cpu");
     alert.tags.add("host " + host);
-    alert.recipientUuids.add(RECIPIENT_UUID);
+    alert.recipientUuids.add(PROD_ENG_EMAIL_UUID);
+    alert.recipientUuids.add(PROD_ENG_PAGER_UUID);
     AlertStorage.saveNewAlert(alert);
   }
 
@@ -61,7 +68,8 @@ public class TestData {
     alert.frequency = "3 seconds";
     alert.tags.add("memory");
     alert.tags.add("host " + host);
-    alert.recipientUuids.add(RECIPIENT_UUID);
+    alert.recipientUuids.add(PROD_ENG_EMAIL_UUID);
+    alert.recipientUuids.add(PROD_ENG_PAGER_UUID);
     AlertStorage.saveNewAlert(alert);
   }
 
@@ -77,7 +85,8 @@ public class TestData {
     alert.frequency = "3 seconds";
     alert.tags.add("disk");
     alert.tags.add("host " + host);
-    alert.recipientUuids.add(RECIPIENT_UUID);
+    alert.recipientUuids.add(PROD_ENG_EMAIL_UUID);
+    alert.recipientUuids.add(PROD_ENG_PAGER_UUID);
     AlertStorage.saveNewAlert(alert);
   }
 
@@ -100,7 +109,8 @@ public class TestData {
     alert.tags.add("authorizations");
     alert.tags.add("latency");
     alert.tags.add("gateway " + gatewayName);
-    alert.recipientUuids.add(RECIPIENT_UUID);
+    alert.recipientUuids.add(PAYMENTS_EMAIL_UUID);
+    alert.recipientUuids.add(PAYMENTS_PAGER_UUID);
     AlertStorage.saveNewAlert(alert);
   }
 
@@ -117,7 +127,8 @@ public class TestData {
     alert.tags.add("authorizations");
     alert.tags.add("decline rate");
     alert.tags.add("gateway " + gatewayName);
-    alert.recipientUuids.add(RECIPIENT_UUID);
+    alert.recipientUuids.add(PAYMENTS_EMAIL_UUID);
+    alert.recipientUuids.add(PAYMENTS_PAGER_UUID);
     AlertStorage.saveNewAlert(alert);
   }
 
@@ -131,7 +142,8 @@ public class TestData {
         "Last batch had 140k records.",
         "Last batch had 150k records.");
     alert.frequency = "3 seconds";
-    alert.recipientUuids.add(RECIPIENT_UUID);
+    alert.recipientUuids.add(PAYMENTS_EMAIL_UUID);
+    alert.recipientUuids.add(PAYMENTS_PAGER_UUID);
     alert.addCheck(createCheck(Status.WARNING, "Batch sizes are close to the maximum."));
     alert.tags.add("settlement");
     alert.tags.add("batch size");
@@ -148,11 +160,35 @@ public class TestData {
         .append("esac").toString();
   }
 
-  private static void createRecipient() {
+  private static void createPaymentsEmailRecipient() {
     Recipient recipient = new Recipient();
-    recipient.uuid = RECIPIENT_UUID;
-    recipient.name = "Payments Team";
+    recipient.uuid = PAYMENTS_EMAIL_UUID;
+    recipient.name = "Payments (Email)";
     recipient.command = "sendmail payments-robots@squareup.com";
+    RecipientStorage.saveNewRecipient(recipient);
+  }
+
+  private static void createPaymentsPagerRecipient() {
+    Recipient recipient = new Recipient();
+    recipient.uuid = PAYMENTS_PAGER_UUID;
+    recipient.name = "Payments (Pager)";
+    recipient.command = "sendmail payments@pagerduty.com";
+    RecipientStorage.saveNewRecipient(recipient);
+  }
+
+  private static void createProdEngEmailRecipient() {
+    Recipient recipient = new Recipient();
+    recipient.uuid = PROD_ENG_EMAIL_UUID;
+    recipient.name = "ProdEng (Email)";
+    recipient.command = "sendmail prod-eng@squareup.com";
+    RecipientStorage.saveNewRecipient(recipient);
+  }
+
+  private static void createProdEngPagerRecipient() {
+    Recipient recipient = new Recipient();
+    recipient.uuid = PROD_ENG_PAGER_UUID;
+    recipient.name = "ProdEng (Pager)";
+    recipient.command = "sendmail prod-eng@pagerduty.com";
     RecipientStorage.saveNewRecipient(recipient);
   }
 
