@@ -22,8 +22,8 @@ final class HomeHandler implements PartialHandler {
   public static final HomeHandler singleton = new HomeHandler();
 
   private static final String INTRO = ""
-      + "Welcome! I'm Daniel Lubarov, an engineer at <a href='https://squareup.com/' >Square</a>. "
-      + "Here are some of my most recent posts.";
+      + "I'm an engineer at <a href=\"https://squareup.com/\">Square</a>. "
+      + "Here's a list of all my posts.";
 
   private HomeHandler() {}
 
