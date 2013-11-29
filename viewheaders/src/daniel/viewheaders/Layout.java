@@ -15,8 +15,8 @@ final class Layout {
 
   public static Element createDocument(Node... content) {
     return new Element.Builder(Tag.HTML)
-        .setAttribute("xmlns", "http://www.w3.org/1999/xhtml")
-        .setAttribute("xml:lang", "en")
+        .setRawAttribute("xmlns", "http://www.w3.org/1999/xhtml")
+        .setRawAttribute("xml:lang", "en")
         .addChild(getHead())
         .addChild(getBody(content))
         .build();
@@ -24,15 +24,15 @@ final class Layout {
 
   private static Element getHead() {
     Element description = new Element.Builder(Tag.META)
-        .setAttribute(Attribute.NAME, "description")
-        .setAttribute(Attribute.CONTENT, "View the HTTP headers that your web browser is sending.")
+        .setRawAttribute(Attribute.NAME, "description")
+        .setRawAttribute(Attribute.CONTENT, "View the HTTP headers that your web browser is sending.")
         .build();
     Element keywords = new Element.Builder(Tag.META)
-        .setAttribute(Attribute.NAME, "keywords")
-        .setAttribute(Attribute.CONTENT, "headers, http, browser")
+        .setRawAttribute(Attribute.NAME, "keywords")
+        .setRawAttribute(Attribute.CONTENT, "headers, http, browser")
         .build();
     Element base = new Element.Builder(Tag.BASE)
-        .setAttribute(Attribute.HREF, Config.getBaseUrl())
+        .setRawAttribute(Attribute.HREF, Config.getBaseUrl())
         .build();
     return new Element(Tag.HEAD,
         description, keywords, base,
@@ -50,7 +50,7 @@ final class Layout {
                 .addEscapedText("View Headers")
                 .build()))
         .addChild(new Element.Builder(Tag.DIV)
-            .setAttribute(Attribute.ID, "content")
+            .setRawAttribute(Attribute.ID, "content")
             .addChildren(content)
             .build())
         .addChild(HtmlUtils.getClearDiv())
@@ -60,7 +60,7 @@ final class Layout {
 
   private static Element getFooter() {
     return new Element.Builder(Tag.DIV)
-        .setAttribute(Attribute.ID, "footer")
+        .setRawAttribute(Attribute.ID, "footer")
         .addChild(new ParagraphBuilder()
             .setClass("fr")
             .addEscapedText("Valid HTML & CSS")

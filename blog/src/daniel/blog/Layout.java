@@ -30,8 +30,8 @@ public final class Layout {
       Option<String> title, Option<Instant> dateline, Node... content) {
     Collection<String> notifications = Notifications.getAndClearMessages(request);
     return new Element.Builder(Tag.HTML)
-        .setAttribute("xmlns", "http://www.w3.org/1999/xhtml")
-        .setAttribute("xml:lang", "en")
+        .setRawAttribute("xmlns", "http://www.w3.org/1999/xhtml")
+        .setRawAttribute("xml:lang", "en")
         .addChild(getHead(isSmallScreen(request)))
         .addChild(getBody(title, dateline, notifications, content))
         .build();
@@ -39,17 +39,17 @@ public final class Layout {
 
   private static Element getHead(boolean smallScreen) {
     Element description = new Element.Builder(Tag.META)
-        .setAttribute(Attribute.NAME, "description")
-        .setAttribute(Attribute.CONTENT,
+        .setRawAttribute(Attribute.NAME, "description")
+        .setRawAttribute(Attribute.CONTENT,
             "Thoughts on programming languages, compilers, graphics, databases and other fun software topics.")
         .build();
     Element keywords = new Element.Builder(Tag.META)
-        .setAttribute(Attribute.NAME, "keywords")
-        .setAttribute(Attribute.CONTENT,
+        .setRawAttribute(Attribute.NAME, "keywords")
+        .setRawAttribute(Attribute.CONTENT,
             "daniel, lubarov, java, programming, coding, database, languages, compilers, interpreters, graphics, ray tracing, html, css")
         .build();
     Element base = new Element.Builder(Tag.BASE)
-        .setAttribute(Attribute.HREF, Config.getBaseUrl())
+        .setRawAttribute(Attribute.HREF, Config.getBaseUrl())
         .build();
     return new Element(Tag.HEAD,
         description, keywords, base,
@@ -89,18 +89,18 @@ public final class Layout {
     });
 
     Element.Builder contentBuilder = new Element.Builder(Tag.ARTICLE)
-        .setAttribute(Attribute.ID, "container")
+        .setRawAttribute(Attribute.ID, "container")
         .addChildren(notificationElements);
     Option<Element> optHeader = getHeader(title, dateline);
     if (optHeader.isDefined())
       contentBuilder.addChild(optHeader.getOrThrow());
     contentBuilder.addChild(new Element.Builder(Tag.DIV)
-        .setAttribute(Attribute.ID, "content")
+        .setRawAttribute(Attribute.ID, "content")
         .addChildren(content)
         .build());
 
     Element heading1 = new Element.Builder(Tag.H1)
-        .setAttribute(Attribute.ID, "logo")
+        .setRawAttribute(Attribute.ID, "logo")
         .addChild(new AnchorBuilder()
             .setHref(Config.getBaseUrl())
             .addEscapedText("Software & Stuff")
@@ -108,12 +108,12 @@ public final class Layout {
         .build();
 
     Element heading2 = new Element.Builder(Tag.H2)
-        .setAttribute(Attribute.ID, "logo2")
+        .setRawAttribute(Attribute.ID, "logo2")
         .addEscapedText("a blog by Daniel Lubarov")
         .build();
 
     return new Element.Builder(Tag.BODY)
-        .setAttribute(Attribute.ONLOAD, "prettyPrint()")
+        .setRawAttribute(Attribute.ONLOAD, "prettyPrint()")
         .addChild(heading1)
         .addChild(heading2)
         .addChild(contentBuilder.build())
@@ -128,16 +128,16 @@ public final class Layout {
     Element.Builder headerBuilder = new Element.Builder(Tag.HGROUP);
     if (title.isDefined())
       headerBuilder.addChild(new Element.Builder(Tag.H1)
-          .setAttribute(Attribute.CLASS, "title")
+          .setRawAttribute(Attribute.CLASS, "title")
           .addEscapedText(title.getOrThrow())
           .build());
     if (dateline.isDefined()) {
       Element time = new Element.Builder(Tag.TIME)
-          .setAttribute(Attribute.DATETIME, DateUtils.formatIso8601(dateline.getOrThrow()))
+          .setRawAttribute(Attribute.DATETIME, DateUtils.formatIso8601(dateline.getOrThrow()))
           .addEscapedText(datelineFormat.format(dateline.getOrThrow().toDate()))
           .build();
       headerBuilder.addChild(new Element.Builder(Tag.H6)
-          .setAttribute(Attribute.CLASS, "dateline")
+          .setRawAttribute(Attribute.CLASS, "dateline")
           .addChild(time)
           .build());
     }

@@ -10,9 +10,9 @@ public final class CommentFormFormatter {
 
   public static Element getAddCommentForm(Post post) {
     Element form = new Element.Builder(Tag.FORM)
-        .setAttribute(Attribute.ACTION, post.getUrlFriendlySubject() + "/comment")
-        .setAttribute(Attribute.METHOD, "post")
-        .setAttribute(Attribute.CLASS, "add-comment")
+        .setRawAttribute(Attribute.ACTION, post.getUrlFriendlySubject() + "/comment")
+        .setRawAttribute(Attribute.METHOD, "post")
+        .setRawAttribute(Attribute.CLASS, "add-comment")
         .addChild(new Element.Builder(Tag.H2)
             .addEscapedText("Post a Comment")
             .build())
@@ -29,9 +29,9 @@ public final class CommentFormFormatter {
 
   private static Element getAuthorNamePart() {
     Element input = new Element.Builder(Tag.INPUT)
-        .setAttribute(Attribute.NAME, "author_name")
-        .setAttribute(Attribute.TYPE, "text")
-        .setAttribute(Attribute.PLACEHOLDER, "Your Name")
+        .setRawAttribute(Attribute.NAME, "author_name")
+        .setRawAttribute(Attribute.TYPE, "text")
+        .setRawAttribute(Attribute.PLACEHOLDER, "Your Name")
         .build();
     return new Element.Builder(Tag.DIV)
         .addChild(input)
@@ -40,9 +40,9 @@ public final class CommentFormFormatter {
 
   private static Element getAuthorEmailPart() {
     Element input = new Element.Builder(Tag.INPUT)
-        .setAttribute(Attribute.NAME, "author_email")
-        .setAttribute(Attribute.TYPE, "text")
-        .setAttribute(Attribute.PLACEHOLDER, "Your Email (Optional)")
+        .setRawAttribute(Attribute.NAME, "author_email")
+        .setRawAttribute(Attribute.TYPE, "text")
+        .setRawAttribute(Attribute.PLACEHOLDER, "Your Email (Optional)")
         .build();
     return new Element.Builder(Tag.DIV)
         .addChild(input)
@@ -51,9 +51,9 @@ public final class CommentFormFormatter {
 
   private static Element getContentPart() {
     Element textarea = new Element.Builder(Tag.TEXTAREA)
-        .setAttribute(Attribute.NAME, "content")
-        .setAttribute(Attribute.ROWS, "5")
-        .setAttribute(Attribute.PLACEHOLDER, "Comment")
+        .setRawAttribute(Attribute.NAME, "content")
+        .setRawAttribute(Attribute.ROWS, "5")
+        .setRawAttribute(Attribute.PLACEHOLDER, "Comment")
         .build();
     return new Element.Builder(Tag.DIV)
         .addChild(textarea)
@@ -63,19 +63,19 @@ public final class CommentFormFormatter {
   private static Element getChallengePart() {
     Element text = new Element.Builder(Tag.SPAN)
         .addEscapedText("What do cows drink?")
-        .setAttribute(Attribute.STYLE, "display: table-cell; width: 1px; white-space: nowrap;")
+        .setRawAttribute(Attribute.STYLE, "display: table-cell; width: 1px; white-space: nowrap;")
         .build();
     Element filler = new Element.Builder(Tag.SPAN)
         .addRawText("&#160;")
-        .setAttribute(Attribute.STYLE, "display: table-cell; width: 0.5em;")
+        .setRawAttribute(Attribute.STYLE, "display: table-cell; width: 0.5em;")
         .build();
     Element input = new Element.Builder(Tag.INPUT)
-        .setAttribute(Attribute.NAME, "challenge")
-        .setAttribute(Attribute.TYPE, "text")
-        .setAttribute(Attribute.STYLE, "display: table-cell; width: 100%; margin: 0;")
+        .setRawAttribute(Attribute.NAME, "challenge")
+        .setRawAttribute(Attribute.TYPE, "text")
+        .setRawAttribute(Attribute.STYLE, "display: table-cell; width: 100%; margin: 0;")
         .build();
     return new Element.Builder(Tag.DIV)
-        .setAttribute(Attribute.STYLE, "display: table; width: 100%; margin: 6px 0;")
+        .setRawAttribute(Attribute.STYLE, "display: table; width: 100%; margin: 6px 0;")
         .addChild(text)
         .addChild(filler)
         .addChild(input)
@@ -84,8 +84,8 @@ public final class CommentFormFormatter {
 
   private static Element getSubmitPart() {
     return new Element.Builder(Tag.INPUT)
-        .setAttribute(Attribute.TYPE, "submit")
-        .setAttribute(Attribute.VALUE, "Post Comment")
+        .setRawAttribute(Attribute.TYPE, "submit")
+        .setRawAttribute(Attribute.VALUE, "Post Comment")
         .build();
   }
 }

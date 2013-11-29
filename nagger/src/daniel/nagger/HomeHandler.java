@@ -29,8 +29,8 @@ public final class HomeHandler implements PartialHandler {
   @Override
   public Option<HttpResponse> tryHandle(HttpRequest request) {
     Element html = new Element.Builder(Tag.HTML)
-        .setAttribute("xmlns", "http://www.w3.org/1999/xhtml")
-        .setAttribute("xml:lang", "en")
+        .setRawAttribute("xmlns", "http://www.w3.org/1999/xhtml")
+        .setRawAttribute("xml:lang", "en")
         .addChild(getHead())
         .addChild(getBody())
         .build();
@@ -41,7 +41,7 @@ public final class HomeHandler implements PartialHandler {
     return new Element.Builder(Tag.HEAD)
         .addChild(new TitleBuilder().addEscapedText("Nagger").build())
         .addChild(new Element.Builder(Tag.BASE)
-            .setAttribute(Attribute.HREF, Config.getBaseUrl())
+            .setRawAttribute(Attribute.HREF, Config.getBaseUrl())
             .build())
         .addChild(StylesheetUtils.createCssLink("reset.css"))
         .addChild(StylesheetUtils.createCssLink("style.css"))
@@ -65,7 +65,7 @@ public final class HomeHandler implements PartialHandler {
             .addEscapedText("Loading...")
             .build())
         .addChild(new Element.Builder(Tag.SCRIPT)
-            .setAttribute(Attribute.TYPE, "text/javascript")
+            .setRawAttribute(Attribute.TYPE, "text/javascript")
             .addEscapedText("var alerts = " + gson.toJson(alertsByUuid) + ";")
             .addEscapedText("var recipients = " + gson.toJson(recipientsByUuid) + ";")
             .build())

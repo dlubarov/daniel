@@ -19,8 +19,8 @@ final class UpdateHandler implements Handler {
   public HttpResponse handle(HttpRequest request) {
     UpdateTask.scheduleExecution();
     Element html = new Element.Builder(Tag.HTML)
-        .setAttribute("xmlns", "http://www.w3.org/1999/xhtml")
-        .setAttribute("xml:lang", "en")
+        .setRawAttribute("xmlns", "http://www.w3.org/1999/xhtml")
+        .setRawAttribute("xml:lang", "en")
         .addChild(getHead())
         .addChild(getBody())
         .build();

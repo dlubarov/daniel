@@ -86,7 +86,7 @@ public final class TableBuilder {
     Check.that(currentSectionBuilder == null);
     Element.Builder elementBuilder = new Element.Builder(Tag.TABLE);
     for (KeyValuePair<String, String> attribute : attributes)
-      elementBuilder.setAttribute(attribute.getKey(), attribute.getValue());
+      elementBuilder.setRawAttribute(attribute.getKey(), attribute.getValue());
     return elementBuilder
         .addChild(theadBuilder.build())
         .addChild(tfootBuilder.build())

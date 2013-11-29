@@ -48,7 +48,7 @@ final class ConnectionManager implements Runnable {
   private void runWithExceptions() throws IOException {
     Option<HttpRequest> optRequest = RequestReader.readRequest(socket.getInputStream());
     if (optRequest.isEmpty()) {
-      logger.warn("Received empty request.");
+      logger.debug("Received empty request.");
       return;
     }
 

@@ -18,8 +18,8 @@ public final class Layout {
 
   public static Element createDocument(HttpRequest request, Option<String> title, Node... content) {
     return new Element.Builder(Tag.HTML)
-        .setAttribute("xmlns", "http://www.w3.org/1999/xhtml")
-        .setAttribute("xml:lang", "en")
+        .setRawAttribute("xmlns", "http://www.w3.org/1999/xhtml")
+        .setRawAttribute("xml:lang", "en")
         .addChild(getHead(isSmallScreen(request)))
         .addChild(getBody(title, content))
         .build();
@@ -27,15 +27,15 @@ public final class Layout {
 
   private static Element getHead(boolean smallScreen) {
     Element description = new Element.Builder(Tag.META)
-        .setAttribute(Attribute.NAME, "description")
-        .setAttribute(Attribute.CONTENT, "A Pokemon databse and search engine.")
+        .setRawAttribute(Attribute.NAME, "description")
+        .setRawAttribute(Attribute.CONTENT, "A Pokemon databse and search engine.")
         .build();
     Element keywords = new Element.Builder(Tag.META)
-        .setAttribute(Attribute.NAME, "keywords")
-        .setAttribute(Attribute.CONTENT, "pokemon, database, search")
+        .setRawAttribute(Attribute.NAME, "keywords")
+        .setRawAttribute(Attribute.CONTENT, "pokemon, database, search")
         .build();
     Element base = new Element.Builder(Tag.BASE)
-        .setAttribute(Attribute.HREF, Config.getBaseUrl())
+        .setRawAttribute(Attribute.HREF, Config.getBaseUrl())
         .build();
     return new Element(Tag.HEAD,
         description, keywords, base,
@@ -48,16 +48,16 @@ public final class Layout {
 
   private static Element getBody(Option<String> title, Node[] content) {
     Element.Builder contentBuilder = new Element.Builder(Tag.ARTICLE)
-        .setAttribute(Attribute.ID, "container");
+        .setRawAttribute(Attribute.ID, "container");
     if (title.isDefined())
       contentBuilder.addChild(getHeader(title.getOrThrow()));
     contentBuilder.addChild(new Element.Builder(Tag.DIV)
-        .setAttribute(Attribute.ID, "content")
+        .setRawAttribute(Attribute.ID, "content")
         .addChildren(content)
         .build());
 
     Element heading1 = new Element.Builder(Tag.H1)
-        .setAttribute(Attribute.ID, "logo")
+        .setRawAttribute(Attribute.ID, "logo")
         .addChild(new AnchorBuilder()
             .setHref(Config.getBaseUrl())
             .addEscapedText("Professor Oak")
@@ -65,7 +65,7 @@ public final class Layout {
         .build();
 
     Element heading2 = new Element.Builder(Tag.H2)
-        .setAttribute(Attribute.ID, "logo2")
+        .setRawAttribute(Attribute.ID, "logo2")
         .addEscapedText("The Pokemon database")
         .build();
 
@@ -81,7 +81,7 @@ public final class Layout {
   private static Element getHeader(String title) {
     Element.Builder headerBuilder = new Element.Builder(Tag.HGROUP);
     headerBuilder.addChild(new Element.Builder(Tag.H1)
-        .setAttribute(Attribute.CLASS, "title")
+        .setRawAttribute(Attribute.CLASS, "title")
         .addEscapedText(title)
         .build());
     return headerBuilder.build();

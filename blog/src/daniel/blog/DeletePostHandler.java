@@ -46,13 +46,13 @@ final class DeletePostHandler implements Handler {
 
   private HttpResponse handleGet(HttpRequest request) {
     Element form = new Element.Builder(Tag.FORM)
-        .setAttribute(Attribute.ACTION, post.getUrlFriendlySubject() + "/delete")
-        .setAttribute(Attribute.METHOD, "post")
+        .setRawAttribute(Attribute.ACTION, post.getUrlFriendlySubject() + "/delete")
+        .setRawAttribute(Attribute.METHOD, "post")
         .addChild(new ParagraphBuilder().addEscapedText("Really delete this post?").build())
         .addChild(new Element.Builder(Tag.INPUT)
-            .setAttribute(Attribute.TYPE, "submit")
-            .setAttribute(Attribute.VALUE, "Delete Post")
-            .setAttribute(Attribute.STYLE, "display: block; margin: 0px auto;")
+            .setRawAttribute(Attribute.TYPE, "submit")
+            .setRawAttribute(Attribute.VALUE, "Delete Post")
+            .setRawAttribute(Attribute.STYLE, "display: block; margin: 0px auto;")
             .build())
         .build();
     Element document = Layout.createDocument(request,

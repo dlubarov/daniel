@@ -49,15 +49,15 @@ final class AdminSetupHandler implements Handler {
 
   private HttpResponse handleGet(HttpRequest request) {
     Element passwordInput = new Element.Builder(Tag.INPUT)
-        .setAttribute(Attribute.TYPE, "password")
-        .setAttribute(Attribute.NAME, "admin_password")
+        .setRawAttribute(Attribute.TYPE, "password")
+        .setRawAttribute(Attribute.NAME, "admin_password")
         .build();
     Element submit = new Element.Builder(Tag.INPUT)
-        .setAttribute(Attribute.TYPE, "submit")
+        .setRawAttribute(Attribute.TYPE, "submit")
         .build();
     Node content = new Element.Builder(Tag.FORM)
-        .setAttribute(Attribute.ACTION, "admin")
-        .setAttribute(Attribute.METHOD, "post")
+        .setRawAttribute(Attribute.ACTION, "admin")
+        .setRawAttribute(Attribute.METHOD, "post")
         .addEscapedText("Create Admin Password:")
         .addChild(new Element(Tag.BR))
         .addChild(passwordInput)

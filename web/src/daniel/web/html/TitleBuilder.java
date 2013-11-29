@@ -18,12 +18,12 @@ public final class TitleBuilder {
   }
 
   public TitleBuilder setClass(String clazz) {
-    elementBuilder.setAttribute(Attribute.CLASS, clazz);
+    elementBuilder.setRawAttribute(Attribute.CLASS, clazz);
     return this;
   }
 
   public TitleBuilder setStyle(String style) {
-    elementBuilder.setAttribute(Attribute.STYLE, style);
+    elementBuilder.setRawAttribute(Attribute.STYLE, style);
     return this;
   }
 

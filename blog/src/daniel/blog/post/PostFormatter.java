@@ -42,7 +42,7 @@ public final class PostFormatter {
         .addEscapedText(headerText)
         .build();
     return Option.some(new Element.Builder(Tag.SECTION)
-        .setAttribute(Attribute.CLASS, "comments")
+        .setRawAttribute(Attribute.CLASS, "comments")
         .addChild(commentsHeader)
         .addChildren(commentElements)
         .build());

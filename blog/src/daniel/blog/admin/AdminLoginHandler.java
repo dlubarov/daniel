@@ -76,8 +76,8 @@ final class AdminLoginHandler implements Handler {
         .build();
 
     return new Element.Builder(Tag.FORM)
-        .setAttribute(Attribute.ACTION, "admin")
-        .setAttribute(Attribute.METHOD, "post")
+        .setRawAttribute(Attribute.ACTION, "admin")
+        .setRawAttribute(Attribute.METHOD, "post")
         .addEscapedText("Password:")
         .addChild(new Element(Tag.BR))
         .addChild(password)

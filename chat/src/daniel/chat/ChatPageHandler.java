@@ -24,8 +24,8 @@ public final class ChatPageHandler implements PartialHandler {
   @Override
   public Option<HttpResponse> tryHandle(HttpRequest request) {
     Element html = new Element.Builder(Tag.HTML)
-        .setAttribute("xmlns", "http://www.w3.org/1999/xhtml")
-        .setAttribute("xml:lang", "en")
+        .setRawAttribute("xmlns", "http://www.w3.org/1999/xhtml")
+        .setRawAttribute("xml:lang", "en")
         .addChild(getHead())
         .addChild(getBody(request))
         .build();
@@ -34,15 +34,15 @@ public final class ChatPageHandler implements PartialHandler {
 
   private static Element getHead() {
     Element description = new Element.Builder(Tag.META)
-        .setAttribute(Attribute.NAME, "description")
-        .setAttribute(Attribute.CONTENT, "Chat about anything! To create a new chat room, just append its name to the URL.")
+        .setRawAttribute(Attribute.NAME, "description")
+        .setRawAttribute(Attribute.CONTENT, "Chat about anything! To create a new chat room, just append its name to the URL.")
         .build();
     Element keywords = new Element.Builder(Tag.META)
-        .setAttribute(Attribute.NAME, "keywords")
-        .setAttribute(Attribute.CONTENT, "chat, chat room, online chat, jabberings")
+        .setRawAttribute(Attribute.NAME, "keywords")
+        .setRawAttribute(Attribute.CONTENT, "chat, chat room, online chat, jabberings")
         .build();
     Element base = new Element.Builder(Tag.BASE)
-        .setAttribute(Attribute.HREF, Config.getBaseUrl())
+        .setRawAttribute(Attribute.HREF, Config.getBaseUrl())
         .build();
     return new Element.Builder(Tag.HEAD)
         .addChild(description)
@@ -67,7 +67,7 @@ public final class ChatPageHandler implements PartialHandler {
         : "Main Room";
 
     Element content = new Element.Builder(Tag.DIV)
-        .setAttribute(Attribute.ID, "content")
+        .setRawAttribute(Attribute.ID, "content")
         .addChild(new Element.Builder(Tag.H1).addEscapedText(title).build())
         .addChild(getContentPane())
         .addChild(getInputBar())
@@ -80,7 +80,7 @@ public final class ChatPageHandler implements PartialHandler {
 
   private static Element getContentPane() {
     return new Element.Builder(Tag.DIV)
-        .setAttribute(Attribute.ID, "messages")
+        .setRawAttribute(Attribute.ID, "messages")
         .build();
   }
 
@@ -97,12 +97,12 @@ public final class ChatPageHandler implements PartialHandler {
         .setOnKeyDown("if (event.keyCode == 13) { send(); }")
         .build();
     Element sendButton = new Element.Builder(Tag.BUTTON)
-        .setAttribute(Attribute.ID, "sendButton")
-        .setAttribute("onclick", "javascript:send();")
+        .setRawAttribute(Attribute.ID, "sendButton")
+        .setRawAttribute("onclick", "javascript:send();")
         .addEscapedText("Send")
         .build();
     return new Element.Builder(Tag.DIV)
-        .setAttribute(Attribute.ID, "inputBar")
+        .setRawAttribute(Attribute.ID, "inputBar")
         .addChild(nameBox)
         .addChild(messageBox)
         .addChild(sendButton)

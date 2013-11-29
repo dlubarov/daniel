@@ -23,17 +23,17 @@ public final class ParagraphBuilder {
   }
 
   public ParagraphBuilder setId(String id) {
-    elementBuilder.setAttribute(Attribute.ID, id);
+    elementBuilder.setRawAttribute(Attribute.ID, id);
     return this;
   }
 
   public ParagraphBuilder setClass(String clazz) {
-    elementBuilder.setAttribute(Attribute.CLASS, clazz);
+    elementBuilder.setRawAttribute(Attribute.CLASS, clazz);
     return this;
   }
 
   public ParagraphBuilder setStyle(String style) {
-    elementBuilder.setAttribute(Attribute.STYLE, style);
+    elementBuilder.setRawAttribute(Attribute.STYLE, style);
     return this;
   }
 

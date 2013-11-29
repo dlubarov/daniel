@@ -5,9 +5,9 @@ public final class StylesheetUtils {
 
   public static Element createCssLink(String href) {
     return new Element.Builder(Tag.LINK)
-        .setAttribute(Attribute.REL, "stylesheet")
-        .setAttribute(Attribute.TYPE, "text/css")
-        .setAttribute(Attribute.HREF, href)
+        .setRawAttribute(Attribute.REL, "stylesheet")
+        .setRawAttribute(Attribute.TYPE, "text/css")
+        .setRawAttribute(Attribute.HREF, href)
         .build();
   }
 }

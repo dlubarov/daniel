@@ -8,42 +8,42 @@ public final class InputBuilder {
   }
 
   public InputBuilder setId(String id) {
-    elementBuilder.setAttribute(Attribute.ID, id);
+    elementBuilder.setRawAttribute(Attribute.ID, id);
     return this;
   }
 
   public InputBuilder setClass(String clazz) {
-    elementBuilder.setAttribute(Attribute.CLASS, clazz);
+    elementBuilder.setRawAttribute(Attribute.CLASS, clazz);
     return this;
   }
 
   public InputBuilder setStyle(String style) {
-    elementBuilder.setAttribute(Attribute.STYLE, style);
+    elementBuilder.setRawAttribute(Attribute.STYLE, style);
     return this;
   }
 
   public InputBuilder setType(String type) {
-    elementBuilder.setAttribute(Attribute.TYPE, type);
+    elementBuilder.setRawAttribute(Attribute.TYPE, type);
     return this;
   }
 
   public InputBuilder setName(String name) {
-    elementBuilder.setAttribute(Attribute.NAME, name);
+    elementBuilder.setRawAttribute(Attribute.NAME, name);
     return this;
   }
 
   public InputBuilder setPlaceholder(String placeholder) {
-    elementBuilder.setAttribute(Attribute.PLACEHOLDER, placeholder);
+    elementBuilder.setRawAttribute(Attribute.PLACEHOLDER, placeholder);
     return this;
   }
 
   public InputBuilder setValue(String value) {
-    elementBuilder.setAttribute(Attribute.VALUE, value);
+    elementBuilder.setRawAttribute(Attribute.VALUE, value);
     return this;
   }
 
   public InputBuilder setOnKeyDown(String javascript) {
-    elementBuilder.setAttribute("onkeydown", javascript);
+    elementBuilder.setRawAttribute("onkeydown", javascript);
     return this;
   }
 

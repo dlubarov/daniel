@@ -44,21 +44,21 @@ public final class Element implements Node {
       return this;
     }
 
-    public Builder setAttribute(String attribute, String value) {
+    public Builder setRawAttribute(String attribute, String value) {
       attributes.pushBack(new KeyValuePair<>(attribute, value));
       return this;
     }
 
-    public Builder setAttribute(Attribute attribute, String value) {
-      return setAttribute(attribute.toString(), value);
+    public Builder setRawAttribute(Attribute attribute, String value) {
+      return setRawAttribute(attribute.toString(), value);
     }
 
     public Builder setEscapedAttribtue(String attribute, String value) {
-      return setAttribute(attribute, EscapeUtils.htmlEncode(value));
+      return setRawAttribute(attribute, EscapeUtils.htmlEncode(value));
     }
 
     public Builder setEscapedAttribtue(Attribute attribute, String value) {
-      return setAttribute(attribute, EscapeUtils.htmlEncode(value));
+      return setRawAttribute(attribute, EscapeUtils.htmlEncode(value));
     }
 
     public Element build() {

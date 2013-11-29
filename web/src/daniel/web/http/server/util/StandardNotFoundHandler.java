@@ -22,7 +22,7 @@ public final class StandardNotFoundHandler implements Handler {
   @Override
   public HttpResponse handle(HttpRequest request) {
     Element style = new Element.Builder(Tag.STYLE)
-        .setAttribute(Attribute.TYPE, "text/css")
+        .setRawAttribute(Attribute.TYPE, "text/css")
         .addRawText("* { margin: 0; padding: 0; }")
         .addRawText("a { text-decoration: none; }")
         .addRawText("a:hover { text-decoration: underline; }")
@@ -53,19 +53,19 @@ public final class StandardNotFoundHandler implements Handler {
         .addEscapedText(".")
         .build();
     Element container = new Element.Builder(Tag.DIV)
-        .setAttribute(Attribute.STYLE, "border: 15px solid #444; width: 600px; padding: 2em; margin: 4em auto;")
+        .setRawAttribute(Attribute.STYLE, "border: 15px solid #444; width: 600px; padding: 2em; margin: 4em auto;")
         .addChild(heading)
         .addChild(p1)
         .addChild(p2)
         .build();
     Element body = new Element.Builder(Tag.BODY)
-        .setAttribute(Attribute.STYLE, "font-family: 'Trebuchet MS', Arial, sans-serif; color: #444;")
+        .setRawAttribute(Attribute.STYLE, "font-family: 'Trebuchet MS', Arial, sans-serif; color: #444;")
         .addChild(container)
         .build();
 
     Element html = new Element.Builder(Tag.HTML)
-        .setAttribute("xmlns", "http://www.w3.org/1999/xhtml")
-        .setAttribute("xml:lang", "en")
+        .setRawAttribute("xmlns", "http://www.w3.org/1999/xhtml")
+        .setRawAttribute("xml:lang", "en")
         .addChild(head)
         .addChild(body)
         .build();

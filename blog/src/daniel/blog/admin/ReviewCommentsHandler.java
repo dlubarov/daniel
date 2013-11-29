@@ -58,18 +58,18 @@ public class ReviewCommentsHandler implements PartialHandler {
 
   private static Element commentReviewForm(Comment comment, Post post) {
     Element approveButton = new Element.Builder(Tag.INPUT)
-        .setAttribute(Attribute.NAME, "approve")
-        .setAttribute(Attribute.TYPE, "submit")
-        .setAttribute(Attribute.VALUE, "Approve")
+        .setRawAttribute(Attribute.NAME, "approve")
+        .setRawAttribute(Attribute.TYPE, "submit")
+        .setRawAttribute(Attribute.VALUE, "Approve")
         .build();
     Element deleteButton = new Element.Builder(Tag.INPUT)
-        .setAttribute(Attribute.NAME, "delete")
-        .setAttribute(Attribute.TYPE, "submit")
-        .setAttribute(Attribute.VALUE, "Delete")
+        .setRawAttribute(Attribute.NAME, "delete")
+        .setRawAttribute(Attribute.TYPE, "submit")
+        .setRawAttribute(Attribute.VALUE, "Delete")
         .build();
     return new Element.Builder(Tag.FORM)
-        .setAttribute(Attribute.ACTION, "admin/review-comments")
-        .setAttribute(Attribute.METHOD, "post")
+        .setRawAttribute(Attribute.ACTION, "admin/review-comments")
+        .setRawAttribute(Attribute.METHOD, "post")
         .addChild(PostFormatter.summaryLink(post))
         .addChild(CommentFormatter.full(comment))
         .addChild(new ParagraphBuilder().addChild(approveButton).addChild(deleteButton).build())

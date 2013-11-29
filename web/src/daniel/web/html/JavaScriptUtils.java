@@ -5,8 +5,8 @@ public final class JavaScriptUtils {
 
   public static Element createJavaScriptLink(String sourcePath) {
     return new Element.Builder(Tag.SCRIPT)
-        .setAttribute(Attribute.TYPE, "text/javascript")
-        .setAttribute(Attribute.SRC, sourcePath)
+        .setRawAttribute(Attribute.TYPE, "text/javascript")
+        .setRawAttribute(Attribute.SRC, sourcePath)
         .build();
   }
 }

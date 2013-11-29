@@ -47,27 +47,27 @@ final class EditPostHandler implements Handler {
 
   private HttpResponse handleGet(HttpRequest request) {
     Element form = new Element.Builder(Tag.FORM)
-        .setAttribute(Attribute.ACTION, post.getUrlFriendlySubject() + "/edit")
-        .setAttribute(Attribute.METHOD, "post")
+        .setRawAttribute(Attribute.ACTION, post.getUrlFriendlySubject() + "/edit")
+        .setRawAttribute(Attribute.METHOD, "post")
         .addChild(new Element.Builder(Tag.INPUT)
-            .setAttribute(Attribute.NAME, "subject")
-            .setAttribute(Attribute.TYPE, "text")
+            .setRawAttribute(Attribute.NAME, "subject")
+            .setRawAttribute(Attribute.TYPE, "text")
             .setEscapedAttribtue(Attribute.VALUE, post.getSubject())
-            .setAttribute(Attribute.CLASS, "wide")
-            .setAttribute(Attribute.STYLE, "margin-bottom: 1em")
+            .setRawAttribute(Attribute.CLASS, "wide")
+            .setRawAttribute(Attribute.STYLE, "margin-bottom: 1em")
             .build())
         .addChild(new Element.Builder(Tag.TEXTAREA)
-            .setAttribute(Attribute.NAME, "content")
-            .setAttribute(Attribute.CLASS, "wide")
-            .setAttribute(Attribute.ROWS, "30")
+            .setRawAttribute(Attribute.NAME, "content")
+            .setRawAttribute(Attribute.CLASS, "wide")
+            .setRawAttribute(Attribute.ROWS, "30")
             .addEscapedText(post.getContent())
             .build())
         .addChild(getPublishedSection())
 //        .addChild(new Element(Tag.BR))
         .addChild(new Element.Builder(Tag.INPUT)
-            .setAttribute(Attribute.TYPE, "submit")
-            .setAttribute(Attribute.VALUE, "Update Post")
-            .setAttribute(Attribute.STYLE, "display: block; margin: 0px auto;")
+            .setRawAttribute(Attribute.TYPE, "submit")
+            .setRawAttribute(Attribute.VALUE, "Update Post")
+            .setRawAttribute(Attribute.STYLE, "display: block; margin: 0px auto;")
             .build())
         .build();
     Element document = Layout.createDocument(request,
@@ -77,16 +77,16 @@ final class EditPostHandler implements Handler {
 
   private Element getPublishedSection() {
     Element.Builder checkboxBuilder = new Element.Builder(Tag.INPUT)
-        .setAttribute(Attribute.TYPE, "checkbox")
-        .setAttribute(Attribute.ID, "published")
-        .setAttribute(Attribute.NAME, "published")
-        .setAttribute(Attribute.VALUE, "yes");
+        .setRawAttribute(Attribute.TYPE, "checkbox")
+        .setRawAttribute(Attribute.ID, "published")
+        .setRawAttribute(Attribute.NAME, "published")
+        .setRawAttribute(Attribute.VALUE, "yes");
     if (post.isPublished())
-      checkboxBuilder.setAttribute("checked", "checked");
+      checkboxBuilder.setRawAttribute("checked", "checked");
     Element checkbox = checkboxBuilder.build();
 
     Element label = new Element.Builder(Tag.LABEL)
-        .setAttribute(Attribute.FOR, "published")
+        .setRawAttribute(Attribute.FOR, "published")
         .addEscapedText("Published")
         .build();
 

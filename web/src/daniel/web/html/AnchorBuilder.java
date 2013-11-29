@@ -23,27 +23,27 @@ public final class AnchorBuilder {
   }
 
   public AnchorBuilder setHref(String href) {
-    elementBuilder.setAttribute(Attribute.HREF, href);
+    elementBuilder.setRawAttribute(Attribute.HREF, href);
     return this;
   }
 
   public AnchorBuilder setTitle(String href) {
-    elementBuilder.setAttribute(Attribute.HREF, href);
+    elementBuilder.setRawAttribute(Attribute.HREF, href);
     return this;
   }
 
   public AnchorBuilder setClass(String clazz) {
-    elementBuilder.setAttribute(Attribute.CLASS, clazz);
+    elementBuilder.setRawAttribute(Attribute.CLASS, clazz);
     return this;
   }
 
   public AnchorBuilder setStyle(String style) {
-    elementBuilder.setAttribute(Attribute.STYLE, style);
+    elementBuilder.setRawAttribute(Attribute.STYLE, style);
     return this;
   }
 
   public AnchorBuilder setTarget(String target) {
-    elementBuilder.setAttribute(Attribute.TARGET, target);
+    elementBuilder.setRawAttribute(Attribute.TARGET, target);
     return this;
   }
 

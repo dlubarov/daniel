@@ -83,7 +83,7 @@ public final class Post {
   public String getUrlFriendlySubject() {
     String urlSubject = subject
         .toLowerCase()
-        .replaceAll("[^a-zA-Z0-9? -_]", "")
+        .replaceAll("[^a-zA-Z0-9?-_ ]", "")
         .trim()
         .replace(' ', '-');
     while (urlSubject.contains("--"))

@@ -21,7 +21,7 @@ public final class CommentFormatter {
 
   public static Element full(Comment comment) {
     return new Element.Builder(Tag.DIV)
-        .setAttribute(Attribute.CLASS, "comment")
+        .setRawAttribute(Attribute.CLASS, "comment")
         .addChild(getAvatar(comment.getAuthorEmail()))
         .addChild(getPrefixAndContent(comment))
         .addChild(HtmlUtils.getClearDiv())
@@ -30,7 +30,7 @@ public final class CommentFormatter {
 
   private static Node getPrefixAndContent(Comment comment) {
     return new Element.Builder(Tag.ARTICLE)
-        .setAttribute(Attribute.STYLE, "float: left;")
+        .setRawAttribute(Attribute.STYLE, "float: left;")
         .addChild(formatAuthorAndCreatedAt(comment))
         .addChild(formatContent(comment))
         .build();
@@ -41,9 +41,9 @@ public final class CommentFormatter {
     String hash = DigestUtils.md5Hex(email.getBytes(Charset.forName("CP1252")));
     String src = String.format("http://www.gravatar.com/avatar/%s?s=54&amp;d=mm", hash);
     return new Element.Builder(Tag.IMG)
-        .setAttribute(Attribute.CLASS, "gravatar")
-        .setAttribute(Attribute.SRC, src)
-        .setAttribute(Attribute.ALT, "user avatar")
+        .setRawAttribute(Attribute.CLASS, "gravatar")
+        .setRawAttribute(Attribute.SRC, src)
+        .setRawAttribute(Attribute.ALT, "user avatar")
         .build();
   }
 
@@ -64,7 +64,7 @@ public final class CommentFormatter {
 
   private static Element formatCreatedAt(Comment comment) {
     return new Element.Builder(Tag.TIME)
-        .setAttribute(Attribute.DATETIME, DateUtils.formatIso8601(comment.getCreatedAt()))
+        .setRawAttribute(Attribute.DATETIME, DateUtils.formatIso8601(comment.getCreatedAt()))
         .addEscapedText(dateFormat.format(comment.getCreatedAt().toDate()))
         .build();
   }
