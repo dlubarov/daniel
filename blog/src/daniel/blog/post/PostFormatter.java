@@ -49,9 +49,11 @@ public final class PostFormatter {
   }
 
   public static Element summaryLink(Post post) {
-    return new AnchorBuilder()
+    AnchorBuilder anchorBuilder = new AnchorBuilder()
         .setHref(PostUrlFactory.getViewUrl(post))
-        .addEscapedText(post.getSubject())
-        .build();
+        .addEscapedText(post.getSubject());
+    if (!post.isPublished())
+      anchorBuilder.setStyle("color: #aaa;");
+    return anchorBuilder.build();
   }
 }

@@ -49,18 +49,21 @@ final class EditPostHandler implements Handler {
     Element form = new Element.Builder(Tag.FORM)
         .setAttribute(Attribute.ACTION, post.getUrlFriendlySubject() + "/edit")
         .setAttribute(Attribute.METHOD, "post")
-        .addChild(new Element.Builder(Tag.INPUT).setAttribute(Attribute.NAME, "subject")
+        .addChild(new Element.Builder(Tag.INPUT)
+            .setAttribute(Attribute.NAME, "subject")
             .setAttribute(Attribute.TYPE, "text")
             .setEscapedAttribtue(Attribute.VALUE, post.getSubject())
             .setAttribute(Attribute.CLASS, "wide")
             .setAttribute(Attribute.STYLE, "margin-bottom: 1em")
             .build())
-        .addChild(new Element.Builder(Tag.TEXTAREA).setAttribute(Attribute.NAME, "content")
+        .addChild(new Element.Builder(Tag.TEXTAREA)
+            .setAttribute(Attribute.NAME, "content")
             .setAttribute(Attribute.CLASS, "wide")
             .setAttribute(Attribute.ROWS, "30")
             .addEscapedText(post.getContent())
             .build())
-        .addChild(new Element(Tag.BR))
+        .addChild(getPublishedSection())
+//        .addChild(new Element(Tag.BR))
         .addChild(new Element.Builder(Tag.INPUT)
             .setAttribute(Attribute.TYPE, "submit")
             .setAttribute(Attribute.VALUE, "Update Post")
@@ -72,16 +75,39 @@ final class EditPostHandler implements Handler {
     return HttpResponseFactory.xhtmlResponse(HttpStatus.OK, document);
   }
 
+  private Element getPublishedSection() {
+    Element.Builder checkboxBuilder = new Element.Builder(Tag.INPUT)
+        .setAttribute(Attribute.TYPE, "checkbox")
+        .setAttribute(Attribute.ID, "published")
+        .setAttribute(Attribute.NAME, "published")
+        .setAttribute(Attribute.VALUE, "yes");
+    if (post.isPublished())
+      checkboxBuilder.setAttribute("checked", "checked");
+    Element checkbox = checkboxBuilder.build();
+
+    Element label = new Element.Builder(Tag.LABEL)
+        .setAttribute(Attribute.FOR, "published")
+        .addEscapedText("Published")
+        .build();
+
+    return new Element.Builder(Tag.DIV)
+        .addChild(checkbox)
+        .addChild(label)
+        .build();
+  }
+
   private HttpResponse handlePost(HttpRequest request) {
     String subject = request.getUrlencodedPostData().getValues("subject")
         .tryGetOnlyElement().getOrThrow();
     String content = request.getUrlencodedPostData().getValues("content")
         .tryGetOnlyElement().getOrThrow();
+    boolean published = !request.getUrlencodedPostData().getValues("published").isEmpty();
     Post editedPost = new Post.Builder()
         .setUuid(post.getUuid())
         .setCreatedAt(post.getCreatedAt())
         .setSubject(subject)
         .setContent(content)
+        .setPublished(published)
         .build();
     PostStorage.updatePost(editedPost);
 

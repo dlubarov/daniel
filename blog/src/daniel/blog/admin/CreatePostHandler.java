@@ -80,6 +80,7 @@ final class CreatePostHandler implements PartialHandler {
         .setCreatedAt(Instant.now())
         .setSubject(subject)
         .setContent(content)
+        .setPublished(true)
         .build();
     PostStorage.saveNewPost(post);
 

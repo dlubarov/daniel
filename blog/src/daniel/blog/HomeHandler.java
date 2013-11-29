@@ -1,5 +1,6 @@
 package daniel.blog;
 
+import daniel.blog.admin.Authenticator;
 import daniel.blog.post.Post;
 import daniel.blog.post.PostFormatter;
 import daniel.blog.post.PostStorage;
@@ -40,6 +41,8 @@ final class HomeHandler implements PartialHandler {
 
     Element.Builder listBuilder = new Element.Builder(Tag.UL);
     for (Post post : allPosts) {
+      if (!post.isPublished() && !Authenticator.isAdmin(request))
+        continue;
       Element summaryLink = PostFormatter.summaryLink(post);
       listBuilder.addChild(new Element(Tag.LI, summaryLink));
     }

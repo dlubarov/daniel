@@ -1,6 +1,7 @@
 package daniel.blog.post;
 
 import daniel.data.serialization.AbstractSerializer;
+import daniel.data.serialization.BooleanSerializer;
 import daniel.data.serialization.ByteSink;
 import daniel.data.serialization.ByteSource;
 import daniel.data.serialization.InstantSerializer;
@@ -17,15 +18,21 @@ public final class PostSerializer extends AbstractSerializer<Post> {
     InstantSerializer.singleton.writeToSink(post.getCreatedAt(), sink);
     StringSerializer.singleton.writeToSink(post.getSubject(), sink);
     StringSerializer.singleton.writeToSink(post.getContent(), sink);
+    BooleanSerializer.singleton.writeToSink(post.isPublished(), sink);
   }
 
   @Override
   public Post readFromSource(ByteSource source) {
-    return new Post.Builder()
+    Post.Builder builder = new Post.Builder()
         .setUuid(StringSerializer.singleton.readFromSource(source))
         .setCreatedAt(InstantSerializer.singleton.readFromSource(source))
         .setSubject(StringSerializer.singleton.readFromSource(source))
-        .setContent(StringSerializer.singleton.readFromSource(source))
-        .build();
+        .setContent(StringSerializer.singleton.readFromSource(source));
+    // TODO: Remove once 'published' is backfilled.
+    if (source.hasNext())
+      builder.setPublished(BooleanSerializer.singleton.readFromSource(source));
+    else
+      builder.setPublished(true);
+    return builder.build();
   }
 }

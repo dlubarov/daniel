@@ -10,6 +10,7 @@ public final class Post {
     private Option<Instant> createdAt = Option.none();
     private Option<String> subject = Option.none();
     private Option<String> content = Option.none();
+    private Option<Boolean> published = Option.none();
 
     public Builder setUuid(String uuid) {
       this.uuid = Option.some(uuid);
@@ -35,6 +36,11 @@ public final class Post {
       return this;
     }
 
+    public Builder setPublished(boolean published) {
+      this.published = Option.some(published);
+      return this;
+    }
+
     public Post build() {
       return new Post(this);
     }
@@ -44,12 +50,14 @@ public final class Post {
   private final Instant createdAt;
   private final String subject;
   private final String content;
+  private final boolean published;
 
   private Post(Builder builder) {
     uuid = builder.uuid.getOrThrow("No UUID was set.");
     createdAt = builder.createdAt.getOrThrow("No created at date was set.");
     subject = builder.subject.getOrThrow("No subject was set.");
     content = builder.content.getOrThrow("No content was set.");
+    published = builder.published.getOrThrow("No published flag was set.");
   }
 
   public String getUuid() {
@@ -68,10 +76,14 @@ public final class Post {
     return content;
   }
 
+  public boolean isPublished() {
+    return published;
+  }
+
   public String getUrlFriendlySubject() {
     String urlSubject = subject
         .toLowerCase()
-        .replaceAll("[^a-zA-Z0-9? -]", "")
+        .replaceAll("[^a-zA-Z0-9? -_]", "")
         .trim()
         .replace(' ', '-');
     while (urlSubject.contains("--"))
