@@ -48,7 +48,7 @@ public class TestData {
         "CPU is at 5%.",
         "CPU is at 65%.",
         "CPU is at 100%.");
-    alert.frequency = "3 seconds";
+    alert.frequency = "10 seconds";
     alert.tags.add("cpu");
     alert.tags.add("host " + host);
     alert.recipientUuids.add(PROD_ENG_EMAIL_UUID);
@@ -65,7 +65,7 @@ public class TestData {
         "memory is at 30%.",
         "memory is at 80%.",
         "memory is at 100%.");
-    alert.frequency = "3 seconds";
+    alert.frequency = "20 seconds";
     alert.tags.add("memory");
     alert.tags.add("host " + host);
     alert.recipientUuids.add(PROD_ENG_EMAIL_UUID);
@@ -82,7 +82,7 @@ public class TestData {
         "disk utilization at 45%.",
         "disk utilization at 85%.",
         "disk utilization at 95%.");
-    alert.frequency = "3 seconds";
+    alert.frequency = "30 seconds";
     alert.tags.add("disk");
     alert.tags.add("host " + host);
     alert.recipientUuids.add(PROD_ENG_EMAIL_UUID);
@@ -105,7 +105,7 @@ public class TestData {
         "Average latency is 600ms.",
         "Average latency is 900ms.",
         "Average latency is 1600ms.");
-    alert.frequency = "3 seconds";
+    alert.frequency = "10 seconds";
     alert.tags.add("authorizations");
     alert.tags.add("latency");
     alert.tags.add("gateway " + gatewayName);
@@ -123,7 +123,7 @@ public class TestData {
         "Decline rate is 100%.",
         "Decline rate is 90%.",
         "Decline rate is 70%.");
-    alert.frequency = "3 seconds";
+    alert.frequency = "20 seconds";
     alert.tags.add("authorizations");
     alert.tags.add("decline rate");
     alert.tags.add("gateway " + gatewayName);
@@ -141,7 +141,7 @@ public class TestData {
         "Last batch had 60k records.",
         "Last batch had 140k records.",
         "Last batch had 150k records.");
-    alert.frequency = "3 seconds";
+    alert.frequency = "30 seconds";
     alert.recipientUuids.add(PAYMENTS_EMAIL_UUID);
     alert.recipientUuids.add(PAYMENTS_PAGER_UUID);
     alert.addCheck(createCheck(Status.WARNING, "Batch sizes are close to the maximum."));
@@ -152,12 +152,12 @@ public class TestData {
   }
 
   private static String randomCommand(String ok, String warning, String critical) {
-    return new StringBuilder()
-        .append("case $(($RANDOM % 3)) in\n")
-        .append("  0) echo '").append(ok).append("'; exit 0;;\n")
-        .append("  1) echo '").append(warning).append("'; exit 1;;\n")
-        .append("  2) echo '").append(critical).append("'; exit 2;;\n")
-        .append("esac").toString();
+    return ""
+        + "case $(($RANDOM % 3)) in\n"
+        + "  0) echo '" + ok + "'; exit 0;;\n"
+        + "  1) echo '" + warning + "'; exit 1;;\n"
+        + "  2) echo '" + critical + "'; exit 2;;\n"
+        + "esac";
   }
 
   private static void createPaymentsEmailRecipient() {
