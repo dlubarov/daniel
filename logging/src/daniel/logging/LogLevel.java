@@ -6,7 +6,7 @@ public enum LogLevel {
   public static LogLevel getDefault() {
     String logLevel = System.getenv("LOG");
     if (logLevel == null)
-      return WARN;
+      return INFO;
     return LogLevel.valueOf(logLevel.toUpperCase());
   }
 }
