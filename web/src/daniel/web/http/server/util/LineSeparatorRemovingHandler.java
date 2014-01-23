@@ -8,6 +8,9 @@ import daniel.web.http.HttpRequest;
 import daniel.web.http.HttpResponse;
 import daniel.web.http.RequestMethod;
 import daniel.web.http.server.PartialHandler;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 
 public final class LineSeparatorRemovingHandler implements PartialHandler {
   private static final Logger logger = Logger.forClass(LineSeparatorRemovingHandler.class);
@@ -24,9 +27,24 @@ public final class LineSeparatorRemovingHandler implements PartialHandler {
     if (!methodToRedirect.contains(request.getMethod()))
       return Option.none();
 
-    String strippedResource = stripLineSeparators(request.getResource());
-    if (strippedResource.equals(request.getResource()))
+    String decodedResource;
+    try {
+      decodedResource = URLDecoder.decode(request.getResource(), "UTF-8");
+    } catch (UnsupportedEncodingException e) {
+      logger.error("Eh? UTF-8 not supported?", e);
       return Option.none();
+    }
+    String strippedDecodedResource = stripLineSeparators(decodedResource);
+    if (strippedDecodedResource.equals(decodedResource))
+      return Option.none();
+
+    String strippedResource;
+    try {
+      strippedResource = URLEncoder.encode(strippedDecodedResource, "UTF-8");
+    } catch (UnsupportedEncodingException e) {
+      logger.error("Eh? UTF-8 not supported?", e);
+      return Option.none();
+    }
 
     String location = String.format("http://%s%s", request.getHost(), strippedResource);
     logger.info("Redirecting to %s.", location);
