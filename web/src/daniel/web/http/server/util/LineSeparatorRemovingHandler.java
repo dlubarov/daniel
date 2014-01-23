@@ -27,31 +27,27 @@ public final class LineSeparatorRemovingHandler implements PartialHandler {
     if (!methodToRedirect.contains(request.getMethod()))
       return Option.none();
 
-    String decodedResource;
-    try {
-      decodedResource = URLDecoder.decode(request.getResource(), "UTF-8");
-    } catch (UnsupportedEncodingException e) {
-      logger.error("Eh? UTF-8 not supported?", e);
+    String strippedResource = stripLineSeparatorsFromPercentEncodedResource(request.getResource());
+    if (strippedResource.equals(request.getResource()))
       return Option.none();
-    }
-    String strippedDecodedResource = stripLineSeparators(decodedResource);
-    if (strippedDecodedResource.equals(decodedResource))
-      return Option.none();
-
-    String strippedResource;
-    try {
-      strippedResource = URLEncoder.encode(strippedDecodedResource, "UTF-8");
-    } catch (UnsupportedEncodingException e) {
-      logger.error("Eh? UTF-8 not supported?", e);
-      return Option.none();
-    }
 
     String location = String.format("http://%s%s", request.getHost(), strippedResource);
     logger.info("Redirecting to %s.", location);
     return Option.some(HttpResponseFactory.permanentRedirect(location));
   }
 
-  private String stripLineSeparators(String input) {
+  private static String stripLineSeparatorsFromPercentEncodedResource(String percentEncodedResource) {
+    try {
+      String decodedResource = URLDecoder.decode(percentEncodedResource, "UTF-8");
+      String strippedDecodedResource = stripLineSeparators(decodedResource);
+      return URLEncoder.encode(strippedDecodedResource, "UTF-8");
+    } catch (UnsupportedEncodingException e) {
+      logger.error("Eh? UTF-8 not supported?", e);
+      return percentEncodedResource;
+    }
+  }
+
+  private static String stripLineSeparators(String input) {
     StringBuilder sb = new StringBuilder();
     for (int offset = 0; offset < input.length();) {
       int codepoint = input.codePointAt(offset);
