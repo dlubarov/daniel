@@ -3,6 +3,7 @@ package daniel.web.http.server.util;
 import daniel.data.option.Option;
 import daniel.data.sequence.ImmutableArray;
 import daniel.data.sequence.ImmutableSequence;
+import daniel.data.util.Check;
 import daniel.logging.Logger;
 import daniel.web.http.HttpRequest;
 import daniel.web.http.HttpResponse;
@@ -60,6 +61,8 @@ public final class LineSeparatorRemovingHandler implements PartialHandler {
   private static String getPercentEncodedBlock(String resource, int index) {
     StringBuilder sb = new StringBuilder();
     while (resource.charAt(index) == '%') {
+      Check.that(resource.length() >= index + 3,
+          "% not follwed by two bytes in \"%s\".", resource);
       sb.append(resource.substring(index, index + 3));
       index += 3;
     }
