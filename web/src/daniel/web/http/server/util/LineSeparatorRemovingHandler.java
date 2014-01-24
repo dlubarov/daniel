@@ -60,7 +60,7 @@ public final class LineSeparatorRemovingHandler implements PartialHandler {
 
   private static String getPercentEncodedBlock(String resource, int index) {
     StringBuilder sb = new StringBuilder();
-    while (resource.charAt(index) == '%') {
+    while (index < resource.length() && resource.charAt(index) == '%') {
       Check.that(resource.length() >= index + 3,
           "% not follwed by two bytes in \"%s\".", resource);
       sb.append(resource.substring(index, index + 3));
