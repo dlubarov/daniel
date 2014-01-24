@@ -27,7 +27,7 @@ public final class LineSeparatorRemovingHandler implements PartialHandler {
     if (!methodToRedirect.contains(request.getMethod()))
       return Option.none();
 
-    String strippedResource = stripLineSeparatorsFromPercentEncodedResource(request.getResource());
+    String strippedResource = stripPercentEncodedLineSeparatorsFromUrl(request.getResource());
     if (strippedResource.equals(request.getResource()))
       return Option.none();
 
@@ -36,15 +36,34 @@ public final class LineSeparatorRemovingHandler implements PartialHandler {
     return Option.some(HttpResponseFactory.permanentRedirect(location));
   }
 
-  private static String stripLineSeparatorsFromPercentEncodedResource(String percentEncodedResource) {
+  private static String stripPercentEncodedLineSeparatorsFromUrl(String url) {
     try {
-      String decodedResource = URLDecoder.decode(percentEncodedResource, "UTF-8");
-      String strippedDecodedResource = stripLineSeparators(decodedResource);
-      return URLEncoder.encode(strippedDecodedResource, "UTF-8");
+      StringBuilder sb = new StringBuilder();
+      for (int i = 0; i < url.length();) {
+        if (url.charAt(i) == '%') {
+          String percentEncodedBlock = getPercentEncodedBlock(url, i);
+          String decodedBlock = URLDecoder.decode(percentEncodedBlock, "UTF-8");
+          sb.append(URLEncoder.encode(stripLineSeparators(decodedBlock), "UTF-8"));
+          i += percentEncodedBlock.length();
+        } else {
+          sb.append(url.charAt(i));
+          ++i;
+        }
+      }
+      return sb.toString();
     } catch (UnsupportedEncodingException e) {
       logger.error("Eh? UTF-8 not supported?", e);
-      return percentEncodedResource;
+      return url;
     }
+  }
+
+  private static String getPercentEncodedBlock(String resource, int index) {
+    StringBuilder sb = new StringBuilder();
+    while (resource.charAt(index) == '%') {
+      sb.append(resource.substring(index, index + 3));
+      index += 3;
+    }
+    return sb.toString();
   }
 
   private static String stripLineSeparators(String input) {
