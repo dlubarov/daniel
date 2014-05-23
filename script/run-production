@@ -9,4 +9,4 @@ if [[ $UID != 0 ]]; then
 fi
 
 export ENVIRONMENT=production
-java -cp "all.jar:lib/*" daniel.multiweb.MultiwebApp 2>&1 | tee -a multiweb.log
+java -cp multiweb/target/multiweb-1.0-SNAPSHOT.jar com.lubarov.daniel.multiweb.MultiwebApp 2>&1 | tee -a multiweb.log

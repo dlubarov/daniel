@@ -3,4 +3,6 @@
 *.info.*
 *.lck
 *.log
-all.jar
+dependency-reduced-pom.xml
+target/
+db/
