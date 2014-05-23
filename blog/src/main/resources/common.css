@@ -115,6 +115,10 @@ small {
   border-bottom: 1px solid #444;
 }
 
+#intro {
+  background-color: #e0e0e0;
+}
+
 footer {
   font-size: 0.9em;
   clear: both;
