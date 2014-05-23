@@ -67,7 +67,7 @@ public final class DelimitedRepetitionParser<A> extends Parser<Sequence<A>> {
     }
 
     if (minTimes <= stack.getSize())
-      return Option.some(new ParseResult<Sequence<A>>(stack, p));
+      return Option.some(new ParseResult<>(stack, p));
     return Option.none();
   }
 }

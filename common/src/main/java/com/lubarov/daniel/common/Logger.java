@@ -33,7 +33,7 @@ public final class Logger {
   }
 
   public void trace(Throwable throwable, String format, Object... args) {
-    log(LogLevel.TRACE, Option.<Throwable>some(throwable), format, args);
+    log(LogLevel.TRACE, Option.some(throwable), format, args);
   }
 
   public void trace(String format, Object... args) {
@@ -41,7 +41,7 @@ public final class Logger {
   }
 
   public void debug(Throwable throwable, String format, Object... args) {
-    log(LogLevel.DEBUG, Option.<Throwable>some(throwable), format, args);
+    log(LogLevel.DEBUG, Option.some(throwable), format, args);
   }
 
   public void debug(String format, Object... args) {
@@ -49,7 +49,7 @@ public final class Logger {
   }
 
   public void info(Throwable throwable, String format, Object... args) {
-    log(LogLevel.INFO, Option.<Throwable>some(throwable), format, args);
+    log(LogLevel.INFO, Option.some(throwable), format, args);
   }
 
   public void info(String format, Object... args) {
@@ -57,7 +57,7 @@ public final class Logger {
   }
 
   public void warn(Throwable throwable, String format, Object... args) {
-    log(LogLevel.WARN, Option.<Throwable>some(throwable), format, args);
+    log(LogLevel.WARN, Option.some(throwable), format, args);
   }
 
   public void warn(String format, Object... args) {
@@ -65,7 +65,7 @@ public final class Logger {
   }
 
   public void error(Throwable throwable, String format, Object... args) {
-    log(LogLevel.ERROR, Option.<Throwable>some(throwable), format, args);
+    log(LogLevel.ERROR, Option.some(throwable), format, args);
   }
 
   public void error(String format, Object... args) {
@@ -73,7 +73,7 @@ public final class Logger {
   }
 
   public void fatal(Throwable throwable, String format, Object... args) {
-    log(LogLevel.FATAL, Option.<Throwable>some(throwable), format, args);
+    log(LogLevel.FATAL, Option.some(throwable), format, args);
   }
 
   public void fatal(String format, Object... args) {

@@ -16,7 +16,7 @@ public final class ImmutableHashDictionary<K, V> extends AbstractImmutableDictio
   }
 
   public static <K, V> ImmutableHashDictionary<K, V> create() {
-    return new ImmutableHashDictionary<>(new HashMap<K, V>());
+    return new ImmutableHashDictionary<>(new HashMap<>());
   }
 
   public static <K, V> ImmutableHashDictionary<K, V> copyOf(Map<? extends K, ? extends V> map) {
@@ -37,7 +37,7 @@ public final class ImmutableHashDictionary<K, V> extends AbstractImmutableDictio
 
   @Override
   public Source<KeyValuePair<K, V>> getEnumerator() {
-    return new IteratorSource<>(proxy.entrySet().iterator()).map(new MapEntryConverter<K, V>());
+    return new IteratorSource<>(proxy.entrySet().iterator()).map(new MapEntryConverter<>());
   }
 
   @Override

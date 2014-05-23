@@ -46,7 +46,7 @@ public final class MultipartParser extends Parser<Sequence<Part>> {
       p = pEnd + crlfDdBoundary.length;
 
       if (data[p] == '-' && data[p + 1] == '-')
-        return Option.some(new ParseResult<Sequence<Part>>(parts, p + 2));
+        return Option.some(new ParseResult<>(parts, p + 2));
       if (data[p] != '\r' || data[p + 1] != '\n')
         throw new RuntimeException("Expected CRLF after --[boundary].");
       p += 2;

@@ -28,12 +28,12 @@ public abstract class AbstractDictionary<K, V>
 
   @Override
   public Set<K> getKeys() {
-    return ImmutableHashSet.copyOf(this.map(new GetKeyFunction<K, V>()));
+    return ImmutableHashSet.copyOf(this.map(new GetKeyFunction<>()));
   }
 
   @Override
   public Collection<V> getValues() {
-    return ImmutableHashSet.copyOf(this.map(new GetValueFunction<K, V>()));
+    return ImmutableHashSet.copyOf(this.map(new GetValueFunction<>()));
   }
 
   @Override

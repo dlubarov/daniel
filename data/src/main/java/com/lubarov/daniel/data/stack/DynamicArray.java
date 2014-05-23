@@ -17,7 +17,7 @@ public final class DynamicArray<A> extends AbstractMutableStack<A> {
   }
 
   public static <A> DynamicArray<A> create() {
-    return new DynamicArray<>(new ArrayList<A>());
+    return new DynamicArray<>(new ArrayList<>());
   }
 
   @SafeVarargs

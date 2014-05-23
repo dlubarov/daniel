@@ -10,10 +10,10 @@ import com.lubarov.daniel.nagger.model.Alert;
 
 public class AlertStorage {
   private static final SerializingDatabase<String, Alert> byUuid =
-      new SerializingDatabase<String, Alert>(
+      new SerializingDatabase<>(
           Config.getDatabaseHome("alerts"),
           StringSerializer.singleton,
-          new GsonSerializer<Alert>(Alert.class));
+          new GsonSerializer<>(Alert.class));
 
   public static void saveNewAlert(Alert alert) {
     byUuid.put(alert.uuid, alert);

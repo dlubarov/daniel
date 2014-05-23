@@ -13,7 +13,7 @@ public final class MutableHashSet<A> extends AbstractSet<A> {
   }
 
   public static <A> MutableHashSet<A> create() {
-    return new MutableHashSet<>(new java.util.HashSet<A>());
+    return new MutableHashSet<>(new java.util.HashSet<>());
   }
 
   @SafeVarargs

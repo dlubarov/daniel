@@ -85,7 +85,7 @@ public class ReviewCommentsHandler implements PartialHandler {
     boolean deleted = !request.getUrlencodedPostData().getValues("delete").isEmpty();
     Comment originalComment = getFirstComment(getUnapprovedComments());
     if (approved && !deleted) {
-      Comment updatedComment = new Comment.Builder(originalComment).setApproved(approved).build();
+      Comment updatedComment = new Comment.Builder(originalComment).setApproved(true).build();
       CommentStorage.updateComment(updatedComment);
       Notifications.addMessage(request, "That comment has been approved.");
     } else if (deleted && !approved) {

@@ -13,7 +13,7 @@ public final class ImmutableHashSet<A> extends AbstractImmutableSet<A> {
   }
 
   public static <A> ImmutableHashSet<A> create() {
-    return new ImmutableHashSet<>(new java.util.HashSet<A>());
+    return new ImmutableHashSet<>(new java.util.HashSet<>());
   }
 
   @SafeVarargs

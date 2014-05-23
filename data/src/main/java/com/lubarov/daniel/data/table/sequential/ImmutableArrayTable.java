@@ -33,7 +33,7 @@ public final class ImmutableArrayTable<K, V>
 
   @Override
   public Set<K> getKeys() {
-    return ImmutableHashSet.copyOf(keyValuePairs.map(new GetKeyFunction<K, V>()));
+    return ImmutableHashSet.copyOf(keyValuePairs.map(new GetKeyFunction<>()));
   }
 
   @Override
@@ -44,10 +44,10 @@ public final class ImmutableArrayTable<K, V>
   @Override
   public Collection<V> getValues(K key) {
     Option<? extends Collection<KeyValuePair<K, V>>> optValues = keyValuePairs
-        .groupBy(new GetKeyFunction<K, V>()).tryGetValue(key);
+        .groupBy(new GetKeyFunction<>()).tryGetValue(key);
     if (optValues.isEmpty())
       return ImmutableArray.create();
-    return optValues.getOrThrow().map(new GetValueFunction<K, V>());
+    return optValues.getOrThrow().map(new GetValueFunction<>());
   }
 
   @Override

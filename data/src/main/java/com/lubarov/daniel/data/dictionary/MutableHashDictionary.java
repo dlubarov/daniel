@@ -16,7 +16,7 @@ public final class MutableHashDictionary<K, V> extends AbstractDictionary<K, V> 
   }
 
   public static <K, V> MutableHashDictionary<K, V> create() {
-    return new MutableHashDictionary<>(new HashMap<K, V>());
+    return new MutableHashDictionary<>(new HashMap<>());
   }
 
   public static <K, V> MutableHashDictionary<K, V> copyOf(
@@ -46,7 +46,7 @@ public final class MutableHashDictionary<K, V> extends AbstractDictionary<K, V> 
 
   @Override
   public Source<KeyValuePair<K, V>> getEnumerator() {
-    return new IteratorSource<>(proxy.entrySet().iterator()).map(new MapEntryConverter<K, V>());
+    return new IteratorSource<>(proxy.entrySet().iterator()).map(new MapEntryConverter<>());
   }
 
   @Override
