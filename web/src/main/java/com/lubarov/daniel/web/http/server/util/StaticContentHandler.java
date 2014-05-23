@@ -8,7 +8,7 @@ import com.lubarov.daniel.data.unit.Instant;
 import com.lubarov.daniel.data.util.Check;
 import com.lubarov.daniel.data.util.FilenameUtils;
 import com.lubarov.daniel.data.util.IOUtils;
-import com.lubarov.daniel.logging.Logger;
+import com.lubarov.daniel.common.Logger;
 import com.lubarov.daniel.web.http.*;
 import com.lubarov.daniel.web.http.server.PartialHandler;
 

@@ -4,7 +4,7 @@ import com.lubarov.daniel.data.option.Option;
 import com.lubarov.daniel.data.sequence.ImmutableArray;
 import com.lubarov.daniel.data.sequence.ImmutableSequence;
 import com.lubarov.daniel.data.util.Check;
-import com.lubarov.daniel.logging.Logger;
+import com.lubarov.daniel.common.Logger;
 import com.lubarov.daniel.web.http.HttpRequest;
 import com.lubarov.daniel.web.http.HttpResponse;
 import com.lubarov.daniel.web.http.RequestMethod;

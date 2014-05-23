@@ -1,6 +1,6 @@
 package com.lubarov.daniel.web.http.server.util;
 
-import com.lubarov.daniel.logging.Logger;
+import com.lubarov.daniel.common.Logger;
 import com.lubarov.daniel.web.html.Element;
 import com.lubarov.daniel.web.html.ParagraphBuilder;
 import com.lubarov.daniel.web.html.Tag;

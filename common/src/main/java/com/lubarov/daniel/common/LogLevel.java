@@ -1,4 +1,4 @@
-package com.lubarov.daniel.logging;
+package com.lubarov.daniel.common;
 
 public enum LogLevel {
   TRACE, DEBUG, INFO, WARN, ERROR, FATAL;

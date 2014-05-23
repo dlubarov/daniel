@@ -1,6 +1,6 @@
 package com.lubarov.daniel.multiweb;
 
-import com.lubarov.daniel.logging.Logger;
+import com.lubarov.daniel.common.Logger;
 import com.lubarov.daniel.web.http.server.HttpServer;
 import com.lubarov.daniel.web.http.server.util.ExceptionHandlingHandler;
 

@@ -1,6 +1,6 @@
 package com.lubarov.daniel.multiweb;
 
-import com.lubarov.daniel.logging.Logger;
+import com.lubarov.daniel.common.Logger;
 
 final class UpdateTask implements Runnable {
   private static final Logger logger = Logger.forClass(UpdateTask.class);

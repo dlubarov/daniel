@@ -1,6 +1,6 @@
 package com.lubarov.daniel.nagger.cmd;
 
-import com.lubarov.daniel.logging.Logger;
+import com.lubarov.daniel.common.Logger;
 import com.lubarov.daniel.nagger.Status;
 
 import java.io.IOException;

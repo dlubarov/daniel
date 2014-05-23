@@ -1,10 +1,12 @@
 package com.lubarov.daniel.blog;
 
+import com.lubarov.daniel.common.Environment;
+
 public final class Config {
   private Config() {}
 
   public static String getBaseUrl() {
-    return inDevMode()
+    return Environment.get() == Environment.DEVELOPMENT
         ? "http://daniel.lubarov.com.wopr:12345"
         : "http://daniel.lubarov.com";
   }
@@ -15,9 +17,5 @@ public final class Config {
 
   public static String getDatabaseHome(String dbName) {
     return System.getProperty("user.dir") + "/blog/db/" + dbName;
-  }
-
-  private static boolean inDevMode() {
-    return System.getenv("ENVIRONMENT").equals("development");
   }
 }

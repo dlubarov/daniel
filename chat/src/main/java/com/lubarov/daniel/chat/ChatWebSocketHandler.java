@@ -2,7 +2,7 @@ package com.lubarov.daniel.chat;
 
 import com.google.gson.Gson;
 import com.lubarov.daniel.data.table.MutableHashTable;
-import com.lubarov.daniel.logging.Logger;
+import com.lubarov.daniel.common.Logger;
 import com.lubarov.daniel.web.http.server.WebSocketHandler;
 import com.lubarov.daniel.web.http.server.WebSocketManager;
 import com.lubarov.daniel.web.http.websocket.WebSocketFrame;

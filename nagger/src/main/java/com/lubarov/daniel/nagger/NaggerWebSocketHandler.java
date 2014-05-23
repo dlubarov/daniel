@@ -4,7 +4,7 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.lubarov.daniel.data.set.MutableHashSet;
-import com.lubarov.daniel.logging.Logger;
+import com.lubarov.daniel.common.Logger;
 import com.lubarov.daniel.nagger.messages.c2s.*;
 import com.lubarov.daniel.nagger.messages.s2c.*;
 import com.lubarov.daniel.nagger.model.Alert;

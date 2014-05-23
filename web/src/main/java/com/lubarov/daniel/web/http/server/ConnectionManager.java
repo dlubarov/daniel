@@ -5,7 +5,7 @@ import com.lubarov.daniel.data.option.Option;
 import com.lubarov.daniel.data.table.MutableHashTable;
 import com.lubarov.daniel.data.unit.Instant;
 import com.lubarov.daniel.data.util.CompressionUtils;
-import com.lubarov.daniel.logging.Logger;
+import com.lubarov.daniel.common.Logger;
 import com.lubarov.daniel.web.http.*;
 import com.lubarov.daniel.web.http.compression.AcceptEncodingParser;
 import com.lubarov.daniel.web.http.cookies.CookieManager;

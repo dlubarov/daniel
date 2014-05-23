@@ -1,4 +1,4 @@
-package com.lubarov.daniel.logging;
+package com.lubarov.daniel.common;
 
 import com.lubarov.daniel.data.option.Option;
 

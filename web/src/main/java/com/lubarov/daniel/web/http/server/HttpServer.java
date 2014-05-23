@@ -2,7 +2,7 @@ package com.lubarov.daniel.web.http.server;
 
 import com.lubarov.daniel.data.option.Option;
 import com.lubarov.daniel.data.util.Check;
-import com.lubarov.daniel.logging.Logger;
+import com.lubarov.daniel.common.Logger;
 
 import java.io.IOException;
 import java.net.ServerSocket;

@@ -1,13 +1,11 @@
 package com.lubarov.daniel.multiweb;
 
+import com.lubarov.daniel.common.Environment;
+
 final class Config {
   private Config() {}
 
   public static int getPort() {
-    return inDevMode() ? 12345 : 80;
-  }
-
-  private static boolean inDevMode() {
-    return System.getenv("ENVIRONMENT").equals("development");
+    return Environment.get() == Environment.DEVELOPMENT ? 12345 : 80;
   }
 }
