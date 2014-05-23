@@ -22,8 +22,9 @@ final class HomeHandler implements PartialHandler {
   public static final HomeHandler singleton = new HomeHandler();
 
   private static final String INTRO = ""
-      + "I'm an engineer at <a href=\"https://squareup.com/\">Square</a>. "
-      + "Here's a list of all my posts.";
+      + "I'm an engineer at <a href=\"https://squareup.com/\">Square</a>, where I work on our card processing infrastructure. "
+      + "Some of my interests are graphics, storage systems, language design and compilers. "
+      + "Feel free to email me at <a href=\"daniel@lubarov.com\">daniel@lubarov.com</a>.";
 
   private HomeHandler() {}
 
@@ -47,7 +48,7 @@ final class HomeHandler implements PartialHandler {
       listBuilder.addChild(new Element(Tag.LI, summaryLink));
     }
 
-    Element intro = new ParagraphBuilder().addRawText(INTRO).build();
+    Element intro = new ParagraphBuilder().setId("intro").addRawText(INTRO).build();
 
     Element document = Layout.createDocument(request,
         Option.<String>none(), Option.<Instant>none(),

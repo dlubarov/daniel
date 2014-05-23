@@ -11,6 +11,14 @@ body {
   margin: 0 auto;
 }
 
+#intro {
+  float: right;
+  width: 30%;
+  background-color: #ddd;
+  padding: 10px;
+  font-size: 90%;
+}
+
 footer {
   width: 800px;
   margin: 0 auto 30px auto;
