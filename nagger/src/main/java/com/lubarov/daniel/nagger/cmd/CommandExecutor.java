@@ -22,7 +22,7 @@ public final class CommandExecutor {
   }
 
   private static CommandResult tryExecute(String command) throws IOException, InterruptedException {
-    logger.debug("Executing %s.", command);
+    logger.info("Executing %s.", command);
     String[] cmdarray = {"sudo", "-u", "nobody", command};
     String[] envp = {};
     Process process = Runtime.getRuntime().exec(cmdarray, envp, null);
@@ -31,7 +31,7 @@ public final class CommandExecutor {
     Reader reader = new InputStreamReader(process.getInputStream());
     String output = readAll(reader).trim();
     CommandResult result = new CommandResult(status, output);
-    logger.debug("Returning %s", result);
+    logger.info("Returning %s", result);
     return result;
   }
 
