@@ -18,6 +18,11 @@
     <dependencies>
         <dependency>
             <groupId>com.lubarov.daniel</groupId>
+            <artifactId>common</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.lubarov.daniel</groupId>
             <artifactId>bdb</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>

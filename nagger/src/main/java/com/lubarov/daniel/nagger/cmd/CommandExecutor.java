@@ -23,7 +23,7 @@ public final class CommandExecutor {
 
   private static CommandResult tryExecute(String command) throws IOException, InterruptedException {
     logger.debug("Executing %s.", command);
-    String[] cmdarray = {"bash", "-c", command};
+    String[] cmdarray = {"sudo", "-u", "nobody", command};
     String[] envp = {};
     Process process = Runtime.getRuntime().exec(cmdarray, envp, null);
     int exitStatus = process.waitFor();
