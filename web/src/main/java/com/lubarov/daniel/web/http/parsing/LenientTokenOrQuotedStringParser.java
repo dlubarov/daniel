@@ -10,7 +10,7 @@ public final class LenientTokenOrQuotedStringParser extends Parser<String> {
       singleton = new LenientTokenOrQuotedStringParser();
 
   private static final DisjunctiveParser<String> proxy =
-      new DisjunctiveParser<>(QuotedStringParser.singleton, LenientTokenParser.singleton);
+      new DisjunctiveParser<String>(QuotedStringParser.singleton, LenientTokenParser.singleton);
 
   private LenientTokenOrQuotedStringParser() {}
 
