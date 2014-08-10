@@ -6,7 +6,8 @@ import com.lubarov.daniel.data.order.Relation;
 
 public final class Duration {
   public static final Ordering<Duration> ASCENDING_ORDERING = new AbstractOrdering<Duration>() {
-    @Override public Relation compare(Duration a, Duration b) {
+    @Override
+    public Relation compare(Duration a, Duration b) {
       return a.seconds < b.seconds ? Relation.LT : Relation.GT;
     }
   };

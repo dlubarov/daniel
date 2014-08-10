@@ -89,8 +89,8 @@ public final class WebSocketFrame {
     WebSocketFrame that = (WebSocketFrame) o;
 
     boolean maskingKeysEqual = this.maskingKey.isDefined() && that.maskingKey.isDefined()
-      ? Arrays.equals(this.maskingKey.getOrThrow(), that.maskingKey.getOrThrow())
-      : this.maskingKey.equals(that.maskingKey);
+        ? Arrays.equals(this.maskingKey.getOrThrow(), that.maskingKey.getOrThrow())
+        : this.maskingKey.equals(that.maskingKey);
 
     return new EqualsBuilder()
         .append(this.finalFragment, that.finalFragment)

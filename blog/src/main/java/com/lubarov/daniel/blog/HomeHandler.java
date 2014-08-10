@@ -35,7 +35,8 @@ final class HomeHandler implements PartialHandler {
 
     Sequence<Post> allPosts = PostStorage.getAllPosts()
         .sorted(new AbstractOrdering<Post>() {
-          @Override public Relation compare(Post a, Post b) {
+          @Override
+          public Relation compare(Post a, Post b) {
             return Instant.DESCENDING_ORDERING.compare(a.getCreatedAt(), b.getCreatedAt());
           }
         });

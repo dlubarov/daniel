@@ -1,5 +1,5 @@
 package com.lubarov.daniel.web.http;
 
-public enum  ContentEncoding {
+public enum ContentEncoding {
   IDENTITY, GZIP
 }

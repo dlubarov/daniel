@@ -52,7 +52,7 @@ public final class CommentStorage {
 
   public static synchronized Collection<Comment> getCommentsByPost(String postUuid) {
     return getCommentUuidsByPost(postUuid).map(commentUuid ->
-            getCommentByUuid(commentUuid).getOrThrow("No comment with UUID from index: " + commentUuid));
+        getCommentByUuid(commentUuid).getOrThrow("No comment with UUID from index: " + commentUuid));
   }
 
   private static synchronized Collection<String> getCommentUuidsByPost(String postUuid) {

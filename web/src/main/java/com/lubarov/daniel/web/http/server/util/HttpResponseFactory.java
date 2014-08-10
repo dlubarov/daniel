@@ -44,13 +44,13 @@ public final class HttpResponseFactory {
 
     Element header = new Element.Builder(Tag.H1).addEscapedText(status.toString()).build();
     Element content = new ParagraphBuilder()
-            .addEscapedText("This document has been moved ")
-            .addChild(new AnchorBuilder()
-                .setHref(location)
-                .addEscapedText("here")
-                .build())
-            .addEscapedText(".")
-            .build();
+        .addEscapedText("This document has been moved ")
+        .addChild(new AnchorBuilder()
+            .setHref(location)
+            .addEscapedText("here")
+            .build())
+        .addEscapedText(".")
+        .build();
     Element body = new Element(Tag.BODY, header, content);
 
     Element html = new Element.Builder(Tag.HTML)

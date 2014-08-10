@@ -55,7 +55,7 @@ public final class HttpServer {
     handler = builder.handler.getOrThrow("No handler was specified.");
     webSocketHandler = builder.webSocketHandler;
     executor = builder.executor.getOrDefault(Executors.newCachedThreadPool(
-            r -> new Thread(r, "connection manager")));
+        r -> new Thread(r, "connection manager")));
     port = builder.port.getOrDefault(80);
   }
 

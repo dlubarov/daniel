@@ -15,12 +15,12 @@ public final class AlertProcessor {
   public static final AlertProcessor singleton = new AlertProcessor();
 
   private final ScheduledExecutorService executorService = Executors.newScheduledThreadPool(10,
-          r -> {
-            Thread thread = new Thread(r);
-            thread.setName("alert processor");
-            thread.setDaemon(true);
-            return thread;
-          }
+      r -> {
+        Thread thread = new Thread(r);
+        thread.setName("alert processor");
+        thread.setDaemon(true);
+        return thread;
+      }
   );
 
   private AlertProcessor() {}
@@ -33,7 +33,8 @@ public final class AlertProcessor {
 
   public void startProcessing(final String alertUuid) {
     Runnable task = new Runnable() {
-      @Override public void run() {
+      @Override
+      public void run() {
         Alert alert = AlertStorage.getAlertByUuid(alertUuid).getOrThrow();
         Check check = new Check();
         S2cAddCheckMessage addCheckMessage = new S2cAddCheckMessage();

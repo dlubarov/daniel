@@ -57,8 +57,8 @@ public final class HttpRequest {
 
     public Builder addHeader(String name, String value) {
       for (RequestHeaderName header : RequestHeaderName.values())
-         if (header.getStandardName().equalsIgnoreCase(name))
-           name = header.getStandardName();
+        if (header.getStandardName().equalsIgnoreCase(name))
+          name = header.getStandardName();
       headers.pushBack(new KeyValuePair<>(name, value));
       return this;
     }

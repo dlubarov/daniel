@@ -36,7 +36,7 @@
             <releases>
                 <enabled>true</enabled>
             </releases>
-            <snapshots />
+            <snapshots/>
         </repository>
     </repositories>
 </project>

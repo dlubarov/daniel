@@ -95,7 +95,7 @@ public final class Layout {
     return new Element.Builder(Tag.BODY)
         .setRawAttribute(Attribute.ONLOAD, "prettyPrint()")
         .addChild(heading1)
-        //.addChild(heading2)
+            //.addChild(heading2)
         .addChild(contentBuilder.build())
         .addChild(HtmlUtils.getClearDiv())
         .addChild(getFooter())

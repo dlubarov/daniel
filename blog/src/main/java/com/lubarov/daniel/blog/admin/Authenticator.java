@@ -6,7 +6,7 @@ import com.lubarov.daniel.data.option.Option;
 import com.lubarov.daniel.web.http.HttpRequest;
 
 public final class Authenticator {
-  public static enum Status { AUTH_SUCCEEDED, AUTH_FAILED, AUTH_NOT_ATTEMPTED, PASSWORD_NOT_SETUP }
+  public static enum Status {AUTH_SUCCEEDED, AUTH_FAILED, AUTH_NOT_ATTEMPTED, PASSWORD_NOT_SETUP}
 
   private Authenticator() {}
 

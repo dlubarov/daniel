@@ -24,7 +24,8 @@ public class WebSocketFrameSerializer implements Serializer<WebSocketFrame> {
   public WebSocketFrame readFromSource(final ByteSource source) {
     try {
       return WebSocketFrameDecoder.parseFrame(new InputStream() {
-        @Override public int read() throws IOException {
+        @Override
+        public int read() throws IOException {
           return source.take() & 0xFF;
         }
       }).getOrThrow();

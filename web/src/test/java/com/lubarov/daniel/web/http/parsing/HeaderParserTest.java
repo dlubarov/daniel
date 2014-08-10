@@ -26,7 +26,7 @@ public class HeaderParserTest {
     assertEquals(new KeyValuePair<>("a", "b"), optResult1.getOrThrow().getValue());
     assertEquals(9, optResult1.getOrThrow().getRem());
 
-    Option<ParseResult<KeyValuePair<String, String>>> optResult2 = HeaderParser.singleton.tryParse (requestBytes, 11);
+    Option<ParseResult<KeyValuePair<String, String>>> optResult2 = HeaderParser.singleton.tryParse(requestBytes, 11);
     assertTrue(optResult2.isDefined());
     assertEquals(new KeyValuePair<>("cd", "ef gh"), optResult2.getOrThrow().getValue());
     assertEquals(25, optResult2.getOrThrow().getRem());

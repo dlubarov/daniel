@@ -8,7 +8,8 @@ public final class Predicates {
 
   public static <A> Function<A, Boolean> opposite(final Function<? super A, Boolean> predicate) {
     return new Function<A, Boolean>() {
-      @Override public Boolean apply(A input) {
+      @Override
+      public Boolean apply(A input) {
         return !predicate.apply(input);
       }
     };
@@ -18,7 +19,8 @@ public final class Predicates {
       final Function<? super A, Boolean> predicateA,
       final Function<? super A, Boolean> predicateB) {
     return new Function<A, Boolean>() {
-      @Override public Boolean apply(A input) {
+      @Override
+      public Boolean apply(A input) {
         return predicateA.apply(input) && predicateB.apply(input);
       }
     };
@@ -28,7 +30,8 @@ public final class Predicates {
       final Function<? super A, Boolean> predicateA,
       final Function<? super A, Boolean> predicateB) {
     return new Function<A, Boolean>() {
-      @Override public Boolean apply(A input) {
+      @Override
+      public Boolean apply(A input) {
         return predicateA.apply(input) || predicateB.apply(input);
       }
     };
@@ -38,7 +41,8 @@ public final class Predicates {
       final Function<? super A, Boolean> predicateA,
       final Function<? super A, Boolean> predicateB) {
     return new Function<A, Boolean>() {
-      @Override public Boolean apply(A input) {
+      @Override
+      public Boolean apply(A input) {
         return predicateA.apply(input) ^ predicateB.apply(input);
       }
     };

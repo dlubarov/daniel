@@ -10,7 +10,8 @@ import com.lubarov.daniel.web.util.UuidUtils;
 public final class Comment {
   public static final Ordering<Comment> ASCENDING_CREATED_AT_ORDERING =
       new AbstractOrdering<Comment>() {
-        @Override public Relation compare(Comment a, Comment b) {
+        @Override
+        public Relation compare(Comment a, Comment b) {
           return Instant.ASCENDING_ORDERING.compare(a.getCreatedAt(), b.getCreatedAt());
         }
       };

@@ -8,7 +8,8 @@ import java.util.Date;
 
 public final class Instant {
   public static final Ordering<Instant> ASCENDING_ORDERING = new AbstractOrdering<Instant>() {
-    @Override public Relation compare(Instant a, Instant b) {
+    @Override
+    public Relation compare(Instant a, Instant b) {
       return Duration.ASCENDING_ORDERING.compare(a.sinceEpoch, b.sinceEpoch);
     }
   };

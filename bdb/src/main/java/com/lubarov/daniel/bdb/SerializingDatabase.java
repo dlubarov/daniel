@@ -25,7 +25,7 @@ public final class SerializingDatabase<K, V> {
 
   public Option<V> get(K key) {
     return rawDatabase.tryGet(keySerializer.writeToByteArray(key))
-            .map(valueSerializer::readFromByteArray);
+        .map(valueSerializer::readFromByteArray);
   }
 
   public void put(K key, V value) {

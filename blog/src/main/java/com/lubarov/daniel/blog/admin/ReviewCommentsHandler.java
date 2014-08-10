@@ -24,7 +24,8 @@ public class ReviewCommentsHandler implements PartialHandler {
 
   private ReviewCommentsHandler() {}
 
-  @Override public Option<HttpResponse> tryHandle(HttpRequest request) {
+  @Override
+  public Option<HttpResponse> tryHandle(HttpRequest request) {
     if (!request.getResource().startsWith("/admin/review-comments"))
       return Option.none();
 
@@ -107,6 +108,6 @@ public class ReviewCommentsHandler implements PartialHandler {
 
   private static Collection<Comment> getUnapprovedComments() {
     return CommentStorage.getAllComments().filter(
-            comment -> !comment.isApproved());
+        comment -> !comment.isApproved());
   }
 }
