@@ -14,7 +14,7 @@ new_head=$(git rev-parse --verify HEAD)
 
 if [ "$new_head" != "$old_head" ]; then
   echo "Pulled new version: $new_head."
-  mvn clean package -am -pl multiweb
+  mvn clean package -Dmaven.test.skip=true -am -pl multiweb
   script/restart-daemon
 else
   echo 'No new changes.'
