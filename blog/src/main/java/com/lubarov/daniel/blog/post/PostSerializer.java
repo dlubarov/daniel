@@ -18,16 +18,12 @@ public final class PostSerializer extends AbstractSerializer<Post> {
 
   @Override
   public Post readFromSource(ByteSource source) {
-    Post.Builder builder = new Post.Builder()
+    return new Post.Builder()
         .setUuid(StringSerializer.singleton.readFromSource(source))
         .setCreatedAt(InstantSerializer.singleton.readFromSource(source))
         .setSubject(StringSerializer.singleton.readFromSource(source))
-        .setContent(StringSerializer.singleton.readFromSource(source));
-    // TODO: Remove once 'published' is backfilled.
-    if (source.hasNext())
-      builder.setPublished(BooleanSerializer.singleton.readFromSource(source));
-    else
-      builder.setPublished(true);
-    return builder.build();
+        .setContent(StringSerializer.singleton.readFromSource(source))
+        .setPublished(BooleanSerializer.singleton.readFromSource(source))
+        .build();
   }
 }
