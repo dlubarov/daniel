@@ -10,6 +10,11 @@ public final class PostStorage {
   private static final SerializingDatabase<String, Post> byUuid = new SerializingDatabase<>(
       Config.getDatabaseHome("posts"), StringSerializer.singleton, PostSerializer.singleton);
 
+  static {
+    // TODO: Remove once 'published' is backfilled.
+    refreshAll();
+  }
+
   private PostStorage() {}
 
   public static void saveNewPost(Post post) {
