@@ -39,3 +39,7 @@ table {
   font-size: 90%;
   border-spacing: 0.8em;
 }
+
+input[type="number"] {
+  width: 4em;
+}
