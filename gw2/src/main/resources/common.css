@@ -1,0 +1,41 @@
+body {
+  font-family: "Trebuchet MS", Arial, sans-serif;
+}
+
+a {
+  text-decoration: none;
+  color: #1039aD;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+#logo {
+  text-align: center;
+  font-size: 200%;
+  margin-top: 2em;
+  margin-bottom: 0.8em;
+}
+
+#logo a {
+  color: black;
+}
+
+#content {
+  width: 800px;
+  margin: 0 auto;
+}
+
+.tr {
+  text-align: right;
+}
+
+.tc {
+  text-align: center;
+}
+
+table {
+  font-size: 90%;
+  border-spacing: 0.8em;
+}

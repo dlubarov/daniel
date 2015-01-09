@@ -28,7 +28,7 @@ public final class AnchorBuilder {
   }
 
   public AnchorBuilder setTitle(String href) {
-    elementBuilder.setRawAttribute(Attribute.HREF, href);
+    elementBuilder.setRawAttribute(Attribute.TITLE, href);
     return this;
   }
 

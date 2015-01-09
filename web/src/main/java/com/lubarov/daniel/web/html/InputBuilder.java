@@ -42,6 +42,11 @@ public final class InputBuilder {
     return this;
   }
 
+  public InputBuilder setOnChange(String javascript) {
+    elementBuilder.setRawAttribute("onchange", javascript);
+    return this;
+  }
+
   public InputBuilder setOnKeyDown(String javascript) {
     elementBuilder.setRawAttribute("onkeydown", javascript);
     return this;

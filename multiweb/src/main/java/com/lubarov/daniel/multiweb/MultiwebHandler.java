@@ -3,6 +3,7 @@ package com.lubarov.daniel.multiweb;
 import com.lubarov.daniel.alexresume.AlexResumeHandler;
 import com.lubarov.daniel.blog.BlogHandler;
 import com.lubarov.daniel.chat.ChatHandler;
+import com.lubarov.daniel.gw2.Gw2Handler;
 import com.lubarov.daniel.nagger.NaggerHandler;
 import com.lubarov.daniel.viewheaders.ViewHeadersHandler;
 import com.lubarov.daniel.web.http.HttpRequest;
@@ -19,6 +20,7 @@ final class MultiwebHandler implements Handler {
       .addHandlerForHost(".*alex\\.lubarov\\.com.*", AlexResumeHandler.getHandler())
       .addHandlerForHost(".*viewheaders\\.com.*", ViewHeadersHandler.getHandler())
       .addHandlerForHost(".*jabberings\\.net.*", ChatHandler.getHandler())
+      .addHandlerForHost(".*gw2stuff\\.net.*", Gw2Handler.getHandler())
       .build();
 
   private MultiwebHandler() {}

@@ -14,8 +14,9 @@
         <module>bdb</module>
         <module>blog</module>
         <module>chat</module>
-        <module>data</module>
         <module>common</module>
+        <module>data</module>
+        <module>gw2</module>
         <module>multiweb</module>
         <module>nagger</module>
         <module>parents/base</module>

@@ -92,6 +92,11 @@
         </dependency>
         <dependency>
             <groupId>com.lubarov.daniel</groupId>
+            <artifactId>gw2</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.lubarov.daniel</groupId>
             <artifactId>nagger</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
