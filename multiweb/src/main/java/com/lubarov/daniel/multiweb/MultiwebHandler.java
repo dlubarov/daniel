@@ -20,7 +20,7 @@ final class MultiwebHandler implements Handler {
       .addHandlerForHost(".*alex\\.lubarov\\.com.*", AlexResumeHandler.getHandler())
       .addHandlerForHost(".*viewheaders\\.com.*", ViewHeadersHandler.getHandler())
       .addHandlerForHost(".*jabberings\\.net.*", ChatHandler.getHandler())
-      .addHandlerForHost(".*gw2stuff\\.net.*", Gw2Handler.getHandler())
+      .addHandlerForHost(".*gw2tools\\.net.*", Gw2Handler.getHandler())
       .build();
 
   private MultiwebHandler() {}

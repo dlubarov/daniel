@@ -26,7 +26,7 @@ public class Gw2HomeHandler implements PartialHandler {
         new ParagraphBuilder()
             .addEscapedText("Hi there! If you're working on a Guild Wars 2 build, you might find this ")
             .addChild(new AnchorBuilder()
-                .setHref("http://gw2stuff.net/effective-power")
+                .setHref("/effective-power")
                 .setTitle("effective power calculator")
                 .addEscapedText("effective power calculator")
                 .build())
