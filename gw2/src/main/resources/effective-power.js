@@ -1,5 +1,5 @@
 function getEffectivePower(power, precision, ferocity, might, fury) {
-  var powerWithMight = power + might * 35;
+  var powerWithMight = power + might * 30;
   var criticalChance = getCriticalChance(precision, fury);
   var criticalPower = getCriticalPower(powerWithMight, ferocity);
   return (1 - criticalChance) * powerWithMight + criticalChance * criticalPower;
