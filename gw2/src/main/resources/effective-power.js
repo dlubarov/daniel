@@ -50,7 +50,7 @@ function refresh() {
     return;
   }
 
-  var powerWithMight = power + might * 35;
+  var powerWithMight = power + might * 30;
   var fury = furyPercentage / 100;
   var criticalChancePercent = getCriticalChance(precision, fury) * 100;
   var criticalPower = getCriticalPower(powerWithMight, ferocity);
