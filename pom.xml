@@ -21,6 +21,7 @@
         <module>nagger</module>
         <module>parents/base</module>
         <module>parsing</module>
+        <module>stego</module>
         <module>viewheaders</module>
         <module>web</module>
     </modules>

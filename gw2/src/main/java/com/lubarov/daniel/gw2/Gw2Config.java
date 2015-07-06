@@ -7,7 +7,7 @@ public class Gw2Config {
 
   public static String getBaseUrl() {
     return Environment.get() == Environment.DEVELOPMENT
-        ? "http://gw2tools.net.wopr.local:12345"
+        ? "http://gw2tools.net.localhost:12345"
         : "http://gw2tools.net";
   }
 

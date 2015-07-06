@@ -7,7 +7,7 @@ public final class Config {
 
   public static String getBaseUrl() {
     return Environment.get() == Environment.DEVELOPMENT
-        ? "http://viewheaders.com.wopr.local:12345"
+        ? "http://viewheaders.com.localhost:12345"
         : "http://viewheaders.com";
   }
 

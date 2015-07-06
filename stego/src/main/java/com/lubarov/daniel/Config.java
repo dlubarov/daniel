@@ -5,7 +5,7 @@ public final class Config {
 
   public static String getBaseUrl() {
     return inDevMode()
-        ? "http://stego.daniel.lubarov.com.wopr:12345"
+        ? "http://stego.daniel.lubarov.com.localhost:12345"
         : "http://stego.daniel.lubarov.com";
   }
 
