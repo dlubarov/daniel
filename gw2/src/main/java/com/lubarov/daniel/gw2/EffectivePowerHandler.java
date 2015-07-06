@@ -20,8 +20,8 @@ public class EffectivePowerHandler implements PartialHandler {
       return Option.none();
 
     Element table = new Element.Builder(Tag.TABLE)
-        .addChild(createInputRow("Power", "power", 926))
-        .addChild(createInputRow("Precision", "precision", 926))
+        .addChild(createInputRow("Power", "power", 1000))
+        .addChild(createInputRow("Precision", "precision", 1000))
         .addChild(createInputRow("Ferocity", "ferocity", 0))
         .addChild(createInputRow("Average might stacks", "might", 10))
         .addChild(createInputRow("Average fury uptime (as a percentage)", "fury", 50))
@@ -34,11 +34,15 @@ public class EffectivePowerHandler implements PartialHandler {
         .addChild(createOutputRow("Adding 1 point of ferocity will increase effective power by", "increase_ferocity"))
         .build();
 
+    Element title = new Element.Builder(Tag.H1).addEscapedText("Effective Power Calculator").build();
     Element intro = new ParagraphBuilder()
         .addEscapedText("Deciding between Berserker's and Assassin's gear? Want to see how much offensive power you sacrifice with Celestial gear? Try this calculator!")
         .build();
+    Element disclaimer = new ParagraphBuilder()
+        .addEscapedText("These calculations assume a level 80 character.")
+        .build();
     Element document = Gw2Layout.createDocument(request, Option.none(),
-        ImmutableArray.create("effective-power.js"), intro, table);
+        ImmutableArray.create("effective-power.js"), title, intro, disclaimer, table);
     return Option.some(HttpResponseFactory.xhtmlResponse(HttpStatus.OK, document));
   }
 

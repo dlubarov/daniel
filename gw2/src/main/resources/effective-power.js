@@ -11,7 +11,7 @@ function getCriticalPower(power, ferocity) {
 }
 
 function getCriticalChance(precision, fury) {
-  var criticalChanceNoFury = clamp01((precision - 832) / 2116);
+  var criticalChanceNoFury = clamp01((precision - 916) / 2100);
   var criticalChanceFury = clamp01(criticalChanceNoFury + 0.20);
   return (1 - fury) * criticalChanceNoFury + fury * criticalChanceFury;
 }
