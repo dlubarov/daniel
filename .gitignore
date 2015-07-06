@@ -3,6 +3,8 @@
 *.info.*
 *.lck
 *.log
+.idea/
+*.iml
 dependency-reduced-pom.xml
 target/
 db/
