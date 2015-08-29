@@ -17,6 +17,7 @@
         <module>common</module>
         <module>data</module>
         <module>gw2</module>
+        <module>junkmail</module>
         <module>multiweb</module>
         <module>nagger</module>
         <module>parents/base</module>

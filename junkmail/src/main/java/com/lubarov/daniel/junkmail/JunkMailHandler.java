@@ -1,19 +1,16 @@
-package com.lubarov.daniel.nagger;
+package com.lubarov.daniel.junkmail;
 
-import com.lubarov.daniel.nagger.storage.TestData;
 import com.lubarov.daniel.web.http.server.Handler;
 import com.lubarov.daniel.web.http.server.util.DelegatingHandler;
 import com.lubarov.daniel.web.http.server.util.StaticContentHandler;
 import com.lubarov.daniel.web.http.server.util.WwwRemovingHandler;
-
 import java.io.File;
 
-public final class NaggerHandler {
-  private NaggerHandler() {}
+public class JunkMailHandler {
+  private JunkMailHandler() {}
 
   public static Handler getHandler() {
-    TestData.init();
-    AlertProcessor.singleton.initialize();
+    new Thread(SmtpListener.singleton).start();
 
     return new DelegatingHandler.Builder()
         .addPartialHandler(WwwRemovingHandler.singleton)
@@ -22,6 +19,7 @@ public final class NaggerHandler {
             .addCommonContentTypes()
             .build())
         .addPartialHandler(HomeHandler.singleton)
+        .addPartialHandler(InboxHandler.singleton)
         .build();
   }
 }

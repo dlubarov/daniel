@@ -4,6 +4,7 @@ import com.lubarov.daniel.alexresume.AlexResumeHandler;
 import com.lubarov.daniel.blog.BlogHandler;
 import com.lubarov.daniel.chat.ChatHandler;
 import com.lubarov.daniel.gw2.Gw2Handler;
+import com.lubarov.daniel.junkmail.JunkMailHandler;
 import com.lubarov.daniel.nagger.NaggerHandler;
 import com.lubarov.daniel.viewheaders.ViewHeadersHandler;
 import com.lubarov.daniel.web.http.HttpRequest;
@@ -21,6 +22,7 @@ final class MultiwebHandler implements Handler {
       .addHandlerForHost(".*viewheaders\\.com.*", ViewHeadersHandler.getHandler())
       .addHandlerForHost(".*jabberings\\.net.*", ChatHandler.getHandler())
       .addHandlerForHost(".*gw2tools\\.net.*", Gw2Handler.getHandler())
+      .addHandlerForHost(".*baggageman.com.*", JunkMailHandler.getHandler())
       .build();
 
   private MultiwebHandler() {}
