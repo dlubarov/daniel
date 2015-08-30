@@ -22,6 +22,6 @@ public class Config {
   }
 
   public static int getSmtpPort() {
-    return Environment.get() == Environment.DEVELOPMENT ? 2525 : 2525;
+    return Environment.get() == Environment.DEVELOPMENT ? 2525 : 25;
   }
 }
