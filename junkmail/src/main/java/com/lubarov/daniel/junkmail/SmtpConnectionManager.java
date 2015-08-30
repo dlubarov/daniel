@@ -42,8 +42,7 @@ public class SmtpConnectionManager implements Runnable {
   }
 
   private void runWithExceptions() throws IOException {
-    writer.write(String.format("220 %s SMTP service ready\n", Config.getSmtpHostname()));
-    writer.flush();
+    writeLine(String.format("220 %s SMTP service ready", Config.getSmtpHostname()));
 
     String line;
     while ((line = bufferedReader.readLine()) != null) {
@@ -87,20 +86,17 @@ public class SmtpConnectionManager implements Runnable {
   }
 
   private void handleHello(String domain) throws IOException {
-    writer.write(String.format("250 Why hello %s, it's a pleasure to make your acquaintance\n", domain));
-    writer.flush();
+    writeLine(String.format("250 Why hello %s, it's a pleasure to make your acquaintance", domain));
   }
 
   private void handleMail(String sender) throws IOException {
     this.sender = sender;
-    writer.write("250 Ok\n");
-    writer.flush();
+    writeLine("250 Ok");
   }
 
   private void handleRcpt(String recipient) throws IOException {
     recipients.add(recipient);
-    writer.write("250 Ok\n");
-    writer.flush();
+    writeLine("250 Ok");
   }
 
   private void handleData() throws IOException {
@@ -108,6 +104,8 @@ public class SmtpConnectionManager implements Runnable {
       throw new IllegalStateException("No sender!");
     if (recipients.isEmpty())
       throw new IllegalStateException("No recipients!");
+
+    writeLine("354 End data with <CR><LF>.<CR><LF>");
 
     String line;
     StringBuilder stringBuilder = new StringBuilder();
@@ -124,16 +122,20 @@ public class SmtpConnectionManager implements Runnable {
     String body = stringBuilder.toString();
     logger.info("Email from %s to %s:\n%s", sender, recipients, body);
 
-    writer.write("250 Ok\n");
-    writer.flush();
+    writeLine("250 Ok");
 
     sender = null;
     recipients = new ArrayList<>();
   }
 
   private void handleQuit() throws IOException {
-    writer.write("221 Bye\n");
-    writer.flush();
+    writeLine("221 Bye");
     socket.close();
+  }
+
+  private void writeLine(String line)  throws IOException {
+    writer.write(line);
+    writer.write('\n');
+    writer.flush();
   }
 }
