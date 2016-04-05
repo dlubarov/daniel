@@ -3,16 +3,19 @@
 body {
   color: #000;
   background-color: #fff;
-  font: 115% "Palatino Linotype", "Book Antiqua", Palatino, serif;
-  margin: 3.5em 0;
+  font: 115% "Lato";
+  margin: 3em 0;
 }
 
-h1, h2, h3 {
-  font-family: "Trebuchet MS", Tahoma, Geneva, sans-serif;
+@media print {
+  body {
+    margin: 0.5em 0;
+  }
 }
 
 h1 {
-  font-size: 250%;
+  font-family: "Poiret One";
+  font-size: 350%;
 }
 
 h2 {
@@ -23,6 +26,7 @@ h2 {
 h3 {
   font-size: 95%;
   font-weight: bold;
+  margin-bottom: 0.2em;
 }
 
 h3 ~ h3 {
@@ -43,12 +47,12 @@ a:hover {
 }
 
 ul {
-  padding-left: 1em;
+  padding-left: 1.1em;
   list-style-type: square;
 }
 
 li ~ li {
-  margin-top: 0.3em;
+  margin-top: 0.2em;
 }
 
 .section {
@@ -85,6 +89,26 @@ th {
   font-weight: bold;
 }
 
+.details {
+  float: right;
+  font-size: 75%;
+  text-align: right;
+}
+
 .clear {
   clear: both;
+}
+
+sub, sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+}
+
+sup {
+  top: -0.5em;
+}
+
+sub {
+  bottom: -0.25em;
 }
