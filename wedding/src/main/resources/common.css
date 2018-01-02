@@ -57,12 +57,11 @@ body {
 #date {
   font-size: 200%;
   display: block;
-  margin: 1vh 0 10vh;
 }
 
 #content {
   width: 800px;
-  margin: 0 auto;
+  margin: 10vh auto 10vh;
   background: rgba(0, 0, 0, 0.5);
   padding: 20px;
 }

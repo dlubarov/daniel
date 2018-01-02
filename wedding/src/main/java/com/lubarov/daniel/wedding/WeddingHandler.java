@@ -18,6 +18,8 @@ public class WeddingHandler {
         .addPartialHandler(WeddingHomeHandler.singleton)
         .addPartialHandler(WeddingVenueHandler.singleton)
         .addPartialHandler(WeddingScheduleHandler.singleton)
+        .addPartialHandler(WeddingPhotosHandler.singleton)
+        .addPartialHandler(WeddingRSVPHandler.singleton)
         .addPartialHandler(new StaticContentHandler.Builder()
             .setContentRoot(new File(WeddingConfig.getStaticContentRoot()))
             .addCommonContentTypes()
