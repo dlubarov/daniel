@@ -25,5 +25,6 @@
         <module>stego</module>
         <module>viewheaders</module>
         <module>web</module>
+        <module>wedding</module>
     </modules>
 </project>

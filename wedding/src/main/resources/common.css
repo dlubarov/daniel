@@ -1,0 +1,85 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  min-height: 100%;
+}
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  font-family: 'Source Sans Pro', sans-serif;
+  background-image: url("hike.jpg");
+  color: white;
+  background-size: cover;
+  background-position: center 65%;
+}
+
+#navigation {
+  list-style-type: none;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 20px 0;
+  margin-top: 20px;
+  line-height: 90%;
+}
+
+#navigation li {
+  display: inline;
+}
+
+#navigation li:not(:first-child) {
+  margin-left: 1.5em;
+}
+
+#navigation a {
+  font-size: 140%;
+  text-decoration: none;
+  color: white;
+}
+
+#navigation a:hover {
+  text-decoration: underline;
+}
+
+#logo, #date {
+  text-shadow: black 0 0 5px;
+  text-align: center;
+}
+
+#logo {
+  font-family: 'Tangerine', cursive;
+  font-size: 500%;
+  margin: 10vh 0 0;
+}
+
+#date {
+  font-size: 200%;
+  display: block;
+  margin: 1vh 0 10vh;
+}
+
+#content {
+  width: 800px;
+  margin: 0 auto;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 20px;
+}
+
+#content > *:not(:first-child) {
+  margin-top: 1.0em;
+}
+
+#events {
+  border-collapse: collapse;
+}
+
+#events td {
+  padding: 10px;
+  border: 1px solid white;
+}
+
+#events td:first-child {
+  text-align: right;
+}
