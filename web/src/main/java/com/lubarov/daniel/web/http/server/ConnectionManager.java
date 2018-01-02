@@ -109,6 +109,9 @@ final class ConnectionManager implements Runnable {
       }
     });
 
+    if (!responseHeaders.containsKey("Server"))
+      responseHeaders.put("Server", "daniel");
+
     if (!responseHeaders.containsKey("Date"))
       responseHeaders.put("Date", DateUtils.formatRfc1123(Instant.now()));
 
