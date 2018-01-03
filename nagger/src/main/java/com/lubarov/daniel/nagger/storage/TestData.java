@@ -24,13 +24,9 @@ public class TestData {
     createHostAlerts("A");
     createHostAlerts("B");
     createHostAlerts("C");
-    createHostAlerts("D");
-    createHostAlerts("E");
-    createHostAlerts("F");
 
     createGatewayAlerts("X");
     createGatewayAlerts("Y");
-    createGatewayAlerts("Z");
   }
 
   private static void createHostAlerts(String host) {
