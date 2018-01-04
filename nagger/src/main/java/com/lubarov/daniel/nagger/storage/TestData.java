@@ -1,5 +1,6 @@
 package com.lubarov.daniel.nagger.storage;
 
+import com.lubarov.daniel.common.Environment;
 import com.lubarov.daniel.nagger.Status;
 import com.lubarov.daniel.nagger.model.Alert;
 import com.lubarov.daniel.nagger.model.Check;
@@ -27,6 +28,10 @@ public class TestData {
 
     createGatewayAlerts("X");
     createGatewayAlerts("Y");
+
+    // If running in production, lock the storage for security.
+    if (Environment.get() == Environment.PRODUCTION)
+      AlertStorage.lock();
   }
 
   private static void createHostAlerts(String host) {
