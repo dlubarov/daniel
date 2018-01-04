@@ -9,14 +9,14 @@ import com.lubarov.daniel.web.http.HttpStatus;
 import com.lubarov.daniel.web.http.server.PartialHandler;
 import com.lubarov.daniel.web.http.server.util.HttpResponseFactory;
 
-public class WeddingPhotosHandler implements PartialHandler {
-  public static final WeddingPhotosHandler singleton = new WeddingPhotosHandler();
+public class WeddingAdminHandler implements PartialHandler {
+  public static final WeddingAdminHandler singleton = new WeddingAdminHandler();
 
-  private WeddingPhotosHandler() {}
+  private WeddingAdminHandler() {}
 
   @Override
   public Option<HttpResponse> tryHandle(HttpRequest request) {
-    if (!request.getResource().equals("/photos"))
+    if (!request.getResource().equals("/admin"))
       return Option.none();
 
     Element intro = new ParagraphBuilder()
@@ -24,7 +24,7 @@ public class WeddingPhotosHandler implements PartialHandler {
         .build();
 
     Element document = WeddingLayout.createDocument(
-        Option.some("Photos"),
+        Option.some("Admin"),
         intro);
 
     return Option.some(HttpResponseFactory.xhtmlResponse(HttpStatus.OK, document));

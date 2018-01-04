@@ -14,4 +14,8 @@ public class WeddingConfig {
   public static String getStaticContentRoot() {
     return System.getProperty("user.dir") + "/wedding/src/main/resources/";
   }
+
+  public static String getDatabaseHome(String dbName) {
+    return System.getProperty("user.dir") + "/wedding/db/" + dbName;
+  }
 }

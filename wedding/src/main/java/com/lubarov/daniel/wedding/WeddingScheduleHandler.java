@@ -6,7 +6,6 @@ import com.lubarov.daniel.data.sequence.ImmutableSequence;
 import com.lubarov.daniel.web.html.Attribute;
 import com.lubarov.daniel.web.html.Element;
 import com.lubarov.daniel.web.html.ParagraphBuilder;
-import com.lubarov.daniel.web.html.Tag;
 import com.lubarov.daniel.web.html.TextNode;
 import com.lubarov.daniel.web.html.table.TableBuilder;
 import com.lubarov.daniel.web.http.HttpRequest;
