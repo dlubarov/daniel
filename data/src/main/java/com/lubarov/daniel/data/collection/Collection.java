@@ -31,6 +31,7 @@ public interface Collection<A> extends Iterable<A> {
 
   public Sequence<A> sorted(Ordering<? super A> ordering);
 
+  /** If the collection has exactly one element, return it, otherwise return None. */
   public Option<A> tryGetOnlyElement();
 
   public ImmutableCollection<A> toImmutable();
