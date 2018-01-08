@@ -29,7 +29,7 @@ public class WeddingLayout {
         .setRawAttribute("xmlns", "http://www.w3.org/1999/xhtml")
         .setRawAttribute("xml:lang", "en")
         .addChild(getHead(pageTitle))
-        .addChild(getBody(content))
+        .addChild(getBody(pageTitle, content))
         .build();
   }
 
@@ -41,6 +41,10 @@ public class WeddingLayout {
     Element keywords = new Element.Builder(Tag.META)
         .setRawAttribute(Attribute.NAME, "keywords")
         .setRawAttribute(Attribute.CONTENT, "wedding, daniel lubarov, vi dang")
+        .build();
+    Element viewport = new Element.Builder(Tag.META)
+        .setRawAttribute(Attribute.NAME, "viewport")
+        .setRawAttribute(Attribute.CONTENT, "width=device-width, initial-scale=1")
         .build();
     Element base = new Element.Builder(Tag.BASE)
         .setRawAttribute(Attribute.HREF, WeddingConfig.getBaseUrl())
@@ -56,14 +60,14 @@ public class WeddingLayout {
     Element titleElement = new TitleBuilder().addEscapedText(title).build();
 
     Element.Builder headBuilder = new Element.Builder(Tag.HEAD)
-        .addChildren(description, keywords, base)
+        .addChildren(description, keywords, viewport, base)
         .addChild(titleElement)
         .addChild(StylesheetUtils.createCssLink("common.css"))
         .addChild(fontStyles);
     return headBuilder.build();
   }
 
-  private static Element getBody(Node[] content) {
+  private static Element getBody(Option<String> pageTitle, Node[] content) {
     Element.Builder navigationBuilder = new Element.Builder(Tag.UL)
         .setRawAttribute(Attribute.ID, "navigation");
     for (KeyValuePair<String, String> entry : NAVIGATION) {
@@ -75,9 +79,18 @@ public class WeddingLayout {
     }
     Element navigation = navigationBuilder.build();
 
+    Element logoDaniel = new Element.Builder(Tag.SPAN)
+        .setRawAttribute("style", "display: inline-block;")
+        .addEscapedText("Daniel Lubarov ")
+        .build();
+    Element logoVi = new Element.Builder(Tag.SPAN)
+        .setRawAttribute("style", "display: inline-block;")
+        .addEscapedText("& Vi Dang")
+        .build();
     Element logo = new Element.Builder(Tag.H1)
         .setRawAttribute(Attribute.ID, "logo")
-        .addEscapedText("Daniel Lubarov & Vi Dang")
+        .addChild(logoDaniel)
+        .addChild(logoVi)
         .build();
 
     Element date = new Element.Builder(Tag.TIME)
@@ -90,10 +103,14 @@ public class WeddingLayout {
         .addChild(logo)
         .addChild(date);
     if (content.length > 0) {
-      Element container = new Element.Builder(Tag.DIV)
-          .setEscapedAttribtue(Attribute.ID, "content")
-          .addChildren(content)
-          .build();
+      Element.Builder containerBuilder = new Element.Builder(Tag.DIV)
+          .setEscapedAttribtue(Attribute.ID, "content");
+      if (pageTitle.isDefined())
+        containerBuilder.addChild(new Element.Builder(Tag.H1)
+            .setRawAttribute(Attribute.ID, "title")
+            .addEscapedText(pageTitle.getOrThrow())
+            .build());
+      Element container = containerBuilder.addChildren(content).build();
       bodyBuilder.addChild(container);
     }
     return bodyBuilder.build();

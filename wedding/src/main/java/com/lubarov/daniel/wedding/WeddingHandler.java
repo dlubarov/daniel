@@ -5,6 +5,7 @@ import com.lubarov.daniel.web.http.server.util.DelegatingHandler;
 import com.lubarov.daniel.web.http.server.util.LineSeparatorRemovingHandler;
 import com.lubarov.daniel.web.http.server.util.StaticContentHandler;
 import com.lubarov.daniel.web.http.server.util.WwwRemovingHandler;
+import com.lubarov.daniel.wedding.admin.AdminHandler;
 
 import java.io.File;
 
@@ -20,7 +21,7 @@ public class WeddingHandler {
         .addPartialHandler(WeddingScheduleHandler.singleton)
         .addPartialHandler(WeddingPhotosHandler.singleton)
         .addPartialHandler(WeddingRSVPHandler.singleton)
-        .addPartialHandler(WeddingAdminHandler.singleton)
+        .addPartialHandler(AdminHandler.singleton)
         .addPartialHandler(new StaticContentHandler.Builder()
             .setContentRoot(new File(WeddingConfig.getStaticContentRoot()))
             .addCommonContentTypes()

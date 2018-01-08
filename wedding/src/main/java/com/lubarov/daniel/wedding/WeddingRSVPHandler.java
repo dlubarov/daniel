@@ -1,6 +1,9 @@
 package com.lubarov.daniel.wedding;
 
+import com.lubarov.daniel.common.Logger;
 import com.lubarov.daniel.data.option.Option;
+import com.lubarov.daniel.data.table.sequential.SequentialTable;
+import com.lubarov.daniel.data.unit.Instant;
 import com.lubarov.daniel.web.html.Element;
 import com.lubarov.daniel.web.html.InputBuilder;
 import com.lubarov.daniel.web.html.ParagraphBuilder;
@@ -10,9 +13,16 @@ import com.lubarov.daniel.web.http.HttpResponse;
 import com.lubarov.daniel.web.http.HttpStatus;
 import com.lubarov.daniel.web.http.server.PartialHandler;
 import com.lubarov.daniel.web.http.server.util.HttpResponseFactory;
+import com.lubarov.daniel.wedding.rsvp.RSVP;
+import com.lubarov.daniel.wedding.rsvp.RSVPStorage;
 
+import java.util.UUID;
+
+// TODO validate required fields
 public class WeddingRSVPHandler implements PartialHandler {
   public static final WeddingRSVPHandler singleton = new WeddingRSVPHandler();
+
+  private static final Logger logger = Logger.forClass(WeddingRSVPHandler.class);
 
   private WeddingRSVPHandler() {}
 
@@ -21,7 +31,7 @@ public class WeddingRSVPHandler implements PartialHandler {
     if (request.getResource().equals("/rsvp"))
       return Option.some(getRsvpResponse());
     if (request.getResource().equals("/rsvp/submit"))
-      return Option.some(getRsvpSubmitResponse());
+      return Option.some(getRsvpSubmitResponse(request));
     if (request.getResource().equals("/rsvp/thanks"))
       return Option.some(getRsvpThanksResponse());
     return Option.none();
@@ -72,6 +82,9 @@ public class WeddingRSVPHandler implements PartialHandler {
         .setName("guest_name")
         .build();
 
+    Element notesLabel = new ParagraphBuilder().addEscapedText("Notes (optional)").build();
+    Element notesInput = new Element.Builder(Tag.TEXTAREA).setRawAttribute("name", "notes").build();
+
     Element submitButton = new Element.Builder(Tag.BUTTON).addEscapedText("Submit").build();
 
     Element form = new Element.Builder(Tag.FORM)
@@ -79,7 +92,7 @@ public class WeddingRSVPHandler implements PartialHandler {
         .setRawAttribute("method", "post")
         .addChildren(nameLabel, nameInput, emailLabel, emailInput, attendingLabel,
             getAttendingInputs(), guestAttendingLabel, getGuestAttendingInputs(), guestNameLabel,
-            guestNameInput, submitButton)
+            guestNameInput, notesLabel, notesInput, submitButton)
         .build();
 
     Element document = WeddingLayout.createDocument(Option.some("RSVP"), form);
@@ -159,8 +172,41 @@ public class WeddingRSVPHandler implements PartialHandler {
         .build();
   }
 
-  private HttpResponse getRsvpSubmitResponse() {
+  private HttpResponse getRsvpSubmitResponse(HttpRequest request) {
+    SequentialTable<String, String> postData = request.getUrlencodedPostData();
+    logger.info("Received RSVP: %s", postData);
+
+    String name = postData.getValues("name").tryGetOnlyElement().getOrThrow();
+    String email = postData.getValues("email").tryGetOnlyElement().getOrThrow();
+    String attending = postData.getValues("attending").tryGetOnlyElement().getOrThrow();
+    String guestAttending = postData.getValues("guest_attending").tryGetOnlyElement().getOrThrow();
+    String guestName = postData.getValues("guest_name").tryGetOnlyElement().getOrThrow();
+    String notes = postData.getValues("notes").tryGetOnlyElement().getOrThrow();
+
+    RSVP rsvp = new RSVP.Builder()
+        .setUUID(UUID.randomUUID().toString())
+        .setCreatedAt(Instant.now())
+        .setName(name)
+        .setEmail(email)
+        .setAttending(yesOrNoToBoolean(attending))
+        .setGuestAttending(yesOrNoToBoolean(guestAttending))
+        .setGuestName(guestName)
+        .setNotes(notes)
+        .build();
+
+    RSVPStorage.saveNewRSVP(rsvp);
     return HttpResponseFactory.redirectToGet("/rsvp/thanks");
+  }
+
+  private static boolean yesOrNoToBoolean(String yesOrNo) {
+    switch (yesOrNo) {
+      case "yes":
+        return true;
+      case "no":
+        return false;
+      default:
+        throw new IllegalArgumentException("Expected 'yes' or 'no', got " + yesOrNo);
+    }
   }
 
   private HttpResponse getRsvpThanksResponse() {

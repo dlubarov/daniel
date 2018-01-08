@@ -33,6 +33,7 @@ public class WeddingScheduleHandler implements PartialHandler {
 
     TableBuilder eventTableBuilder = new TableBuilder()
         .setTableAttribute(Attribute.ID, "events")
+        .setTableAttribute(Attribute.CLASS, "hairline")
         .beginTableBody();
     for (Event event : EVENTS) {
       eventTableBuilder.beginRow()

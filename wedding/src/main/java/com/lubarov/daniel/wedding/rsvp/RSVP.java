@@ -1,9 +1,20 @@
 package com.lubarov.daniel.wedding.rsvp;
 
 import com.lubarov.daniel.data.option.Option;
+import com.lubarov.daniel.data.order.AbstractOrdering;
+import com.lubarov.daniel.data.order.Ordering;
+import com.lubarov.daniel.data.order.Relation;
 import com.lubarov.daniel.data.unit.Instant;
 
 public class RSVP {
+  public static final Ordering<RSVP> ASCENDING_CREATED_AT_ORDERING =
+      new AbstractOrdering<RSVP>() {
+        @Override
+        public Relation compare(RSVP a, RSVP b) {
+          return Instant.ASCENDING_ORDERING.compare(a.createdAt, b.createdAt);
+        }
+      };
+
   public static final class Builder {
     private Option<String> uuid = Option.none();
     private Option<Instant> createdAt = Option.none();
@@ -12,10 +23,10 @@ public class RSVP {
     private Option<Boolean> attending = Option.none();
     private Option<Boolean> guestAttending = Option.none();
     private Option<String> guestName = Option.none();
-    private Option<String> comments = Option.none();
+    private Option<String> notes = Option.none();
 
     public Builder setUUID(String uuid) {
-      this.name = Option.some(uuid);
+      this.uuid = Option.some(uuid);
       return this;
     }
 
@@ -49,8 +60,8 @@ public class RSVP {
       return this;
     }
 
-    public Builder setComments(String comments) {
-      this.comments = Option.some(comments);
+    public Builder setNotes(String notes) {
+      this.notes = Option.some(notes);
       return this;
     }
 
@@ -66,7 +77,7 @@ public class RSVP {
   public final boolean attending;
   public final boolean guestAttending;
   public final String guestName;
-  public final String comments;
+  public final String notes;
 
   private RSVP(Builder builder) {
     uuid = builder.uuid.getOrThrow("Missing UUID");
@@ -76,6 +87,6 @@ public class RSVP {
     attending = builder.attending.getOrThrow("Missing attending");
     guestAttending = builder.guestAttending.getOrThrow("Missing guest attending");
     guestName = builder.guestName.getOrThrow("Missing guest name");
-    comments = builder.comments.getOrThrow("Missing comments");
+    notes = builder.notes.getOrThrow("Missing notes");
   }
 }

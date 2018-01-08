@@ -21,7 +21,7 @@ public class RSVPSerializer extends AbstractSerializer<RSVP> {
     BooleanSerializer.singleton.writeToSink(rsvp.attending, sink);
     BooleanSerializer.singleton.writeToSink(rsvp.guestAttending, sink);
     StringSerializer.singleton.writeToSink(rsvp.guestName, sink);
-    StringSerializer.singleton.writeToSink(rsvp.comments, sink);
+    StringSerializer.singleton.writeToSink(rsvp.notes, sink);
   }
 
   @Override
@@ -34,7 +34,7 @@ public class RSVPSerializer extends AbstractSerializer<RSVP> {
         .setAttending(BooleanSerializer.singleton.readFromSource(source))
         .setGuestAttending(BooleanSerializer.singleton.readFromSource(source))
         .setGuestName(StringSerializer.singleton.readFromSource(source))
-        .setComments(StringSerializer.singleton.readFromSource(source))
+        .setNotes(StringSerializer.singleton.readFromSource(source))
         .build();
   }
 }
