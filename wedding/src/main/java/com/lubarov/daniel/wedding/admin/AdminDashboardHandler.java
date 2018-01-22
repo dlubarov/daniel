@@ -36,8 +36,10 @@ final class AdminDashboardHandler implements Handler {
         .addHeaderEntry(TextNode.escapedText("Name"))
         .addHeaderEntry(TextNode.escapedText("Email"))
         .addHeaderEntry(TextNode.escapedText("Attending?"))
+        .addHeaderEntry(TextNode.escapedText("Entree"))
         .addHeaderEntry(TextNode.escapedText("Guest?"))
         .addHeaderEntry(TextNode.escapedText("Guest Name"))
+        .addHeaderEntry(TextNode.escapedText("Guest Entree"))
         .addHeaderEntry(TextNode.escapedText("Notes"))
         .endRow()
         .endTableHead()
@@ -49,8 +51,10 @@ final class AdminDashboardHandler implements Handler {
           .addNormalEntry(TextNode.escapedText(rsvp.name))
           .addNormalEntry(TextNode.escapedText(rsvp.email))
           .addNormalEntry(TextNode.escapedText(rsvp.attending ? "yes" : "no"))
+          .addNormalEntry(TextNode.escapedText(rsvp.entree))
           .addNormalEntry(TextNode.escapedText(rsvp.guestAttending ? "yes" : "no"))
           .addNormalEntry(TextNode.escapedText(rsvp.guestName))
+          .addNormalEntry(TextNode.escapedText(rsvp.guestEntree))
           .addNormalEntry(TextNode.escapedText(rsvp.notes))
           .endRow();
     }

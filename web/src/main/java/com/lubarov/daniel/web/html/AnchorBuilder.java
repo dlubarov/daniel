@@ -23,12 +23,12 @@ public final class AnchorBuilder {
   }
 
   public AnchorBuilder setHref(String href) {
-    elementBuilder.setRawAttribute(Attribute.HREF, href);
+    elementBuilder.setEscapedAttribtue(Attribute.HREF, href);
     return this;
   }
 
   public AnchorBuilder setTitle(String href) {
-    elementBuilder.setRawAttribute(Attribute.TITLE, href);
+    elementBuilder.setEscapedAttribtue(Attribute.TITLE, href);
     return this;
   }
 

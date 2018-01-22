@@ -2,6 +2,8 @@ package com.lubarov.daniel.wedding;
 
 import com.lubarov.daniel.common.Logger;
 import com.lubarov.daniel.data.option.Option;
+import com.lubarov.daniel.data.sequence.ImmutableArray;
+import com.lubarov.daniel.data.sequence.ImmutableSequence;
 import com.lubarov.daniel.data.table.sequential.SequentialTable;
 import com.lubarov.daniel.data.unit.Instant;
 import com.lubarov.daniel.web.html.Element;
@@ -23,6 +25,8 @@ public class WeddingRSVPHandler implements PartialHandler {
   public static final WeddingRSVPHandler singleton = new WeddingRSVPHandler();
 
   private static final Logger logger = Logger.forClass(WeddingRSVPHandler.class);
+  private static final ImmutableSequence<String> ENTREES =
+      ImmutableArray.create("Filet Mignon", "Salmon", "Risotto");
 
   private WeddingRSVPHandler() {}
 
@@ -68,6 +72,12 @@ public class WeddingRSVPHandler implements PartialHandler {
         .addChild(redAsterisk)
         .build();
 
+    Element entreeLabel = new ParagraphBuilder()
+        .addEscapedText("Preferred dinner entree")
+        .addChild(redAsterisk)
+        .build();
+    Element entreeRadios = getEntreeRadios(false);
+
     Element guestAttendingLabel = new ParagraphBuilder()
         .addEscapedText("Will you be bringing a guest?")
         .addChild(redAsterisk)
@@ -82,6 +92,12 @@ public class WeddingRSVPHandler implements PartialHandler {
         .setName("guest_name")
         .build();
 
+    Element guestEntreeLabel = new ParagraphBuilder()
+        .addEscapedText("Guest's preferred dinner entree")
+        .addChild(redAsterisk)
+        .build();
+    Element guestEntreeRadios = getEntreeRadios(true);
+
     Element notesLabel = new ParagraphBuilder().addEscapedText("Notes (optional)").build();
     Element notesInput = new Element.Builder(Tag.TEXTAREA).setRawAttribute("name", "notes").build();
 
@@ -91,16 +107,42 @@ public class WeddingRSVPHandler implements PartialHandler {
         .setRawAttribute("action", "/rsvp/submit")
         .setRawAttribute("method", "post")
         .addChildren(nameLabel, nameInput, emailLabel, emailInput, attendingLabel,
-            getAttendingInputs(), guestAttendingLabel, getGuestAttendingInputs(), guestNameLabel,
-            guestNameInput, notesLabel, notesInput, submitButton)
+            getAttendingRadios(), entreeLabel, entreeRadios, guestAttendingLabel,
+            getGuestAttendingRadios(), guestNameLabel, guestNameInput, guestEntreeLabel,
+            guestEntreeRadios, notesLabel, notesInput, submitButton)
         .build();
 
     Element document = WeddingLayout.createDocument(Option.some("RSVP"), form);
-
     return HttpResponseFactory.xhtmlResponse(HttpStatus.OK, document);
   }
 
-  private Element getAttendingInputs() {
+  private Element getEntreeRadios(boolean guest) {
+    String inputName = guest ? "guest_entree" : "entree";
+    ParagraphBuilder paragraphBuilder = new ParagraphBuilder();
+
+    ENTREES.forEach(entree -> {
+      if (!entree.equals(ENTREES.getFront())) {
+        paragraphBuilder.addRawText(" &#160; ");
+      }
+
+      String inputId = inputName + "_" + entree;
+      Element radio = new InputBuilder()
+          .setType("radio")
+          .setId(inputId)
+          .setName(inputName)
+          .setValue(entree)
+          .build();
+      Element label = new Element.Builder(Tag.LABEL)
+          .setRawAttribute("for", inputId)
+          .addEscapedText(entree)
+          .build();
+      paragraphBuilder.addChild(radio).addRawText(" ").addChild(label);
+    });
+
+    return paragraphBuilder.build();
+  }
+
+  private Element getAttendingRadios() {
     Element attendingYesInput = new InputBuilder()
         .setType("radio")
         .setId("attending_yes")
@@ -136,7 +178,7 @@ public class WeddingRSVPHandler implements PartialHandler {
         .build();
   }
 
-  private Element getGuestAttendingInputs() {
+  private Element getGuestAttendingRadios() {
     Element guestAttendingYesInput = new InputBuilder()
         .setType("radio")
         .setId("guest_attending_yes")
@@ -179,8 +221,10 @@ public class WeddingRSVPHandler implements PartialHandler {
     String name = postData.getValues("name").tryGetOnlyElement().getOrThrow();
     String email = postData.getValues("email").tryGetOnlyElement().getOrThrow();
     String attending = postData.getValues("attending").tryGetOnlyElement().getOrThrow();
+    String entree = postData.getValues("entree").tryGetOnlyElement().getOrThrow();
     String guestAttending = postData.getValues("guest_attending").tryGetOnlyElement().getOrThrow();
     String guestName = postData.getValues("guest_name").tryGetOnlyElement().getOrThrow();
+    String guestEntree = postData.getValues("guest_entree").tryGetOnlyElement().getOrThrow();
     String notes = postData.getValues("notes").tryGetOnlyElement().getOrThrow();
 
     RSVP rsvp = new RSVP.Builder()
@@ -189,8 +233,10 @@ public class WeddingRSVPHandler implements PartialHandler {
         .setName(name)
         .setEmail(email)
         .setAttending(yesOrNoToBoolean(attending))
+        .setEntree(entree)
         .setGuestAttending(yesOrNoToBoolean(guestAttending))
         .setGuestName(guestName)
+        .setGuestEntree(guestEntree)
         .setNotes(notes)
         .build();
 

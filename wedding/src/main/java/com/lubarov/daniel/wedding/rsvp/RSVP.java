@@ -21,8 +21,10 @@ public class RSVP {
     private Option<String> name = Option.none();
     private Option<String> email = Option.none();
     private Option<Boolean> attending = Option.none();
+    private Option<String> entree = Option.none();
     private Option<Boolean> guestAttending = Option.none();
     private Option<String> guestName = Option.none();
+    private Option<String> guestEntree = Option.none();
     private Option<String> notes = Option.none();
 
     public Builder setUUID(String uuid) {
@@ -50,13 +52,23 @@ public class RSVP {
       return this;
     }
 
-    public Builder setGuestAttending(Boolean guestAttending) {
+    public Builder setEntree(String entree) {
+      this.entree = Option.some(entree);
+      return this;
+    }
+
+    public Builder setGuestAttending(boolean guestAttending) {
       this.guestAttending = Option.some(guestAttending);
       return this;
     }
 
     public Builder setGuestName(String guestName) {
       this.guestName = Option.some(guestName);
+      return this;
+    }
+
+    public Builder setGuestEntree(String guestEntree) {
+      this.guestEntree = Option.some(guestEntree);
       return this;
     }
 
@@ -75,8 +87,10 @@ public class RSVP {
   public final String name;
   public final String email;
   public final boolean attending;
+  public final String entree;
   public final boolean guestAttending;
   public final String guestName;
+  public final String guestEntree;
   public final String notes;
 
   private RSVP(Builder builder) {
@@ -85,8 +99,10 @@ public class RSVP {
     name = builder.name.getOrThrow("Missing name");
     email = builder.email.getOrThrow("Missing email");
     attending = builder.attending.getOrThrow("Missing attending");
+    entree = builder.entree.getOrThrow("Missing entree");
     guestAttending = builder.guestAttending.getOrThrow("Missing guest attending");
     guestName = builder.guestName.getOrThrow("Missing guest name");
+    guestEntree = builder.guestEntree.getOrThrow("Missing guest entree");
     notes = builder.notes.getOrThrow("Missing notes");
   }
 }

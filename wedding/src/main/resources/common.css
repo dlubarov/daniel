@@ -17,6 +17,16 @@ body {
   background-position: center 65%;
 }
 
+a {
+  text-decoration: none;
+  color: #aaf;
+}
+
+a:hover {
+  text-decoration: underline;
+  color: #aaf;
+}
+
 #navigation {
   list-style-type: none;
   text-align: center;
@@ -36,12 +46,7 @@ body {
 
 #navigation a {
   font-size: 140%;
-  text-decoration: none;
   color: white;
-}
-
-#navigation a:hover {
-  text-decoration: underline;
 }
 
 #logo, #date {

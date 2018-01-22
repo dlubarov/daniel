@@ -19,9 +19,9 @@ public class WeddingLayout {
   private static final ImmutableSequentialTable<String, String> NAVIGATION =
       ImmutableArrayTable.copyOf(ImmutableArray.create(
           new KeyValuePair<>("Home", "/"),
+          new KeyValuePair<>("Details", "/details"),
           new KeyValuePair<>("Photos", "/photos"),
-          new KeyValuePair<>("Venue", "/venue"),
-          new KeyValuePair<>("Schedule", "/schedule"),
+          new KeyValuePair<>("Gifts", "/gifts"),
           new KeyValuePair<>("RSVP", "/rsvp")));
 
   public static Element createDocument(Option<String> pageTitle, Node... content) {
@@ -81,15 +81,16 @@ public class WeddingLayout {
 
     Element logoDaniel = new Element.Builder(Tag.SPAN)
         .setRawAttribute("style", "display: inline-block;")
-        .addEscapedText("Daniel Lubarov ")
+        .addEscapedText("Daniel Lubarov")
         .build();
     Element logoVi = new Element.Builder(Tag.SPAN)
         .setRawAttribute("style", "display: inline-block;")
-        .addEscapedText("& Vi Dang")
+        .addEscapedText("Vi Dang")
         .build();
     Element logo = new Element.Builder(Tag.H1)
         .setRawAttribute(Attribute.ID, "logo")
         .addChild(logoDaniel)
+        .addEscapedText(" & ")
         .addChild(logoVi)
         .build();
 
