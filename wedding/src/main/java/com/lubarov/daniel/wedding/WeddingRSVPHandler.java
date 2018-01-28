@@ -162,7 +162,7 @@ public class WeddingRSVPHandler implements PartialHandler {
         paragraphBuilder.addRawText(" &#160; ");
       }
 
-      String inputId = inputName + "_" + entree;
+      String inputId = inputName + "_" + entree.toLowerCase().replace(" ", "_");
       Element radio = new InputBuilder()
           .setType("radio")
           .setId(inputId)

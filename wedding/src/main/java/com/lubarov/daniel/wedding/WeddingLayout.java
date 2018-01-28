@@ -50,7 +50,7 @@ public class WeddingLayout {
         .setRawAttribute(Attribute.HREF, WeddingConfig.getBaseUrl())
         .build();
     Element fontStyles = new Element.Builder(Tag.LINK)
-        .setRawAttribute(Attribute.HREF, "https://fonts.googleapis.com/css?family=Alex+Brush|Great+Vibes|Open+Sans|Source+Sans+Pro|Tangerine&amp;subset=vietnamese")
+        .setEscapedAttribtue(Attribute.HREF, "https://fonts.googleapis.com/css?family=Alex+Brush|Great+Vibes|Open+Sans|Source+Sans+Pro|Tangerine")
         .setRawAttribute(Attribute.REL, "stylesheet")
         .build();
 
@@ -96,6 +96,7 @@ public class WeddingLayout {
 
     Element date = new Element.Builder(Tag.TIME)
         .setRawAttribute(Attribute.ID, "date")
+        .setEscapedAttribtue(Attribute.DATETIME, "2018-06-03T16:30")
         .addEscapedText("June 3, 2018")
         .build();
 
