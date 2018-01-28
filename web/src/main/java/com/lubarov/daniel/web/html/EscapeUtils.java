@@ -27,9 +27,6 @@ public final class EscapeUtils {
         case '/':
           sb.append("&#x2F;");
           break;
-        case '|':
-          sb.append("&#x7C;");
-          break;
         default:
           sb.append(c);
       }

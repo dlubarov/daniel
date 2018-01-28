@@ -50,11 +50,11 @@ public class WeddingLayout {
         .setRawAttribute(Attribute.HREF, WeddingConfig.getBaseUrl())
         .build();
     Element fontStyles = new Element.Builder(Tag.LINK)
-        .setEscapedAttribtue(Attribute.HREF, "https://fonts.googleapis.com/css?family=Alex+Brush|Great+Vibes|Open+Sans|Source+Sans+Pro|Tangerine")
+        .setRawAttribute(Attribute.HREF, "https://fonts.googleapis.com/css?family=Alex+Brush|Great+Vibes|Open+Sans|Source+Sans+Pro|Tangerine".replace("|", "%7C"))
         .setRawAttribute(Attribute.REL, "stylesheet")
         .build();
     Element jQuery = new Element.Builder(Tag.SCRIPT)
-        .setEscapedAttribtue(Attribute.SRC, "https://code.jquery.com/jquery-3.3.1.min.js")
+        .setRawAttribute(Attribute.SRC, "https://code.jquery.com/jquery-3.3.1.min.js")
         .build();
 
     String title = pageTitle.isDefined()
