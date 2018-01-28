@@ -1,5 +1,6 @@
 package com.lubarov.daniel.web.http.server.util;
 
+import com.lubarov.daniel.common.Logger;
 import com.lubarov.daniel.data.dictionary.ImmutableDictionary;
 import com.lubarov.daniel.data.dictionary.MutableHashDictionary;
 import com.lubarov.daniel.data.option.Option;
@@ -8,12 +9,18 @@ import com.lubarov.daniel.data.unit.Instant;
 import com.lubarov.daniel.data.util.Check;
 import com.lubarov.daniel.data.util.FilenameUtils;
 import com.lubarov.daniel.data.util.IOUtils;
-import com.lubarov.daniel.common.Logger;
-import com.lubarov.daniel.web.http.*;
+import com.lubarov.daniel.web.http.DateUtils;
+import com.lubarov.daniel.web.http.HttpRequest;
+import com.lubarov.daniel.web.http.HttpResponse;
+import com.lubarov.daniel.web.http.HttpStatus;
+import com.lubarov.daniel.web.http.RequestMethod;
+import com.lubarov.daniel.web.http.ResponseHeaderName;
 import com.lubarov.daniel.web.http.server.PartialHandler;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.util.Date;
 
@@ -100,26 +107,45 @@ public final class StaticContentHandler implements PartialHandler {
       }
     }
 
+    byte[] bytes;
+    try {
+      bytes = IOUtils.readFileToByteArray(resourcePath);
+    } catch (IOException e) {
+      throw new RuntimeException("Failed to load ", e);
+    }
+
     Option<byte[]> content;
     if (request.getMethod() == RequestMethod.HEAD)
       content = Option.none();
     else
-      try {
-        content = Option.some(IOUtils.readFileToByteArray(resourcePath));
-      } catch (IOException e) {
-        throw new RuntimeException(e);
-      }
+      content = Option.some(bytes);
 
     Instant expires = Instant.now().plus(Duration.fromHours(24));
 
     HttpResponse.Builder responseBuilder = new HttpResponse.Builder()
         .setStatus(HttpStatus.OK)
+        .addHeader(ResponseHeaderName.ETAG, getETag(bytes))
         .addHeader(ResponseHeaderName.EXPIRES, DateUtils.formatRfc1123(expires))
         .addHeader(ResponseHeaderName.LAST_MODIFIED, DateUtils.formatRfc1123(lastModified))
         .addHeader(ResponseHeaderName.CONTENT_TYPE, mimeType.getOrThrow());
     if (content.isDefined())
       responseBuilder.setBody(content);
     return Option.some(responseBuilder.build());
+  }
+
+  private static String getETag(byte[] bytes) {
+    MessageDigest digest = null;
+    try {
+      digest = MessageDigest.getInstance("SHA-256");
+    } catch (NoSuchAlgorithmException e) {
+      e.printStackTrace();
+    }
+    byte[] hashBytes = digest.digest(bytes);
+    StringBuilder hexBuilder = new StringBuilder();
+    for (byte hashByte : hashBytes) {
+      hexBuilder.append(String.format("%02x", hashByte));
+    }
+    return hexBuilder.toString();
   }
 
   private boolean isInContentRoot(File file) {
