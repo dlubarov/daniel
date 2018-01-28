@@ -134,12 +134,13 @@ public final class StaticContentHandler implements PartialHandler {
   }
 
   private static String getETag(byte[] bytes) {
-    MessageDigest digest = null;
+    MessageDigest digest;
     try {
       digest = MessageDigest.getInstance("SHA-256");
     } catch (NoSuchAlgorithmException e) {
-      e.printStackTrace();
+      throw new RuntimeException("No SHA-256", e);
     }
+
     byte[] hashBytes = digest.digest(bytes);
     StringBuilder hexBuilder = new StringBuilder();
     for (byte hashByte : hashBytes) {
