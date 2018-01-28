@@ -132,21 +132,21 @@ public class WeddingRSVPHandler implements PartialHandler {
     Element script = new Element.Builder(Tag.SCRIPT)
         .addEscapedText(""
             + "function update() {"
-            + "  var attending = document.getElementById('attending_yes').checked;"
-            + "  var guestAttending = attending && document.getElementById('guest_attending_yes').checked;"
-            + "  var attendingContainer = document.getElementById('attending_container');"
-            + "  var guestAttendingContainer = document.getElementById('guest_attending_container');"
-            + "  attendingContainer.style.display = attending ? 'block' : 'none';"
-            + "  guestAttendingContainer.style.display = guestAttending ? 'block' : 'none';"
-            + "  console.log(document.getElementsByName('entree').forEach("
-            + "    function(e) { e.required = attending; }));"
-            + "  console.log(document.getElementsByName('guest_attending').forEach("
-            + "    function(e) { e.required = attending; }));"
+            + "  var attending = $('#attending_yes').is(':checked');"
+            + "  var guestAttending = $('#guest_attending_yes').is(':checked');"
+            + "  if (attending) { $('#attending_container').show({queue: true}); }"
+            + "  else { $('#attending_container').hide('400'); }"
+            + "  if (guestAttending) { $('#guest_attending_container').show({queue: true}); }"
+            + "  else { $('#guest_attending_container').hide('400'); }"
+            + "  document.getElementsByName('entree').forEach("
+            + "    function(e) { e.required = attending; });"
+            + "  document.getElementsByName('guest_attending').forEach("
+            + "    function(e) { e.required = attending; });"
             + "  document.getElementsByName('guest_name')[0].required = guestAttending;"
-            + "  console.log(document.getElementsByName('guest_entree').forEach("
-            + "    function(e) { e.required = guestAttending; }));"
+            + "  document.getElementsByName('guest_entree').forEach("
+            + "    function(e) { e.required = guestAttending; });"
             + "}"
-            + "update();")
+            + "$(document).ready(update);")
         .build();
 
     Element document = WeddingLayout.createDocument(Option.some("RSVP"), form, script);
@@ -170,9 +170,12 @@ public class WeddingRSVPHandler implements PartialHandler {
           .setValue(entree)
           .setRequired()
           .build();
+      String labelText = entree;
+      if (entree.equalsIgnoreCase("risotto"))
+        labelText += " (Vegetarian)";
       Element label = new Element.Builder(Tag.LABEL)
           .setRawAttribute("for", inputId)
-          .addEscapedText(entree)
+          .addEscapedText(labelText)
           .build();
       paragraphBuilder.addChild(radio).addRawText(" ").addChild(label);
     });

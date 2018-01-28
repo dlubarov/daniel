@@ -53,6 +53,9 @@ public class WeddingLayout {
         .setEscapedAttribtue(Attribute.HREF, "https://fonts.googleapis.com/css?family=Alex+Brush|Great+Vibes|Open+Sans|Source+Sans+Pro|Tangerine")
         .setRawAttribute(Attribute.REL, "stylesheet")
         .build();
+    Element jQuery = new Element.Builder(Tag.SCRIPT)
+        .setEscapedAttribtue(Attribute.SRC, "https://code.jquery.com/jquery-3.3.1.min.js")
+        .build();
 
     String title = pageTitle.isDefined()
         ? pageTitle.getOrThrow() + " | Daniel & Vi Wedding"
@@ -63,7 +66,8 @@ public class WeddingLayout {
         .addChildren(description, keywords, viewport, base)
         .addChild(titleElement)
         .addChild(StylesheetUtils.createCssLink("common.css"))
-        .addChild(fontStyles);
+        .addChild(fontStyles)
+        .addChild(jQuery);
     return headBuilder.build();
   }
 
