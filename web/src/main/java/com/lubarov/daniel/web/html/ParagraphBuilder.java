@@ -12,6 +12,11 @@ public final class ParagraphBuilder {
     return this;
   }
 
+  public ParagraphBuilder addChildren(Node... children) {
+    elementBuilder.addChildren(children);
+    return this;
+  }
+
   public ParagraphBuilder addRawText(String text) {
     elementBuilder.addRawText(text);
     return this;

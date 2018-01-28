@@ -42,6 +42,11 @@ public final class InputBuilder {
     return this;
   }
 
+  public InputBuilder setRequired() {
+    elementBuilder.setRawAttribute("required", "required");
+    return this;
+  }
+
   public InputBuilder setOnChange(String javascript) {
     elementBuilder.setRawAttribute("onchange", javascript);
     return this;

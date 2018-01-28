@@ -21,13 +21,15 @@ public class WeddingGiftsHandler implements PartialHandler {
       return Option.none();
 
     Element honeyFund = new AnchorBuilder()
-        .setHref("") // TODO
+        .setHref("https://www.honeyfund.com/wedding/DanielVi")
         .setTitle("Honeyfund")
-        .addEscapedText("Honeyfund")
+        .addEscapedText("Honeyfund page")
         .build();
 
     Element intro = new ParagraphBuilder()
-        .addEscapedText("Gifts are totally optional. If you like")
+        .addEscapedText("Gifts are totally optional; you can bring something if you like but it isn't expected. We also set up a ")
+        .addChild(honeyFund)
+        .addEscapedText(" if you'd like to help fund our honeymoon in Europe!")
         .build();
 
     Element document = WeddingLayout.createDocument(Option.some("Gifts"), intro);
