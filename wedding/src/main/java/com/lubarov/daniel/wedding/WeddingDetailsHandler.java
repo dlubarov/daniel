@@ -34,7 +34,7 @@ public class WeddingDetailsHandler implements PartialHandler {
         .build();
 
     Element intro = new ParagraphBuilder()
-        .addEscapedText("The ceremony will start at 4:30pm, and the reception will start at 5pm. The ceremony will be outdoors by the golf course, where it may be a bit windy. The reception will be in the indoor clubhouse area.")
+        .addEscapedText("The ceremony will start at 4:30pm, outdoors by the golf course. It could be windy, so we recommend bringing a jacket! The reception will be indoors and will begin around 5pm.")
         .build();
 
     Element address = new ParagraphBuilder()
