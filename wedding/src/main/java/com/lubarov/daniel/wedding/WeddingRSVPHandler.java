@@ -53,7 +53,7 @@ public class WeddingRSVPHandler implements PartialHandler {
         .build();
 
     Element nameLabel = new ParagraphBuilder()
-        .addEscapedText("Your name")
+        .addEscapedText("Your full name")
         .addChild(redAsterisk)
         .build();
 
@@ -91,7 +91,7 @@ public class WeddingRSVPHandler implements PartialHandler {
         .build();
 
     Element guestNameLabel = new ParagraphBuilder()
-        .addEscapedText("Your guest's name")
+        .addEscapedText("Your guest's full name")
         .addChild(redAsterisk)
         .build();
 
