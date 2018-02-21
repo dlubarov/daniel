@@ -159,7 +159,7 @@ public class WeddingRSVPHandler implements PartialHandler {
 
     ENTREES.forEach(entree -> {
       if (!entree.equals(ENTREES.getFront())) {
-        paragraphBuilder.addRawText(" &#160; ");
+        paragraphBuilder.addRawText("<br />");
       }
 
       String inputId = inputName + "_" + entree.toLowerCase().replace(" ", "_");
