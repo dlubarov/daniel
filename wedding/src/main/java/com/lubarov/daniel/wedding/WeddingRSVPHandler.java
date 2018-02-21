@@ -27,7 +27,7 @@ public class WeddingRSVPHandler implements PartialHandler {
 
   private static final Logger logger = Logger.forClass(WeddingRSVPHandler.class);
   private static final ImmutableSequence<String> ENTREES =
-      ImmutableArray.create("Filet Mignon", "Salmon", "Risotto");
+      ImmutableArray.create("Filet mignon", "Salmon", "Risotto");
 
   private WeddingRSVPHandler() {}
 
@@ -171,8 +171,12 @@ public class WeddingRSVPHandler implements PartialHandler {
           .setRequired()
           .build();
       String labelText = entree;
+      if (entree.equalsIgnoreCase("filet mignon"))
+        labelText += " with mashed potatoes";
+      if (entree.equalsIgnoreCase("salmon"))
+        labelText += " with rice pilaf";
       if (entree.equalsIgnoreCase("risotto"))
-        labelText += " (Vegetarian)";
+        labelText += " (vegetarian)";
       Element label = new Element.Builder(Tag.LABEL)
           .setRawAttribute("for", inputId)
           .addEscapedText(labelText)
