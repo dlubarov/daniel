@@ -30,7 +30,7 @@ public class WeddingRSVPHandler implements PartialHandler {
   private static final Sequence<Entree> ENTREES = ImmutableArray.create(
       new Entree("Grilled Filet Mignon", "cabernet herb butter"),
       new Entree("Oven Roasted Halibut", "garden herb beurre blanc"),
-      new Entree("Lavender & Pistachio Crusted Rack of Lamb", "cabernet – lamb reduction"),
+      new Entree("Lavender & Pistachio Crusted Rack of Lamb", "cabernet - lamb reduction"),
       new Entree("Pecan Crusted Chicken Breast", "whole grain mustard Cream"));
 
   private static class Entree {
@@ -106,7 +106,7 @@ public class WeddingRSVPHandler implements PartialHandler {
     Element entreeList = new Element.Builder(Tag.UL)
         .addChildren(ENTREES.map(e -> new Element(Tag.LI,
             new Element.Builder(Tag.SPAN).setRawAttribute("class", "entree_name").addEscapedText(e.name).build(),
-            TextNode.escapedText(" — "),
+            TextNode.rawText(" &#8212; "),
             TextNode.escapedText(e.details))))
         .setRawAttribute(Attribute.STYLE, "margin-top: 0.5em;")
         .build();
