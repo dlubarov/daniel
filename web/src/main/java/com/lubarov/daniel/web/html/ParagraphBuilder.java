@@ -1,5 +1,7 @@
 package com.lubarov.daniel.web.html;
 
+import com.lubarov.daniel.data.sequence.Sequence;
+
 public final class ParagraphBuilder {
   private final Element.Builder elementBuilder;
 
@@ -13,6 +15,11 @@ public final class ParagraphBuilder {
   }
 
   public ParagraphBuilder addChildren(Node... children) {
+    elementBuilder.addChildren(children);
+    return this;
+  }
+
+  public ParagraphBuilder addChildren(Iterable<Node> children) {
     elementBuilder.addChildren(children);
     return this;
   }
