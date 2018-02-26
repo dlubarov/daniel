@@ -21,7 +21,6 @@ import com.lubarov.daniel.wedding.rsvp.RSVPStorage;
 
 import java.util.UUID;
 
-// TODO validate required fields
 public class WeddingRSVPHandler implements PartialHandler {
   public static final WeddingRSVPHandler singleton = new WeddingRSVPHandler();
 
