@@ -11,6 +11,7 @@ import com.lubarov.daniel.web.http.HttpRequest;
 import com.lubarov.daniel.web.http.HttpResponse;
 import com.lubarov.daniel.web.http.server.Handler;
 import com.lubarov.daniel.web.http.server.util.HostBasedHandler;
+import com.lubarov.daniel.conniewedding.ConnieWeddingHandler;
 import com.lubarov.daniel.wedding.WeddingHandler;
 
 final class MultiwebHandler implements Handler {
@@ -19,6 +20,7 @@ final class MultiwebHandler implements Handler {
   private static final Handler hostBasedHandler = new HostBasedHandler.Builder()
       .addHandlerForHost(".*nagger\\.daniel\\.lubarov\\.com.*", NaggerHandler.getHandler())
       .addHandlerForHost(".*danielvi\\.com.*", WeddingHandler.getHandler())
+      .addHandlerForHost(".*leoconnie\\.com.*", ConnieWeddingHandler.getHandler())
       .addHandlerForHost(".*daniel\\.lubarov\\.com.*", BlogHandler.getHandler())
       .addHandlerForHost(".*alex\\.lubarov\\.com.*", AlexResumeHandler.getHandler())
       .addHandlerForHost(".*viewheaders\\.com.*", ViewHeadersHandler.getHandler())

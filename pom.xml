@@ -26,5 +26,6 @@
         <module>viewheaders</module>
         <module>web</module>
         <module>wedding</module>
+        <module>wedding-connie</module>
     </modules>
 </project>
