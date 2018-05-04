@@ -44,7 +44,7 @@ public class WeddingDetailsHandler implements PartialHandler {
         .addChild(new Element(Tag.BR))
         .addEscapedText("San Francisco, CA 94129")
         .addChild(new Element(Tag.BR))
-        .addChild(venueLink).addEscapedText(" · ").addChild(directionsLink)
+        .addChild(venueLink).addRawText(" &#183; ").addChild(directionsLink)
         .build();
 
     Element document = WeddingLayout.createDocument(
