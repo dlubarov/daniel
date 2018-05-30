@@ -1,6 +1,7 @@
 package com.lubarov.daniel.junkmail;
 
 import com.lubarov.daniel.common.Logger;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;

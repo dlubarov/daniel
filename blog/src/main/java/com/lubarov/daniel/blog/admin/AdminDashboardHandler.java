@@ -42,7 +42,7 @@ final class AdminDashboardHandler implements PartialHandler {
 
     Element document = Layout.createDocument(
         request, Option.some("Admin Control Panel"),
-        Option.<Instant>none(), whatsUp, linkList);
+        Option.none(), whatsUp, linkList);
     return Option.some(HttpResponseFactory.xhtmlResponse(HttpStatus.OK, document));
   }
 }

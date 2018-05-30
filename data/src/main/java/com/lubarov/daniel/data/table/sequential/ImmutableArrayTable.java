@@ -23,7 +23,7 @@ public final class ImmutableArrayTable<K, V>
   }
 
   public static <K, V> ImmutableArrayTable<K, V> create() {
-    return new ImmutableArrayTable<>(ImmutableArray.<KeyValuePair<K, V>>create());
+    return new ImmutableArrayTable<>(ImmutableArray.create());
   }
 
   public static <K, V> ImmutableArrayTable<K, V> copyOf(

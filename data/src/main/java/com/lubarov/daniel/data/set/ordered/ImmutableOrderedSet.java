@@ -10,8 +10,8 @@ import com.lubarov.daniel.data.set.ImmutableSet;
 public interface ImmutableOrderedSet<A>
     extends OrderedSet<A>, ImmutableSet<A>, ImmutableOrderedSequence<A> {
   @Override
-  public OrderedSet<A> filter(Function<? super A, Boolean> predicate);
+  OrderedSet<A> filter(Function<? super A, Boolean> predicate);
 
   @Override
-  public ImmutableOrderedSet<A> toImmutable();
+  ImmutableOrderedSet<A> toImmutable();
 }

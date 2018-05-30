@@ -10,7 +10,7 @@ public enum WebSocketOpcode {
 
   private final int encodedValue;
 
-  private WebSocketOpcode(int encodedValue) {
+  WebSocketOpcode(int encodedValue) {
     this.encodedValue = encodedValue;
   }
 

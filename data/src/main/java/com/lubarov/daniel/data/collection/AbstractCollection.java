@@ -65,7 +65,7 @@ public abstract class AbstractCollection<A> implements Collection<A> {
     for (A element : this) {
       K key = grouper.apply(element);
       if (!groups.containsKey(key))
-        groups.put(key, DynamicArray.<A>create());
+        groups.put(key, DynamicArray.create());
       groups.getValue(key).pushBack(element);
     }
     return groups;
@@ -74,7 +74,7 @@ public abstract class AbstractCollection<A> implements Collection<A> {
   @Override
   public Sequence<A> sorted(Ordering<? super A> ordering) {
     List<A> jcfList = new ArrayList<>(toJCF());
-    Collections.sort(jcfList, ordering.toComparator());
+    jcfList.sort(ordering.toComparator());
     return ImmutableArray.copyOf(jcfList);
   }
 
@@ -82,7 +82,7 @@ public abstract class AbstractCollection<A> implements Collection<A> {
   public Option<A> tryGetOnlyElement() {
     return getSize() == 1
         ? Option.some(getEnumerator().tryTake().getOrThrow())
-        : Option.<A>none();
+        : Option.none();
   }
 
   @Override

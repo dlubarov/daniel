@@ -12,9 +12,9 @@ public class RecursiveSourceTest {
     assertEquals(seq(),
         new RecursiveSource<String>().takeAll());
     assertEquals(seq(),
-        new RecursiveSource<String>(src(), src(), src()).takeAll());
+        new RecursiveSource<>(src(), src(), src()).takeAll());
     assertEquals(seq("a", "b", "c"),
-        new RecursiveSource<String>(src("a"), src("b", "c")).takeAll());
+        new RecursiveSource<>(src("a"), src("b", "c")).takeAll());
   }
 
   private static Sequence<String> seq(String... strings) {

@@ -1,11 +1,11 @@
 package com.lubarov.daniel.conniewedding;
 
+import com.lubarov.daniel.conniewedding.admin.AdminHandler;
 import com.lubarov.daniel.web.http.server.Handler;
 import com.lubarov.daniel.web.http.server.util.DelegatingHandler;
 import com.lubarov.daniel.web.http.server.util.LineSeparatorRemovingHandler;
 import com.lubarov.daniel.web.http.server.util.StaticContentHandler;
 import com.lubarov.daniel.web.http.server.util.WwwRemovingHandler;
-import com.lubarov.daniel.conniewedding.admin.AdminHandler;
 
 import java.io.File;
 

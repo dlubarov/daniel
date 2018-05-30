@@ -5,7 +5,11 @@ import com.lubarov.daniel.blog.comment.CommentFormFormatter;
 import com.lubarov.daniel.blog.comment.CommentFormatter;
 import com.lubarov.daniel.data.option.Option;
 import com.lubarov.daniel.data.sequence.Sequence;
-import com.lubarov.daniel.web.html.*;
+import com.lubarov.daniel.web.html.AnchorBuilder;
+import com.lubarov.daniel.web.html.Attribute;
+import com.lubarov.daniel.web.html.Element;
+import com.lubarov.daniel.web.html.HtmlUtils;
+import com.lubarov.daniel.web.html.Tag;
 
 public final class PostFormatter {
   private PostFormatter() {}

@@ -16,6 +16,6 @@ public final class IteratorSource<A> extends AbstractSource<A> {
 
   @Override
   public Option<A> tryTake() {
-    return iterator.hasNext() ? Option.some(iterator.next()) : Option.<A>none();
+    return iterator.hasNext() ? Option.some(iterator.next()) : Option.none();
   }
 }

@@ -32,7 +32,7 @@ final class Some<A> extends Option<A> {
 
   @Override
   public Option<A> filter(Function<? super A, Boolean> predicate) {
-    return predicate.apply(value) ? this : Option.<A>none();
+    return predicate.apply(value) ? this : Option.none();
   }
 
   @Override

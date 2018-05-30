@@ -6,9 +6,9 @@ import java.util.Comparator;
  * An ordering of objects, similar to {@link Comparator}.
  */
 public interface Ordering<A> {
-  public Relation compare(A a, A b);
+  Relation compare(A a, A b);
 
-  public Ordering<A> reverse();
+  Ordering<A> reverse();
 
-  public Comparator<A> toComparator();
+  Comparator<A> toComparator();
 }

@@ -7,5 +7,5 @@ package com.lubarov.daniel.data.function;
  * @param <B> the output type
  */
 public interface Function<A, B> {
-  public B apply(A input);
+  B apply(A input);
 }

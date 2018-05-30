@@ -15,11 +15,11 @@ public class Encoder {
 
   private static List<String> getNextWordOptions(List<String> words) {
     int l = words.size();
-//    for (int lookback = Math.min(NGRAM_SIZE, l); lookback >= 0; --lookback) {
-//      List<String> context = words.subList(l - lookback, l);
-//      if (context.isEmpty()) context.add(".");
-//      ;
-//    }
+    for (int lookback = Math.min(NGRAM_SIZE, l); lookback >= 0; --lookback) {
+      List<String> context = words.subList(l - lookback, l);
+      if (context.isEmpty()) context.add(".");
+      ;
+    }
     throw new RuntimeException("No options (shouldn't get here).");
   }
 }

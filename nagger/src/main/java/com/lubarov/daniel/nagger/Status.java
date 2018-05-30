@@ -12,7 +12,7 @@ public enum Status {
     throw new IllegalArgumentException("Bad exit status: " + exitStatus);
   }
 
-  private Status(int exitStatus) {
+  Status(int exitStatus) {
     this.exitStatus = exitStatus;
   }
 

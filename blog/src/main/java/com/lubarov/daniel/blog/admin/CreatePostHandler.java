@@ -65,7 +65,7 @@ final class CreatePostHandler implements PartialHandler {
         .build();
 
     Element document = Layout.createDocument(request,
-        Option.some("Create a Post"), Option.<Instant>none(), form);
+        Option.some("Create a Post"), Option.none(), form);
     return HttpResponseFactory.xhtmlResponse(HttpStatus.OK, document);
   }
 

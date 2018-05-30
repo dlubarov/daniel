@@ -30,7 +30,7 @@ public final class MutableHashTable<K, V> extends AbstractTable<K, V> {
 
   public void put(K key, V value) {
     if (!valueGroups.containsKey(key))
-      valueGroups.put(key, MutableHashBag.<V>create());
+      valueGroups.put(key, MutableHashBag.create());
     valueGroups.getValue(key).add(value);
     ++size;
   }
@@ -67,7 +67,7 @@ public final class MutableHashTable<K, V> extends AbstractTable<K, V> {
 
   @Override
   public Collection<V> getValues(K key) {
-    return valueGroups.tryGetValue(key).getOrDefault(MutableHashBag.<V>create());
+    return valueGroups.tryGetValue(key).getOrDefault(MutableHashBag.create());
   }
 
   @Override

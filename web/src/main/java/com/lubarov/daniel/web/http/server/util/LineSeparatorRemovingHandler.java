@@ -1,10 +1,10 @@
 package com.lubarov.daniel.web.http.server.util;
 
+import com.lubarov.daniel.common.Logger;
 import com.lubarov.daniel.data.option.Option;
 import com.lubarov.daniel.data.sequence.ImmutableArray;
 import com.lubarov.daniel.data.sequence.ImmutableSequence;
 import com.lubarov.daniel.data.util.Check;
-import com.lubarov.daniel.common.Logger;
 import com.lubarov.daniel.web.http.HttpRequest;
 import com.lubarov.daniel.web.http.HttpResponse;
 import com.lubarov.daniel.web.http.RequestMethod;
@@ -64,7 +64,7 @@ public final class LineSeparatorRemovingHandler implements PartialHandler {
     while (index < resource.length() && resource.charAt(index) == '%') {
       Check.that(resource.length() >= index + 3,
           "% not follwed by two bytes in \"%s\".", resource);
-      sb.append(resource.substring(index, index + 3));
+      sb.append(resource, index, index + 3);
       index += 3;
     }
     return sb.toString();

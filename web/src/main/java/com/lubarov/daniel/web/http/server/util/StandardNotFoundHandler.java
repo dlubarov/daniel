@@ -1,6 +1,11 @@
 package com.lubarov.daniel.web.http.server.util;
 
-import com.lubarov.daniel.web.html.*;
+import com.lubarov.daniel.web.html.AnchorBuilder;
+import com.lubarov.daniel.web.html.Attribute;
+import com.lubarov.daniel.web.html.Element;
+import com.lubarov.daniel.web.html.ParagraphBuilder;
+import com.lubarov.daniel.web.html.Tag;
+import com.lubarov.daniel.web.html.TitleBuilder;
 import com.lubarov.daniel.web.http.HttpRequest;
 import com.lubarov.daniel.web.http.HttpResponse;
 import com.lubarov.daniel.web.http.HttpStatus;

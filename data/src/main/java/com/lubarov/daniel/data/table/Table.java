@@ -9,12 +9,12 @@ import com.lubarov.daniel.data.set.Set;
  * multiple entries with the same key.
  */
 public interface Table<K, V> extends Collection<KeyValuePair<K, V>> {
-  public Set<K> getKeys();
+  Set<K> getKeys();
 
-  public boolean containsKey(K key);
+  boolean containsKey(K key);
 
-  public Collection<V> getValues(K key);
+  Collection<V> getValues(K key);
 
   @Override
-  public ImmutableTable<K, V> toImmutable();
+  ImmutableTable<K, V> toImmutable();
 }

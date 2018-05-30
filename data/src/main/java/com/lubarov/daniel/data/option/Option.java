@@ -25,7 +25,7 @@ public abstract class Option<A> extends AbstractImmutableCollection<A> {
   }
 
   public static <A> Option<A> fromNullable(A valueOrNull) {
-    return valueOrNull != null ? some(valueOrNull) : Option.<A>none();
+    return valueOrNull != null ? some(valueOrNull) : Option.none();
   }
 
   public boolean isDefined() {

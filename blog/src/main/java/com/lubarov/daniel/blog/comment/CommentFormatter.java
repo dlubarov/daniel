@@ -2,7 +2,13 @@ package com.lubarov.daniel.blog.comment;
 
 import com.lubarov.daniel.data.option.Option;
 import com.lubarov.daniel.data.util.DigestUtils;
-import com.lubarov.daniel.web.html.*;
+import com.lubarov.daniel.web.html.Attribute;
+import com.lubarov.daniel.web.html.Element;
+import com.lubarov.daniel.web.html.EscapeUtils;
+import com.lubarov.daniel.web.html.HtmlUtils;
+import com.lubarov.daniel.web.html.Node;
+import com.lubarov.daniel.web.html.ParagraphBuilder;
+import com.lubarov.daniel.web.html.Tag;
 import com.lubarov.daniel.web.http.DateUtils;
 
 import java.nio.charset.Charset;

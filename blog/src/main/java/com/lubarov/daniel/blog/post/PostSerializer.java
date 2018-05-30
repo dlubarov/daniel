@@ -1,6 +1,11 @@
 package com.lubarov.daniel.blog.post;
 
-import com.lubarov.daniel.data.serialization.*;
+import com.lubarov.daniel.data.serialization.AbstractSerializer;
+import com.lubarov.daniel.data.serialization.BooleanSerializer;
+import com.lubarov.daniel.data.serialization.ByteSink;
+import com.lubarov.daniel.data.serialization.ByteSource;
+import com.lubarov.daniel.data.serialization.InstantSerializer;
+import com.lubarov.daniel.data.serialization.StringSerializer;
 
 public final class PostSerializer extends AbstractSerializer<Post> {
   public static final PostSerializer singleton = new PostSerializer();

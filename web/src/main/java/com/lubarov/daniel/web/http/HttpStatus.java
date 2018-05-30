@@ -82,7 +82,7 @@ public enum HttpStatus {
   private final int code;
   private final String description;
 
-  private HttpStatus(int code, String description) {
+  HttpStatus(int code, String description) {
     this.code = code;
     this.description = description;
   }

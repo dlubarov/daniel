@@ -37,6 +37,6 @@ public final class OptionSerializer<A> extends AbstractSerializer<Option<A>> {
 
     return isDefined
         ? Option.some(valueSerializer.readFromSource(source))
-        : Option.<A>none();
+        : Option.none();
   }
 }

@@ -46,21 +46,11 @@ public abstract class AbstractDictionary<K, V>
 
   @Override
   public Dictionary<K, V> filterKeys(final Function<? super K, Boolean> predicate) {
-    return this.filter(new Function<KeyValuePair<K, V>, Boolean>() {
-      @Override
-      public Boolean apply(KeyValuePair<K, V> keyValuePair) {
-        return predicate.apply(keyValuePair.getKey());
-      }
-    });
+    return filter(keyValuePair -> predicate.apply(keyValuePair.getKey()));
   }
 
   @Override
   public Dictionary<K, V> filterValues(final Function<? super V, Boolean> predicate) {
-    return this.filter(new Function<KeyValuePair<K, V>, Boolean>() {
-      @Override
-      public Boolean apply(KeyValuePair<K, V> keyValuePair) {
-        return predicate.apply(keyValuePair.getValue());
-      }
-    });
+    return filter(keyValuePair -> predicate.apply(keyValuePair.getValue()));
   }
 }

@@ -3,6 +3,7 @@ package com.lubarov.daniel.multiweb;
 import com.lubarov.daniel.alexresume.AlexResumeHandler;
 import com.lubarov.daniel.blog.BlogHandler;
 import com.lubarov.daniel.chat.ChatHandler;
+import com.lubarov.daniel.conniewedding.ConnieWeddingHandler;
 import com.lubarov.daniel.gw2.Gw2Handler;
 import com.lubarov.daniel.junkmail.JunkMailHandler;
 import com.lubarov.daniel.nagger.NaggerHandler;
@@ -11,7 +12,6 @@ import com.lubarov.daniel.web.http.HttpRequest;
 import com.lubarov.daniel.web.http.HttpResponse;
 import com.lubarov.daniel.web.http.server.Handler;
 import com.lubarov.daniel.web.http.server.util.HostBasedHandler;
-import com.lubarov.daniel.conniewedding.ConnieWeddingHandler;
 import com.lubarov.daniel.wedding.WeddingHandler;
 
 final class MultiwebHandler implements Handler {

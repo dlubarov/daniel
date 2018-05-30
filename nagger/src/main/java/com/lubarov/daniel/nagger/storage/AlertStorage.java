@@ -1,7 +1,6 @@
 package com.lubarov.daniel.nagger.storage;
 
 import com.lubarov.daniel.bdb.SerializingDatabase;
-import com.lubarov.daniel.common.Environment;
 import com.lubarov.daniel.data.collection.Collection;
 import com.lubarov.daniel.data.option.Option;
 import com.lubarov.daniel.data.serialization.GsonSerializer;

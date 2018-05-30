@@ -29,7 +29,7 @@ final class AddCommentHandler implements Handler {
     String authorEmail = request.getUrlencodedPostData().getValues("author_email")
         .tryGetOnlyElement().getOrThrow();
     Option<String> optAuthorEmail = authorEmail.isEmpty()
-        ? Option.<String>none()
+        ? Option.none()
         : Option.some(authorEmail);
     String content = request.getUrlencodedPostData().getValues("content")
         .tryGetOnlyElement().getOrThrow();

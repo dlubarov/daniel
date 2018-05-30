@@ -9,7 +9,7 @@ public final class TokenOrQuotedStringParser extends Parser<String> {
   public static final TokenOrQuotedStringParser singleton = new TokenOrQuotedStringParser();
 
   private static final DisjunctiveParser<String> proxy =
-      new DisjunctiveParser<String>(QuotedStringParser.singleton, TokenParser.singleton);
+      new DisjunctiveParser<>(QuotedStringParser.singleton, TokenParser.singleton);
 
   private TokenOrQuotedStringParser() {}
 

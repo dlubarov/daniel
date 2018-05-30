@@ -5,7 +5,11 @@ import com.lubarov.daniel.blog.MiscStorage;
 import com.lubarov.daniel.data.option.Option;
 import com.lubarov.daniel.data.unit.Instant;
 import com.lubarov.daniel.data.util.Check;
-import com.lubarov.daniel.web.html.*;
+import com.lubarov.daniel.web.html.Attribute;
+import com.lubarov.daniel.web.html.Element;
+import com.lubarov.daniel.web.html.Node;
+import com.lubarov.daniel.web.html.ParagraphBuilder;
+import com.lubarov.daniel.web.html.Tag;
 import com.lubarov.daniel.web.http.HttpRequest;
 import com.lubarov.daniel.web.http.HttpResponse;
 import com.lubarov.daniel.web.http.HttpStatus;
@@ -38,7 +42,7 @@ final class AdminSetupHandler implements Handler {
         .tryGetOnlyElement().getOrThrow("Expected exactly one password in post data.");
     MiscStorage.setAdminPassword(adminPassword);
     Element document = Layout.createDocument(request,
-        Option.some("Success"), Option.<Instant>none(),
+        Option.some("Success"), Option.none(),
         new ParagraphBuilder().addEscapedText("Password has been set.").build());
     return HttpResponseFactory.xhtmlResponse(HttpStatus.OK, document);
   }
@@ -62,7 +66,7 @@ final class AdminSetupHandler implements Handler {
         .build();
 
     Element document = Layout.createDocument(request,
-        Option.some("Admin Setup"), Option.<Instant>none(), content);
+        Option.some("Admin Setup"), Option.none(), content);
     return HttpResponseFactory.xhtmlResponse(HttpStatus.OK, document);
   }
 }

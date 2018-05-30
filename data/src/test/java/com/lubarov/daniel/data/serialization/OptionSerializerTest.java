@@ -10,7 +10,7 @@ public class OptionSerializerTest {
   public void testVarious() {
     test(Option.some(""));
     test(Option.some("abc"));
-    test(Option.<String>none());
+    test(Option.none());
   }
 
   private static void test(Option<String> original) {

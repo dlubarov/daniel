@@ -56,6 +56,6 @@ public final class CommentStorage {
   }
 
   private static synchronized Collection<String> getCommentUuidsByPost(String postUuid) {
-    return indexByPostUuid.get(postUuid).getOrDefault(ImmutableArray.<String>create());
+    return indexByPostUuid.get(postUuid).getOrDefault(ImmutableArray.create());
   }
 }

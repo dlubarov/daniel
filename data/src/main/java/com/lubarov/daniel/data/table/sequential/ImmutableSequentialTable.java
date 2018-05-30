@@ -11,5 +11,5 @@ public interface ImmutableSequentialTable<K, V>
     extends SequentialTable<K, V>, ImmutableTable<K, V>,
     ImmutableSequence<KeyValuePair<K, V>> {
   @Override
-  public ImmutableSequentialTable<K, V> toImmutable();
+  ImmutableSequentialTable<K, V> toImmutable();
 }

@@ -5,5 +5,5 @@ import com.lubarov.daniel.web.http.HttpRequest;
 import com.lubarov.daniel.web.http.HttpResponse;
 
 public interface PartialHandler {
-  public Option<HttpResponse> tryHandle(HttpRequest request);
+  Option<HttpResponse> tryHandle(HttpRequest request);
 }

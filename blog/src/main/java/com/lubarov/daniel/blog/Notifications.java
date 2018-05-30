@@ -22,7 +22,7 @@ public final class Notifications {
   }
 
   private static SinglyLinkedList<String> getMessages(HttpRequest request) {
-    return messageData.tryGet(request).getOrDefault(SinglyLinkedList.<String>create());
+    return messageData.tryGet(request).getOrDefault(SinglyLinkedList.create());
   }
 
   private static void clearMessages(HttpRequest request) {

@@ -30,7 +30,7 @@ h3 {
 }
 
 h3 ~ h3 {
-  margin-top: 0.6em;
+  margin-top: 0.8em;
 }
 
 p + p {

@@ -1,7 +1,5 @@
 package com.lubarov.daniel.web.html;
 
-import com.lubarov.daniel.data.sequence.Sequence;
-
 public final class ParagraphBuilder {
   private final Element.Builder elementBuilder;
 

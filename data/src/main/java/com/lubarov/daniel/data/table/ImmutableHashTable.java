@@ -26,7 +26,7 @@ public final class ImmutableHashTable<K, V> extends AbstractImmutableTable<K, V>
   }
 
   public static <K, V> ImmutableHashTable<K, V> create() {
-    return new ImmutableHashTable<>(ImmutableHashDictionary.<K, ImmutableCollection<V>>create());
+    return new ImmutableHashTable<>(ImmutableHashDictionary.create());
   }
 
   public static <K, V> ImmutableHashTable<K, V> copyOf(
@@ -36,7 +36,7 @@ public final class ImmutableHashTable<K, V> extends AbstractImmutableTable<K, V>
       K key = keyValuePair.getKey();
       V value = keyValuePair.getValue();
       SinglyLinkedList<V> oldGroup = valueGroups.tryGetValue(key)
-          .getOrDefault(SinglyLinkedList.<V>create());
+          .getOrDefault(SinglyLinkedList.create());
       valueGroups.put(key, oldGroup.plusFront(value));
     }
     return new ImmutableHashTable<>(valueGroups.toImmutable());
@@ -56,7 +56,7 @@ public final class ImmutableHashTable<K, V> extends AbstractImmutableTable<K, V>
   public Collection<V> getValues(K key) {
     return valueGroups.containsKey(key)
         ? valueGroups.getValue(key)
-        : ImmutableArray.<V>create();
+        : ImmutableArray.create();
   }
 
   @Override

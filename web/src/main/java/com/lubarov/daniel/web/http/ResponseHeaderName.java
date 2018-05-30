@@ -38,7 +38,7 @@ public enum ResponseHeaderName {
 
   private final String standardName;
 
-  private ResponseHeaderName(String standardName) {
+  ResponseHeaderName(String standardName) {
     this.standardName = standardName;
   }
 

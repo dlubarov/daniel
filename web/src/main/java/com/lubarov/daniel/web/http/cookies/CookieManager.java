@@ -5,12 +5,7 @@ import com.lubarov.daniel.data.sequence.SinglyLinkedList;
 
 public final class CookieManager {
   private static final ThreadLocal<SinglyLinkedList<Cookie>> cookies =
-      new ThreadLocal<SinglyLinkedList<Cookie>>() {
-        @Override
-        protected SinglyLinkedList<Cookie> initialValue() {
-          return SinglyLinkedList.create();
-        }
-      };
+      ThreadLocal.withInitial(SinglyLinkedList::create);
 
   private CookieManager() {}
 

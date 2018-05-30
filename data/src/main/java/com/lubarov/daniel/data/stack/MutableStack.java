@@ -6,7 +6,7 @@ import com.lubarov.daniel.data.sequence.Sequence;
  * A first in, last out structure.
  */
 public interface MutableStack<A> extends Sequence<A> {
-  public void pushBack(A value);
+  void pushBack(A value);
 
-  public A popBack();
+  A popBack();
 }

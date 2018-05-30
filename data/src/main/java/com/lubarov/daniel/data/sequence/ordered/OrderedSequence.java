@@ -7,5 +7,5 @@ import com.lubarov.daniel.data.sequence.Sequence;
  * A {@link Sequence} whose elements are always ordered according to some {@link Ordering}.
  */
 public interface OrderedSequence<A> extends Sequence<A> {
-  public Ordering<A> getOrdering();
+  Ordering<A> getOrdering();
 }

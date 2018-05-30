@@ -10,5 +10,5 @@ import com.lubarov.daniel.data.table.Table;
 public interface SequentialTable<K, V>
     extends Table<K, V>, Sequence<KeyValuePair<K, V>> {
   @Override
-  public ImmutableSequentialTable<K, V> toImmutable();
+  ImmutableSequentialTable<K, V> toImmutable();
 }

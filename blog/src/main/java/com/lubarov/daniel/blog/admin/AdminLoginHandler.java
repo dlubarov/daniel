@@ -5,7 +5,11 @@ import com.lubarov.daniel.blog.MiscStorage;
 import com.lubarov.daniel.data.option.Option;
 import com.lubarov.daniel.data.unit.Duration;
 import com.lubarov.daniel.data.unit.Instant;
-import com.lubarov.daniel.web.html.*;
+import com.lubarov.daniel.web.html.Attribute;
+import com.lubarov.daniel.web.html.Element;
+import com.lubarov.daniel.web.html.InputBuilder;
+import com.lubarov.daniel.web.html.ParagraphBuilder;
+import com.lubarov.daniel.web.html.Tag;
 import com.lubarov.daniel.web.http.HttpRequest;
 import com.lubarov.daniel.web.http.HttpResponse;
 import com.lubarov.daniel.web.http.HttpStatus;
@@ -43,13 +47,13 @@ final class AdminLoginHandler implements Handler {
           .build();
       CookieManager.setCooke(cookie);
       Element document = Layout.createDocument(request,
-          Option.some("Success"), Option.<Instant>none(),
+          Option.some("Success"), Option.none(),
           new ParagraphBuilder().addEscapedText("You have been signed in.").build()
       );
       return HttpResponseFactory.xhtmlResponse(HttpStatus.OK, document);
     } else {
       Element document = Layout.createDocument(request,
-          Option.some("Oops"), Option.<Instant>none(),
+          Option.some("Oops"), Option.none(),
           new ParagraphBuilder().addEscapedText("Wrong password.").build()
       );
       return HttpResponseFactory.xhtmlResponse(HttpStatus.OK, document);
@@ -58,7 +62,7 @@ final class AdminLoginHandler implements Handler {
 
   private HttpResponse handleGet(HttpRequest request) {
     Element document = Layout.createDocument(request,
-        Option.some("Admin Login"), Option.<Instant>none(), getForm());
+        Option.some("Admin Login"), Option.none(), getForm());
     return HttpResponseFactory.xhtmlResponse(HttpStatus.OK, document);
   }
 

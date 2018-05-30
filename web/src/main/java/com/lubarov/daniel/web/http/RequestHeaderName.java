@@ -35,7 +35,7 @@ public enum RequestHeaderName {
 
   private final String standardName;
 
-  private RequestHeaderName(String standardName) {
+  RequestHeaderName(String standardName) {
     this.standardName = standardName;
   }
 

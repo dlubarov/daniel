@@ -5,7 +5,7 @@ public enum HttpVersion {
 
   private final String versionString;
 
-  private HttpVersion(String versionString) {
+  HttpVersion(String versionString) {
     this.versionString = versionString;
   }
 

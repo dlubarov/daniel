@@ -2,7 +2,11 @@ package com.lubarov.daniel.gw2;
 
 import com.lubarov.daniel.data.option.Option;
 import com.lubarov.daniel.data.sequence.ImmutableArray;
-import com.lubarov.daniel.web.html.*;
+import com.lubarov.daniel.web.html.Attribute;
+import com.lubarov.daniel.web.html.Element;
+import com.lubarov.daniel.web.html.InputBuilder;
+import com.lubarov.daniel.web.html.ParagraphBuilder;
+import com.lubarov.daniel.web.html.Tag;
 import com.lubarov.daniel.web.http.HttpRequest;
 import com.lubarov.daniel.web.http.HttpResponse;
 import com.lubarov.daniel.web.http.HttpStatus;

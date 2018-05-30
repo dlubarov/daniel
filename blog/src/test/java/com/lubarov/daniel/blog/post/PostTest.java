@@ -7,7 +7,7 @@ import static org.junit.Assert.assertEquals;
 
 public class PostTest {
   @Test
-  public void testGetUrlFriendlySubject() throws Exception {
+  public void testGetUrlFriendlySubject() {
     Post post = new Post.Builder()
         .setRandomUiid()
         .setCreatedAt(Instant.now())

@@ -2,7 +2,14 @@ package com.lubarov.daniel.gw2;
 
 import com.lubarov.daniel.data.collection.Collection;
 import com.lubarov.daniel.data.option.Option;
-import com.lubarov.daniel.web.html.*;
+import com.lubarov.daniel.web.html.AnchorBuilder;
+import com.lubarov.daniel.web.html.Attribute;
+import com.lubarov.daniel.web.html.Element;
+import com.lubarov.daniel.web.html.JavaScriptUtils;
+import com.lubarov.daniel.web.html.Node;
+import com.lubarov.daniel.web.html.StylesheetUtils;
+import com.lubarov.daniel.web.html.Tag;
+import com.lubarov.daniel.web.html.TitleBuilder;
 import com.lubarov.daniel.web.http.HttpRequest;
 import com.lubarov.daniel.web.util.UserAgentUtils;
 

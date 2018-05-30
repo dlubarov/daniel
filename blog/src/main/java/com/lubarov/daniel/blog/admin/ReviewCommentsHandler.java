@@ -12,7 +12,11 @@ import com.lubarov.daniel.blog.post.PostStorage;
 import com.lubarov.daniel.data.collection.Collection;
 import com.lubarov.daniel.data.option.Option;
 import com.lubarov.daniel.data.unit.Instant;
-import com.lubarov.daniel.web.html.*;
+import com.lubarov.daniel.web.html.Attribute;
+import com.lubarov.daniel.web.html.Element;
+import com.lubarov.daniel.web.html.Node;
+import com.lubarov.daniel.web.html.ParagraphBuilder;
+import com.lubarov.daniel.web.html.Tag;
 import com.lubarov.daniel.web.http.HttpRequest;
 import com.lubarov.daniel.web.http.HttpResponse;
 import com.lubarov.daniel.web.http.HttpStatus;
@@ -48,7 +52,7 @@ public class ReviewCommentsHandler implements PartialHandler {
     Post post = PostStorage.getPostByUuid(comment.getPostUuid()).getOrThrow();
     Element form = commentReviewForm(comment, post);
     Element html = Layout.createDocument(request,
-        Option.some("Review Comments"), Option.<Instant>none(), form);
+        Option.some("Review Comments"), Option.none(), form);
     return HttpResponseFactory.xhtmlResponse(HttpStatus.OK, html);
   }
 
@@ -77,7 +81,7 @@ public class ReviewCommentsHandler implements PartialHandler {
         .addEscapedText("There are no comments needing review.")
         .build();
     Element html = Layout.createDocument(request,
-        Option.some("Review Comments"), Option.<Instant>none(), content);
+        Option.some("Review Comments"), Option.none(), content);
     return HttpResponseFactory.xhtmlResponse(HttpStatus.OK, html);
   }
 

@@ -5,7 +5,14 @@ import com.lubarov.daniel.data.sequence.Sequence;
 import com.lubarov.daniel.data.stack.DynamicArray;
 import com.lubarov.daniel.data.stack.MutableStack;
 import com.lubarov.daniel.data.util.Check;
-import com.sleepycat.je.*;
+import com.sleepycat.je.Cursor;
+import com.sleepycat.je.CursorConfig;
+import com.sleepycat.je.Database;
+import com.sleepycat.je.DatabaseConfig;
+import com.sleepycat.je.DatabaseEntry;
+import com.sleepycat.je.Environment;
+import com.sleepycat.je.EnvironmentConfig;
+import com.sleepycat.je.OperationStatus;
 
 import java.io.File;
 
@@ -36,7 +43,7 @@ final class RawDatabase {
     OperationStatus status = db.get(null, new DatabaseEntry(key), result, null);
     return status == OperationStatus.SUCCESS
         ? Option.some(result.getData())
-        : Option.<byte[]>none();
+        : Option.none();
   }
 
   public void put(byte[] key, byte[] value) {
