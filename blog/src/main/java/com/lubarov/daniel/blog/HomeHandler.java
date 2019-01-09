@@ -23,11 +23,6 @@ import com.lubarov.daniel.web.http.server.util.HttpResponseFactory;
 final class HomeHandler implements PartialHandler {
   public static final HomeHandler singleton = new HomeHandler();
 
-  private static final String INTRO = ""
-      + "I'm an engineer at Google, previously at Square. "
-      + "Some of my interests are graphics, languages/compilers, cryptocurrencies and distributed systems in general. "
-      + "Feel free to email me at <a href=\"daniel@lubarov.com\">daniel@lubarov.com</a>.";
-
   private HomeHandler() {}
 
   @Override
@@ -51,10 +46,12 @@ final class HomeHandler implements PartialHandler {
       listBuilder.addChild(new Element(Tag.LI, summaryLink));
     }
 
+    Element mirLink = new AnchorBuilder().setHref("http://mirprotocol.org/").addEscapedText("Mir").build();
     Element intro = new Element.Builder(Tag.DIV).setEscapedAttribtue(Attribute.ID, "intro")
         .addChild(new ParagraphBuilder()
-            .addEscapedText("I'm an engineer at Google, previously at Square. "
-                + "Some of my interests are graphics, languages/compilers, cryptocurrencies and distributed systems in general.")
+            .addEscapedText("I'm working on ").addChild(mirLink).addEscapedText(", an early stage cryptocurrency project.")
+            .addEscapedText(" Before that, I worked at Google and Square.")
+            .addEscapedText(" When I'm not focusing on crypto research, I love dabbling in graphics, languages and compilers.")
             .build())
         .addChild(new Element.Builder(Tag.UL)
             .addChild(new Element(Tag.LI, new AnchorBuilder().setHref("mailto:daniel@lubarov.com").addEscapedText("daniel@lubarov.com").build()))
